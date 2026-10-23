@@ -39,8 +39,10 @@ html,body{height:100%}
 body{margin:0;background:var(--turf);color:var(--chalk);font-family:var(--body);font-size:16px;
   background-image:repeating-linear-gradient(180deg,var(--turf) 0 64px,var(--turf2) 64px 128px);background-attachment:fixed;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));-webkit-tap-highlight-color:transparent}
-.app{max-width:480px;margin:0 auto;padding-block:20px 32px;min-height:100%;box-sizing:border-box;display:flex;flex-direction:column}
-.screen{display:flex;flex-direction:column;gap:18px;flex:1}
+.app{max-width:480px;margin:0 auto;padding-block:max(14px,env(safe-area-inset-top,0px)) max(14px,env(safe-area-inset-bottom,0px));height:100vh;height:100dvh;box-sizing:border-box;display:flex;flex-direction:column;overflow:hidden}
+.screen{display:flex;flex-direction:column;gap:14px;flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.screen.fit{overflow:hidden}
+.scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain}
 h1{font-family:var(--display);font-weight:900;font-size:3rem;line-height:.92;margin:0;text-transform:uppercase;letter-spacing:.01em}
 h1 em{font-style:normal;color:var(--gold)}
 h2{font-family:var(--display);font-weight:900;font-size:1.7rem;line-height:1;margin:0;text-transform:uppercase}
@@ -197,14 +199,14 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 #dPick,#claimBox{position:fixed;left:0;right:0;bottom:0;z-index:35;border-radius:18px 18px 0 0;border:0;border-top:2px solid var(--gold);background:#0a1a12;box-shadow:0 -10px 30px rgba(0,0,0,.55);
   padding:14px max(16px,env(safe-area-inset-right,0px)) calc(14px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 #dPick>*,#claimBox>*{max-width:480px;margin-inline:auto;width:100%}
-body.picking .app{padding-bottom:170px}
+body.picking .askpage .list{padding-bottom:170px}
 #claimBox{z-index:36}#claimBox .pickInfo p{margin:0;line-height:1.4}
 /* match */
 .board{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;background:#050d09;border:2px solid var(--lineC);border-radius:18px;padding:16px 12px}
 .board .tm{font-family:var(--cond);font-weight:700;font-size:1.05rem;text-align:center;overflow-wrap:anywhere;line-height:1.15}
 .board .sc{font-family:var(--display);font-weight:900;font-size:3.4rem;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:.04em;text-align:center}
 .clock{text-align:center;font-family:var(--display);font-weight:900;font-size:1.3rem;color:var(--gold);font-variant-numeric:tabular-nums}
-.feed{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;max-height:48vh;overflow-y:auto}
+.feed{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;flex:1;min-height:0;overflow-y:auto}
 .feed li{display:grid;grid-template-columns:40px 1fr;gap:8px;background:rgba(0,0,0,.25);border-radius:10px;padding:9px 12px;line-height:1.35;border-left:4px solid var(--c,transparent)}
 .feed li .m{font-family:var(--cond);font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
 .feed li.goal{background:rgba(255,209,102,.14)}
@@ -222,46 +224,91 @@ body.picking .app{padding-bottom:170px}
 .mvp .n{font-family:var(--display);font-weight:900;font-size:2rem;text-transform:uppercase;color:var(--gold);line-height:1}
 .row2{display:flex;gap:10px}.row2>*{flex:1}
 @media (prefers-reduced-motion:no-preference){.feed li{animation:in .25s ease-out}@keyframes in{from{opacity:0;transform:translateY(-4px)}}}
+/* ---- ecrã inicial ---- */
+.hero{position:relative;display:flex;flex-direction:column;gap:12px;padding:26px 4px 8px;isolation:isolate}
+.hero svg.pitchbg{position:absolute;inset:-14px -30px auto;width:calc(100% + 60px);height:auto;z-index:-1;opacity:.5}
+.hero::before{content:"";position:absolute;inset:-40px -60px auto;height:260px;z-index:-2;background:radial-gradient(60% 70% at 50% 0%,rgba(255,240,200,.18),transparent 70%)}
+.hero h1{font-size:clamp(3.4rem,17vw,4.6rem);line-height:.86;text-shadow:0 6px 30px rgba(0,0,0,.5)}
+.hero h1 em{display:block}
+.kick{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;background:rgba(255,209,102,.12);border:1px solid rgba(255,209,102,.4);color:var(--gold);border-radius:999px;padding:5px 12px;font-family:var(--cond);font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:.8rem}
+.facts{display:flex;gap:8px;flex-wrap:wrap}
+.facts span{font-family:var(--cond);font-weight:700;font-size:.95rem;background:rgba(0,0,0,.3);border:1px solid var(--lineC);border-radius:10px;padding:6px 10px}
+.facts b{color:var(--gold);font-family:var(--display);font-weight:900;font-size:1.1rem;margin-right:4px}
+.modes{display:flex;flex-direction:column;gap:10px}
+.mode{display:grid;grid-template-columns:44px 1fr 18px;align-items:center;gap:12px;text-align:left;width:100%;background:rgba(0,0,0,.32);border:1px solid var(--lineC);border-radius:16px;padding:13px 14px;color:var(--chalk);font:inherit;cursor:pointer}
+.mode:active{transform:scale(.99)}
+.mode .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--turf3);color:var(--gold)}
+.mode b{display:block;font-family:var(--display);font-weight:900;font-size:1.35rem;text-transform:uppercase;letter-spacing:.02em;line-height:1}
+.mode small{display:block;color:var(--muted);font-size:.9rem;margin-top:3px}
+.mode .ar{color:var(--muted);font-size:1.3rem}
+.mode.main{background:var(--gold);border-color:var(--gold);color:var(--onGold)}
+.mode.main .ic{background:rgba(0,0,0,.12);color:var(--onGold)}
+.mode.main small,.mode.main .ar{color:rgba(26,20,5,.7)}
+.minirow{display:flex;justify-content:center;gap:6px}
+.minibtn{background:none;border:1px solid transparent;color:var(--muted);font:inherit;font-weight:600;font-size:.95rem;padding:8px 10px;border-radius:10px;cursor:pointer}
+.minibtn:active{border-color:var(--lineC)}
+/* ---- folhas (definições, nomes, regras) ---- */
+.sheet{position:fixed;inset:0;z-index:60;background:rgba(3,8,5,.6);display:flex;align-items:flex-end;justify-content:center}
+.sheetIn{width:100%;max-width:480px;max-height:88dvh;box-sizing:border-box;overflow-y:auto;background:#0b1f15;border-top:2px solid var(--gold);border-radius:20px 20px 0 0;
+  padding:18px max(16px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:14px}
+@media (prefers-reduced-motion:no-preference){.sheetIn{animation:up .22s ease-out}@keyframes up{from{transform:translateY(30px);opacity:0}}}
+.shHead{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.xbtn{width:40px;height:40px;flex:none;border-radius:12px;border:1px solid var(--lineC);background:var(--turf3);color:var(--chalk);font-size:1.1rem;cursor:pointer}
+/* ---- treinador ---- */
+#sCoach .coaches{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:start}
+#sCoach .coach{grid-template-columns:1fr;padding:10px 12px;gap:1px}
+#sCoach .coach b{font-size:1.05rem;line-height:1.1}
+#sCoach .coach .f{grid-row:auto;font-size:1rem;order:3}
+#sCoach .coach span{font-size:.8rem}
+#formBox{padding:12px}
+/* ---- escolhas: campo a ocupar o espaço livre ---- */
+.pitchbox{flex:1;min-height:0;display:flex;justify-content:center}
+.pitchbox>.lbl{display:none}
+.pitchbox .pitch{height:100%;width:auto;max-width:100%;aspect-ratio:5/6;margin:0 auto;padding:6px 2px}
+#sDraft .rule{padding:12px 14px;gap:3px;border-radius:14px}
+#sDraft .rule .r{font-size:clamp(1.3rem,6.4vw,1.75rem)}
+#sDraft .toast{padding:7px 12px;font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#sDraft .dstr{font-size:.9rem;text-align:center}
+#dPeek{padding:11px}
+.askpage{position:fixed;inset:0;z-index:30;background:var(--turf);display:flex;justify-content:center}
+.askIn{width:100%;max-width:480px;box-sizing:border-box;display:flex;flex-direction:column;gap:12px;padding:max(14px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(14px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));min-height:0;height:100%}
+.askHead{display:flex;align-items:flex-start;gap:12px}
+.askHead .t{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.askRule{font-family:var(--display);font-weight:900;font-size:1.35rem;line-height:1;text-transform:uppercase;color:var(--gold);overflow-wrap:anywhere}
+.askpage .ask{flex:1;min-height:0;background:none;border:0;padding:0}
+.askpage .list{flex:1;min-height:0;max-height:none}
+/* ---- antes do jogo e jogo ---- */
+#sPre .tabs{flex:none}
+#sMatch .tv{flex:none}
+#sCap #capPitch{flex:1;min-height:0;display:flex;justify-content:center}
+#sCap #capPitch .pitch{height:100%;width:auto;max-width:100%;aspect-ratio:5/6;margin:0 auto}
+@media (max-height:720px){
+  .hero{padding-top:8px;gap:8px}.hero h1{font-size:clamp(2.6rem,13vw,3.4rem)}.facts{display:none}
+  .mode{padding:10px 12px}.mode .ic{width:38px;height:38px}.mode b{font-size:1.15rem}.modes{gap:8px}
+  .pitchbox .disc,#capPitch .disc{width:36px;height:36px;font-size:.82rem}
+  .pitchbox .slot .nm2,#capPitch .slot .nm2{font-size:.72rem}
+  .screen{gap:10px}
+}
 </style>
 
 <div class="app">
   <!-- 1. INÍCIO -->
   <div class="screen" id="sStart">
-    <header style="display:flex;flex-direction:column;gap:10px;padding-top:8px">
-      <span class="lbl">Para 2 treinadores</span>
+    <div class="hero">
+      <svg class="pitchbg" viewBox="0 0 400 260" aria-hidden="true" fill="none" stroke="rgba(238,246,239,.22)" stroke-width="2"><path d="M20 250 L60 30 H340 L380 250 Z"/><path d="M118 30 L112 70 H288 L282 30"/><path d="M160 30 L158 46 H242 L240 30"/><path d="M95 250 Q200 170 305 250"/><circle cx="200" cy="58" r="2.5" fill="rgba(238,246,239,.3)"/></svg>
+      <span class="kick">Futebol entre amigos</span>
       <h1>Duelo de <em>Onzes</em></h1>
-      <p class="muted">Mais de 8000 jogadores. Escolham o treinador e a formação. Depois montam o onze à vez: em cada ronda há uma regra nova, igual para os dois. No fim, o jogo decide-se em campo.</p>
-    </header>
-    <div class="panel" style="display:flex;flex-direction:column;gap:14px">
-      <label class="field" for="n0"><span class="lbl" style="display:flex;align-items:center;gap:8px"><span class="dot" style="--c:var(--home)"></span>O teu nome</span><input type="text" id="n0" maxlength="16" value="Rui"></label>
-      <label class="field" for="n1"><span class="lbl" style="display:flex;align-items:center;gap:8px"><span class="dot" style="--c:var(--away)"></span>Treinador 2 (só no mesmo telemóvel)</span><input type="text" id="n1" maxlength="16" value="Tiago"></label>
-      <label class="toggle" for="listMode"><span>Modo fácil: mostrar a lista de jogadores possíveis</span><input type="checkbox" id="listMode"></label>
-      <label class="toggle" for="sndOn"><span>Som (apito e golos)</span><input type="checkbox" id="sndOn" checked></label>
-      <label class="toggle" for="showR"><span>Mostrar a qualidade dos jogadores durante a escolha</span><input type="checkbox" id="showR"></label>
-    </div>
-    <div class="panel">
-      <span class="lbl">Como funciona</span>
-      <ol style="margin:8px 0 0;padding-left:20px;line-height:1.55;display:flex;flex-direction:column;gap:4px">
-        <li>Cada um escolhe um <b>treinador</b>. É ele que define a <b>tática</b>.</li>
-        <li>Escolhem a <b>formação</b>. A preferida do treinador dá um pequeno bónus.</li>
-        <li>11 rondas: cada ronda tem uma regra, como "Jogou no FC Porto" ou "Brasileiro". Toca numa posição vaga do teu onze e <b>escreve o nome</b> de um jogador que cumpra a regra.</li>
-        <li>Tens 3 tentativas. Se falhares, entra um <b>júnior da formação</b> (fraquinho).</li>
-        <li>Jogadores do mesmo clube ou país dão <b>química</b>.</li>
-        <li>No fim, simulamos o jogo com base na qualidade, na tática e na química.</li>
-      </ol>
-    </div>
-    <div class="panel" id="histPanel" hidden style="display:flex;flex-direction:column;gap:8px">
-      <span class="lbl">Histórico</span>
-      <div id="histList" style="display:flex;flex-direction:column;gap:6px"></div>
-      <button class="linkbtn" id="histClear">Apagar histórico</button>
+      <p class="muted" style="max-width:30ch">Regras novas em cada ronda. Monta o teu onze e vê-o jogar.</p>
+      <div class="facts"><span><b>8000+</b>jogadores</span><span><b>11</b>rondas</span><span><b>1</b>jogo decide</span></div>
     </div>
     <div class="grow"></div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <button class="btn" id="onlineBtn">Jogar em dois telemóveis</button>
-      <button class="btn ghost" id="goBtn">Jogar no mesmo telemóvel</button>
-      <button class="btn ghost" id="tourBtn">Torneio para 4 ou 8 amigos</button>
-      <button class="btn ghost" id="resumeBtn" hidden></button>
+    <div class="modes">
+      <button class="mode" id="resumeBtn" hidden><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></span><span><b id="resumeTxt">Retomar</b><small>Voltar ao jogo online</small></span><span class="ar">›</span></button>
+      <button class="mode main" id="goStart"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></span><span><b>Mesmo telemóvel</b><small>Dois treinadores, um telemóvel</small></span><span class="ar">›</span></button>
+      <button class="mode" id="onlineBtn"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4" width="8" height="15" rx="2"/><rect x="13.5" y="4" width="8" height="15" rx="2"/><path d="M8 11.5h8"/></svg></span><span><b>Dois telemóveis</b><small>Cada um no seu, com um link</small></span><span class="ar">›</span></button>
+      <button class="mode" id="tourBtn"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 14v4M8 21h8"/></svg></span><span><b>Torneio</b><small>4 ou 8 amigos, eliminatórias</small></span><span class="ar">›</span></button>
     </div>
+    <div class="minirow"><button class="minibtn" data-sheet="shHow">Como jogar</button><button class="minibtn" data-sheet="shOpts">Definições</button><button class="minibtn" id="histBtn" data-sheet="shHist" hidden>Histórico</button></div>
   </div>
 
   <!-- ONLINE -->
@@ -301,10 +348,9 @@ body.picking .app{padding-bottom:170px}
   </div>
 
   <!-- 2. TREINADOR -->
-  <div class="screen" id="sCoach" hidden>
-    <div class="who" id="cWho"></div>
-    <span class="lbl">Escolhe o teu treinador</span>
-    <div class="coaches" id="coachList"></div>
+  <div class="screen fit" id="sCoach" hidden>
+    <div class="topbar"><div class="who" id="cWho"></div><span class="lbl">Escolhe o treinador</span></div>
+    <div class="coaches scroll" id="coachList"></div>
     <div class="panel" id="formBox" hidden style="display:flex;flex-direction:column;gap:10px">
       <span class="lbl">Formação</span>
       <div class="chips" id="forms"></div>
@@ -314,7 +360,7 @@ body.picking .app{padding-bottom:170px}
   </div>
 
   <!-- 3. ESCOLHAS -->
-  <div class="screen" id="sDraft" hidden>
+  <div class="screen fit" id="sDraft" hidden>
     <div class="topbar">
       <span class="lbl" id="dRound"></span>
       <div class="who" id="dWho" style="font-size:1.3rem"></div>
@@ -322,10 +368,11 @@ body.picking .app{padding-bottom:170px}
     <div class="rule"><span class="lbl">Regra desta ronda</span><div class="r" id="dRule"></div></div>
     <div class="toast" id="dToast" hidden></div>
     <div class="toast wait" id="dWait" hidden></div>
-    <div id="dPitch"></div>
+    <div id="dPitch" class="pitchbox"></div>
     <div class="dstr" id="dStr"></div>
+    <div class="askpage" id="askPage" hidden><div class="askIn">
+    <div class="askHead"><button class="xbtn" id="askClose" aria-label="Voltar ao campo">←</button><div class="t"><span class="lbl" id="dSlotLbl"></span><div class="askRule" id="askRule"></div></div></div>
     <div class="panel ask" id="dAsk">
-      <span class="lbl" id="dSlotLbl">Toca numa posição vaga do teu onze</span>
       <div id="dRow" hidden>
         <input type="search" id="dInput" placeholder="Escreve o nome do jogador" autocomplete="off" autocapitalize="words" enterkeyhint="search">
       </div>
@@ -340,29 +387,30 @@ body.picking .app{padding-bottom:170px}
       </div>
       <button class="linkbtn" id="dGiveUp" hidden>Não sei, mete um júnior da formação</button>
     </div>
+    </div></div>
+    <p class="muted" id="dHint" style="text-align:center;margin:0">Toca numa posição vaga para escolher o jogador</p>
     <div class="pick" id="claimBox" hidden><div class="pickInfo" id="claimInfo"></div><div class="row2" id="claimBtns"></div></div>
     <button class="btn ghost" id="dPeek"></button>
   </div>
 
   <!-- CAPITÃO -->
-  <div class="screen" id="sCap" hidden>
-    <div class="who" id="capWho"></div>
-    <span class="lbl">Escolhe o capitão</span>
-    <p class="muted">O capitão joga com mais 4 de qualidade e puxa pela equipa toda (+0,5 em todos os setores). Toca num jogador.</p>
+  <div class="screen fit" id="sCap" hidden>
+    <div class="topbar"><div class="who" id="capWho"></div><span class="lbl">Escolhe o capitão</span></div>
+    <p class="muted" style="font-size:.92rem">O capitão ganha +4 de qualidade e puxa pela equipa toda. Toca num jogador.</p>
     <div id="capPitch"></div>
     <button class="btn" id="capOk" disabled>Confirmar capitão</button>
   </div>
 
   <!-- 4. ANTES DO JOGO -->
-  <div class="screen" id="sPre" hidden>
+  <div class="screen fit" id="sPre" hidden>
     <span class="lbl">Fichas de jogo</span>
-    <div id="preTeams" style="display:flex;flex-direction:column;gap:16px"></div>
+    <div id="preTeams" style="display:flex;flex-direction:column;gap:12px;flex:1;min-height:0"></div>
     <p class="muted" id="preNote"></p>
     <button class="btn" id="kickOff">Apito inicial</button>
   </div>
 
   <!-- 5. JOGO -->
-  <div class="screen" id="sMatch" hidden>
+  <div class="screen fit" id="sMatch" hidden>
     <div class="tv" id="tv">
       <canvas id="scCv" aria-hidden="true"></canvas>
       <div class="bug"><span class="bt" id="bH"></span><b id="bS">0–0</b><span class="bt" id="bA"></span><span class="bm" id="clock">0'</span></div>
@@ -377,7 +425,6 @@ body.picking .app{padding-bottom:170px}
       <button class="linkbtn" id="momKeep" hidden>Manter tudo igual</button>
     </div>
     <ul class="feed" id="feed"></ul>
-    <div class="grow"></div>
     <button class="btn ghost" id="skip">Saltar para o fim</button>
     <button class="btn" id="toResult" hidden>Ver análise</button>
   </div>
@@ -403,6 +450,35 @@ body.picking .app{padding-bottom:170px}
   </div>
 </div>
 <div id="pickCard" hidden role="status"></div>
+<div class="sheet" id="shNames" hidden><div class="sheetIn">
+    <div class="shHead"><h2>Quem joga?</h2><button class="xbtn" data-close aria-label="Fechar">✕</button></div>
+    <label class="field" for="n0"><span class="lbl" style="display:flex;align-items:center;gap:8px"><span class="dot" style="--c:var(--home)"></span>Treinador 1</span><input type="text" id="n0" maxlength="16" value="Rui" autocomplete="off"></label>
+    <label class="field" for="n1"><span class="lbl" style="display:flex;align-items:center;gap:8px"><span class="dot" style="--c:var(--away)"></span>Treinador 2</span><input type="text" id="n1" maxlength="16" value="Tiago" autocomplete="off"></label>
+    <button class="btn" id="goBtn">Começar</button>
+  </div></div>
+  <div class="sheet" id="shOpts" hidden><div class="sheetIn">
+    <div class="shHead"><h2>Definições</h2><button class="xbtn" data-close aria-label="Fechar">✕</button></div>
+    <label class="toggle" for="listMode"><span>Modo fácil: mostrar a lista de jogadores possíveis</span><input type="checkbox" id="listMode"></label>
+    <label class="toggle" for="sndOn"><span>Som (apito e golos)</span><input type="checkbox" id="sndOn" checked></label>
+    <label class="toggle" for="showR"><span>Mostrar a qualidade dos jogadores durante a escolha</span><input type="checkbox" id="showR"></label>
+  </div></div>
+  <div class="sheet" id="shHow" hidden><div class="sheetIn">
+    <div class="shHead"><h2>Como jogar</h2><button class="xbtn" data-close aria-label="Fechar">✕</button></div>
+    <ol style="margin:8px 0 0;padding-left:20px;line-height:1.55;display:flex;flex-direction:column;gap:4px">
+        <li>Cada um escolhe um <b>treinador</b>. É ele que define a <b>tática</b>.</li>
+        <li>Escolhem a <b>formação</b>. A preferida do treinador dá um pequeno bónus.</li>
+        <li>11 rondas: cada ronda tem uma regra, como "Jogou no FC Porto" ou "Brasileiro". Toca numa posição vaga do teu onze e <b>escreve o nome</b> de um jogador que cumpra a regra.</li>
+        <li>Tens 3 tentativas. Se falhares, entra um <b>júnior da formação</b> (fraquinho).</li>
+        <li>Jogadores do mesmo clube ou país dão <b>química</b>.</li>
+        <li>No fim, simulamos o jogo com base na qualidade, na tática e na química.</li>
+      </ol>
+  </div></div>
+  <div class="sheet" id="shHist" hidden><div class="sheetIn">
+    <div class="shHead"><h2>Histórico</h2><button class="xbtn" data-close aria-label="Fechar">✕</button></div>
+    <div id="histPanel" style="display:flex;flex-direction:column;gap:8px"><div id="histList" style="display:flex;flex-direction:column;gap:6px"></div>
+    <button class="linkbtn" id="histClear">Apagar histórico</button></div>
+  </div></div>
+
 
 <canvas id="fx" hidden style="position:fixed;inset:0;pointer-events:none;z-index:50;width:100%;height:100%"></canvas>
 
@@ -8567,10 +8643,15 @@ function newGame(mode,names,seed){
      showR:$("showR").checked,listMode:$("listMode").checked,teams:null,cur:null,sel:null,tries:3,peekT:null,shownM:0,lastI:-1,coachFor:-1,tour:null};
 }
 (function(){const s=store("duelo_names");if(s){$("n0").value=s[0]||"";$("n1").value=s[1]||""}
-  const o=store("duelo_online");if(o&&o.code){const b=$("resumeBtn");b.textContent=`Retomar o jogo online ${o.code}`;b.hidden=false}})();
+  const o=store("duelo_online");if(o&&o.code){const b=$("resumeBtn");$("resumeTxt").textContent=`Retomar jogo ${o.code}`;b.hidden=false}})();
 function myName(){return $("n0").value.trim()||"Treinador"}
 
-$("goBtn").onclick=()=>{
+function openSheet(id){$(id).hidden=false;const i=$(id).querySelector("input");if(i&&id==="shNames")setTimeout(()=>i.focus(),60)}
+document.querySelectorAll("[data-sheet]").forEach(b=>b.onclick=()=>openSheet(b.dataset.sheet));
+document.querySelectorAll(".sheet").forEach(sh=>{sh.addEventListener("click",e=>{if(e.target===sh||e.target.closest("[data-close]"))sh.hidden=true})});
+$("goStart").onclick=()=>openSheet("shNames");
+["n0","n1"].forEach(id=>$(id).addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();id==="n0"?$("n1").focus():$("goBtn").click()}}));
+$("goBtn").onclick=()=>{$("shNames").hidden=true;
   const names=[$("n0").value.trim()||"Treinador 1",$("n1").value.trim()||"Treinador 2"];
   if(names[0].toLowerCase()===names[1].toLowerCase())names[1]+=" 2";
   store("duelo_names",names);
@@ -8591,7 +8672,7 @@ function coachScreen(t){
     b.setAttribute("aria-pressed","false");
     if(taken.includes(c.n)){b.disabled=true;b.querySelector("span").textContent="Já escolhido"}
     b.onclick=()=>{selCoach=c;selForm=c.f;list.querySelectorAll(".coach").forEach(x=>x.setAttribute("aria-pressed",x===b));drawForms();$("formBox").hidden=false;$("coachOk").disabled=false;
-      $("formBox").scrollIntoView({behavior:"smooth",block:"nearest"})};
+      setTimeout(()=>b.scrollIntoView({block:"nearest"}),30)};
     list.append(b);
   });
   $("formBox").hidden=true;$("coachOk").disabled=true;show("sCoach");
@@ -8714,7 +8795,7 @@ function drawDraft(){
   const viewing=G.peekT!=null;
   if(viewing){const h=el("div","lbl",`Onze de ${G.names[t]}`);$("dPitch").innerHTML="";drawPitch($("dPitch"),t,{});$("dPitch").prepend(h)}
   else drawPitch($("dPitch"),t,act?{onTap:selectSlot}:{});
-  $("dAsk").hidden=viewing||!act;
+  $("askPage").hidden=viewing||!act||G.sel==null;$("dHint").hidden=viewing||!act||G.sel!=null;$("dAsk").hidden=false;
   const tp=teamPower(t);$("dStr").textContent=tp?`Força média ${tp.avg.toFixed(1)} · Química +${tp.chem.toFixed(1)} · ${G.teams[t].picks.length}/11`:"";
   const others=[...Array(G.n).keys()].filter(x=>x!==mine);
   $("dPeek").textContent=!viewing?(G.n===2?`Espreitar o onze de ${G.names[others[0]]}`:"Espreitar os outros onzes"):
@@ -8723,7 +8804,7 @@ function drawDraft(){
 }
 function drawAsk(){
   const has=G.sel!=null,s=has?G.teams[picker()].slots[G.sel]:null;
-  $("dSlotLbl").textContent=has?`${s.label} · Escolhe um ${POSL[s.pos]}`:"Toca numa posição vaga do teu onze";
+  $("dSlotLbl").textContent=has?`${s.label} · Escolhe um ${POSL[s.pos]}`:"";$("askRule").textContent=G.cur&&G.cur.rule?G.cur.rule.l:"";
   $("dRow").hidden=!has||G.listMode;$("dTries").hidden=!has;$("dGiveUp").hidden=!has;
   const tr=$("dTries");tr.innerHTML="";tr.append(el("span","lbl","Tentativas "));for(let i=0;i<3;i++)tr.append(el("i",i<G.tries?"":"off"));
   const L=$("dList");L.hidden=!(has&&G.listMode);L.innerHTML="";
@@ -8823,6 +8904,7 @@ $("dGo").onclick=submit;
 $("dUnpick").onclick=()=>{G.pick=null;drawAsk();$("dInput").focus()};
 $("dInput").addEventListener("input",()=>{if(!G.claimReq)claimHide();G.pick=null;$("dMsg").textContent="";drawSug();drawPick()});
 $("dInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();if(G.pick)submit();else{const L=G.sel!=null?suggest($("dInput").value,G.teams[picker()].slots[G.sel].pos):[];if(L.length===1&&!G.taken.has(L[0].n)){G.pick=L[0];drawAsk()}}}});
+$("askClose").onclick=()=>{if(G.claimReq)return;G.sel=null;G.pick=null;claimHide();$("dPick").hidden=true;document.body.classList.remove("picking");drawDraft()};
 $("dGiveUp").onclick=()=>{if(canAct()&&G.sel!=null)place(null)};
 $("dPeek").onclick=()=>{
   const mine=G.mode==="online"?G.me:picker(),others=[...Array(G.n).keys()].filter(x=>x!==mine);
@@ -9069,9 +9151,11 @@ function teamHead(t,box){
   const T=G.teams[t],h=el("div","teamhead");h.style.setProperty("--c",COL[t]);
   h.append(el("div","t",G.names[t]),el("span","muted",`${T.coach.n} · ${T.form} · ${TACT[T.coach.t].nome}`+(T.cap?` · Capitão: ${T.cap.n}`:"")));box.append(h);
 }
+let preT=0;
 function preMatch(){
   const box=$("preTeams");box.innerHTML="";
-  [0,1].forEach(t=>{const p=el("div","panel");p.style.display="flex";p.style.flexDirection="column";p.style.gap="12px";teamHead(t,p);const x=el("div");drawPitch(x,t,{small:true});p.append(x);box.append(p)});
+  const tabs=el("div","tabs");[0,1].forEach(t=>{const b=el("button","tab");b.style.setProperty("--c",COL[t]);b.append(el("span","dot"),G.names[t]);b.setAttribute("aria-pressed",t===preT);b.onclick=()=>{preT=t;preMatch()};tabs.append(b)});
+  box.append(tabs);teamHead(preT,box);const x=el("div","pitchbox");drawPitch(x,preT,{withR:false});box.append(x);
   const h=h2hText(G.names[0],G.names[1]);
   $("preNote").textContent=(h?h+". ":"")+(G.mode==="online"?"Qualquer um dos dois pode dar o apito inicial. O jogo aparece igual nos dois telemóveis.":"");
   show("sPre");
@@ -9952,7 +10036,7 @@ function h2hText(a,b){
 }
 function drawHistory(){
   const h=H(),box=$("histList");box.innerHTML="";
-  const has=h.games.length||h.champs.length;$("histPanel").hidden=!has;if(!has)return;
+  const has=h.games.length||h.champs.length;$("histBtn").hidden=!has;if(!has){$("shHist").hidden=true;return}
   Object.entries(h.pairs).slice(0,6).forEach(([k,v])=>{const [a,b]=k.split("|");const row=el("div","hrow");
     row.append(el("span",null,`${cap(a)} ${v[a]||0} – ${v[b]||0} ${cap(b)}`));box.append(row)});
   if(h.games.length){box.append(el("span","lbl","Últimos jogos"));h.games.slice(0,5).forEach(x=>{const row=el("div","hrow");
