@@ -194,10 +194,11 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .sccap.off{opacity:0}
 .sccap.big{padding:22px 12px 6px;font-family:var(--display);font-weight:900;font-size:clamp(2rem,10vw,3rem);line-height:1;color:var(--gold);text-shadow:0 3px 14px rgba(0,0,0,.85);letter-spacing:.02em}
 @media (prefers-reduced-motion:no-preference){.sccap.big{animation:capin .35s cubic-bezier(.2,.9,.3,1.3)}@keyframes capin{from{transform:scale(.6);opacity:0}}}
-#dPick{position:fixed;left:0;right:0;bottom:0;z-index:35;border-radius:18px 18px 0 0;border:0;border-top:2px solid var(--gold);background:#0a1a12;box-shadow:0 -10px 30px rgba(0,0,0,.55);
+#dPick,#claimBox{position:fixed;left:0;right:0;bottom:0;z-index:35;border-radius:18px 18px 0 0;border:0;border-top:2px solid var(--gold);background:#0a1a12;box-shadow:0 -10px 30px rgba(0,0,0,.55);
   padding:14px max(16px,env(safe-area-inset-right,0px)) calc(14px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
-#dPick>*{max-width:480px;margin-inline:auto;width:100%}
+#dPick>*,#claimBox>*{max-width:480px;margin-inline:auto;width:100%}
 body.picking .app{padding-bottom:170px}
+#claimBox{z-index:36}#claimBox .pickInfo p{margin:0;line-height:1.4}
 /* match */
 .board{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;background:#050d09;border:2px solid var(--lineC);border-radius:18px;padding:16px 12px}
 .board .tm{font-family:var(--cond);font-weight:700;font-size:1.05rem;text-align:center;overflow-wrap:anywhere;line-height:1.15}
@@ -267,13 +268,14 @@ body.picking .app{padding-bottom:170px}
   <div class="screen" id="sLobby" hidden>
     <header style="display:flex;flex-direction:column;gap:8px"><span class="lbl">Dois telemóveis</span><h2>Jogo online</h2></header>
     <div class="panel" id="lbChoose" style="display:flex;flex-direction:column;gap:12px">
+      <label class="field" for="lbName"><span class="lbl">O teu nome</span><input type="text" id="lbName" maxlength="16" autocomplete="off"></label>
       <button class="btn" id="lbCreate">Criar jogo</button>
       <span class="lbl" style="text-align:center">ou entra no jogo de um amigo</span>
       <div class="askrow"><input type="text" id="lbCode" maxlength="4" placeholder="CÓDIGO" autocomplete="off" autocapitalize="characters" style="text-transform:uppercase;letter-spacing:.3em;font-weight:700"><button class="btn go" id="lbJoin">Entrar</button></div>
       <div class="msg bad" id="lbErr"></div>
     </div>
     <div class="panel" id="lbWait" hidden style="display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center">
-      <span class="lbl">Código do jogo</span><div class="code" id="lbCodeShow"></div><p class="muted" id="lbStatus"></p>
+      <span class="lbl">Código do jogo</span><div class="code" id="lbCodeShow"></div><p class="muted" id="lbStatus"></p><button class="btn" id="lbShare" hidden>Partilhar link do jogo</button>
     </div>
     <p class="muted" id="lbNote">Cada um abre este jogo no seu telemóvel, com a sua conta do Claude. Quem cria recebe um código de 4 letras e o outro escreve-o para entrar. O teu amigo tem de ter acesso ao jogo por convite (menu Partilhar), porque o link público não chega para o modo online.</p>
     <div class="grow"></div>
@@ -338,6 +340,7 @@ body.picking .app{padding-bottom:170px}
       </div>
       <button class="linkbtn" id="dGiveUp" hidden>Não sei, mete um júnior da formação</button>
     </div>
+    <div class="pick" id="claimBox" hidden><div class="pickInfo" id="claimInfo"></div><div class="row2" id="claimBtns"></div></div>
     <button class="btn ghost" id="dPeek"></button>
   </div>
 
@@ -8695,7 +8698,7 @@ function drawPitch(box,t,o={}){
 }
 function draftScreen(){
   if($("sDraft").hidden)document.body.classList.remove("picking");
-  if(G.lastI!==G.cur.i){G.lastI=G.cur.i;G.sel=null;G.pick=null;G.tries=3;G.peekT=null;$("dMsg").textContent="";$("dWhich").innerHTML="";$("dInput").value=""}
+  if(G.lastI!==G.cur.i){G.lastI=G.cur.i;G.sel=null;G.pick=null;G.tries=3;G.peekT=null;G.claimReq=null;claimHide();$("dMsg").textContent="";$("dWhich").innerHTML="";$("dInput").value=""}
   drawDraft();show("sDraft");
 }
 function drawDraft(){
@@ -8716,7 +8719,7 @@ function drawDraft(){
   const others=[...Array(G.n).keys()].filter(x=>x!==mine);
   $("dPeek").textContent=!viewing?(G.n===2?`Espreitar o onze de ${G.names[others[0]]}`:"Espreitar os outros onzes"):
     (others.indexOf(G.peekT)<others.length-1?`Ver o onze seguinte`:"Voltar ao meu onze");
-  drawAsk();
+  drawAsk();claimSync();
 }
 function drawAsk(){
   const has=G.sel!=null,s=has?G.teams[picker()].slots[G.sel]:null;
@@ -8760,7 +8763,7 @@ function drawPick(){
   const p=G.pick,box=$("dPick");box.hidden=!p||G.sel==null;document.body.classList.toggle("picking",!box.hidden);if(!p)return;
   const i=$("dPickInfo");i.innerHTML="";i.append(el("span","lbl","Vais escolher"),el("b",null,p.n),el("span","muted",`${POSL[p.p]} · ${p.c}${p.by?" · nasceu em "+p.by:""}`));
 }
-function selectSlot(i){G.sel=i;G.pick=null;$("dMsg").textContent="";$("dMsg").className="msg";$("dWhich").innerHTML="";$("dInput").value="";drawDraft();
+function selectSlot(i){if(G.claimReq)return;claimHide();G.sel=i;G.pick=null;$("dMsg").textContent="";$("dMsg").className="msg";$("dWhich").innerHTML="";$("dInput").value="";drawDraft();
   if(!G.listMode)setTimeout(()=>$("dInput").focus(),50)}
 function say(t,c){const m=$("dMsg");m.textContent=t;m.className="msg "+(c||"")}
 function submit(){if(G.pick){const p=G.pick;G.pick=null;tryPlayer(p)}}
@@ -8771,13 +8774,46 @@ function tryPlayer(p){
   if(p.p!==s.pos){say(`${p.n} é ${POSL[p.p]}. Esta posição é para um ${POSL[s.pos]}.`,"bad");return}
   if(!G.cur.rule.t(p)){
     G.tries--;
-    if(G.tries<=0){place(null);return}
-    say(`${p.n} não cumpre a regra "${G.cur.rule.l}". Restam ${G.tries} tentativa${G.tries>1?"s":""}.`,"bad");$("dInput").value="";drawAsk();return;
+    say(`${p.n} não cumpre a regra "${G.cur.rule.l}". `+(G.tries<=0?"Acabaram as tentativas.":`Restam ${G.tries} tentativa${G.tries>1?"s":""}.`),"bad");$("dInput").value="";drawAsk();
+    claimOffer(p);return;
   }
   place(p);
 }
+/* reclamar: o adversário decide se a escolha conta */
+const oppLabel=pk=>G.n===2?G.names[1-pk]:"os outros treinadores";
+function claimShow(info,btns){const b=$("claimBox"),i=$("claimInfo"),r=$("claimBtns");i.innerHTML="";r.innerHTML="";info.forEach(x=>i.append(x));
+  btns.forEach(([t,cls,f])=>{const k=el("button","btn"+(cls?" "+cls:""),t);k.onclick=f;r.append(k)});r.hidden=!btns.length;b.hidden=false;document.body.classList.add("picking")}
+function claimHide(){$("claimBox").hidden=true;if(!G||!G.pick)document.body.classList.remove("picking")}
+function claimOffer(p){
+  const last=G.tries<=0;
+  claimShow([el("span","lbl","Tens a certeza que cumpre?"),el("b",null,p.n),el("p","muted",`Podes reclamar: se ${oppLabel(picker())} aceitar, a escolha conta e não perdes a tentativa.`)],
+    [[last?"Entra o júnior":"Tentar outro","ghost",()=>{claimHide();if(last)place(null);else $("dInput").focus()}],["Reclamar","",()=>claimAsk(p)]]);
+}
+function claimAsk(p){
+  const pk=picker();
+  if(G.mode==="online"){G.claimReq={o:G.cur.i,n:p.n};pushPresence();
+    claimShow([el("span","lbl","Reclamação enviada"),el("b",null,p.n),el("p","muted",`À espera que ${G.names[1-G.me]} responda…`)],[]);return}
+  claimShow([el("span","lbl",`Passa o telemóvel a ${oppLabel(pk)}`),el("b",null,p.n),el("p",null,`${G.names[pk]} diz que ${p.n} cumpre a regra "${G.cur.rule.l}". Aceitas?`)],
+    [["Recusar","ghost",()=>claimResolve(p,false)],["Aceitar","",()=>claimResolve(p,true)]]);
+}
+function claimResolve(p,ok){
+  claimHide();
+  if(ok){G.tries++;say("");place(p);return}
+  if(G.tries<=0){place(null);return}
+  say(`Reclamação recusada. Restam ${G.tries} tentativa${G.tries>1?"s":""}.`,"bad");
+}
+function claimSync(){
+  if(G.mode!=="online"||!G.cur||G.cur.done)return;const pr=OPP||{};
+  const c=pr.claim;
+  if(c&&c.o===G.cur.i&&typeof c.n==="string"&&DBN.get(c.n)&&!(G.claimAns&&G.claimAns.o===c.o)&&G.cur.picker!==G.me){
+    const p=DBN.get(c.n),ans=ok=>{G.claimAns={o:c.o,n:c.n,ok:ok?1:0};pushPresence();claimHide();drawDraft()};
+    claimShow([el("span","lbl",`${G.names[1-G.me]} reclama`),el("b",null,p.n),el("p",null,`Diz que ${p.n} cumpre a regra "${G.cur.rule.l}". Aceitas?`)],[["Recusar","ghost",()=>ans(false)],["Aceitar","",()=>ans(true)]]);
+  }
+  const a=pr.cans;
+  if(G.claimReq&&a&&a.o===G.claimReq.o&&a.n===G.claimReq.n){const p=DBN.get(a.n);G.claimReq=null;pushPresence();claimResolve(p,!!a.ok)}
+}
 function place(p){
-  document.body.classList.remove("picking");$("dPick").hidden=true;
+  document.body.classList.remove("picking");$("dPick").hidden=true;claimHide();
   const ev={o:G.cur.i,s:G.sel,n:p?p.n:null,y:!p,t:picker()};
   if(G.mode!=="online")G.picks[ev.o]=ev;
   else{G.mine=G.mine.filter(e=>e.o!==ev.o);G.mine.push(ev);mergePicks();pushPresence()}
@@ -8785,7 +8821,7 @@ function place(p){
 }
 $("dGo").onclick=submit;
 $("dUnpick").onclick=()=>{G.pick=null;drawAsk();$("dInput").focus()};
-$("dInput").addEventListener("input",()=>{G.pick=null;$("dMsg").textContent="";drawSug();drawPick()});
+$("dInput").addEventListener("input",()=>{if(!G.claimReq)claimHide();G.pick=null;$("dMsg").textContent="";drawSug();drawPick()});
 $("dInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();if(G.pick)submit();else{const L=G.sel!=null?suggest($("dInput").value,G.teams[picker()].slots[G.sel].pos):[];if(L.length===1&&!G.taken.has(L[0].n)){G.pick=L[0];drawAsk()}}}});
 $("dGiveUp").onclick=()=>{if(canAct()&&G.sel!=null)place(null)};
 $("dPeek").onclick=()=>{
@@ -8804,16 +8840,11 @@ function maybeCard(){
   const e=G.lastEv;if(!e||e.i===G.cardI)return;
   const first=G.cardI===-1&&G.mode==="online"&&e.i>0;G.cardI=e.i;if(first)return;
   const c=$("pickCard");c.style.setProperty("--c",COL[e.t]);c.innerHTML="";
-  const top=el("div","pcTop");top.append(el("div","pcR",e.p.youth?"64":String(e.p.r)),(()=>{const d=el("div","pcN");d.append(el("b",null,e.p.youth?"Júnior da formação":e.p.n),el("span",null,`${G.names[e.t]} · ${e.label}${e.p.youth?"":" · "+e.p.c}`));return d})());
-  c.append(top,el("div","pcV",e.p.youth?"Falhou… entra um júnior":VERD(e.p.r)));
-  if(!e.p.youth&&e.best&&e.best.r>e.p.r+1)c.append(el("div","pcL",`O melhor disponível era ${e.best.n} (${e.best.r}).`));
-  else if(!e.p.youth&&e.best&&e.best.n===e.p.n)c.append(el("div","pcL","Era o melhor disponível para esta posição!"));
-  if(!e.p.youth&&e.p.cl.length)c.append(el("div","pcL",`Percurso: ${e.p.cl.slice(0,7).join(" → ")}${e.p.cl.length>7?" …":""}`));
-  e.mates.slice(0,2).forEach(m=>c.append(el("div","pcChem",`Química: ${m.x.n} + ${e.p.n} (${m.c})`)));
-  const tp=teamPower(e.t);if(tp)c.append(el("div","pcL",`Força média do onze: ${tp.avg.toFixed(1)} · Química +${tp.chem.toFixed(1)}`));
+  const top=el("div","pcTop");top.append(el("div","pcR",e.p.youth?"64":String(e.p.r)),(()=>{const d=el("div","pcN");d.append(el("b",null,e.p.youth?"Júnior da formação":e.p.n));return d})());
+  c.append(top);
   c.hidden=false;c.classList.remove("in");void c.offsetWidth;c.classList.add("in");
   if(!e.p.youth&&e.p.r>=88)goalSound();
-  clearTimeout(cardTimer);cardTimer=setTimeout(()=>{c.hidden=true},e.mates.length?3600:2800);
+  clearTimeout(cardTimer);cardTimer=setTimeout(()=>{c.hidden=true},2200);
 }
 $("pickCard").onclick=()=>{$("pickCard").hidden=true};
 
@@ -8851,24 +8882,47 @@ let ROOM=null,OPP=null,ROOMAPI=null;
 function genCode(){const A="ABCDEFGHJKLMNPQRSTUVWXYZ";let s="";for(let i=0;i<4;i++)s+=A[rand(A.length)];return s}
 function lobby(msg){
   const on=!!(G&&G.online);
-  $("lbChoose").hidden=on;$("lbWait").hidden=!on;
+  $("lbChoose").hidden=on;$("lbWait").hidden=!on;if(!on)$("lbName").value=$("n0").value;
+  $("lbShare").hidden=!(on&&G.me===0&&!OPP&&canShareLink());
   if(on){$("lbCodeShow").textContent=G.online.code;
     $("lbStatus").textContent=msg||(G.online.err?G.online.err:G.me===0?"Dá este código ao teu adversário. À espera que ele entre…":`À procura do jogo ${G.online.code}…`)}
   show("sLobby");
 }
-$("onlineBtn").onclick=()=>{store("duelo_names",[$("n0").value.trim(),$("n1").value.trim()]);G=null;OPP=null;lobby()};
+$("onlineBtn").onclick=()=>{$("lbCreate").hidden=false;store("duelo_names",[$("n0").value.trim(),$("n1").value.trim()]);G=null;OPP=null;lobby()};
+$("lbName").addEventListener("input",()=>{$("n0").value=$("lbName").value;store("duelo_names",[$("n0").value.trim(),$("n1").value.trim()])});
 $("lbCreate").onclick=()=>{newGame("online",[myName(),"Adversário"],newSeed());G.me=0;G.online={code:genCode()};connect()};
 $("lbJoin").onclick=()=>{
   const c=$("lbCode").value.trim().toUpperCase();if(!/^[A-Z]{4}$/.test(c)){$("lbErr").textContent="O código tem 4 letras.";return}
-  $("lbErr").textContent="";newGame("online",["Adversário",myName()],null);G.me=1;G.online={code:c};connect();
+  $("lbErr").textContent="";$("lbErr").className="msg bad";newGame("online",["Adversário",myName()],null);G.me=1;G.online={code:c};connect();
 };
 $("lbCode").addEventListener("keydown",e=>{if(e.key==="Enter")$("lbJoin").click()});
-$("resumeBtn").onclick=()=>{
+function resumeOnline(auto){
   const o=store("duelo_online");if(!o)return;
-  newGame("online",o.me===0?[o.name,"Adversário"]:["Adversário",o.name],o.seed);G.me=o.me;G.online={code:o.code};
-  G.cfg[o.me]={coach:COACHES.find(c=>c.n===o.coach)||null,form:o.coach?o.form:null};G.mine=o.mine||[];G.m=o.m||0;G.caps[o.me]=o.cap??null;mergePicks();connect();
-};
+  newGame("online",o.me===0?[o.name,"Adversário"]:["Adversário",o.name],o.seed);G.me=o.me;G.online={code:o.code,auto:auto||0};
+  G.cfg[o.me]={coach:COACHES.find(c=>c.n===o.coach)||null,form:o.coach?o.form:null};G.mine=o.mine||[];G.m=o.m||0;G.caps[o.me]=o.cap??null;
+  if(o.dec&&typeof o.dec==="object")G.dec=o.dec;if(o.cans)G.claimAns=o.cans;mergePicks();connect();
+}
+$("resumeBtn").onclick=()=>resumeOnline(0);
+function autoResume(){
+  if(!G||G.mode!=="online"||!G.online||G.online.rs)return;G.online.rs=1;
+  const old=ROOM;ROOM=null;OPP=null;try{old&&old.leave().catch(()=>{})}catch(e){}
+  stopFeed();G.online.err="A ligação caiu. A voltar a ligar…";lobby();
+  setTimeout(()=>{if(G&&G.mode==="online")resumeOnline(1)},1200);
+}
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&G&&G.mode==="online"&&ROOM&&ROOM.ok&&!ROOM.ok())autoResume()});
+setInterval(()=>{if(document.visibilityState==="visible"&&G&&G.mode==="online"&&ROOM&&ROOM.ok&&!ROOM.ok())autoResume()},8000);
 $("lbBack").onclick=leaveOnline;
+function canShareLink(){return !!(window.Peer&&!window.claude&&/^https?:$/.test(location.protocol))}
+function gameLink(code){return location.origin+location.pathname+"#sala="+code}
+$("lbShare").onclick=async()=>{const code=G.online.code,url=gameLink(code),b=$("lbShare");
+  try{if(navigator.share){await navigator.share({title:"Duelo de Onzes",text:`Joga comigo no Duelo de Onzes (jogo ${code})`,url});return}}catch(e){if(e&&e.name==="AbortError")return}
+  try{await Promise.race([navigator.clipboard.writeText(url),new Promise((_,r)=>setTimeout(r,1200))]);b.textContent="Link copiado! Cola-o no WhatsApp"}catch(e){b.textContent=url}
+  setTimeout(()=>{b.textContent="Partilhar link do jogo"},4000)};
+(function(){const m=/sala=([A-Za-z]{4})/.exec(location.hash||"");if(!m)return;
+  try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}
+  setTimeout(()=>{G=null;OPP=null;lobby();$("lbCode").value=m[1].toUpperCase();
+    $("lbErr").className="msg ok";$("lbErr").textContent=`Foste convidado para o jogo ${m[1].toUpperCase()}. Escreve o teu nome e carrega em Entrar.`;
+    $("lbCreate").hidden=true;if(!store("duelo_names")){$("lbName").value="";$("n0").value=""}$("lbName").focus()},0)})();
 /* ligação direta entre telemóveis (versão fora do Claude), com a mesma interface da sala */
 function peerRoomApi(){return{join:name=>new Promise((res,rej)=>{
   const host=G.me===0,hid=("duelo-onzes-"+name).replace(/[^a-z0-9-]/gi,"");
@@ -8879,7 +8933,8 @@ function peerRoomApi(){return{join:name=>new Promise((res,rej)=>{
   const tryConnect=()=>{clearTimeout(retry);if(!peer||peer.destroyed)return;wire(peer.connect(hid,{reliable:true}));retry=setTimeout(()=>{if(!conn||!conn.open)tryConnect()},4000)};
   const api={presence:async patch=>{for(const k in patch){if(patch[k]===null)delete mine[k];else mine[k]=patch[k]}emit();if(conn&&conn.open)conn.send({t:"p",p:mine})},
     onPeers:(f,onErr)=>{fns.push(f);if(onErr)errFns.push(onErr);setTimeout(emit,0);return()=>{}},
-    leave:async()=>{clearTimeout(retry);try{peer.destroy()}catch(e){}}};
+    leave:async()=>{clearTimeout(retry);try{peer.destroy()}catch(e){}},
+    ok:()=>!!peer&&!peer.destroyed};
   peer=host?new Peer(hid):new Peer();
   peer.on("open",()=>{if(!host)tryConnect();if(!done){done=true;res(api)}});
   if(host)peer.on("connection",c=>wire(c));
@@ -8895,19 +8950,22 @@ async function connect(){
   if(!ROOMAPI&&window.Peer)ROOMAPI=peerRoomApi();
   if(!ROOMAPI){G.online.err="Aqui no Claude, o modo online precisa de conta do Claude e de convite. Para jogar sem conta, usa a versão independente do jogo.";lobby();return}
   try{ROOM=await ROOMAPI.join("duelo-"+G.online.code.toLowerCase())}
-  catch(e){G.online.err="Não foi possível entrar no jogo ("+(e&&e.code||"erro")+"). Tenta outra vez.";lobby();return}
-  ROOM.onPeers(onPeers,e=>{if(G&&G.online){G.online.err="A ligação caiu ("+e.code+"). Carrega em Retomar para voltar.";lobby()}});
+  catch(e){
+    if(G.online.auto&&G.online.auto<20){G.online.auto++;G.online.err=`A voltar a ligar… (tentativa ${G.online.auto})`;lobby();setTimeout(()=>{if(G&&G.mode==="online"&&!ROOM)connect()},3000);return}
+    G.online.err="Não foi possível entrar no jogo ("+(e&&e.code||"erro")+"). Tenta outra vez.";lobby();return}
+  G.online.auto=0;
+  ROOM.onPeers(onPeers,e=>{if(G&&G.online)autoResume()});
   pushPresence();render();
 }
 function myPresence(){
   const c=G.cfg[G.me],h=G.dec[G.m];
   return{g:"duelo",code:G.online.code,host:G.me===0,name:G.names[G.me],seed:G.me===0?G.seed:null,
     coach:c.coach?c.coach.n:null,form:c.coach?c.form:null,picks:G.mine.map(e=>({o:e.o,s:e.s,n:e.n,y:e.y?1:0})),m:G.m,cap:G.caps[G.me],
-    dec:h?{m:G.m,d:h[G.me]}:null};
+    dec:h?{m:G.m,d:h[G.me]}:null,claim:G.claimReq||null,cans:G.claimAns||null};
 }
 function pushPresence(){
   const c=G.cfg[G.me];
-  store("duelo_online",{code:G.online.code,me:G.me,name:G.names[G.me],seed:G.seed,coach:c.coach?c.coach.n:null,form:c.form,mine:G.mine,m:G.m,cap:G.caps[G.me]});
+  store("duelo_online",{code:G.online.code,me:G.me,name:G.names[G.me],seed:G.seed,coach:c.coach?c.coach.n:null,form:c.form,mine:G.mine,m:G.m,cap:G.caps[G.me],dec:G.dec,cans:G.claimAns||null});
   if(ROOM)ROOM.presence(myPresence()).catch(()=>{});
 }
 function mergePicks(){
@@ -8940,7 +8998,7 @@ function leaveOnline(){
   $("resumeBtn").hidden=true;G=null;show("sStart");
 }
 
-if(window.Peer&&!window.claude)$("lbNote").textContent="Cada um abre este jogo no seu telemóvel, com internet. Quem cria recebe um código de 4 letras e o outro escreve-o para entrar. Não é preciso conta.";
+if(window.Peer&&!window.claude)$("lbNote").textContent="Cada um abre este jogo no seu telemóvel, com internet. Quem cria recebe um código de 4 letras e pode partilhar o link do jogo; o outro abre o link ou escreve o código. Não é preciso conta.";
 
 /* ---- torneio no mesmo telemóvel ---- */
 let tourSize=4;
