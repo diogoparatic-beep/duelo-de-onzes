@@ -280,6 +280,12 @@ body.picking .askpage .list{padding-bottom:170px}
 /* ---- antes do jogo e jogo ---- */
 #sPre .tabs{flex:none}
 #sMatch .tv{flex:none}
+@media (prefers-reduced-motion:no-preference){#sMatch .tv{animation:tvin .28s ease-out}@keyframes tvin{from{opacity:0;transform:scale(.97)}}}
+.sbar{flex:none;display:grid;grid-template-columns:1fr auto 1fr auto;align-items:stretch;border-radius:12px;overflow:hidden;background:#050d09;border:1px solid var(--lineC);font-family:var(--cond);font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.sbar .bt{padding:10px 12px;font-size:1.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;align-self:center}
+.sbar .bt.r{text-align:right}
+.sbar b{background:#eef6ef;color:#0d2419;padding:6px 14px;font-family:var(--display);font-weight:900;font-size:1.6rem;line-height:1.2;font-variant-numeric:tabular-nums;display:flex;align-items:center}
+.sbar .bm{background:var(--gold);color:var(--onGold);padding:0 12px;font-size:1.05rem;display:flex;align-items:center;font-variant-numeric:tabular-nums;white-space:nowrap}
 #sCap #capPitch{flex:1;min-height:0;display:flex;justify-content:center}
 #sCap #capPitch .pitch{height:100%;width:auto;max-width:100%;aspect-ratio:5/6;margin:0 auto}
 @media (max-height:720px){
@@ -411,9 +417,9 @@ body.picking .askpage .list{padding-bottom:170px}
 
   <!-- 5. JOGO -->
   <div class="screen fit" id="sMatch" hidden>
-    <div class="tv" id="tv">
+    <div class="sbar"><span class="bt" id="bH"></span><b id="bS">0–0</b><span class="bt r" id="bA"></span><span class="bm" id="clock">0'</span></div>
+    <div class="tv" id="tv" hidden>
       <canvas id="scCv" aria-hidden="true"></canvas>
-      <div class="bug"><span class="bt" id="bH"></span><b id="bS">0–0</b><span class="bt" id="bA"></span><span class="bm" id="clock">0'</span></div>
       <div class="lower" id="scLower" hidden><span id="scTitle"></span></div>
       <div class="sccap off" id="scCap"></div>
     </div>
@@ -9755,7 +9761,7 @@ function drawNow(S){const {x,W,H}=scCanvas();drawS(S,x,W,H);scCaption(S.cap,S.ca
 function runS(S,done){
   if(SC.S===S&&SC.raf){SC.end=done;return}
   if(SC.raf)cancelAnimationFrame(SC.raf);SC.raf=0;
-  SC.busy=true;SC.S=S;SC.end=done;S.last=performance.now();S.acc=S.acc||0;
+  SC.busy=true;SC.S=S;SC.end=done;S.last=performance.now();S.acc=S.acc||0;$("tv").hidden=false;
   $("scTitle").textContent=S.title||"";$("scLower").hidden=!S.title;$("tv").classList.add("live");
   $("tv").scrollIntoView({block:"nearest",behavior:"smooth"});
   if(SC.skip||reduceMo()){fastForward(S,9000);if(!S.frozen&&!S.done)fastForward(S,9000);for(let i=0;i<20;i++)stepCam(S);drawNow(S);if(S.frozen)return;scStop();return}
@@ -9768,7 +9774,7 @@ function runS(S,done){
   SC.raf=requestAnimationFrame(tick);
 }
 function scStop(){
-  if(SC.raf)cancelAnimationFrame(SC.raf);SC.raf=0;SC.busy=false;$("tv").classList.remove("live");$("scLower").hidden=true;
+  if(SC.raf)cancelAnimationFrame(SC.raf);SC.raf=0;SC.busy=false;$("tv").classList.remove("live");$("scLower").hidden=true;$("tv").hidden=true;
   if(SC.S)SC.lastS=SC.S;SC.S=null;const f=SC.end;SC.end=null;scCaption(LIVE&&LIVE.lastTx||"");tvIdle();f&&f();
 }
 const freezeAhead=S=>S.beats.slice(S.bi+1).some(b=>b.freeze);
@@ -9781,7 +9787,7 @@ function idleS(){
   SC.idleS=S;return S;
 }
 function tvIdle(){
-  if(SC.busy||$("sMatch").hidden||!LIVE)return;
+  if(SC.busy||$("sMatch").hidden||!LIVE||$("tv").hidden)return;
   const S=SC.lastS||idleS();const {x,W,H}=scCanvas();S.t+=.0;drawS(S,x,W,H);
 }
 setInterval(()=>{if(!SC.busy)tvIdle()},700);
@@ -9830,7 +9836,7 @@ function decGet(){return G.mode==="online"?(G.dec[G.m]=G.dec[G.m]||[{},{}]):LIVE
 function decStr(k){const d=decGet();return[...Array(k).keys()].map(j=>(d[0][j]||"-")+(d[1][j]||"-")).join(",")}
 function startMatch(o){
   stopFeed();
-  if(SC.raf)cancelAnimationFrame(SC.raf);SC.raf=0;SC.busy=false;SC.end=null;SC.S=null;SC.lastS=null;SC.idleS=null;
+  if(SC.raf)cancelAnimationFrame(SC.raf);SC.raf=0;SC.busy=false;SC.end=null;SC.S=null;SC.lastS=null;SC.idleS=null;$("tv").hidden=true;
   LIVE={...o,minute:0,i:0,si:0,pos:1,score:[0,0],pen:[0,0],dec:[{},{}],waiting:null,done:false,recorded:false,usedPat:new Set(),ch:[0,0],lastSc:-20,momS:null,leadRunning:false};
   LIVE.st=simStart(o.a,o.b);LIVE.plan=makePlan(LIVE.st,o.key);
   const st=LIVE.st;
