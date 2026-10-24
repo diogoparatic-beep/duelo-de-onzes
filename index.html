@@ -9459,7 +9459,7 @@ function drawStadium(x,T,S){
     x.fillStyle=gg;x.fillRect(t.x-W*.3,t.y-W*.3,W*.6,W*.6)});
   /* flashes de máquinas fotográficas depois de um golo */
   if(S&&S.goalT!=null&&S.t-S.goalT<3){for(let k=0;k<14;k++){const r=hash(Math.floor(T*14)*31+k);if(r<.5)continue;const q=prj(CAM.x+(hash(k*7+Math.floor(T*14))-.5)*60,PH+6+hash(k*13)*18,2+hash(k*5)*8);
-    x.fillStyle="rgba(255,255,255,.9)";x.beginPath();x.arc(q.x,q.y,Math.max(1.2,q.s*.5),0,7);x.fill()}}
+    x.fillStyle="rgba(255,255,255,.85)";x.fillRect(q.x,q.y,Math.max(1,q.s*.12),Math.max(1,q.s*.12))}}
   /* painéis LED a correr */
   poly(x,[[-40,PH+3,0],[150,PH+3,0],[150,PH+3,1],[-40,PH+3,1]],"#06090d");
   const s0=prj(CAM.x,PH+3,0).s,off=(T*6)%28;x.font=`800 ${Math.max(6,Math.round(s0*.72))}px Barlow Condensed,system-ui`;x.textBaseline="middle";
@@ -9627,7 +9627,7 @@ function drawS(S,x,W,H){
   ents.sort((a,b)=>b.y-a.y).forEach(e=>e.f());
   drawParts(x,S);drawFlag(x,S);
   x.restore();
-  if(S.hud)drawHud(x,S,W,H);
+
   const vg=x.createRadialGradient(W*.5,H*.55,H*.35,W*.5,H*.55,W*.8);vg.addColorStop(0,"rgba(0,0,0,0)");vg.addColorStop(1,"rgba(0,0,0,.3)");x.fillStyle=vg;x.fillRect(0,0,W,H);
 }
 
