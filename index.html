@@ -146,7 +146,14 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .brTeam b{font-family:var(--display);font-size:1.2rem;font-variant-numeric:tabular-nums}
 .hrow{display:flex;justify-content:space-between;gap:10px;align-items:baseline;font-weight:600}
 .feed li.red{background:rgba(255,93,79,.16)}
-.dstr{text-align:center;font-family:var(--cond);font-weight:700;color:var(--muted);letter-spacing:.04em}
+.dstr{text-align:center;font-family:var(--cond);font-weight:700;color:var(--muted);letter-spacing:.04em;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
+.dsep{opacity:.5}
+.chemBtn{display:inline-flex;align-items:center;gap:6px;background:rgba(127,224,168,.1);border:1px solid #2f7a52;border-radius:999px;padding:3px 6px 3px 10px;color:var(--chalk);font:inherit;cursor:pointer}
+.chemBar{display:inline-block;width:44px;height:6px;border-radius:3px;background:rgba(255,255,255,.15);overflow:hidden}.chemBar i{display:block;height:100%;background:#7fe0a8}
+.chemQ{display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;background:#2f7a52;font-size:.75rem}
+.chm{display:flex;gap:4px;justify-content:center;margin-top:2px}.chm b{display:block;width:6px;height:6px;transform:rotate(45deg);background:rgba(5,13,9,.65);border:1px solid rgba(255,255,255,.45)}
+.chm b.on{background:#7fe0a8;border-color:#7fe0a8}.chm b.half{background:rgba(127,224,168,.4);border-color:#7fe0a8}
+.chemLegend{display:flex;align-items:center;gap:10px;background:var(--turf3);border-radius:10px;padding:10px 12px}.chemLegend .chm b{width:9px;height:9px}
 #pickCard{position:fixed;left:50%;bottom:max(18px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(440px,calc(100% - 32px));box-sizing:border-box;z-index:40;
   background:#06120c;border:2px solid var(--c);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:8px;box-shadow:0 12px 40px rgba(0,0,0,.6);cursor:pointer}
 #pickCard.in{animation:cardin .45s cubic-bezier(.2,.9,.3,1.2)}
@@ -529,6 +536,14 @@ body.picking .askpage .list{padding-bottom:170px}
     <label class="toggle" for="sndOn"><span>Som (apito e golos)</span><input type="checkbox" id="sndOn" checked></label>
     <label class="toggle" for="showR"><span>Mostrar a qualidade dos jogadores durante a escolha</span><input type="checkbox" id="showR"></label>
   </div></div>
+  <div class="sheet" id="shChem" hidden><div class="sheetIn">
+    <div class="shHead"><h2>Química</h2><button class="xbtn" data-close aria-label="Fechar">✕</button></div>
+    <p>Cada jogador do teu onze ganha pontos de química, até <b>3</b>:</p>
+    <ul style="margin:0;padding-left:20px;line-height:1.6"><li><b>+1</b> por cada colega com quem passou pelo mesmo clube</li><li><b>+½</b> por cada colega do mesmo país (sem clube em comum)</li></ul>
+    <div class="chemLegend"><span class="chm"><b class="on"></b><b class="on"></b><b class="half"></b></span> Os losangos por baixo de cada jogador no campo mostram os pontos dele.</div>
+    <p>A equipa soma os pontos dos 11 jogadores, num máximo de <b>33</b>. Quanto maior a química, mais forte jogam todos os setores: até <b>+4</b> no ataque, meio-campo, defesa e baliza (o dobro com um treinador de "Espírito de família").</p>
+    <p class="muted">Fraca: menos de 7 · Razoável: 7 a 14 · Boa: 15 a 22 · Excelente: 23 ou mais.</p>
+  </div></div>
   <div class="sheet" id="shHow" hidden><div class="sheetIn">
     <div class="shHead"><h2>Como jogar</h2><button class="xbtn" data-close aria-label="Fechar">✕</button></div>
     <ol style="margin:8px 0 0;padding-left:20px;line-height:1.55;display:flex;flex-direction:column;gap:4px">
@@ -536,7 +551,7 @@ body.picking .askpage .list{padding-bottom:170px}
         <li>Escolhem a <b>formação</b>. A preferida do treinador dá um pequeno bónus.</li>
         <li>11 rondas: cada ronda tem uma regra, como "Jogou no FC Porto" ou "Brasileiro". Toca numa posição vaga do teu onze e <b>escreve o nome</b> de um jogador que cumpra a regra.</li>
         <li>Tens 3 tentativas. Se falhares, entra um <b>júnior da formação</b> (fraquinho).</li>
-        <li>Jogadores do mesmo clube ou país dão <b>química</b>.</li>
+        <li><b>Química:</b> cada jogador ganha +1 por colega com quem passou pelo mesmo clube e +½ por colega do mesmo país (até 3). A equipa vai até 33 e química alta dá até +4 em todos os setores.</li>
         <li>No fim, simulamos o jogo com base na qualidade, na tática e na química.</li>
       </ol>
   </div></div>
@@ -8788,6 +8803,7 @@ function findPlayers(q){
 
 /* desenhar o onze em campo */
 const short=p=>{if(p.youth)return"Júnior";const n=String(p.n).replace(/ \([^)]*\)$/,"");return n.length<=10?n:n.split(" ").slice(-1)[0]};
+let CHEMC=null;function chemOf(T){const key=T.picks.map(p=>p.n).join("|");if(!CHEMC||CHEMC.k!==key||CHEMC.T!==T)CHEMC={k:key,T,m:chemInfo(T).per};return CHEMC.m}
 function drawPitch(box,t,o={}){
   box.innerHTML="";const T=o.team||G.teams[t],pitch=el("div","pitch"+(o.small?" sm":""));pitch.style.setProperty("--c",COL[t]);
   ["half","circ","boxT","boxB"].forEach(c=>pitch.append(el("i",c)));
@@ -8797,7 +8813,8 @@ function drawPitch(box,t,o={}){
       const isCap=o.capTap?o.capSel===i:(T.cap&&s.pl===T.cap);
       const b=el(o.onTap||o.capTap?"button":"div","slot "+(s.pl?"full":"empty")+(s.pl&&s.pl.youth?" youth":"")+(G.sel===i&&o.onTap?" sel":"")+(isCap?" cap":""));
       const disc=el("span","disc",s.label);if(isCap)disc.append(el("i","cbadge","C"));b.append(disc);
-      if(s.pl){b.append(el("span","nm2",short(s.pl)));if(o.withR||G.showR)b.append(el("span","rt2",s.pl.r))}
+      if(s.pl){b.append(el("span","nm2",short(s.pl)));if(!o.noR)b.append(el("span","rt2",s.pl.youth?64:s.pl.r));
+        if(!s.pl.youth&&!o.noChem){const pts=(chemOf(T).get(s.pl)||{pts:0}).pts,ch=el("span","chm");for(let k=0;k<3;k++)ch.append(el("b",pts>=k+1?"on":pts>=k+.5?"half":""));b.append(ch)}}
       if(o.onTap){if(s.pl)b.disabled=true;else b.onclick=()=>o.onTap(i)}
       if(o.capTap){if(!s.pl)b.disabled=true;else b.onclick=()=>o.capTap(i)}
       row.append(b)});
@@ -8819,13 +8836,18 @@ function drawDraft(){
   w.append(el("span","dot"),el("span",null,act&&G.mode==="online"?"É a tua vez":"Vez de "+G.names[pk]));
   $("dRule").textContent=G.cur.rule.l;
   const ts=$("dToast");
-  if(G.lastEv){const e=G.lastEv;ts.textContent=`${G.names[e.t]}: ${e.p.youth?"entrou um júnior da formação":e.p.n.replace(/ \([^)]*\)$/,"")} para ${e.label}.`;ts.hidden=false}else ts.hidden=true;
+  if(G.lastEv){const e=G.lastEv,ce=!e.p.youth&&G.teams[e.t]?chemInfo(G.teams[e.t]).per.get(e.p):null;
+    const ctx=ce&&ce.club.length?` · ⚡ química com ${dn(ce.club[0].q.n)} (${ce.club[0].c})${ce.club.length>1?` e mais ${ce.club.length-1}`:""}`:ce&&ce.nat.length?` · ⚡ química com ${dn(ce.nat[0].n)} (mesmo país)`:"";
+    ts.textContent=`${G.names[e.t]}: ${e.p.youth?"entrou um júnior da formação":e.p.n.replace(/ \([^)]*\)$/,"")} para ${e.label}${ctx}.`;ts.hidden=false}else ts.hidden=true;
   $("dWait").hidden=act;$("dWait").textContent=`À espera que ${G.names[pk]} escolha…`;
   const viewing=G.peekT!=null;
   if(viewing){const h=el("div","lbl",`Onze de ${G.names[t]}`);$("dPitch").innerHTML="";drawPitch($("dPitch"),t,{});$("dPitch").prepend(h)}
   else drawPitch($("dPitch"),t,act?{onTap:selectSlot}:{});
   $("askPage").hidden=viewing||!act||G.sel==null;$("dHint").hidden=viewing||!act||G.sel!=null;$("dAsk").hidden=false;
-  const tp=teamPower(t);$("dStr").textContent=tp?`Força média ${tp.avg.toFixed(1)} · Química +${tp.chem.toFixed(1)} · ${G.teams[t].picks.length}/11`:"";
+  const tp=teamPower(t),ds=$("dStr");ds.innerHTML="";
+  if(tp){ds.append(el("span",null,`Força ${tp.avg.toFixed(1)}`),el("span","dsep","·"),(()=>{const b=el("button","chemBtn");b.type="button";
+    const bar=el("span","chemBar");const f=el("i");f.style.width=Math.round(tp.chemPct*100)+"%";bar.append(f);
+    b.append(el("span",null,"Química "),bar,el("b",null,`${Math.round(tp.chemSum)}/33`),el("span","chemQ","?"));b.onclick=()=>openSheet("shChem");return b})(),el("span","dsep","·"),el("span",null,`${G.teams[t].picks.length}/11`))}
   const others=[...Array(G.n).keys()].filter(x=>x!==mine);
   $("dPeek").textContent=!viewing?(G.n===2?`Espreitar o onze de ${G.names[others[0]]}`:"Espreitar os outros onzes"):
     (others.indexOf(G.peekT)<others.length-1?`Ver o onze seguinte`:"Voltar ao meu onze");
@@ -8948,9 +8970,16 @@ $("dPeek").onclick=()=>{
 
 /* ---- carta da escolha ---- */
 const VERD=r=>r>=92?"Lenda!":r>=88?"Craque!":r>=84?"Excelente escolha":r>=80?"Boa escolha":r>=76?"Escolha sólida":r>=72?"Hmm… havia melhor":"Fraquinho";
-function teamPower(t){const ps=G.teams[t].picks;if(!ps.length)return null;
-  let club=0,nat=0;for(let i=0;i<ps.length;i++)for(let j=i+1;j<ps.length;j++){if(ps[i].cl.some(c=>ps[j].cl.includes(c)))club++;if(ps[i].c===ps[j].c)nat++}
-  return{avg:ps.reduce((s,p)=>s+p.r,0)/ps.length,chem:Math.min(4,club*.12+nat*.04)}}
+/* química: cada jogador ganha 1 ponto por colega com quem partilha um clube e meio ponto por colega do mesmo país, até 3 */
+function chemInfo(T){const ps=T.picks.filter(p=>!p.youth),per=new Map();let sum=0;
+  T.picks.forEach(p=>{if(p.youth){per.set(p,{pts:0,club:[],nat:[]});return}
+    const club=[],nat=[];ps.forEach(q=>{if(q===p)return;const c=q.cl.find(c=>p.cl.includes(c));if(c)club.push({q,c});else if(q.c===p.c)nat.push(q)});
+    const pts=Math.min(3,club.length+nat.length*.5);per.set(p,{pts,club,nat});sum+=pts});
+  return{per,sum,max:33,pct:sum/33}}
+const chemLabel=pct=>pct>=.7?"Excelente":pct>=.45?"Boa":pct>=.2?"Razoável":"Fraca";
+const chemTxt=T=>{const c=chemInfo(T);return`${Math.round(c.sum)}/33 · ${chemLabel(c.pct)}`};
+function teamPower(t){const T=G.teams[t],ps=T.picks;if(!ps.length)return null;const c=chemInfo(T);
+  return{avg:ps.reduce((s,p)=>s+p.r,0)/ps.length,chem:c.pct*4,chemSum:c.sum,chemPct:c.pct}}
 let cardTimer=null;
 function maybeCard(){
   const e=G.lastEv;if(!e||e.i===G.cardI)return;
@@ -9159,7 +9188,7 @@ function onPeers(ch){
     G.caps[s]=Number.isInteger(pr.cap)&&pr.cap>=0&&pr.cap<11?pr.cap:null;
     if(pr.dec&&typeof pr.dec.k==="string"&&pr.dec.k.length<12&&pr.dec.d&&typeof pr.dec.d==="object"){const side=sideIn(pr.dec.k,s);
       if(side!=null){const D=(G.dec[pr.dec.k]=G.dec[pr.dec.k]||[{},{}]);
-        Object.entries(pr.dec.d).forEach(([k,v])=>{if(/^\d{1,2}$/.test(k)&&typeof v==="string"&&v.length<=4&&D[side][k]==null)D[side][k]=v})}}
+        Object.entries(pr.dec.d).forEach(([k,v])=>{if(/^t?\d{1,2}$/.test(k)&&typeof v==="string"&&v.length<=4&&D[side][k]==null)D[side][k]=v})}}
     if(pr.res&&typeof pr.res==="object")Object.entries(pr.res).forEach(([k,v])=>{if(/^t\d\.\d$/.test(k)&&!G.res[k]&&v&&Array.isArray(v.g)&&Number.isInteger(v.w))G.res[k]={g:v.g.map(Number),p:Array.isArray(v.p)?v.p.map(Number):null,w:v.w}});
   });
   if(G.me==null){lobby();return}
@@ -9280,8 +9309,7 @@ function strength(T){
   const avg=pos=>{let a=(T.slots||[]).filter(s=>s.pl&&s.pos===pos).map(s=>s.pl);if(!a.length)a=ps.filter(p=>p.p===pos);return a.reduce((s,p)=>s+val(p),0)/Math.max(1,a.length)};
   const F=FORMS[T.form];
   let S={gk:avg("GR"),def:avg("DEF")+(F.DEF-4)*1.5,mid:avg("MED")+(F.MED-4)*1.5,att:avg("AVA")+(F.AVA-2)*1.5};
-  let club=0,nat=0;for(let i=0;i<ps.length;i++)for(let j=i+1;j<ps.length;j++){if(ps[i].cl.some(c=>ps[j].cl.includes(c)))club++;if(ps[i].c===ps[j].c)nat++}
-  const chem=Math.min(4,club*.12+nat*.04)*(tc.chem||1);
+  const ci=chemInfo(T),chem=ci.pct*4*(tc.chem||1);S.chemSum=ci.sum;
   const pref=T.form===T.coach.f?1.5:0, all=chem+pref+(tc.all||0)+(T.cap?.5:0);
   S.gk+=all+(tc.gk||0);S.def+=all+(tc.def||0);S.mid+=all+(tc.mid||0);S.att+=all+(tc.att||0);
   S.chem=chem;S.pref=pref;S.tc=tc;S.ovr=S.gk*.15+S.def*.3+S.mid*.3+S.att*.25;
@@ -9291,7 +9319,7 @@ function strength(T){
 /* ---- antes do jogo ---- */
 function teamHead(t,box){
   const T=G.teams[t],h=el("div","teamhead");h.style.setProperty("--c",COL[t]);
-  h.append(el("div","t",G.names[t]),el("span","muted",`${T.coach.n} · ${T.form} · ${TACT[T.coach.t].nome}`+(T.cap?` · Capitão: ${T.cap.n}`:"")));box.append(h);
+  h.append(el("div","t",G.names[t]),el("span","muted",`${T.coach.n} · ${T.form} · ${TACT[T.coach.t].nome}`+(T.cap?` · Capitão: ${T.cap.n}`:"")+` · Química ${chemTxt(T)}`));box.append(h);
 }
 let preT=0;
 function preMatch(){
@@ -10172,6 +10200,11 @@ function optsFor(stop,side){
   if(stop.type==="ca"&&att)o=[["P",`Passar a ${stop.fw.n}`],["R","Rematar já"]];
   return o;
 }
+/* penáltis e livres: quem ataca escolhe quem bate */
+const needsTaker=stop=>stop.kind==="mom"&&(stop.type==="pen"||stop.type==="fk");
+function takerOpts(stop){const st=LIVE.st,L=[...field(st.T[stop.t])].sort((a,b)=>b.r-a.r||a.n.localeCompare(b.n));
+  if(stop.so&&LIVE.pk){const used=LIVE.pk.used[stop.t],fresh=L.filter(p=>!used.has(p.n));return fresh.length?fresh:L}return L}
+function takerOf(stop,d,k){const v=d[stop.t]["t"+k];if(v==null)return null;const L=takerOpts(stop);return L[+v]||null}
 function drawDecision(){
   const k=LIVE.waiting;if(k==null||LIVE.leadRunning)return;
   const stop=LIVE.plan[k],st=LIVE.st,d=decGet(),box=$("momRows");box.innerHTML="";
@@ -10179,15 +10212,15 @@ function drawDecision(){
   if(stop.kind==="ht"){ttl.textContent="Intervalo · o que muda para a 2.ª parte?";sub.textContent="Cada um escolhe às escondidas. Atacar: mais ocasiões, mas deixa espaço atrás. Fechar: segura o resultado, mas cria menos.";$("momKeep").hidden=true}
   else{
     const N=st.N[stop.t];$("momKeep").hidden=true;
-    if(stop.so){const P=LIVE.pk;ttl.textContent=`Penáltis · ${P.g[0]}–${P.g[1]} · ${Math.floor(P.n/2)+1}.º de ${N}`;sub.textContent=`${stop.sh.n} contra ${stop.gk.n}. Cada um escolhe às escondidas.`}
+    if(stop.so){const P=LIVE.pk;ttl.textContent=`Penáltis · ${P.g[0]}–${P.g[1]} · ${Math.floor(P.n/2)+1}.º de ${N}`;sub.textContent=`${N} escolhe quem bate. ${stop.gk.n} está na baliza. Cada um escolhe às escondidas.`}
     else ttl.textContent=`${stop.m}' · `+({pen:`Penálti para ${N}!`,uu:`${N} isolado frente ao guarda-redes!`,ca:`Contra-ataque de ${N}!`,fk:`Livre perigoso para ${N}!`,co:`Canto para ${N}!`})[stop.type];
-    if(!stop.so)sub.textContent=({pen:`${stop.sh.n} vai bater. ${stop.gk.n} está na baliza.`,uu:`${stop.sh.n} fica sozinho com ${stop.gk.n}.`,ca:`${stop.sh.n} arranca com espaço, com ${stop.fw.n} ao lado.`,
-      fk:`${stop.tk.n} prepara-se para bater.`,co:`${stop.sh.n} sobe à área. ${stop.df.n} está na marcação.`})[stop.type]+" Cada um escolhe às escondidas.";
+    if(!stop.so)sub.textContent=({pen:`${N} escolhe quem bate. ${stop.gk.n} está na baliza.`,uu:`${stop.sh.n} fica sozinho com ${stop.gk.n}.`,ca:`${stop.sh.n} arranca com espaço, com ${stop.fw.n} ao lado.`,
+      fk:`${N} escolhe quem bate o livre.`,co:`${stop.sh.n} sobe à área. ${stop.df.n} está na marcação.`})[stop.type]+" Cada um escolhe às escondidas.";
   }
   const sides=sidesFor(stop);
   let visible;
   if(G.mode==="online")visible=LIVE.mySide!=null?[LIVE.mySide]:[];
-  else{sides.forEach(x=>{if(isBot(LIVE.ci[x])&&!d[x][k])d[x][k]=botDecide(stop,x,k)});
+  else{sides.forEach(x=>{if(isBot(LIVE.ci[x])&&!d[x][k])d[x][k]=botDecide(stop,x,k);if(isBot(LIVE.ci[x])&&x===stop.t&&needsTaker(stop)&&d[x]["t"+k]==null)d[x]["t"+k]="0"});
     const s=sides.find(x=>!d[x][k]);visible=s==null?[]:[s];
     const solo=sides.filter(x=>!isBot(LIVE.ci[x])).length<=1;
     if(s!=null&&!LIVE.passOk&&!solo){const row=el("div","htRow");row.append(el("p",null,`Passa o telemóvel a ${st.N[s]}. ${st.N[1-s]} não pode ver.`));
@@ -10197,13 +10230,18 @@ function drawDecision(){
     const nm=el("div","who");nm.style.setProperty("--c",COL[st.ci[side]]);nm.style.fontSize="1.15rem";nm.append(el("span","dot"),el("span",null,st.N[side]));row.append(nm);
     if(mine)row.append(el("span","lbl",stop.kind==="ht"?"O que muda na tua equipa?":side===stop.t?MOM[stop.type].qa:MOM[stop.type].qd));
     const ch=el("div","chips");
+    if(mine&&side===stop.t&&needsTaker(stop)&&d[side]["t"+k]==null){
+      row.lastChild.textContent="Quem bate?";
+      takerOpts(stop).forEach((p,i)=>{const b=el("button","chip");b.append(lastName(p.n)+" ",el("small",null,String(p.r)));b.onclick=()=>{d[side]["t"+k]=String(i);if(G.mode==="online")pushPresence();drawDecision()};ch.append(b)});
+      row.append(ch);box.append(row);$("momBox").hidden=false;return}
+    if(mine&&side===stop.t&&needsTaker(stop)&&!d[side][k]){const tk=takerOf(stop,d,k);if(tk)row.lastChild.textContent=`${lastName(tk.n)} vai bater. ${MOM[stop.type].qa}`}
     if(mine&&!d[side][k])optsFor(stop,side).forEach(([v,l])=>{const b=el("button","chip");b.append(l);b.setAttribute("aria-pressed",d[side][k]===v);
       b.onclick=()=>{d[side][k]=v;LIVE.passOk=false;if(G.mode==="online")pushPresence();drawDecision()};ch.append(b)});
     else ch.append(el("span","muted",d[side][k]?(mine?"Escolheste: "+(optsFor(stop,side).find(o=>o[0]===d[side][k])||["",""])[1]:"Já decidiu (em segredo)."):"A decidir…"));
     row.append(ch);box.append(row);
   });
   $("momBox").hidden=false;
-  if(sides.every(s=>d[s][k]))resolveStop(k);
+  if(sides.every(s=>d[s][k])&&(!needsTaker(stop)||d[stop.t]["t"+k]!=null))resolveStop(k);
 }
 $("momKeep").onclick=()=>{const k=LIVE.waiting;if(k==null)return;const d=decGet();(G.mode==="online"?[LIVE.mySide]:[0,1].filter(x=>!isBot(LIVE.ci[x]))).forEach(s=>{if(s!=null&&!d[s][k])d[s][k]="keep"});if(G.mode==="online")pushPresence();drawDecision()};
 function resolveStop(k){
@@ -10216,6 +10254,12 @@ function resolveStop(k){
     [0,1].forEach(t=>rr.append(el("div","rt3",`${st.N[t]}: ${HTC[d[t][k]]?HTC[d[t][k]].l:"Manter"}`)));rr.hidden=false;
     LIVE.si++;setTimeout(()=>{if(LIVE&&!LIVE.done&&LIVE.si===k+1&&LIVE.waiting==null){$("momBox").hidden=true;whistle(1);proceed()}},2400);return;
   }
+  if(needsTaker(stop)){const tk=takerOf(stop,d,k);if(tk){LIVE.plan[k]=stop.type==="fk"?{...stop,tk,sh:tk}:{...stop,sh:tk}}}
+  return resolveStop2(k);
+}
+function resolveStop2(k){
+  const stop=LIVE.plan[k],st=LIVE.st,d=decGet();
+  if(stop.so&&LIVE.pk)LIVE.pk.used[stop.t].add(stop.sh.n);
   const a=d[stop.t][k],df=d[1-stop.t][k],t=stop.t,o=1-t,same=a===df,S=st.S;
   const res=withRng(seeded(LIVE.key+":mom"+k+":"+a+df),()=>{
     const r=Math.random(),r2=Math.random(),cl=(v,lo,hi)=>Math.min(hi,Math.max(lo,v));
@@ -10243,7 +10287,7 @@ function resolveStop(k){
   $("momBox").hidden=true;
   const opts={title:stop.so?`Penáltis · ${st.N[t]}`:`${stop.m}' · ${({pen:"Penálti",uu:"Um contra um",ca:"Contra-ataque",fk:"Livre direto",co:"Canto"})[stop.type]} · ${st.N[t]}`};
   let MS=LIVE.momS;if(!MS||MS.done){MS=momentPlay(stop,k);fastForward(MS,9000)}if(!MS.frozen)fastForward(MS,9000);
-  LIVE.momS=null;LIVE.leadRunning=false;continueS(MS,momentFinish(MS,stop,res,a,df));MS.title=opts.title;
+  LIVE.momS=null;LIVE.leadRunning=false;if(needsTaker(stop)&&MS.R.fin){MS.R.fin.name=(stop.type==="fk"?stop.tk:stop.sh).n}continueS(MS,momentFinish(MS,stop,res,a,df));MS.title=opts.title;
   runS(MS,()=>{
     if(!LIVE||LIVE.waiting!=null)return;
     if(stop.so){const P=LIVE.pk;if(res.goal)P.g[t]++;P.n++;
@@ -10274,7 +10318,7 @@ function pushPk(){const P=LIVE.pk,st=LIVE.st,t=P.n%2,L=P.order[t];
   LIVE.plan.push({kind:"mom",type:"pen",so:true,m:"PEN",t,sh:L[Math.floor(P.n/2)%L.length],gk:gkOf(st.T[1-t])||{n:"Guarda-redes"},n:P.n})}
 function startShootout(){
   stopFeed();const st=LIVE.st;
-  LIVE.pk={n:0,g:[0,0],order:[0,1].map(t=>[...field(st.T[t])].sort((a,b)=>b.r-a.r||a.n.localeCompare(b.n)))};
+  LIVE.pk={n:0,g:[0,0],used:[new Set(),new Set()],order:[0,1].map(t=>[...field(st.T[t])].sort((a,b)=>b.r-a.r||a.n.localeCompare(b.n)))};
   LIVE.si=LIVE.plan.length;pushPk();$("clock").textContent="Penáltis 0–0";
   setTimeout(()=>{if(LIVE&&!LIVE.done)reachStop()},900);
 }
@@ -10311,7 +10355,7 @@ function result(){
     const L=el("div"),Rr=el("div"),ia=el("i"),ib=el("i");ia.style.width=(Math.abs(a)/mx*100)+"%";ia.style.background=COL[ci[0]];ib.style.width=(Math.abs(b)/mx*100)+"%";ib.style.background=COL[ci[1]];
     L.append(ia);Rr.append(ib);bar.append(L,Rr);mid.append(bar);r.append(va,mid,vb);box.append(r)})};
   fill($("stats"),[["Posse de bola",Math.round(st.share[0]*100),Math.round(st.share[1]*100),"%"],["Remates",st.shots[0],st.shots[1]],["Remates à baliza",st.on[0],st.on[1]]]);
-  fill($("stats2"),[["Ataque",S[0].att,S[1].att,"",1],["Meio-campo",S[0].mid,S[1].mid,"",1],["Defesa",S[0].def,S[1].def,"",1],["Guarda-redes",S[0].gk,S[1].gk,"",1],["Química",S[0].chem,S[1].chem,"",1],["Força total",S[0].ovr,S[1].ovr,"",1]]);
+  fill($("stats2"),[["Ataque",S[0].att,S[1].att,"",1],["Meio-campo",S[0].mid,S[1].mid,"",1],["Defesa",S[0].def,S[1].def,"",1],["Guarda-redes",S[0].gk,S[1].gk,"",1],["Química (de 33)",Math.round(S[0].chemSum),Math.round(S[1].chemSum)],["Força total",S[0].ovr,S[1].ovr,"",1]]);
   const pt=$("postTeams");pt.innerHTML="";
   [0,1].forEach(j=>{const t=ci[j],p=el("div","panel");p.style.display="flex";p.style.flexDirection="column";p.style.gap="12px";teamHead(t,p);
     const T=st.T[j];p.append(el("span","muted",`Tática: ${TACT[T.coach.t].desc}`+(S[j].pref?" Bónus: formação preferida do treinador.":"")));
