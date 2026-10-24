@@ -21,6 +21,23 @@ document.body.appendChild(g);var i=document.getElementById("gIn");i.focus();
 function go(){var v=i.value.trim().toUpperCase();crypto.subtle.digest("SHA-256",new TextEncoder().encode(v)).then(function(b){var x=Array.from(new Uint8Array(b)).map(function(n){return n.toString(16).padStart(2,"0")}).join("");
 if(x===H){try{localStorage.setItem(K,H)}catch(e){}g.remove()}else{document.getElementById("gErr").textContent="Código errado"}})}
 document.getElementById("gGo").onclick=go;i.onkeydown=function(e){if(e.key==="Enter")go()}})})();</script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>#instBtn{border-color:var(--gold)!important;color:var(--gold)!important}#instTip{position:fixed;left:16px;right:16px;bottom:max(16px,env(safe-area-inset-bottom));z-index:9999;background:#173a2a;border:1px solid #3b6b52;border-radius:16px;padding:16px;color:#eef6ef;font:16px/1.45 system-ui,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.5)}#instTip b{color:#ffd166}#instTip button{margin-top:10px;font:700 16px system-ui;padding:10px 18px;border-radius:10px;border:0;background:#ffd166;color:#14110a}</style>
+<script>(function(){
+if("serviceWorker" in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});
+var dp=null,standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone;
+window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e;show()});
+function tip(h){var o=document.getElementById("instTip");if(o)o.remove();var t=document.createElement("div");t.id="instTip";t.innerHTML=h+'<br><button>Percebi</button>';t.querySelector("button").onclick=function(){t.remove()};document.body.appendChild(t)}
+function show(){if(standalone)return;var row=document.querySelector("#sStart .minirow");if(!row||document.getElementById("instBtn"))return;
+  var b=document.createElement("button");b.className="minibtn";b.id="instBtn";b.textContent="Instalar app";row.prepend(b);
+  b.onclick=function(){if(dp){dp.prompt();dp.userChoice.then(function(){dp=null;b.remove()});return}
+    if(/iphone|ipad|ipod/i.test(navigator.userAgent))tip('No iPhone: abre no <b>Safari</b>, toca em <b>Partilhar</b> (o quadrado com a seta) e depois em <b>Adicionar ao ecrã principal</b>. O jogo fica com ícone e abre em ecrã inteiro.');
+    else tip('No menu do browser (⋮), escolhe <b>Instalar app</b> ou <b>Adicionar ao ecrã principal</b>.')}}
+document.addEventListener("DOMContentLoaded",show);
+})();</script>
 <title>Duelo de Onzes</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Barlow:wght@400;600;700&family=Barlow+Condensed:wght@600;700&display=swap">
@@ -136,7 +153,10 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .code{font-family:var(--display);font-weight:900;font-size:3.6rem;letter-spacing:.18em;color:var(--gold);line-height:1}
 .toast.wait{background:rgba(255,209,102,.12);border-color:#7a6230}
 .htRow{display:flex;flex-direction:column;gap:8px}
+.fchips .chip{padding:6px 10px;font-size:.92rem}
 .brRound{display:flex;flex-direction:column;gap:8px}
+.brRound.third{opacity:.92}.brRound.third .lbl{color:#d9a066}
+.brPod{font-family:var(--cond);font-weight:700;font-size:1.05rem;letter-spacing:.06em;color:var(--muted);margin-top:4px}
 .brMatch{background:rgba(0,0,0,.28);border:1px solid var(--lineC);border-radius:14px;overflow:hidden}
 .brTeam{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:10px 14px;font-weight:700}
 .brTeam+.brTeam{border-top:1px solid var(--lineC)}
@@ -304,6 +324,20 @@ body.picking .askpage .list{padding-bottom:170px}
 #formBox{padding:12px}
 /* ---- escolhas: campo a ocupar o espaço livre ---- */
 .pitchbox{flex:1;min-height:0;display:flex;justify-content:center}
+.pitchbox.hasBench{flex-direction:column;align-items:center;gap:6px}
+.pitchbox.hasBench .pitch{height:calc(100% - 50px)}
+.pitchbox .disc,#capPitch .disc{width:clamp(28px,5.2vh,44px);height:clamp(28px,5.2vh,44px);font-size:clamp(.68rem,1.55vh,.95rem)}
+.pitchbox .slot,#capPitch .slot{gap:1px}
+.pitchbox .slot .nm2,#capPitch .slot .nm2{font-size:clamp(.66rem,1.45vh,.8rem);padding:1px 4px}
+.pitchbox .slot .rt2,#capPitch .slot .rt2{font-size:clamp(.7rem,1.5vh,.95rem)}
+.pitchbox .pitch,#capPitch .pitch{padding:4px 2px}
+.bench{padding:3px 10px}.bench .disc{width:26px!important;height:26px!important;font-size:.62rem!important}
+.bench{display:flex;align-items:center;justify-content:center;gap:10px;background:rgba(0,0,0,.3);border:1px solid var(--lineC);border-radius:14px;padding:5px 12px;width:100%;box-sizing:border-box}
+.bench .lbl{font-size:.75rem}
+.bench .slot{flex-direction:row;width:auto;gap:5px;align-items:center}
+.bench .disc{width:30px;height:30px;font-size:.7rem}
+.bench .slot.full .disc{background:var(--c)}
+.bench .nm2{max-width:70px}
 .pitchbox>.lbl{display:none}
 .pitchbox .pitch{height:100%;width:auto;max-width:100%;aspect-ratio:5/6;margin:0 auto;padding:6px 2px}
 #sDraft .rule{padding:12px 14px;gap:3px;border-radius:14px}
@@ -331,8 +365,14 @@ body.picking .askpage .list{padding-bottom:170px}
 .sbar b{background:#eef6ef;color:#0d2419;padding:6px 14px;font-family:var(--display);font-weight:900;font-size:1.6rem;line-height:1.2;font-variant-numeric:tabular-nums;display:flex;align-items:center}
 .sbar .bm{background:var(--gold);color:var(--onGold);padding:0 12px;font-size:1.05rem;display:flex;align-items:center;font-variant-numeric:tabular-nums;white-space:nowrap}
 #sCap #capPitch{flex:1;min-height:0;display:flex;justify-content:center}
+#capPitch.hasBench{flex-direction:column;align-items:center;gap:6px}#capPitch.hasBench .pitch{height:calc(100% - 50px)!important}
 #sCap #capPitch .pitch{height:100%;width:auto;max-width:100%;aspect-ratio:5/6;margin:0 auto}
 @media (max-height:720px){
+  #sDraft #dToast,#sDraft #dHint{display:none!important}
+  #sDraft .rule{padding:8px 12px}#sDraft .rule .lbl{display:none}
+  #dPeek{padding:8px}
+  .pitchbox .slot .chm b,#capPitch .slot .chm b{width:4px;height:4px}
+  .pitchbox .slot .nm2,#capPitch .slot .nm2{font-size:.62rem}
   .hero{padding-top:8px;gap:8px}.hero h1{font-size:clamp(2.6rem,13vw,3.4rem)}.facts{display:none}
   .mode{padding:10px 12px}.mode .ic{width:38px;height:38px}.mode b{font-size:1.15rem}.modes{gap:8px}
   .pitchbox .disc,#capPitch .disc{width:36px;height:36px;font-size:.82rem}
@@ -393,7 +433,7 @@ body.picking .askpage .list{padding-bottom:170px}
     <button class="btn ghost" id="tBack">Voltar</button>
   </div>
   <div class="screen" id="sBracket" hidden>
-    <h2 id="brTitle">Quadro do torneio</h2>
+    <h2 id="brTitle">Quadro do torneio</h2><p class="brPod" id="brPod" hidden></p>
     <div id="brBox" style="display:flex;flex-direction:column;gap:16px"></div>
     <div class="grow"></div>
     <button class="btn" id="brPlay"></button>
@@ -8708,16 +8748,17 @@ const ROWS={
  "3-4-3":[["AVA",["EE","PL","ED"]],["MED",["ME","MC","MC","MD"]],["DEF",["DC","DC","DC"]],["GR",["GR"]]],
  "5-3-2":[["AVA",["PL","PL"]],["MED",["MC","MC","MC"]],["DEF",["DE","DC","DC","DC","DD"]],["GR",["GR"]]]
 };
-const POSL={GR:"guarda-redes",DEF:"defesa",MED:"médio",AVA:"avançado"};
+const POSL={GR:"guarda-redes",DEF:"defesa",MED:"médio",AVA:"avançado",SUP:"suplente (qualquer posição)"};
+const RD=14,NBENCH=3;
 const DBN=new Map(DB.map(p=>[p.n,p]));
-function buildSlots(f){const s=[];ROWS[f].forEach((r,ri)=>r[1].forEach(l=>s.push({pos:r[0],label:l,row:ri,pl:null})));return s}
-function needs(t){const n={GR:0,DEF:0,MED:0,AVA:0};G.teams[t].slots.forEach(s=>{if(!s.pl)n[s.pos]++});return n}
+function buildSlots(f){const s=[];ROWS[f].forEach((r,ri)=>r[1].forEach(l=>s.push({pos:r[0],label:l,row:ri,pl:null})));for(let i=0;i<NBENCH;i++)s.push({pos:"SUP",label:"SUP",row:-1,pl:null});return s}
+function needs(t){const n={GR:0,DEF:0,MED:0,AVA:0,SUP:0};G.teams[t].slots.forEach(s=>{if(!s.pl)n[s.pos]++});return n}
 /* extremos (esquerdo/direito) podem jogar também a médio esquerdo ou direito */
 const WIDE=new Set(["ME","MD"]);
-const fitsPos=(p,pos,label)=>p.p===pos||(!!p.w&&pos==="MED"&&WIDE.has(label));
+const fitsPos=(p,pos,label)=>pos==="SUP"||p.p===pos||(!!p.w&&pos==="MED"&&WIDE.has(label));
 const fitsSlot=(p,s)=>fitsPos(p,s.pos,s.label);
 function eligible(t,rule,pos,label){const n=needs(t),wide=G.teams[t].slots.some(s=>!s.pl&&s.pos==="MED"&&WIDE.has(s.label));
-  return DB.filter(p=>!G.taken.has(p.n)&&(pos?fitsPos(p,pos,label):(n[p.p]>0||(p.w&&wide)))&&rule.t(p))}
+  return DB.filter(p=>!G.taken.has(p.n)&&(pos?fitsPos(p,pos,label):(n[p.p]>0||n.SUP>0||(p.w&&wide)))&&rule.t(p))}
 function chooseRule(){
   const cats=shuffle(RCATS.filter(c=>c!==G.lastCat)),pool=RULES.filter(r=>!G.used.has(r.l));
   const cands=cats.flatMap(c=>shuffle(pool.filter(r=>r.cat===c)));
@@ -8726,12 +8767,12 @@ function chooseRule(){
   return FREE;
 }
 const orderOf=round=>{const o=[...Array(G.n).keys()];return round%2?o.reverse():o};
-function youthFor(t,pos){const c=G.teams[t].picks.filter(x=>x.youth).length;return{n:"Júnior da formação"+(c?" "+(c+1):""),p:pos,c:"Portugal",r:64,cl:[],youth:true}}
+function youthFor(t,pos){const T=G.teams[t],c=T.picks.concat(T.bench||[]).filter(x=>x.youth).length;return{n:"Júnior da formação"+(c?" "+(c+1):""),p:pos==="SUP"?"MED":pos,c:"Portugal",r:64,cl:[],youth:true}}
 function replay(){
-  G.teams=G.cfg.map(c=>({coach:c.coach,form:c.form,slots:c.form?buildSlots(c.form):[],picks:[]}));
+  G.teams=G.cfg.map(c=>({coach:c.coach,form:c.form,slots:c.form?buildSlots(c.form):[],picks:[],bench:[]}));
   G.taken=new Set();G.used=new Set();G.rules=[];G.lastEv=null;G.lastCat=null;
   for(let i=0;;i++){
-    const round=Math.floor(i/G.n),k=i%G.n;if(round>=11){G.cur={i,done:true};return}
+    const round=Math.floor(i/G.n),k=i%G.n;if(round>=RD){G.cur={i,done:true};return}
     if(k===0){const r=withRng(seeded(G.seed+":r"+round),chooseRule);G.used.add(r.l);G.rules[round]=r;G.lastCat=r.cat}
     const pk=orderOf(round)[k];let rule=G.rules[round];
     if(k>0&&!eligible(pk,rule).length)rule=FREE;
@@ -8742,7 +8783,7 @@ function replay(){
     const p=ev.y?youthFor(pk,s.pos):(DBN.get(ev.n)||youthFor(pk,s.pos));
     let best=null;if(G.picks.length-1===i){const e=eligible(pk,rule,s.pos,s.label);best=e.reduce((m,x)=>!m||x.r>m.r?x:m,null)}
     const mates=G.teams[pk].picks.filter(x=>!x.youth&&!p.youth&&x.cl.some(c=>p.cl.includes(c))).map(x=>({x,c:x.cl.find(c=>p.cl.includes(c))}));
-    s.pl=p;G.teams[pk].picks.push(p);if(!p.youth)G.taken.add(p.n);
+    s.pl=p;if(s.pos==="SUP")G.teams[pk].bench.push(p);else G.teams[pk].picks.push(p);if(!p.youth)G.taken.add(p.n);
     G.lastEv={i,t:pk,p,label:s.label,best,mates,rule:rule.l};
   }
 }
@@ -8762,7 +8803,8 @@ function botPick(){
   G.botAt=G.cur.i;const t=G.cur.picker,lv=G.bots[t],T=G.teams[t];
   const ch=withRng(seeded(G.seed+":bp"+G.cur.i),()=>{
     const opts=[];T.slots.forEach((s,i)=>{if(s.pl)return;eligible(t,G.cur.rule,s.pos,s.label).forEach(p=>opts.push({i,p}))});
-    if(!opts.length||(lv===1&&Math.random()<.08))return{i:T.slots.findIndex(s=>!s.pl),p:null};
+    const xi=opts.filter(o=>T.slots[o.i].pos!=="SUP");if(xi.length&&xi.some(o=>o.p.r>=70))opts.splice(0,opts.length,...xi);
+    if(!opts.length||(lv===1&&Math.random()<.08)){const fr=T.slots.findIndex(s=>!s.pl&&s.pos==="SUP");return{i:fr>=0?fr:T.slots.findIndex(s=>!s.pl),p:null}}
     opts.sort((a,b)=>b.p.r-a.p.r);
     let ch;
     if(lv===3)ch=Math.random()<.85?opts[0]:opts[Math.min(opts.length-1,1+rand(3))];
@@ -8776,7 +8818,9 @@ function botCap(t){const T=G.teams[t];let bi=0,br=-1;T.slots.forEach((s,i)=>{if(
 function botDecide(stop,side,k){
   const opts=optsFor(stop,side).map(o=>o[0]),lv=G.bots[stop.kind==="ht"?LIVE.ci[side]:LIVE.ci[side]]||2,d=decGet(),me=side,op=1-side;
   return withRng(seeded(LIVE.key+":bd"+k+":"+side),()=>{
-    if(stop.kind==="ht"){const st=LIVE.st,diff=st.goals[me]-st.goals[op];if(lv===1)return opts[rand(opts.length)];return diff<0?"att":diff>0?"def":(Math.random()<.5?"keep":"att")}
+    if(stop.kind==="ht"){const st=LIVE.st,diff=st.goals[me]-st.goals[op];
+      if(lv>=2&&d[me]["f"+k]==null){const cur=st.T[me].form,tryF=diff<0?["4-3-3","3-4-3"]:diff>1?["5-3-2"]:[];const nf=tryF.find(f=>f!==cur&&oopList(reform(st.T[me],f)).length<=(lv===3?0:1));if(nf)d[me]["f"+k]=nf}
+      if(lv===1)return opts[rand(opts.length)];return diff<0?"att":diff>0?"def":(Math.random()<.5?"keep":"att")}
     if(lv===1)return opts[rand(opts.length)];
     /* lembra-se do que o adversário fez nos momentos anteriores do mesmo tipo e evita repetir-se */
     const past=[],mine=[];LIVE.plan.forEach((s,j)=>{if(j<k&&s.kind==="mom"&&s.type===stop.type){const sideOp=s.t===stop.t?op:me;if(d[op][j])past.push(d[op][j]);if(d[me][j])mine.push(d[me][j])}});
@@ -8821,6 +8865,12 @@ function drawPitch(box,t,o={}){
     pitch.append(row);
   });
   box.append(pitch);
+  const bs=T.slots.map((s,i)=>[s,i]).filter(([s])=>s.pos==="SUP");
+  if(bs.length&&!o.noBench){box.classList.add("hasBench");const bw=el("div","bench");bw.style.setProperty("--c",COL[t]);bw.append(el("span","lbl","Banco"));
+    bs.forEach(([s,i])=>{const b=el(o.onTap?"button":"div","slot bslot "+(s.pl?"full":"empty")+(s.pl&&s.pl.youth?" youth":"")+(G.sel===i&&o.onTap?" sel":""));
+      b.append(el("span","disc","SUP"));if(s.pl){b.append(el("span","nm2",short(s.pl)));if(!o.noR)b.append(el("span","rt2",s.pl.youth?64:s.pl.r))}
+      if(o.onTap){if(s.pl)b.disabled=true;else b.onclick=()=>o.onTap(i)}bw.append(b)});
+    box.append(bw)}
 }
 function draftScreen(){
   if($("sDraft").hidden)document.body.classList.remove("picking");
@@ -8831,7 +8881,7 @@ function draftScreen(){
 function drawDraft(){
   const pk=picker(),act=canAct(),mine=G.mode==="online"?G.me:isBot(pk)?humanSeat():pk;
   const t=G.peekT==null?mine:G.peekT;
-  $("dRound").textContent=`Ronda ${G.cur.round+1} de 11`+(G.n>2?` · escolha ${G.cur.k+1} de ${G.n}`:"");
+  $("dRound").textContent=`Ronda ${G.cur.round+1} de ${RD}`+(G.n>2?` · escolha ${G.cur.k+1} de ${G.n}`:"");
   const w=$("dWho");w.innerHTML="";w.style.setProperty("--c",COL[pk]);
   w.append(el("span","dot"),el("span",null,act&&G.mode==="online"?"É a tua vez":"Vez de "+G.names[pk]));
   $("dRule").textContent=G.cur.rule.l;
@@ -9151,7 +9201,7 @@ function pushPresence(){
   if(ROOM)ROOM.presence(myPresence()).catch(()=>{});
 }
 function mergePicks(){
-  const a=[],N=11*G.n;if(G.me!=null)G.mine.forEach(e=>{a[e.o]={...e,t:G.me}});
+  const a=[],N=RD*G.n;if(G.me!=null)G.mine.forEach(e=>{a[e.o]={...e,t:G.me}});
   Object.entries(PEERS).forEach(([s,pr])=>((pr&&pr.picks)||[]).forEach(e=>{if(typeof e.o==="number"&&e.o>=0&&e.o<N&&!a[e.o])a[e.o]={o:e.o,s:+e.s,n:typeof e.n==="string"?e.n:null,y:!!e.y,t:+s}}));
   G.picks=a;
 }
@@ -9188,7 +9238,7 @@ function onPeers(ch){
     G.caps[s]=Number.isInteger(pr.cap)&&pr.cap>=0&&pr.cap<11?pr.cap:null;
     if(pr.dec&&typeof pr.dec.k==="string"&&pr.dec.k.length<12&&pr.dec.d&&typeof pr.dec.d==="object"){const side=sideIn(pr.dec.k,s);
       if(side!=null){const D=(G.dec[pr.dec.k]=G.dec[pr.dec.k]||[{},{}]);
-        Object.entries(pr.dec.d).forEach(([k,v])=>{if(/^t?\d{1,2}$/.test(k)&&typeof v==="string"&&v.length<=4&&D[side][k]==null)D[side][k]=v})}}
+        Object.entries(pr.dec.d).forEach(([k,v])=>{if(/^[tf]?\d{1,2}$/.test(k)&&typeof v==="string"&&v.length<=16&&/^[A-Za-z0-9:,\-]+$/.test(v)&&D[side][k]==null)D[side][k]=v})}}
     if(pr.res&&typeof pr.res==="object")Object.entries(pr.res).forEach(([k,v])=>{if(/^t\d\.\d$/.test(k)&&!G.res[k]&&v&&Array.isArray(v.g)&&Number.isInteger(v.w))G.res[k]={g:v.g.map(Number),p:Array.isArray(v.p)?v.p.map(Number):null,w:v.w}});
   });
   if(G.me==null){lobby();return}
@@ -9208,11 +9258,16 @@ function leaveOnline(){
 function tourRounds(){
   const n=G.n,order=withRng(seeded(G.seed+":draw"),()=>shuffle([...Array(n).keys()])),R=[[]];
   for(let i=0;i<order.length;i+=2)R[0].push({a:order[i],b:order[i+1],key:"t0."+(i/2)});
-  for(let ri=0;;ri++){const r=R[ri];r.forEach(mt=>mt.res=G.res&&G.res[mt.key]||null);
+  for(let ri=0;ri<R.length;ri++){const r=R[ri];r.forEach(mt=>mt.res=G.res&&G.res[mt.key]||null);
+    if(R.length>ri+1)continue;
     if(r.length===1||!r.every(mt=>mt.res))break;
+    if(r.length===2){R.push([{a:loserOf(r[0]),b:loserOf(r[1]),key:`t${ri+1}.0`,third:true}],[{a:r[0].res.w,b:r[1].res.w,key:`t${ri+2}.0`}]);continue}
     const nr=[];for(let i=0;i<r.length;i+=2)nr.push({a:r[i].res.w,b:r[i+1].res.w,key:`t${ri+1}.${i/2}`});R.push(nr)}
   return R;
 }
+const loserOf=mt=>mt.res.w===mt.a?mt.b:mt.a;
+const roundName=r=>r[0]&&r[0].third?"Jogo do 3.º lugar":RNAME(r.length*2);
+function podium(R){const fin=R[R.length-1][0],th=R.find(r=>r[0]&&r[0].third);if(!fin||!fin.res)return"";const out=[`2.º ${G.names[loserOf(fin)]}`];if(th&&th[0].res)out.push(`3.º ${G.names[th[0].res.w]}`);return out.join(" · ")}
 function tourMatchByKey(k){for(const r of tourRounds())for(const mt of r)if(mt.key===k)return mt;return null}
 function myTourMatch(){for(const r of tourRounds())for(const mt of r)if(!mt.res&&(mt.a===G.me||mt.b===G.me))return mt;return null}
 function startTourOnlineMatch(mt){
@@ -9220,13 +9275,13 @@ function startTourOnlineMatch(mt){
   const ri=+mt.key[1];
   startMatch({a:mt.a,b:mt.b,key:G.seed+":"+mt.key,dk:mt.key,mySide:mt.a===G.me?0:1,onDone:R=>{
     G.res=G.res||{};G.res[mt.key]={g:R.goals,p:R.pens,w:R.w===0?mt.a:mt.b};G.playing=null;pushPresence();
-    const fin=tourRounds().slice(-1)[0];if(fin.length===1&&fin[0].res)saveChamp(G.names[fin[0].res.w]);
+    const fin=tourRounds().slice(-1)[0];if(fin.length===1&&!fin[0].third&&fin[0].key===mt.key&&fin[0].res)saveChamp(G.names[fin[0].res.w]);
   }});
 }
 function bracketOnline(){
   const R=tourRounds(),box=$("brBox");box.innerHTML="";
   R.forEach(r=>{
-    const sec=el("div","brRound");sec.append(el("span","lbl",RNAME(r.length*2)));
+    const sec=el("div","brRound"+(r[0]&&r[0].third?" third":""));sec.append(el("span","lbl",roundName(r)));
     r.forEach(mt=>{const c=el("div","brMatch");
       const live=!mt.res&&Object.values(PEERS).some(p=>p.play===mt.key);
       [mt.a,mt.b].forEach((t,j)=>{const row=el("div","brTeam"+(mt.res&&mt.res.w===t?" win":mt.res?" lose":""));const d=el("span","dot");d.style.setProperty("--c",COL[t]);
@@ -9234,7 +9289,8 @@ function bracketOnline(){
       sec.append(c)});
     box.append(sec);
   });
-  const fin=R[R.length-1],champ=fin.length===1&&fin[0].res?fin[0].res.w:null,mine=myTourMatch();
+  const fin=R[R.length-1],champ=fin.length===1&&!fin[0].third&&fin[0].res?fin[0].res.w:null,mine=myTourMatch();
+  $("brPod").textContent=champ!=null?podium(R):"";$("brPod").hidden=champ==null;
   $("brNew").hidden=true;
   if(champ!=null){$("brTitle").textContent=`🏆 ${G.names[champ]} ganha o torneio!`;$("brTitle").style.color=COL[champ];$("brPlay").hidden=true;$("brNew").hidden=false;if(!G.confettiDone){G.confettiDone=1;confetti()}}
   else{$("brTitle").textContent="Quadro do torneio";$("brTitle").style.color="";
@@ -9279,7 +9335,7 @@ const RNAME=n=>n===2?"Final":n===4?"Meias-finais":"Quartos de final";
 function bracket(){
   const T=G.tour,box=$("brBox");box.innerHTML="";
   T.rounds.forEach(r=>{
-    const sec=el("div","brRound");sec.append(el("span","lbl",RNAME(r.length*2)));
+    const sec=el("div","brRound"+(r[0]&&r[0].third?" third":""));sec.append(el("span","lbl",roundName(r)));
     r.forEach(mt=>{const c=el("div","brMatch");
       [mt.a,mt.b].forEach((t,j)=>{const row=el("div","brTeam"+(mt.res&&mt.res.w===t?" win":mt.res?" lose":""));const d=el("span","dot");d.style.setProperty("--c",COL[t]);
         row.append(d,el("span","bn",G.names[t]),el("b",null,mt.res?String(mt.res.g[j])+(mt.res.p?` (${mt.res.p[j]})`:""):""));c.append(row)});
@@ -9287,6 +9343,7 @@ function bracket(){
     box.append(sec);
   });
   const next=nextTourMatch();
+  $("brPod").textContent=T.champ!=null?podium(T.rounds):"";$("brPod").hidden=T.champ==null;
   if(T.champ!=null){$("brTitle").textContent=`🏆 ${G.names[T.champ]} ganha o torneio!`;$("brTitle").style.color=COL[T.champ];$("brPlay").hidden=true;$("brNew").hidden=false;confetti()}
   else{$("brTitle").textContent="Quadro do torneio";$("brTitle").style.color="";$("brPlay").hidden=false;$("brNew").hidden=true;
     $("brPlay").textContent=`Jogar: ${G.names[next.a]} x ${G.names[next.b]}`}
@@ -9297,16 +9354,30 @@ $("brPlay").onclick=()=>{if(isTourOnline()){const mt=myTourMatch();if(mt)startTo
   startMatch({a:mt.a,b:mt.b,key:G.seed+":t"+ri+"."+mi,auto:isBot(mt.a)&&isBot(mt.b),onDone:R=>{
     mt.res={g:R.goals,p:R.pens,w:R.w===0?mt.a:mt.b};
     const r=G.tour.rounds[ri];
-    if(r.every(x=>x.res)){if(r.length===1){G.tour.champ=mt.res.w;saveChamp(G.names[mt.res.w])}
+    if(r.every(x=>x.res)){if(mt.third){}
+      else if(r.length===1){G.tour.champ=mt.res.w;saveChamp(G.names[mt.res.w])}
+      else if(r.length===2){G.tour.rounds.push([{a:loserOf(r[0]),b:loserOf(r[1]),res:null,third:true}],[{a:r[0].res.w,b:r[1].res.w,res:null}])}
       else{const nr=[];for(let i=0;i<r.length;i+=2)nr.push({a:r[i].res.w,b:r[i+1].res.w,res:null});G.tour.rounds.push(nr)}}
   },back:"Voltar ao quadro"})};
 $("brNew").onclick=()=>{if(G&&G.mode==="online"){leaveOnline();return}G=null;show("sStart")};
 
 /* ---- força das equipas ---- */
+const OOP=7;
+/* nova formação: cada jogador do onze vai para o lugar mais parecido; quem sobra joga fora de posição */
+function reform(T0,f){
+  const old=T0.slots.filter(s=>s.pos!=="SUP"&&s.pl),bench=T0.slots.filter(s=>s.pos==="SUP").map(s=>({...s}));
+  const ns=buildSlots(f).filter(s=>s.pos!=="SUP"),left=new Set(old.map(s=>s.pl)),put=(s,p)=>{s.pl=p;left.delete(p)};
+  ns.forEach(s=>{const o=old.find(x=>left.has(x.pl)&&x.pos===s.pos&&x.label===s.label);if(o)put(s,o.pl)});
+  ns.forEach(s=>{if(s.pl)return;const o=old.find(x=>left.has(x.pl)&&x.pos===s.pos&&fitsSlot(x.pl,s));if(o)put(s,o.pl)});
+  ns.forEach(s=>{if(s.pl)return;const p=[...left].find(p=>fitsSlot(p,s));if(p)put(s,p)});
+  ns.forEach(s=>{if(s.pl)return;const L=[...left].filter(p=>p.p!=="GR"||s.pos==="GR");const p=L[0]||[...left][0];if(p)put(s,p)});
+  return{...T0,form:f,slots:[...ns,...bench]};
+}
+const oopList=T=>T.slots.filter(s=>s.pos!=="SUP"&&s.pl&&!fitsSlot(s.pl,s)).map(s=>`${lastName(s.pl.n)} (${s.label})`);
 function strength(T){
   const tc=TACT[T.coach.t],ps=T.picks;
   const val=p=>p.r+(tc.star&&p.r>=90?tc.star:0)+(p===T.cap?4:0);
-  const avg=pos=>{let a=(T.slots||[]).filter(s=>s.pl&&s.pos===pos).map(s=>s.pl);if(!a.length)a=ps.filter(p=>p.p===pos);return a.reduce((s,p)=>s+val(p),0)/Math.max(1,a.length)};
+  const avg=pos=>{let a=(T.slots||[]).filter(s=>s.pl&&s.pos===pos).map(s=>val(s.pl)-(fitsSlot(s.pl,s)?0:OOP));if(!a.length)a=ps.filter(p=>p.p===pos).map(val);return a.reduce((s,v)=>s+v,0)/Math.max(1,a.length)};
   const F=FORMS[T.form];
   let S={gk:avg("GR"),def:avg("DEF")+(F.DEF-4)*1.5,mid:avg("MED")+(F.MED-4)*1.5,att:avg("AVA")+(F.AVA-2)*1.5};
   const ci=chemInfo(T),chem=ci.pct*4*(tc.chem||1);S.chemSum=ci.sum;
@@ -10124,8 +10195,8 @@ function makePlan(st,key){
       stops.push({m,kind:"mom",type,t,sh:type==="co"?hd:sh,gk,fw,tk,df});
       t=o;
     });
-    stops.push({m:45,kind:"ht"},{m:90,kind:"end"});
-    return stops.sort((a,b)=>a.m-b.m||(a.kind==="mom"?-1:1));
+    stops.push({m:45,kind:"ht"},{m:45,kind:"sub",ht:true},{m:60,kind:"sub"},{m:90,kind:"end"});
+    return stops.sort((a,b)=>a.m-b.m||((a.kind==="sub")-(b.kind==="sub"))||(a.kind==="mom"?-1:1));
   });
 }
 function decGet(){return G.mode==="online"&&LIVE.dk?(G.dec[LIVE.dk]=G.dec[LIVE.dk]||[{},{}]):LIVE.dec}
@@ -10188,12 +10259,55 @@ $("toResult").onclick=result;
 function reachStop(){
   const stop=LIVE.plan[LIVE.si];$("skip").hidden=true;
   if(stop.kind==="ht"){whistle(2);$("clock").textContent="Intervalo"}
+  else if(stop.kind==="sub"&&stop.ht){$("clock").textContent="Intervalo"}
   else{$("clock").textContent=stop.so?`Penáltis ${LIVE.pk.g.join("–")}`:stop.m+"'";whistle(1)}
   LIVE.waiting=LIVE.si;LIVE.localStep=0;
   if(stop.kind==="mom"){const S=momentPlay(stop,LIVE.si);LIVE.momS=S;LIVE.leadRunning=true;S.onFreeze=()=>{LIVE.leadRunning=false;drawDecision()};runS(S,null);if(S.frozen&&LIVE.leadRunning){LIVE.leadRunning=false;drawDecision()}return}
   drawDecision();
 }
-function sidesFor(stop){return stop.kind==="ht"?[0,1]:[stop.t,1-stop.t]}
+function sidesFor(stop){return stop.kind==="ht"||stop.kind==="sub"?[0,1]:[stop.t,1-stop.t]}
+/* substituições: valor guardado como "b:s,b:s" (lugar no banco : lugar no campo) ou "-" */
+function subPairs(v){if(!v||v==="-")return[];return v.split(",").map(x=>x.split(":").map(Number)).filter(a=>a.length===2&&a.every(Number.isInteger))}
+function liveTeam(j){return LIVE.st.T[j]}
+function benchOf(j){const T=liveTeam(j);return T.slots.filter(s=>s.pos==="SUP").map(s=>s.pl)}
+const MAXSUB=3;
+const subsLeft=j=>MAXSUB-(liveTeam(j).nsub||0);
+const benchFree=j=>liveTeam(j).slots.filter(s=>s.pos==="SUP"&&s.pl&&!s.out).length;
+const canSub=j=>subsLeft(j)>0&&benchFree(j)>0;
+function botSubs(j){const T=liveTeam(j),B=T.slots.map((s,i)=>[s,i]).filter(([s])=>s.pos==="SUP"&&s.pl),XI=T.slots.map((s,i)=>[s,i]).filter(([s])=>s.pos!=="SUP"&&s.pl);const out=[],usedX=new Set();
+  const lim=subsLeft(j);B.forEach(([b,bi],k)=>{if(b.out||out.length>=lim)return;let best=null;XI.forEach(([s,si])=>{if(usedX.has(si)||s.pos==="GR"&&b.pl.p!=="GR")return;const fit=fitsSlot(b.pl,s)?0:6,gain=b.pl.r-fit-s.pl.r;if(gain>1&&(!best||gain>best.g))best={si,g:gain}});
+    if(best&&(LIVE.plan[LIVE.waiting]||{}).ht&&best.g<4)best=null;if(best){usedX.add(best.si);out.push(k+":"+best.si)}});return out.join(",")||"-"}
+function drawSubs(k){
+  const stop=LIVE.plan[k],st=LIVE.st,d=decGet(),box=$("momRows");box.innerHTML="";
+  $("momTitle").textContent=stop.ht?"Intervalo · Substituições":`${stop.m}' · Substituições`;$("momSub").textContent="Até 3 trocas no jogo todo (intervalo e 60'). Quem sai já não volta. Toca num suplente e depois no jogador que sai.";$("momKeep").hidden=true;$("momResult").hidden=true;
+  [0,1].forEach(x=>{if(!d[x][k]&&!canSub(x))d[x][k]="-"});
+  if([0,1].every(x=>d[x][k]==="-")&&!(LIVE.subShown===k)){LIVE.subShown=k;resolveStop(k);return}
+  let visible;
+  if(G.mode==="online")visible=LIVE.mySide!=null?[LIVE.mySide]:[];
+  else{[0,1].forEach(x=>{if(isBot(LIVE.ci[x])&&!d[x][k])d[x][k]=botSubs(x)});const s=[0,1].find(x=>!d[x][k]);visible=s==null?[]:[s];
+    const solo=[0,1].filter(x=>!isBot(LIVE.ci[x])).length<=1;
+    if(s!=null&&!LIVE.passOk&&!solo){const row=el("div","htRow");row.append(el("p",null,`Passa o telemóvel a ${st.N[s]}.`));
+      const b=el("button","btn");b.textContent=`Sou ${st.N[s]}, mostrar`;b.onclick=()=>{LIVE.passOk=true;drawSubs(k)};row.append(b);box.append(row);$("momBox").hidden=false;return}}
+  [0,1].forEach(side=>{
+    const row=el("div","htRow"),mine=visible.includes(side);
+    const nm=el("div","who");nm.style.setProperty("--c",COL[st.ci[side]]);nm.style.fontSize="1.15rem";nm.append(el("span","dot"),el("span",null,st.N[side]));row.append(nm);
+    if(!mine||d[side][k]){row.append(el("span","muted",d[side][k]?(mine?(subPairs(d[side][k]).length?`Fazes ${subPairs(d[side][k]).length} substituição(ões).`:canSub(side)?"Sem substituições.":"Já não tens trocas."):"Já decidiu."):"A decidir…"));box.append(row);return}
+    const left=subsLeft(side);row.append(el("span","lbl",`Trocas disponíveis: ${left}`));
+    const T=liveTeam(side),sel=LIVE.subSel=LIVE.subSel||{b:null,pairs:[]};
+    const bench=el("div","chips subchips");T.slots.forEach((s,i)=>{if(s.pos!=="SUP"||!s.pl||s.out)return;const bi=T.slots.filter((x,j)=>x.pos==="SUP"&&j<i).length,used=sel.pairs.some(p=>p[0]===bi)||sel.pairs.length>=left&&sel.b!==bi;
+      const b=el("button","chip");b.append(`⬆ ${lastName(s.pl.n)} `,el("small",null,s.pl.p+" "+s.pl.r));b.setAttribute("aria-pressed",sel.b===bi);b.disabled=used;b.onclick=()=>{sel.b=bi;drawSubs(k)};bench.append(b)});
+    row.append(el("span","lbl","Banco"),bench);
+    if(sel.b!=null){const xi=el("div","chips subchips");T.slots.forEach((s,i)=>{if(s.pos==="SUP"||!s.pl)return;const used=sel.pairs.some(p=>p[1]===i);
+      const b=el("button","chip");b.append(`⬇ ${lastName(s.pl.n)} `,el("small",null,s.label+" "+s.pl.r));b.disabled=used;b.onclick=()=>{sel.pairs.push([sel.b,i]);sel.b=null;drawSubs(k)};xi.append(b)});
+      row.append(el("span","lbl","Quem sai?"),xi)}
+    if(sel.pairs.length){const L=el("div","muted");L.textContent="Trocas: "+sel.pairs.map(([b,i])=>`${lastName(benchOf(side)[b].n)} por ${lastName(T.slots[i].pl.n)}`).join(" · ");row.append(L);
+      const u=el("button","linkbtn","Desfazer");u.onclick=()=>{sel.pairs.pop();drawSubs(k)};row.append(u)}
+    const ok=el("button","btn");ok.textContent=sel.pairs.length?`Confirmar ${sel.pairs.length} troca${sel.pairs.length>1?"s":""}`:"Sem trocas";
+    ok.onclick=()=>{d[side][k]=sel.pairs.map(p=>p.join(":")).join(",")||"-";LIVE.subSel=null;LIVE.passOk=false;if(G.mode==="online")pushPresence();drawSubs(k)};row.append(ok);
+    box.append(row)});
+  $("momBox").hidden=false;
+  if([0,1].every(x=>d[x][k]))resolveStop(k);
+}
 function optsFor(stop,side){
   if(stop.kind==="ht")return Object.entries(HTC).map(([k,v])=>[k,v.l]);
   const M=MOM[stop.type],att=side===stop.t;let o=att?M.a:M.d;
@@ -10207,9 +10321,10 @@ function takerOpts(stop){const st=LIVE.st,L=[...field(st.T[stop.t])].sort((a,b)=
 function takerOf(stop,d,k){const v=d[stop.t]["t"+k];if(v==null)return null;const L=takerOpts(stop);return L[+v]||null}
 function drawDecision(){
   const k=LIVE.waiting;if(k==null||LIVE.leadRunning)return;
+  if(LIVE.plan[k].kind==="sub")return drawSubs(k);
   const stop=LIVE.plan[k],st=LIVE.st,d=decGet(),box=$("momRows");box.innerHTML="";
   const ttl=$("momTitle"),sub=$("momSub");$("momResult").textContent="";$("momResult").hidden=true;
-  if(stop.kind==="ht"){ttl.textContent="Intervalo · o que muda para a 2.ª parte?";sub.textContent="Cada um escolhe às escondidas. Atacar: mais ocasiões, mas deixa espaço atrás. Fechar: segura o resultado, mas cria menos.";$("momKeep").hidden=true}
+  if(stop.kind==="ht"){ttl.textContent="Intervalo · o que muda para a 2.ª parte?";sub.textContent="Cada um escolhe às escondidas. Podes mudar a formação e a atitude. Atacar: mais ocasiões, mas deixa espaço atrás. Fechar: segura o resultado, mas cria menos.";$("momKeep").hidden=true}
   else{
     const N=st.N[stop.t];$("momKeep").hidden=true;
     if(stop.so){const P=LIVE.pk;ttl.textContent=`Penáltis · ${P.g[0]}–${P.g[1]} · ${Math.floor(P.n/2)+1}.º de ${N}`;sub.textContent=`${N} escolhe quem bate. ${stop.gk.n} está na baliza. Cada um escolhe às escondidas.`}
@@ -10235,8 +10350,14 @@ function drawDecision(){
       takerOpts(stop).forEach((p,i)=>{const b=el("button","chip");b.append(lastName(p.n)+" ",el("small",null,String(p.r)));b.onclick=()=>{d[side]["t"+k]=String(i);if(G.mode==="online")pushPresence();drawDecision()};ch.append(b)});
       row.append(ch);box.append(row);$("momBox").hidden=false;return}
     if(mine&&side===stop.t&&needsTaker(stop)&&!d[side][k]){const tk=takerOf(stop,d,k);if(tk)row.lastChild.textContent=`${lastName(tk.n)} vai bater. ${MOM[stop.type].qa}`}
+    if(mine&&!d[side][k]&&stop.kind==="ht"){const T=st.T[side],cur=LIVE.formSel&&LIVE.formSel[side]||T.form;
+      const fc=el("div","chips fchips");Object.keys(FORMS).forEach(f=>{const b=el("button","chip");b.append(f+(f===T.coach.f?" ★":""));b.setAttribute("aria-pressed",f===cur);
+        b.onclick=()=>{LIVE.formSel=LIVE.formSel||{};LIVE.formSel[side]=f;drawDecision()};fc.append(b)});
+      row.append(el("span","lbl","Formação"+(cur!==T.form?` · muda de ${T.form} para ${cur}`:"")),fc);
+      if(cur!==T.form){const oo=oopList(reform(T,cur));row.append(el("span","muted",oo.length?`Fora de posição (rendem menos): ${oo.join(", ")}`:"Todos ficam nas suas posições."))}
+      row.append(el("span","lbl","Atitude"))}
     if(mine&&!d[side][k])optsFor(stop,side).forEach(([v,l])=>{const b=el("button","chip");b.append(l);b.setAttribute("aria-pressed",d[side][k]===v);
-      b.onclick=()=>{d[side][k]=v;LIVE.passOk=false;if(G.mode==="online")pushPresence();drawDecision()};ch.append(b)});
+      b.onclick=()=>{if(stop.kind==="ht"){const f=LIVE.formSel&&LIVE.formSel[side];if(f&&f!==st.T[side].form)d[side]["f"+k]=f}d[side][k]=v;LIVE.passOk=false;if(G.mode==="online")pushPresence();drawDecision()};ch.append(b)});
     else ch.append(el("span","muted",d[side][k]?(mine?"Escolheste: "+(optsFor(stop,side).find(o=>o[0]===d[side][k])||["",""])[1]:"Já decidiu (em segredo)."):"A decidir…"));
     row.append(ch);box.append(row);
   });
@@ -10247,12 +10368,27 @@ $("momKeep").onclick=()=>{const k=LIVE.waiting;if(k==null)return;const d=decGet(
 function resolveStop(k){
   if(LIVE.waiting!==k)return;LIVE.waiting=null;
   const stop=LIVE.plan[k],st=LIVE.st,d=decGet();
+  if(stop.kind==="sub"){
+    const rr=$("momResult");rr.innerHTML="";$("momRows").innerHTML="";
+    [0,1].forEach(j=>{const P=subPairs(d[j][k]);if(!P.length){rr.append(el("div","rv",`${st.N[j]}: sem trocas`));return}
+      const T0=st.T[j],T={...T0,slots:T0.slots.map(x=>({...x})),picks:[...T0.picks]};const B=T.slots.filter(x=>x.pos==="SUP");let n=T0.nsub||0;
+      const em=stop.ht?46:stop.m;
+      P.forEach(([b,i])=>{const inn=B[b]&&B[b].pl,sl=T.slots[i];if(n>=MAXSUB||!inn||B[b].out||!sl||!sl.pl||sl.pos==="SUP")return;const out=sl.pl;
+        sl.pl=inn;B[b].pl=out;B[b].out=true;n++;T.picks=T.picks.map(x=>x===out?inn:x);if(T.cap===out)T.cap=null;
+        st.ev.push({m:em,t:j,tx:`Substituição em ${st.N[j]}${stop.ht?" ao intervalo":""}: entra ${inn.n}, sai ${out.n}.`});rr.append(el("div","rv",`${st.N[j]}: ⬆ ${dn(inn.n)} · ⬇ ${dn(out.n)}`))});
+      T.nsub=n;st.T[j]=T;st.S[j]=strength(T)});
+    const none=[0,1].every(j=>!subPairs(d[j][k]).length);
+    rr.hidden=none;LIVE.si++;if(!stop.ht)flushTo(stop.m,false);
+    setTimeout(()=>{if(LIVE&&!LIVE.done&&LIVE.si===k+1&&LIVE.waiting==null){$("momBox").hidden=true;if(stop.ht)whistle(1);proceed()}},none?60:2200);return;
+  }
   if(stop.kind==="ht"){
     st.mods=[HTC[d[0][k]]||{},HTC[d[1][k]]||{}];
+    [0,1].forEach(t=>{const f=d[t]["f"+k];if(f&&FORMS[f]&&f!==st.T[t].form){const old=st.T[t].form;st.T[t]=reform(st.T[t],f);st.S[t]=strength(st.T[t]);st.ev.push({m:46,t,tx:`${st.T[t].coach.n} muda ${st.N[t]} de ${old} para ${f}.`})}});
+    LIVE.formSel=null;
     [0,1].forEach(t=>{const c=d[t][k];if(c&&c!=="keep")st.ev.push({m:46,t,tx:c==="att"?`${st.T[t].coach.n} manda ${st.N[t]} para a frente ao intervalo.`:`${st.T[t].coach.n} fecha ${st.N[t]} lá atrás.`})});
     $("momRows").innerHTML="";const rr=$("momResult");rr.innerHTML="";
-    [0,1].forEach(t=>rr.append(el("div","rt3",`${st.N[t]}: ${HTC[d[t][k]]?HTC[d[t][k]].l:"Manter"}`)));rr.hidden=false;
-    LIVE.si++;setTimeout(()=>{if(LIVE&&!LIVE.done&&LIVE.si===k+1&&LIVE.waiting==null){$("momBox").hidden=true;whistle(1);proceed()}},2400);return;
+    [0,1].forEach(t=>rr.append(el("div","rt3",`${st.N[t]}: ${HTC[d[t][k]]?HTC[d[t][k]].l:"Manter"}${d[t]["f"+k]?" · "+st.T[t].form:""}`)));rr.hidden=false;
+    LIVE.si++;setTimeout(()=>{if(LIVE&&!LIVE.done&&LIVE.si===k+1&&LIVE.waiting==null){$("momBox").hidden=true;proceed()}},2400);return;
   }
   if(needsTaker(stop)){const tk=takerOf(stop,d,k);if(tk){LIVE.plan[k]=stop.type==="fk"?{...stop,tk,sh:tk}:{...stop,sh:tk}}}
   return resolveStop2(k);
