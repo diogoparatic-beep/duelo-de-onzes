@@ -607,8 +607,8 @@ body.picking .askpage .list{padding-bottom:170px}
 <canvas id="fx" hidden style="position:fixed;inset:0;pointer-events:none;z-index:50;width:100%;height:100%"></canvas>
 
 <script>
-const CLUBS=["1.FC K'lautern", "1860 Munich", "A. Bucaramanga", "A. Klagenfurt", "AC Ajaccio", "AC Arles-Avignon", "AC Horsens", "AC Milan", "ACSM Poli Iasi", "AD Alcorcón", "ADO Den Haag", "AE Larisa", "AEK Athens", "AEK Larnaca", "AIK", "AJ Auxerre", "AOK Kerkyra", "APOEL Nicosia", "AS Livorno", "AS Nancy", "ASEC Mimosas", "AVS", "AZ Alkmaar", "Aalborg BK", "Aalesunds FK", "Aarhus GF", "Aberdeen FC", "Académica", "Académico Viseu", "Adana Demirspor", "Adanaspor", "Adelaide United", "Ajax", "Akhisarspor", "Akhmat Grozny", "Akron Tolyatti", "Al-Ahli", "Al-Ain", "Al-Arabi SC", "Al-Duhail SC", "Al-Ettifaq", "Al-Fateh", "Al-Fayha", "Al-Gharafa", "Al-Hazem", "Al-Hilal", "Al-Ittihad", "Al-Jazira", "Al-Khaleej", "Al-Kholood", "Al-Najma", "Al-Nasr", "Al-Nassr", "Al-Okhdood", "Al-Orobah", "Al-Qadsiah", "Al-Raed", "Al-Rayyan", "Al-Riyadh", "Al-Sadd", "Al-Shabab", "Al-Taawoun", "Al-Wasl", "Al-Wehda", "Alania", "Alanyaspor", "Alavés", "Albacete", "Albirex Niigata", "Aldosivi", "Alianza FC", "Almere City", "Almería", "Altay SK", "Alverca", "Amiens SC", "Amkar Perm", "América", "América-MG", "América-RN", "Anderlecht", "Angers SCO", "Ankaragücü", "Anorthosis", "Antalyaspor", "Anzhi", "Anápolis", "Apol. Limassol", "Apollon Smyrnis", "Argentinos Jrs.", "Aris Saloniki", "Arm. Bielefeld", "Arouca", "Arsenal", "Arsenal Kyiv", "Arsenal Sarandí", "Arsenal Tula", "Ascoli", "Asteras Tripoli", "Aston Villa", "Atalanta", "Athletic Bilbao", "Athletico-PR", "Atl. Levante", "Atl. Madrileño", "Atl. Malagueño", "Atl. Nacional", "Atl. Tucumán", "Atlanta", "Atlas", "Atlético de Madrid", "Atlético-GO", "Atlético-MG", "Atromitos", "Auckland FC", "Augsburg", "Austin", "Austria Vienna", "Avellino", "Avispa Fukuoka", "B SAD", "BB Erzurumspor", "BJ Guoan", "Balikesirspor", "Baltika", "Banfield", "Banik Ostrava", "Barcelona", "Bari", "Barnsley", "Barracas C.", "Basaksehir", "Basel", "Bayern", "Beerschot AC", "Beerschot VA", "Beira-Mar", "Belenenses", "Belgrano", "Benevento", "Benfica", "Besiktas", "Betis", "Betis Deportivo", "Bilbao Athletic", "Birmingham", "Blackburn", "Blackpool", "Blau Weiss Linz", "Boavista", "Boca Juniors", "Bodrum FK", "Bodø/Glimt", "Bohemians 1905", "Bologna", "Bolton", "Bordéus", "Borussia Dortmund", "Borussia M'gladbach", "Botafogo", "Bournemouth", "Boyacá Chicó", "Bradford", "Braga", "Brentford", "Brescia", "Brighton", "Brisbane Roar", "Bristol City", "Bristol Rovers", "Brommapojkarna", "Bryne", "Bröndby IF", "Bucheon FC", "Burgos CF", "Burnley", "Bursaspor", "Burton Albion", "Bury", "C. Budejovice", "C. Rizespor", "CA Osasuna Yout", "CA Talleres", "CD América", "CD Basconia", "CD Cruz Azul", "CD Leganés", "CD Lugo", "CD Mirandés", "CD Tenerife", "CF Fuenlabrada", "CFR Cluj", "CRB", "CS Sedan", "CSKA de Moscovo", "CSKA-Sofia", "Cagliari", "Cardiff", "Carlisle United", "Carpi", "Casa Pia", "Catania", "Ceará SC", "Celta", "Celtic", "Central Coast", "Central Córdoba", "Cercle Brugge", "Cerezo Osaka", "Cesena", "Chamois Niort", "Chapecoense", "Charlotte", "Charlton", "Chaves", "Chelsea", "Cheltenham", "Chicago", "Chievo", "Chivas", "Chornomorets", "Cincinnati", "Cittadella", "Clermont Foot", "Club Brugge", "Club NXT", "Club Tijuana", "Colo-Colo", "Colon", "Colorado", "Columbus", "Colónia", "Como", "Copenhagen", "Corinthians", "Coritiba FC", "Coventry", "Cracovia", "Cremonese", "Crewe Alexandra", "Criciúma", "Crotone", "Cruzeiro", "Crystal Palace", "Cukaricki", "Cádiz CF", "Córdoba CF", "D.C. United", "Daegu FC", "Daejeon Hana C.", "Dallas", "Damac FC", "Danubio FC", "De Graafschap", "Defensa", "Defensor SC", "Degerfors", "Denizlispor", "Dep. Aragón", "Deportes Tolima", "Deportivo Cali", "Deportivo Pasto", "Deportivo da Corunha", "Derby", "Desna", "Desportivo das Aves", "Dijon", "Dinamo Makhach.", "Djurgården", "Dnipro", "Doncaster", "Dukla Prague", "Dundee FC", "Dundee United", "Dynamo Dresden", "Dínamo de Kiev", "Dínamo de Moscovo", "Dínamo de Zagreb", "E. Braunschweig", "EC Bahia", "EC Vitória", "Eintracht Frankfurt", "Elazigspor", "Elche CF", "Elfsborg", "Empoli", "Envigado", "Epicentr", "Ergotelis", "Esbjerg fB", "Eskisehirspor", "Espanyol", "Estoril Praia", "Estrasburgo", "Estrela Vermelha", "Estrela da Amadora", "Estudiantes LP", "Estudiantes RC", "Estugarda", "Everton", "Excelsior", "Eyüpspor", "F. Düsseldorf", "FC Anyang", "FC Arges", "FC Botosani", "FC Buzau", "FC Cartagena", "FC Dinamo", "FC Dordrecht", "FC Emmen", "FC Fredericia", "FC Groningen", "FC Helsingør", "FC Hermannstadt", "FC Ingolstadt", "FC Istres", "FC Juárez", "FC Liefering", "FC Lorient", "FC Lugano", "FC Luzern", "FC Mariupol", "FC Metz", "FC Oleksandriya", "FC Porto", "FC Rapid 1923", "FC Seoul", "FC Sevastopol", "FC Sion", "FC Sochaux", "FC St. Gallen", "FC Thun", "FC Tokyo", "FC Twente", "FC Viitorul", "FC Volendam", "FC Winterthur", "FC Zürich", "FCSB", "FCV Dender EH", "FK Csikszereda", "FK Sochi", "FK TSC", "Falkirk", "Famalicão", "Farense", "Fastav Zlin", "Fehérvár", "Feirense", "Felgueiras", "Fenerbahçe", "Ferencváros", "Ferroviária", "Feyenoord", "Figueirense FC", "Fiorentina", "Flamengo", "Fluminense", "Foggia", "Fortaleza", "Fortaleza CEIF", "Fortuna Sittard", "Freamunde", "Fredrikstad FK", "Freiburg", "Frosinone", "Fulham", "G. Ajaccio", "GAIS", "GKS Katowice", "Galatasaray", "Gamba Osaka", "Gangwon FC", "Gaziantep FK", "Gaziantepspor", "Genclerbirligi", "Genk", "Genoa", "Getafe", "Gil Vicente", "Gimcheon Sangmu", "Gimnasia", "Gimnasia (M)", "Gimnàstic", "Giresunspor", "Girona", "Go Ahead Eagles", "Godoy Cruz", "Goiás", "Granada", "Grasshoppers", "Grazer AK 1902", "Grenoble", "Greuther Fürth", "Grêmio", "Guarani", "Guaratinguetá", "Guingamp", "Gwangju FC", "Génération Foot", "Górnik Zabrze", "Göztepe", "HNK Gorica", "HNK Rijeka", "Hajduk Split", "Halmstads BK", "HamKam", "Hamburgo", "Hamilton Acad.", "Hammarby", "Hatayspor", "Haugesund", "Heart of Midl.", "Heerenveen", "Heidenheim", "Hellas Verona", "Heracles Almelo", "Hertha BSC", "Hibernian FC", "Hobro IK", "Hoffenheim", "Holstein Kiel", "Houston", "Hradec Kralove", "Huddersfield", "Hull City", "Huracán", "Hvidovre", "Häcken", "Hércules CF", "IFK Göteborg", "IK Start", "IMT Belgrad", "Incheon Utd.", "Ind. Rivadavia", "Indep. Medellín", "Indep. Santa Fe", "Independiente", "Instituto ACC", "Inter", "Inter Bogotá", "Inter Miami", "Internacional", "Inverness CT", "Ionikos Nikeas", "Ipatinga", "Ipswich", "Iraklis", "Istanbulspor", "Ituano", "J. Regensburg", "JEF Utd. Chiba", "Jablonec", "Jagiellonia", "Javor-Matis", "Jedinstvo Ub", "Jeju United", "Jeonbuk Hyundai", "Junior FC", "Juve Next Gen", "Juve Stabia", "Juventude", "Juventus", "K. Erciyesspor", "KAA Gent", "KAS Eupen", "KFUM Oslo", "KS Samara", "KSC Lokeren", "KV Kortrijk", "KV Mechelen", "KV Oostende", "KVC Westerlo", "Kallithea", "Kalmar FF", "Kansas City", "Karabükspor", "Karagümrük", "Karlsruher SC", "Karpaty Lviv", "Karvina", "Kashima Antlers", "Kashiwa Reysol", "Kasimpasa", "Kawasaki Front.", "Kayserispor", "Khimki", "Kifisia", "Kilmarnock FC", "Kocaelispor", "Kolos Kovalivka", "Konyaspor", "Korona Kielce", "Krasnodar", "Kristiansund BK", "Kryvbas", "Kuban Krasnodar", "Kyoto Sanga", "LA Galaxy", "LAFC", "LASK", "LB Châteauroux", "LDU Quito", "LNZ Cherkasy", "La Louvière", "Lanús", "Las Palmas", "Latina Calcio", "Lausanne-Sport", "Lazio", "Le Havre AC", "Le Mans FC", "Lecce", "Lech Poznan", "Lechia Gdansk", "Leeds", "Legia Warszawa", "Leicester", "Leiria", "Leixões", "Lens", "Levadiakos", "Levante", "Leverkusen", "Levski Sofia", "Leyton Orient", "León", "Libertad", "Lierse SK", "Lille", "Lillestrøm SK", "Liverpool", "Livingston FC", "Llaneros FC", "Loko Moscow", "Lommel SK", "Londrina-PR", "Ludogorets", "Luton", "Lyngby BK", "Lyon", "M. Tel Aviv", "MK Dons", "Macarthur", "Maccabi Haifa", "Machida Zelvia", "Mafra", "Mainz", "Maiorca", "Malmö", "Manchester City", "Manchester United", "Marselha", "Marítimo", "Mazatlán FC", "Melb. Victory", "Melbourne City", "Mersin IY", "Metalist", "Metalist 1925", "Metalist Kharkiv", "Metaloglobus", "Metalurg D.", "Metalurg Z.", "Middlesbrough", "Midtjylland", "Millonarios", "Millwall", "Minnesota", "Mirassol-SP", "Mito HollyHock", "Mjällby AIF", "Mlada Boleslav", "Mladost", "Modena", "Molde FK", "Monterrey", "Montpellier", "Montréal", "Monza", "Mordovia", "Moreirense", "Motherwell FC", "Motor Lublin", "Mouscron", "Málaga", "Mónaco", "NAC Breda", "NEC Nijmegen", "NEOM SC", "NK Istra", "NK Lokomotiva", "NK Maribor", "NK Osijek", "NK Varazdin", "NK Vukovar 1991", "Nacional", "Nacional (Uruguai)", "Nagoya Grampus", "Nantes", "Napoli", "Napredak", "Nashville", "Naval 1º de Maio", "Necaxa", "Neuchâtel Xamax", "New England", "New York", "New York City", "Newcastle", "Newell's", "Nice", "Nordsjaelland", "Norrköping", "Northampton", "Norwich", "Nottingham Forest", "Novara", "Novi Pazar", "Nuremberga", "Náutico", "Nîmes Olympique", "OFI Crete", "OFK Beograd", "OH Leuven", "Odense BK", "Oeste", "Oldham Athletic", "Olhanense", "Olimpik Donetsk", "Oliveirense", "Olympiacos", "Omonia Nicosia", "Once Caldas", "Orduspor", "Orenburg", "Orlando City", "Osasuna", "Osmanlispor FK", "Otelul Galati", "Oxford United", "PAOK", "PAS Giannina", "PAS Lamia", "PEC Zwolle", "PFC Lviv", "PSG", "PSV", "Pachuca", "Padova", "Pafos", "Palermo", "Palmeiras", "Panathinaikos", "Panetolikos", "Panionios", "Panserraikos", "Panthrakikos", "Paraná", "Pardubice", "Pari NN", "Paris FC", "Parma", "Partick Thistle", "Partizan", "Pau FC", "Paulista-SP", "Paços de Ferreira", "Penafiel", "Pendikspor", "Pereira", "Perth Glory", "Perugia", "Pescara", "Peterborough", "Petrolul", "Peñarol", "Philadelphia", "Piacenza", "Piast Gliwice", "Pisa", "Platanias", "Platense", "Plymouth", "Pogon Szczecin", "Pohang Steelers", "Polissya", "Ponferradina", "Ponte Preta", "Portimonense", "Portland", "Portsmouth", "Portuguesa", "Prato", "Preston", "Pro Vercelli", "Puebla FC", "QPR", "Qarabağ", "Qatar SC", "Querétaro FC", "R Charleroi SC", "RAEC Mons", "RB Bragantino", "RB Leipzig", "RFC Seraing", "RKC Waalwijk", "RWDM", "Racing", "Racing Club", "Rad", "Radnicki 1923", "Radnicki Nis", "Radomiak", "Raków", "Randers FC", "Rangers", "Rapid Vienna", "Rayo Vallecano", "Reading", "Real Madrid", "Real Murcia", "Real Oviedo", "Real SC", "Real Sociedad", "Recre Granada", "Red Star FC", "Reggiana", "Reggina", "Remo", "Rennes", "Rio Ave", "Rionegro Águila", "River Plate", "Roda JC", "Rodez AF", "Roma", "Rosario Central", "Rosenborg BK", "Ross County", "Rostov", "Rotherham", "Rotor Volgograd", "Royal Antwerp", "Rubin Kazan", "SC Bastia", "SC Cambuur", "SC Covilhã", "SC Dnipro-1", "SC Paderborn", "SC Tavriya", "SCR Altach", "SD Eibar", "SD Huesca", "SH Shenhua", "SJ Earthquakes", "SK Brann", "SKA Khabarovsk", "SM Caen", "SPAL", "SV Ried", "SV Sandhausen", "Saint-Étienne", "Salernitana", "Salgueiros", "Salt Lake", "Salzburg", "Sampdoria", "Samsunspor", "San Diego", "San Lorenzo", "San Luis", "San Martín (SJ)", "Sandefjord", "Sanf. Hiroshima", "Santa Clara", "Santos", "Santos Laguna", "Saragoça", "Sarmiento Junin", "Sassuolo", "Schalke", "Scunthorpe Utd.", "Seattle", "Sepsi OSK", "Servette FC", "Sevilha", "Shakhtar", "Sheff Wed", "Sheffield United", "Shimizu S-Pulse", "Shonan Bellmare", "Shrewsbury", "Siena", "Sigma Olomouc", "Silkeborg IF", "Sint-Truiden", "Sirius", "Sivasspor", "Slask Wroclaw", "Slaven Belupo", "Slavia de Praga", "Slovacko", "Slovan Liberec", "Southampton", "Sparta Prague", "Sparta Roterdão", "Spartak", "Spartak de Moscovo", "Spezia", "Sport Recife", "Sporting", "Sporting de Gijón", "St. Johnstone", "St. Louis CITY", "St. Mirren", "St. Pauli", "Stade Brestois", "Stade Lavallois", "Stade Reims", "Stal Mielec", "Standard de Liège", "Stevenage", "Stockport", "Stoke City", "Strømsgodset", "Sturm Graz", "Sunderland", "Suwon FC", "Swansea", "Swindon Town", "Sydney FC", "São Caetano", "São Paulo", "Sönderjyske", "TSV Hartberg", "Tambov", "Telstar", "Tenerife", "Teplice", "Ternana", "Tigre", "Tigres UANL", "Tokyo Verdy", "Toluca", "Tom Tomsk", "Tondela", "Torino", "Toronto", "Torpedo Moskau", "Torreense", "Tosno", "Tottenham", "Toulouse", "Tours FC", "Trabzonspor", "Trapani", "Treviso", "Triestina", "Trofense", "Tromsø IL", "Troyes", "U Cluj", "U. de Chile", "UNAM Pumas", "US Boulogne", "US Créteil-L", "US Orléans", "USL Dunkerque", "UTA Arad", "Udinese", "Ufa", "Ulsan Hyundai", "Union Berlin", "Union SG", "Unirea Slobozia", "Univ. Craiova", "União Madeira", "Unión Santa Fe", "Ural", "Urawa Reds", "Utrecht", "V-V. Nagasaki", "VVV-Venlo", "Valenciennes FC", "Valladolid", "Valladolid Prom", "Valência", "Vancouver", "Varese", "Varzim", "Vasco da Gama", "Vejle BK", "Vendsyssel FF", "Venezia", "Veres Rivne", "Veria NPS", "VfL Bochum", "VfL Osnabrück", "Viborg FF", "Viking FK", "Viktoria Plzeň", "Vila Nova FC", "Vilafranquense", "Villarreal", "Vissel Kobe", "Vitesse", "Vitória de Guimarães", "Vitória de Setúbal", "Vizela", "Vojvodina", "Volos NFC", "Vorskla Poltava", "Värnamo", "Västerås SK", "Vålerenga", "Vélez Sarsfield", "WSG Tirol", "Waasland-Beveren", "Walsall", "Watford", "Wellington", "Werder Bremen", "West Brom", "West Ham", "Western Sydney", "Western United", "Widzew Lodz", "Wigan", "Wisla Kraków", "Wisla Plock", "Wolfsberger AC", "Wolfsburgo", "Wolverhampton", "Wrexham", "Wycombe", "Xanthi", "Y. Malatyaspor", "Yeovil Town", "Yokohama F. M.", "Yokohama FC", "Young Boys", "Yverdon Sport", "Zaglebie Lubin", "Zelez. Pancevo", "Zenit", "Zenit S-Pb", "Zorya Lugansk", "Zulte Waregem", "Évian", "Örgryte", "Östers IF", "Ümraniyespor", "Al-Shamal SC", "Abha", "Corum FK", "Wydad AC", "Al-Diraiyah FC", "Al-Wahda", "Aktobe", "A. Baghdad SC", "Kaysar", "Persepolis FC", "Al-Ahli SC", "Santa Lucia FC", "Dep. Maipú", "Boston River", "Krasava ENY", "DL Yingbo", "GS Marko", "Derry City", "Al-Wakrah SC", "ML Vitebsk", "Júbilo Iwata", "Puerto Cabello", "ZJ FC", "AF Elbasani", "Eldense", "Arezzo", "Kalba FC", "Castellón", "Thór", "Lincoln City", "BATE Borisov", "Neftchi", "Hapoel Tel Aviv", "Mantova", "Olympiakos N.", "Raja Casablanca", "CSKA 1948", "A. Keciörengücü", "OC Safi", "GZ R&F", "Marcílio Dias", "CRAC (GO)", "Quilmes", "Pécsi MFC", "Banik Sokolov", "Paradou AC", "CA Fénix", "Zeljeznicar", "Ferro", "TOP Oss", "Rubio Ñú", "Tacuary FBC", "Luqueño", "Fréjus-St-Raph.", "O'Higgins", "Hyde United", "Goverla", "Palestino", "Thrasyvoulos", "Usti nad Labem", "1.SC Znojmo", "Olimpia", "Dinamo Tbilisi", "HJK Helsinki", "Oriente P.", "Dunajska Streda", "Levanger", "Michalovce", "FC Inter", "B. Banja Luka", "ETO FC", "Tacoma Defiance", "12 de Octubre", "Cavese", "AC Bellinzona", "Atletico Roma", "San Marino", "ND Gorica", "Marbella FC", "Bnei Yehuda", "Honvéd", "SV Mattersburg", "Rangers Talca", "Uni. Católica", "SD Aucas", "Lleida Esportiu", "Sp. Belgrano", "SFC Opava", "GKS Belchatow", "NK Olimpija", "FC Koper", "M. Petah Tikva", "Kaizer Chiefs", "Boluspor", "HB Köge", "Forest Green", "FC Malisheva", "FC Ballkani", "Antofagasta", "Stabæk", "Åsane", "Ayr United", "Queen's Park", "Dunfermline A.", "Östersund", "Örebro SK", "Assyriska FF", "Audax Italiano", "Liverpool FC", "Mvd City Torque", "Gaz Metan", "Teramo", "Spartak Trnava", "Juan Aurich", "Alianza Lima", "Tulsa", "El Paso", "Real Monarchs", "Mezőkövesd", "FC Samtredia", "Újpest FC", "Torpedo Kutaisi", "CD Olimpia", "Oita Trinita", "Monte. Yamagata", "Sagan Tosu", "Bolívar", "Helmond Sport", "Brage", "Solihull Moors", "Notts County", "Gloucester", "Accrington", "Skive IK", "Fremad Amager", "Guaraní", "Cork City", "Almirante Brown", "SV Horn", "Grödig", "ES Sétif", "Esperance", "Kongsvinger", "Odd", "Falkenbergs FF", "Varbergs BoIS", "Helsingborgs IF", "Landskrona", "CD Iquique", "Wanderers", "SU Agen", "Bayonne", "Le Puy Foot", "FC Schaffhausen", "Plaza Colonia", "Rentistas", "Pandurii", "Academica Clince", "Pirin", "Viktoria Berlin", "Bethlehem Steel", "Columbus 2", "Orange County", "Sacramento FC", "Casertana", "Mosta FC", "Sliema Wander.", "Savoia", "Pavia", "AS Gubbio", "CDS Vida", "Takushoku Univ.", "FC Saxan", "Gomel", "CS Emelec", "Gateshead", "Grimsby Town", "FC Ferizaj", "Uniautónoma", "Dundalk FC", "Montrose", "Eastleigh", "Macclesfield", "TJ Jinmen Tiger", "Guillermo Brown", "All Boys", "Juniors OÖ", "FC Den Bosch", "Rot-Weiß Erfurt", "Hallescher FC", "Portland 2", "Ranheim", "Stjørdals-Blink", "Mjøndalen", "East Stirling", "Dag & Red FC", "Aldershot", "IK Oddevold", "AFC Eskilstuna", "FC Trollhättan", "Trelleborg", "Gefle", "Huachipato", "U. Católica", "NK Dugopolje", "FC Wil 1900", "Rampla Jrs", "KF Trepca", "KF Skënderbeu", "FC Drita", "Newport County", "LD Alajuelense", "Guadalupe FC", "Switchbacks FC", "FC Dila", "Real España", "FC Aarau", "Manisaspor", "Sanliurfaspor", "Bechem United", "Isloch", "Slo. Bratislava", "Cambridge Utd.", "Badalona", "Puerto Rico FC", "Harrogate Town", "Alfreton", "Fylde", "Al-Faisaly", "JS Suning", "MSV Duisburg", "Shkendija", "FC Liria", "FC Prishtina", "Mansfield Town", "Fleetwood", "Gillingham", "Hayes & Yeading", "Barnet", "Boreham Wood", "FK Senica", "KSK Heist", "Olimpo", "Sp. Italiano", "Pribram", "SF Lotte", "Ruch Chorzow", "FC Flora", "Chorrillo FC", "Chepo FC", "Cowdenbeath", "Raith Rovers", "Elgin City", "Queen o. t. S.", "IK Frej Täby", "NK Lucko", "Segesta Sisak", "NK Sesvete", "FC Vaduz", "B. Podgorica", "Astra Giurgiu", "FC Voluntari", "D. Calarasi", "CS Avion", "Quevilly Rouen"];
-const CLUBCC=["", "", "COL", "AUT", "FRA", "", "DEN", "ITA", "ROU", "", "NED", "GRE", "GRE", "", "SWE", "FRA", "GRE", "", "ITA", "FRA", "", "PT", "NED", "DEN", "NOR", "DEN", "SCO", "PT", "", "TUR", "TUR", "AUS", "NED", "TUR", "RUS", "RUS", "KSA", "", "", "", "KSA", "KSA", "KSA", "", "KSA", "KSA", "KSA", "", "KSA", "KSA", "KSA", "", "KSA", "KSA", "KSA", "KSA", "KSA", "", "KSA", "", "KSA", "KSA", "", "KSA", "RUS", "TUR", "ESP", "", "JPN", "ARG", "COL", "NED", "ESP", "TUR", "PT", "FRA", "RUS", "MEX", "", "", "BEL", "FRA", "TUR", "", "TUR", "RUS", "", "", "GRE", "ARG", "GRE", "GER", "PT", "ENG", "UKR", "", "RUS", "", "GRE", "ENG", "ITA", "ESP", "BRA", "", "", "", "COL", "ARG", "USA", "MEX", "ESP", "", "BRA", "GRE", "AUS", "GER", "USA", "AUT", "", "JPN", "PT", "TUR", "", "TUR", "RUS", "ARG", "CZE", "ESP", "", "", "ARG", "TUR", "SUI", "GER", "BEL", "BEL", "PT", "PT", "ARG", "ITA", "PT", "TUR", "ESP", "", "", "", "ENG", "", "AUT", "PT", "ARG", "TUR", "NOR", "CZE", "ITA", "", "FRA", "GER", "GER", "BRA", "ENG", "COL", "", "PT", "ENG", "ITA", "ENG", "AUS", "", "", "SWE", "NOR", "DEN", "CRO", "", "ENG", "TUR", "", "", "CZE", "TUR", "", "ARG", "COL", "", "MEX", "ESP", "", "", "", "", "ROU", "", "", "RUS", "", "ITA", "ENG", "", "ITA", "PT", "ITA", "BRA", "ESP", "SCO", "AUS", "ARG", "BEL", "JPN", "ITA", "", "BRA", "USA", "ENG", "PT", "ENG", "", "USA", "ITA", "MEX", "UKR", "USA", "", "FRA", "BEL", "", "MEX", "", "", "USA", "USA", "GER", "ITA", "DEN", "BRA", "BRA", "", "POL", "ITA", "", "", "ITA", "BRA", "ENG", "SRB", "ESP", "ESP", "USA", "CRO", "CRO", "USA", "KSA", "", "NED", "ARG", "", "SWE", "TUR", "", "COL", "COL", "COL", "ESP", "", "UKR", "PT", "FRA", "RUS", "SWE", "UKR", "", "CZE", "SCO", "SCO", "", "UKR", "RUS", "KOR", "GER", "BRA", "BRA", "GER", "TUR", "ESP", "SWE", "ITA", "COL", "UKR", "GRE", "DEN", "TUR", "ESP", "PT", "FRA", "SRB", "PT", "ARG", "ARG", "GER", "ENG", "NED", "TUR", "GER", "CRO", "ROU", "ROU", "ROU", "", "ROU", "NED", "NED", "DEN", "NED", "DEN", "ROU", "GER", "", "MEX", "", "FRA", "SUI", "SUI", "UKR", "FRA", "UKR", "PT", "ROU", "CRO", "UKR", "SUI", "FRA", "SUI", "SUI", "JPN", "NED", "ROU", "NED", "SUI", "SUI", "ROU", "BEL", "ROU", "RUS", "SRB", "SCO", "PT", "PT", "CZE", "", "PT", "", "TUR", "", "", "NED", "", "ITA", "BRA", "BRA", "", "BRA", "COL", "NED", "", "NOR", "GER", "ITA", "ENG", "FRA", "SWE", "POL", "TUR", "JPN", "CRO", "TUR", "TUR", "TUR", "BEL", "ITA", "ESP", "PT", "CRO", "ARG", "ARG", "", "TUR", "ESP", "NED", "ARG", "", "ESP", "SUI", "AUT", "", "GER", "BRA", "", "", "FRA", "CRO", "", "POL", "TUR", "KOR", "KOR", "KOR", "SWE", "NOR", "GER", "SCO", "SWE", "TUR", "NOR", "SCO", "NED", "GER", "ITA", "NED", "GER", "SCO", "DEN", "GER", "GER", "USA", "CZE", "ENG", "ENG", "ARG", "DEN", "SWE", "", "SWE", "NOR", "SRB", "CRO", "ARG", "COL", "COL", "ARG", "ARG", "ITA", "COL", "USA", "BRA", "SCO", "GRE", "", "ENG", "GRE", "TUR", "", "", "JPN", "CZE", "POL", "SRB", "SRB", "CRO", "CRO", "COL", "", "", "BRA", "ITA", "TUR", "BEL", "BEL", "NOR", "RUS", "BEL", "BEL", "BEL", "BEL", "BEL", "GRE", "SWE", "USA", "TUR", "TUR", "", "UKR", "CZE", "JPN", "JPN", "TUR", "JPN", "TUR", "RUS", "GRE", "SCO", "TUR", "UKR", "TUR", "POL", "RUS", "NOR", "UKR", "RUS", "JPN", "USA", "USA", "AUT", "", "", "UKR", "BEL", "ARG", "ESP", "", "SUI", "ITA", "FRA", "", "ITA", "POL", "POL", "ENG", "POL", "ENG", "", "", "FRA", "GRE", "ESP", "GER", "", "", "MEX", "", "BEL", "FRA", "NOR", "ENG", "SCO", "COL", "RUS", "", "", "", "ENG", "DEN", "FRA", "", "", "AUS", "", "JPN", "", "GER", "ESP", "SWE", "ENG", "ENG", "FRA", "PT", "MEX", "AUS", "AUS", "TUR", "UKR", "UKR", "UKR", "ROU", "UKR", "UKR", "ENG", "DEN", "COL", "", "USA", "BRA", "JPN", "SWE", "CZE", "SRB", "", "NOR", "MEX", "FRA", "USA", "ITA", "RUS", "PT", "SCO", "POL", "BEL", "ESP", "FRA", "NED", "NED", "KSA", "KOR", "KOR", "", "KOR", "KOR", "KOR", "PT", "", "JPN", "FRA", "ITA", "SRB", "USA", "", "MEX", "", "USA", "USA", "USA", "ENG", "ARG", "FRA", "DEN", "SWE", "", "ENG", "ENG", "", "SRB", "GER", "", "FRA", "GRE", "SRB", "BEL", "DEN", "", "", "PT", "UKR", "", "GRE", "", "COL", "TUR", "RUS", "USA", "ESP", "TUR", "ROU", "", "GRE", "GRE", "GRE", "NED", "UKR", "FRA", "NED", "MEX", "", "", "ITA", "BRA", "GRE", "GRE", "GRE", "GRE", "GRE", "", "CZE", "RUS", "FRA", "ITA", "SCO", "SRB", "", "", "PT", "", "TUR", "COL", "AUS", "", "ITA", "", "ROU", "", "USA", "", "POL", "ITA", "GRE", "ARG", "", "POL", "CRO", "UKR", "", "", "PT", "USA", "", "", "", "", "", "MEX", "ENG", "", "", "MEX", "BEL", "BEL", "BRA", "GER", "BEL", "NED", "BEL", "", "ARG", "", "SRB", "SRB", "POL", "POL", "DEN", "SCO", "AUT", "ESP", "ENG", "ESP", "", "ESP", "", "ESP", "", "", "", "", "BRA", "FRA", "PT", "COL", "ARG", "NED", "", "ITA", "ARG", "NOR", "SCO", "RUS", "", "RUS", "BEL", "RUS", "FRA", "NED", "", "UKR", "GER", "UKR", "AUT", "ESP", "ESP", "", "USA", "NOR", "RUS", "FRA", "ITA", "AUT", "", "FRA", "ITA", "", "USA", "AUT", "ITA", "TUR", "USA", "ARG", "MEX", "ARG", "NOR", "JPN", "PT", "BRA", "MEX", "ESP", "ARG", "ITA", "GER", "", "USA", "ROU", "SUI", "ESP", "UKR", "", "ENG", "JPN", "JPN", "", "ITA", "CZE", "DEN", "BEL", "SWE", "TUR", "POL", "KOR", "CZE", "CZE", "CZE", "ENG", "CZE", "NED", "SRB", "RUS", "ITA", "BRA", "PT", "ESP", "SCO", "USA", "SCO", "GER", "FRA", "", "FRA", "POL", "BEL", "", "", "ENG", "NOR", "AUT", "ENG", "CRO", "ENG", "", "AUS", "", "BRA", "DEN", "AUT", "RUS", "NED", "ESP", "CZE", "", "ARG", "MEX", "JPN", "MEX", "RUS", "PT", "ITA", "USA", "RUS", "", "RUS", "ENG", "FRA", "", "TUR", "", "", "", "", "NOR", "FRA", "ROU", "", "MEX", "", "", "", "", "ROU", "ITA", "RUS", "CRO", "GER", "BEL", "ROU", "ROU", "PT", "ARG", "RUS", "JPN", "NED", "JPN", "NED", "FRA", "ESP", "", "ESP", "USA", "", "", "BRA", "DEN", "DEN", "ITA", "UKR", "GRE", "GER", "", "DEN", "NOR", "CZE", "", "", "ESP", "JPN", "NED", "PT", "PT", "PT", "SRB", "GRE", "UKR", "SWE", "SWE", "NOR", "ARG", "AUT", "BEL", "", "ENG", "AUS", "GER", "ENG", "ENG", "AUS", "AUS", "POL", "ENG", "", "POL", "AUT", "GER", "ENG", "", "", "GRE", "TUR", "", "JPN", "JPN", "SUI", "SUI", "POL", "SRB", "RUS", "RUS", "UKR", "BEL", "FRA", "SWE", "SWE", "TUR", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "UKR", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
+const CLUBS=["1.FC K'lautern", "1860 Munich", "A. Bucaramanga", "A. Klagenfurt", "AC Ajaccio", "AC Arles-Avignon", "AC Horsens", "AC Milan", "ACSM Poli Iasi", "AD Alcorcón", "ADO Den Haag", "AE Larisa", "AEK Athens", "AEK Larnaca", "AIK", "AJ Auxerre", "AOK Kerkyra", "APOEL Nicosia", "AS Livorno", "AS Nancy", "ASEC Mimosas", "AVS", "AZ Alkmaar", "Aalborg BK", "Aalesunds FK", "Aarhus GF", "Aberdeen FC", "Académica", "Académico Viseu", "Adana Demirspor", "Adanaspor", "Adelaide United", "Ajax", "Akhisarspor", "Akhmat Grozny", "Akron Tolyatti", "Al-Ahli", "Al-Ain", "Al-Arabi SC", "Al-Duhail SC", "Al-Ettifaq", "Al-Fateh", "Al-Fayha", "Al-Gharafa", "Al-Hazem", "Al-Hilal", "Al-Ittihad", "Al-Jazira", "Al-Khaleej", "Al-Kholood", "Al-Najma", "Al-Nasr", "Al-Nassr", "Al-Okhdood", "Al-Orobah", "Al-Qadsiah", "Al-Raed", "Al-Rayyan", "Al-Riyadh", "Al-Sadd", "Al-Shabab", "Al-Taawoun", "Al-Wasl", "Al-Wehda", "Alania", "Alanyaspor", "Alavés", "Albacete", "Albirex Niigata", "Aldosivi", "Alianza FC", "Almere City", "Almería", "Altay SK", "Alverca", "Amiens SC", "Amkar Perm", "América", "América-MG", "América-RN", "Anderlecht", "Angers SCO", "Ankaragücü", "Anorthosis", "Antalyaspor", "Anzhi", "Anápolis", "Apol. Limassol", "Apollon Smyrnis", "Argentinos Jrs.", "Aris Saloniki", "Arm. Bielefeld", "Arouca", "Arsenal", "Arsenal Kyiv", "Arsenal Sarandí", "Arsenal Tula", "Ascoli", "Asteras Tripoli", "Aston Villa", "Atalanta", "Athletic Bilbao", "Athletico-PR", "Atl. Levante", "Atl. Madrileño", "Atl. Malagueño", "Atl. Nacional", "Atl. Tucumán", "Atlanta", "Atlas", "Atlético de Madrid", "Atlético-GO", "Atlético-MG", "Atromitos", "Auckland FC", "Augsburg", "Austin", "Austria Vienna", "Avellino", "Avispa Fukuoka", "B SAD", "BB Erzurumspor", "BJ Guoan", "Balikesirspor", "Baltika", "Banfield", "Banik Ostrava", "Barcelona", "Bari", "Barnsley", "Barracas C.", "Basaksehir", "Basel", "Bayern", "Beerschot AC", "Beerschot VA", "Beira-Mar", "Belenenses", "Belgrano", "Benevento", "Benfica", "Besiktas", "Betis", "Betis Deportivo", "Bilbao Athletic", "Birmingham", "Blackburn", "Blackpool", "Blau Weiss Linz", "Boavista", "Boca Juniors", "Bodrum FK", "Bodø/Glimt", "Bohemians 1905", "Bologna", "Bolton", "Bordéus", "Borussia Dortmund", "Borussia M'gladbach", "Botafogo", "Bournemouth", "Boyacá Chicó", "Bradford", "Braga", "Brentford", "Brescia", "Brighton", "Brisbane Roar", "Bristol City", "Bristol Rovers", "Brommapojkarna", "Bryne", "Bröndby IF", "Bucheon FC", "Burgos CF", "Burnley", "Bursaspor", "Burton Albion", "Bury", "C. Budejovice", "C. Rizespor", "CA Osasuna Yout", "CA Talleres", "CD América", "CD Basconia", "CD Cruz Azul", "CD Leganés", "CD Lugo", "CD Mirandés", "CD Tenerife", "CF Fuenlabrada", "CFR Cluj", "CRB", "CS Sedan", "CSKA de Moscovo", "CSKA-Sofia", "Cagliari", "Cardiff", "Carlisle United", "Carpi", "Casa Pia", "Catania", "Ceará SC", "Celta", "Celtic", "Central Coast", "Central Córdoba", "Cercle Brugge", "Cerezo Osaka", "Cesena", "Chamois Niort", "Chapecoense", "Charlotte", "Charlton", "Chaves", "Chelsea", "Cheltenham", "Chicago", "Chievo", "Chivas", "Chornomorets", "Cincinnati", "Cittadella", "Clermont Foot", "Club Brugge", "Club NXT", "Club Tijuana", "Colo-Colo", "Colon", "Colorado", "Columbus", "Colónia", "Como", "Copenhagen", "Corinthians", "Coritiba FC", "Coventry", "Cracovia", "Cremonese", "Crewe Alexandra", "Criciúma", "Crotone", "Cruzeiro", "Crystal Palace", "Cukaricki", "Cádiz CF", "Córdoba CF", "D.C. United", "Daegu FC", "Daejeon Hana C.", "Dallas", "Damac FC", "Danubio FC", "De Graafschap", "Defensa", "Defensor SC", "Degerfors", "Denizlispor", "Dep. Aragón", "Deportes Tolima", "Deportivo Cali", "Deportivo Pasto", "Deportivo da Corunha", "Derby", "Desna", "Desportivo das Aves", "Dijon", "Dinamo Makhach.", "Djurgården", "Dnipro", "Doncaster", "Dukla Prague", "Dundee FC", "Dundee United", "Dynamo Dresden", "Dínamo de Kiev", "Dínamo de Moscovo", "Dínamo de Zagreb", "E. Braunschweig", "EC Bahia", "EC Vitória", "Eintracht Frankfurt", "Elazigspor", "Elche CF", "Elfsborg", "Empoli", "Envigado", "Epicentr", "Ergotelis", "Esbjerg fB", "Eskisehirspor", "Espanyol", "Estoril Praia", "Estrasburgo", "Estrela Vermelha", "Estrela da Amadora", "Estudiantes LP", "Estudiantes RC", "Estugarda", "Everton", "Excelsior", "Eyüpspor", "F. Düsseldorf", "FC Anyang", "FC Arges", "FC Botosani", "FC Buzau", "FC Cartagena", "FC Dinamo", "FC Dordrecht", "FC Emmen", "FC Fredericia", "FC Groningen", "FC Helsingør", "FC Hermannstadt", "FC Ingolstadt", "FC Istres", "FC Juárez", "FC Liefering", "FC Lorient", "FC Lugano", "FC Luzern", "FC Mariupol", "FC Metz", "FC Oleksandriya", "FC Porto", "FC Rapid 1923", "FC Seoul", "FC Sevastopol", "FC Sion", "FC Sochaux", "FC St. Gallen", "FC Thun", "FC Tokyo", "FC Twente", "FC Viitorul", "FC Volendam", "FC Winterthur", "FC Zürich", "FCSB", "FCV Dender EH", "FK Csikszereda", "FK Sochi", "FK TSC", "Falkirk", "Famalicão", "Farense", "Fastav Zlin", "Fehérvár", "Feirense", "Felgueiras", "Fenerbahçe", "Ferencváros", "Ferroviária", "Feyenoord", "Figueirense FC", "Fiorentina", "Flamengo", "Fluminense", "Foggia", "Fortaleza", "Fortaleza CEIF", "Fortuna Sittard", "Freamunde", "Fredrikstad FK", "Freiburg", "Frosinone", "Fulham", "G. Ajaccio", "GAIS", "GKS Katowice", "Galatasaray", "Gamba Osaka", "Gangwon FC", "Gaziantep FK", "Gaziantepspor", "Genclerbirligi", "Genk", "Genoa", "Getafe", "Gil Vicente", "Gimcheon Sangmu", "Gimnasia", "Gimnasia (M)", "Gimnàstic", "Giresunspor", "Girona", "Go Ahead Eagles", "Godoy Cruz", "Goiás", "Granada", "Grasshoppers", "Grazer AK 1902", "Grenoble", "Greuther Fürth", "Grêmio", "Guarani", "Guaratinguetá", "Guingamp", "Gwangju FC", "Génération Foot", "Górnik Zabrze", "Göztepe", "HNK Gorica", "HNK Rijeka", "Hajduk Split", "Halmstads BK", "HamKam", "Hamburgo", "Hamilton Acad.", "Hammarby", "Hatayspor", "Haugesund", "Heart of Midl.", "Heerenveen", "Heidenheim", "Hellas Verona", "Heracles Almelo", "Hertha BSC", "Hibernian FC", "Hobro IK", "Hoffenheim", "Holstein Kiel", "Houston", "Hradec Kralove", "Huddersfield", "Hull City", "Huracán", "Hvidovre", "Häcken", "Hércules CF", "IFK Göteborg", "IK Start", "IMT Belgrad", "Incheon Utd.", "Ind. Rivadavia", "Indep. Medellín", "Indep. Santa Fe", "Independiente", "Instituto ACC", "Inter", "Inter Bogotá", "Inter Miami", "Internacional", "Inverness CT", "Ionikos Nikeas", "Ipatinga", "Ipswich", "Iraklis", "Istanbulspor", "Ituano", "J. Regensburg", "JEF Utd. Chiba", "Jablonec", "Jagiellonia", "Javor-Matis", "Jedinstvo Ub", "Jeju United", "Jeonbuk Hyundai", "Junior FC", "Juve Next Gen", "Juve Stabia", "Juventude", "Juventus", "K. Erciyesspor", "KAA Gent", "KAS Eupen", "KFUM Oslo", "KS Samara", "KSC Lokeren", "KV Kortrijk", "KV Mechelen", "KV Oostende", "KVC Westerlo", "Kallithea", "Kalmar FF", "Kansas City", "Karabükspor", "Karagümrük", "Karlsruher SC", "Karpaty Lviv", "Karvina", "Kashima Antlers", "Kashiwa Reysol", "Kasimpasa", "Kawasaki Front.", "Kayserispor", "Khimki", "Kifisia", "Kilmarnock FC", "Kocaelispor", "Kolos Kovalivka", "Konyaspor", "Korona Kielce", "Krasnodar", "Kristiansund BK", "Kryvbas", "Kuban Krasnodar", "Kyoto Sanga", "LA Galaxy", "LAFC", "LASK", "LB Châteauroux", "LDU Quito", "LNZ Cherkasy", "La Louvière", "Lanús", "Las Palmas", "Latina Calcio", "Lausanne-Sport", "Lazio", "Le Havre AC", "Le Mans FC", "Lecce", "Lech Poznan", "Lechia Gdansk", "Leeds", "Legia Warszawa", "Leicester", "Leiria", "Leixões", "Lens", "Levadiakos", "Levante", "Leverkusen", "Levski Sofia", "Leyton Orient", "León", "Libertad", "Lierse SK", "Lille", "Lillestrøm SK", "Liverpool", "Livingston FC", "Llaneros FC", "Loko Moscow", "Lommel SK", "Londrina-PR", "Ludogorets", "Luton", "Lyngby BK", "Lyon", "M. Tel Aviv", "MK Dons", "Macarthur", "Maccabi Haifa", "Machida Zelvia", "Mafra", "Mainz", "Maiorca", "Malmö", "Manchester City", "Manchester United", "Marselha", "Marítimo", "Mazatlán FC", "Melb. Victory", "Melbourne City", "Mersin IY", "Metalist", "Metalist 1925", "Metalist Kharkiv", "Metaloglobus", "Metalurg D.", "Metalurg Z.", "Middlesbrough", "Midtjylland", "Millonarios", "Millwall", "Minnesota", "Mirassol-SP", "Mito HollyHock", "Mjällby AIF", "Mlada Boleslav", "Mladost", "Modena", "Molde FK", "Monterrey", "Montpellier", "Montréal", "Monza", "Mordovia", "Moreirense", "Motherwell FC", "Motor Lublin", "Mouscron", "Málaga", "Mónaco", "NAC Breda", "NEC Nijmegen", "NEOM SC", "NK Istra", "NK Lokomotiva", "NK Maribor", "NK Osijek", "NK Varazdin", "NK Vukovar 1991", "Nacional", "Nacional (Uruguai)", "Nagoya Grampus", "Nantes", "Napoli", "Napredak", "Nashville", "Naval 1º de Maio", "Necaxa", "Neuchâtel Xamax", "New England", "New York", "New York City", "Newcastle", "Newell's", "Nice", "Nordsjaelland", "Norrköping", "Northampton", "Norwich", "Nottingham Forest", "Novara", "Novi Pazar", "Nuremberga", "Náutico", "Nîmes Olympique", "OFI Crete", "OFK Beograd", "OH Leuven", "Odense BK", "Oeste", "Oldham Athletic", "Olhanense", "Olimpik Donetsk", "Oliveirense", "Olympiacos", "Omonia Nicosia", "Once Caldas", "Orduspor", "Orenburg", "Orlando City", "Osasuna", "Osmanlispor FK", "Otelul Galati", "Oxford United", "PAOK", "PAS Giannina", "PAS Lamia", "PEC Zwolle", "PFC Lviv", "PSG", "PSV", "Pachuca", "Padova", "Pafos", "Palermo", "Palmeiras", "Panathinaikos", "Panetolikos", "Panionios", "Panserraikos", "Panthrakikos", "Paraná", "Pardubice", "Pari NN", "Paris FC", "Parma", "Partick Thistle", "Partizan", "Pau FC", "Paulista-SP", "Paços de Ferreira", "Penafiel", "Pendikspor", "Pereira", "Perth Glory", "Perugia", "Pescara", "Peterborough", "Petrolul", "Peñarol", "Philadelphia", "Piacenza", "Piast Gliwice", "Pisa", "Platanias", "Platense", "Plymouth", "Pogon Szczecin", "Pohang Steelers", "Polissya", "Ponferradina", "Ponte Preta", "Portimonense", "Portland", "Portsmouth", "Portuguesa", "Prato", "Preston", "Pro Vercelli", "Puebla FC", "QPR", "Qarabağ", "Qatar SC", "Querétaro FC", "R Charleroi SC", "RAEC Mons", "RB Bragantino", "RB Leipzig", "RFC Seraing", "RKC Waalwijk", "RWDM", "Racing", "Racing Club", "Rad", "Radnicki 1923", "Radnicki Nis", "Radomiak", "Raków", "Randers FC", "Rangers", "Rapid Vienna", "Rayo Vallecano", "Reading", "Real Madrid", "Real Murcia", "Real Oviedo", "Real SC", "Real Sociedad", "Recre Granada", "Red Star FC", "Reggiana", "Reggina", "Remo", "Rennes", "Rio Ave", "Rionegro Águila", "River Plate", "Roda JC", "Rodez AF", "Roma", "Rosario Central", "Rosenborg BK", "Ross County", "Rostov", "Rotherham", "Rotor Volgograd", "Royal Antwerp", "Rubin Kazan", "SC Bastia", "SC Cambuur", "SC Covilhã", "SC Dnipro-1", "SC Paderborn", "SC Tavriya", "SCR Altach", "SD Eibar", "SD Huesca", "SH Shenhua", "SJ Earthquakes", "SK Brann", "SKA Khabarovsk", "SM Caen", "SPAL", "SV Ried", "SV Sandhausen", "Saint-Étienne", "Salernitana", "Salgueiros", "Salt Lake", "Salzburg", "Sampdoria", "Samsunspor", "San Diego", "San Lorenzo", "San Luis", "San Martín (SJ)", "Sandefjord", "Sanf. Hiroshima", "Santa Clara", "Santos", "Santos Laguna", "Saragoça", "Sarmiento Junin", "Sassuolo", "Schalke", "Scunthorpe Utd.", "Seattle", "Sepsi OSK", "Servette FC", "Sevilha", "Shakhtar", "Sheff Wed", "Sheffield United", "Shimizu S-Pulse", "Shonan Bellmare", "Shrewsbury", "Siena", "Sigma Olomouc", "Silkeborg IF", "Sint-Truiden", "Sirius", "Sivasspor", "Slask Wroclaw", "Slaven Belupo", "Slavia de Praga", "Slovacko", "Slovan Liberec", "Southampton", "Sparta Prague", "Sparta Roterdão", "Spartak", "Spartak de Moscovo", "Spezia", "Sport Recife", "Sporting", "Sporting de Gijón", "St. Johnstone", "St. Louis CITY", "St. Mirren", "St. Pauli", "Stade Brestois", "Stade Lavallois", "Stade Reims", "Stal Mielec", "Standard de Liège", "Stevenage", "Stockport", "Stoke City", "Strømsgodset", "Sturm Graz", "Sunderland", "Suwon FC", "Swansea", "Swindon Town", "Sydney FC", "São Caetano", "São Paulo", "Sönderjyske", "TSV Hartberg", "Tambov", "Telstar", "Tenerife", "Teplice", "Ternana", "Tigre", "Tigres UANL", "Tokyo Verdy", "Toluca", "Tom Tomsk", "Tondela", "Torino", "Toronto", "Torpedo Moskau", "Torreense", "Tosno", "Tottenham", "Toulouse", "Tours FC", "Trabzonspor", "Trapani", "Treviso", "Triestina", "Trofense", "Tromsø IL", "Troyes", "U Cluj", "U. de Chile", "UNAM Pumas", "US Boulogne", "US Créteil-L", "US Orléans", "USL Dunkerque", "UTA Arad", "Udinese", "Ufa", "Ulsan Hyundai", "Union Berlin", "Union SG", "Unirea Slobozia", "Univ. Craiova", "União Madeira", "Unión Santa Fe", "Ural", "Urawa Reds", "Utrecht", "V-V. Nagasaki", "VVV-Venlo", "Valenciennes FC", "Valladolid", "Valladolid Prom", "Valência", "Vancouver", "Varese", "Varzim", "Vasco da Gama", "Vejle BK", "Vendsyssel FF", "Venezia", "Veres Rivne", "Veria NPS", "VfL Bochum", "VfL Osnabrück", "Viborg FF", "Viking FK", "Viktoria Plzeň", "Vila Nova FC", "Vilafranquense", "Villarreal", "Vissel Kobe", "Vitesse", "Vitória de Guimarães", "Vitória de Setúbal", "Vizela", "Vojvodina", "Volos NFC", "Vorskla Poltava", "Värnamo", "Västerås SK", "Vålerenga", "Vélez Sarsfield", "WSG Tirol", "Waasland-Beveren", "Walsall", "Watford", "Wellington", "Werder Bremen", "West Brom", "West Ham", "Western Sydney", "Western United", "Widzew Lodz", "Wigan", "Wisla Kraków", "Wisla Plock", "Wolfsberger AC", "Wolfsburgo", "Wolverhampton", "Wrexham", "Wycombe", "Xanthi", "Y. Malatyaspor", "Yeovil Town", "Yokohama F. M.", "Yokohama FC", "Young Boys", "Yverdon Sport", "Zaglebie Lubin", "Zelez. Pancevo", "Zenit", "Zenit S-Pb", "Zorya Lugansk", "Zulte Waregem", "Évian", "Örgryte", "Östers IF", "Ümraniyespor", "Al-Shamal SC", "Abha", "Corum FK", "Wydad AC", "Al-Diraiyah FC", "Al-Wahda", "Aktobe", "A. Baghdad SC", "Kaysar", "Persepolis FC", "Al-Ahli SC", "Santa Lucia FC", "Dep. Maipú", "Boston River", "Krasava ENY", "DL Yingbo", "GS Marko", "Derry City", "Al-Wakrah SC", "ML Vitebsk", "Júbilo Iwata", "Puerto Cabello", "ZJ FC", "AF Elbasani", "Eldense", "Arezzo", "Kalba FC", "Castellón", "Thór", "Lincoln City", "BATE Borisov", "Neftchi", "Hapoel Tel Aviv", "Mantova", "Olympiakos N.", "Raja Casablanca", "CSKA 1948", "A. Keciörengücü", "OC Safi", "GZ R&F", "Marcílio Dias", "CRAC (GO)", "Quilmes", "Pécsi MFC", "Banik Sokolov", "Paradou AC", "CA Fénix", "Zeljeznicar", "Ferro", "TOP Oss", "Rubio Ñú", "Tacuary FBC", "Luqueño", "Fréjus-St-Raph.", "O'Higgins", "Hyde United", "Goverla", "Palestino", "Thrasyvoulos", "Usti nad Labem", "1.SC Znojmo", "Olimpia", "Dinamo Tbilisi", "HJK Helsinki", "Oriente P.", "Dunajska Streda", "Levanger", "Michalovce", "FC Inter", "B. Banja Luka", "ETO FC", "Tacoma Defiance", "12 de Octubre", "Cavese", "AC Bellinzona", "Atletico Roma", "San Marino", "ND Gorica", "Marbella FC", "Bnei Yehuda", "Honvéd", "SV Mattersburg", "Rangers Talca", "Uni. Católica", "SD Aucas", "Lleida Esportiu", "Sp. Belgrano", "SFC Opava", "GKS Belchatow", "NK Olimpija", "FC Koper", "M. Petah Tikva", "Kaizer Chiefs", "Boluspor", "HB Köge", "Forest Green", "FC Malisheva", "FC Ballkani", "Antofagasta", "Stabæk", "Åsane", "Ayr United", "Queen's Park", "Dunfermline A.", "Östersund", "Örebro SK", "Assyriska FF", "Audax Italiano", "Liverpool FC", "Mvd City Torque", "Gaz Metan", "Teramo", "Spartak Trnava", "Juan Aurich", "Alianza Lima", "Tulsa", "El Paso", "Real Monarchs", "Mezőkövesd", "FC Samtredia", "Újpest FC", "Torpedo Kutaisi", "CD Olimpia", "Oita Trinita", "Monte. Yamagata", "Sagan Tosu", "Bolívar", "Helmond Sport", "Brage", "Solihull Moors", "Notts County", "Gloucester", "Accrington", "Skive IK", "Fremad Amager", "Guaraní", "Cork City", "Almirante Brown", "SV Horn", "Grödig", "ES Sétif", "Esperance", "Kongsvinger", "Odd", "Falkenbergs FF", "Varbergs BoIS", "Helsingborgs IF", "Landskrona", "CD Iquique", "Wanderers", "SU Agen", "Bayonne", "Le Puy Foot", "FC Schaffhausen", "Plaza Colonia", "Rentistas", "Pandurii", "Academica Clince", "Pirin", "Viktoria Berlin", "Bethlehem Steel", "Columbus 2", "Orange County", "Sacramento FC", "Casertana", "Mosta FC", "Sliema Wander.", "Savoia", "Pavia", "AS Gubbio", "CDS Vida", "Takushoku Univ.", "FC Saxan", "Gomel", "CS Emelec", "Gateshead", "Grimsby Town", "FC Ferizaj", "Uniautónoma", "Dundalk FC", "Montrose", "Eastleigh", "Macclesfield", "TJ Jinmen Tiger", "Guillermo Brown", "All Boys", "Juniors OÖ", "FC Den Bosch", "Rot-Weiß Erfurt", "Hallescher FC", "Portland 2", "Ranheim", "Stjørdals-Blink", "Mjøndalen", "East Stirling", "Dag & Red FC", "Aldershot", "IK Oddevold", "AFC Eskilstuna", "FC Trollhättan", "Trelleborg", "Gefle", "Huachipato", "U. Católica", "NK Dugopolje", "FC Wil 1900", "Rampla Jrs", "KF Trepca", "KF Skënderbeu", "FC Drita", "Newport County", "LD Alajuelense", "Guadalupe FC", "Switchbacks FC", "FC Dila", "Real España", "FC Aarau", "Manisaspor", "Sanliurfaspor", "Bechem United", "Isloch", "Slo. Bratislava", "Cambridge Utd.", "Badalona", "Puerto Rico FC", "Harrogate Town", "Alfreton", "Fylde", "Al-Faisaly", "JS Suning", "MSV Duisburg", "Shkendija", "FC Liria", "FC Prishtina", "Mansfield Town", "Fleetwood", "Gillingham", "Hayes & Yeading", "Barnet", "Boreham Wood", "FK Senica", "KSK Heist", "Olimpo", "Sp. Italiano", "Pribram", "SF Lotte", "Ruch Chorzow", "FC Flora", "Chorrillo FC", "Chepo FC", "Cowdenbeath", "Raith Rovers", "Elgin City", "Queen o. t. S.", "IK Frej Täby", "NK Lucko", "Segesta Sisak", "NK Sesvete", "FC Vaduz", "B. Podgorica", "Astra Giurgiu", "FC Voluntari", "D. Calarasi", "CS Avion", "Quevilly Rouen", "Condal", "K.V.V. Crossing Elewijt", "SK Vorwärts Steyr", "Aris Limassol", "Odesa", "Saint-Pierroise", "Blacktown City", "Vicenza Calcio", "The Football League XI", "Chemnitzer FC", "First Vienna", "SKN St. Pölten", "Kremser SC", "Madura United", "C.C.D. Arturo Fernández Vial", "Società Calcio Leffe", "Neza", "Cobh Ramblers", "Kickers Offenbach", "Marocaine Casablanca", "Deportivo La Coruña Brasil Futebol Clube", "Tampa Bay Mutiny", "Miami Fusion", "HSV Barmbek-Uhlenhorst", "Saarbrücken", "Rawmarsh Welfare", "Chesterfield", "Cleveland Stokers", "Hellenic", "St. Pat's", "Fort Lauderdale Strikers", "FC Goa", "Gansu Tianma", "Boston Utd", "Högaborgs BK", "Råå IF", "A.C. Legnano", "Basque Country regional football team", "Zawisza", "Reipas Lahti", "MYPA", "FC Lahti", "Hansa Rostock", "Atlanta Silverbacks", "Léopards Douala", "Tonnerre Yaoundé", "SC Toulon", "Bali United", "TBVfL Neustadt-Wildenheid", "US Thionville", "Sport Club Barueri", "São José-SP", "EC São José", "San Antonio Thunder", "Seattle Sounders", "Saipa FC", "Racing CFF", "Vegalta Sendai", "Coronel Bolognesi", "Brandsen", "FC Chiasso", "Wimbledon", "St. George Saints Football Club", "Ravenna", "RCH", "New York Cosmos", "Fort Lauderdale Sun", "Kansas City Comets", "Zug 94", "Cork Celtic", "Young Fellows Juventus", "Chester City", "Sydney Olympic", "IFK Norrköping FK", "Karlstad BK", "Nuorese Calcio", "Torres", "Americano Futebol Clube", "Clube Atlético Lençoense/Bariri", "Madureira Esporte Clube", "Club Sporting Cristal", "Tiburones Rojos de Veracruz", "Rayo Cantabria", "SD Unión Club", "KFC Uerdingen 05", "San Diego Sockers", "Atlante", "Linz", "Atlético Celaya", "Club Celaya", "Boyacá Patriotas", "Real Cartagena", "Asociación Civil Deportivo Lara", "Leones", "FC Heartland", "ACR Messina", "Unione Sportiva Altamura", "Bartınspor", "Bank Tejarat", "Al Shabab Al Arabi Club", "Sabaye Qom", "Kairat Almaty", "GZ Evergrande", "Semassi", "Hessen Combinatie '03", "AGOVV Apeldoorn", "Quick Boys", "Clausenengen FK", "ATK", "PFC Pirin Blagoevgrad", "Bayer 04 Leverkusen II", "Kerala Blasters", "Colchester Utd.", "Valur", "KR Reykjavík", "CZ Mighty Lions", "Pune", "LKS Lodz", "Legia Warsaw", "Botafogo-SP", "São Cristóvão de Futebol e Regatas", "Bonsucesso Futebol Clube", "Sport Club Brasil", "Miami Freedom", "La Calera", "Arona Calcio", "Vancouver Whitecaps", "Cannes", "Real Madrid C", "RM Castilla", "Aretxabaleta", "Spartak 2", "Volgar", "Savona F.B.C.", "Sambenedettese", "KSK Beveren", "Universitary Sport Club", "Kuwait SC", "Telford United", "Essex County Cricket Club", "Cape Town City", "AD Fafe", "Concordia Knurów", "GKS Tychy", "Marsala Football Club", "Chennaiyin FC", "Kuusankosken Kumu", "HNK Borovo", "W. Mannheim", "Alem. Aachen", "Club Atlético Lanús", "Lyon La Duchère"];
+const CLUBCC=["", "", "COL", "AUT", "FRA", "", "DEN", "ITA", "ROU", "", "NED", "GRE", "GRE", "", "SWE", "FRA", "GRE", "", "ITA", "FRA", "", "PT", "NED", "DEN", "NOR", "DEN", "SCO", "PT", "", "TUR", "TUR", "AUS", "NED", "TUR", "RUS", "RUS", "KSA", "", "", "", "KSA", "KSA", "KSA", "", "KSA", "KSA", "KSA", "", "KSA", "KSA", "KSA", "", "KSA", "KSA", "KSA", "KSA", "KSA", "", "KSA", "", "KSA", "KSA", "", "KSA", "RUS", "TUR", "ESP", "", "JPN", "ARG", "COL", "NED", "ESP", "TUR", "PT", "FRA", "RUS", "MEX", "", "", "BEL", "FRA", "TUR", "", "TUR", "RUS", "", "", "GRE", "ARG", "GRE", "GER", "PT", "ENG", "UKR", "", "RUS", "", "GRE", "ENG", "ITA", "ESP", "BRA", "", "", "", "COL", "ARG", "USA", "MEX", "ESP", "", "BRA", "GRE", "AUS", "GER", "USA", "AUT", "", "JPN", "PT", "TUR", "", "TUR", "RUS", "ARG", "CZE", "ESP", "", "", "ARG", "TUR", "SUI", "GER", "BEL", "BEL", "PT", "PT", "ARG", "ITA", "PT", "TUR", "ESP", "", "", "", "ENG", "", "AUT", "PT", "ARG", "TUR", "NOR", "CZE", "ITA", "", "FRA", "GER", "GER", "BRA", "ENG", "COL", "", "PT", "ENG", "ITA", "ENG", "AUS", "", "", "SWE", "NOR", "DEN", "CRO", "", "ENG", "TUR", "", "", "CZE", "TUR", "", "ARG", "COL", "", "MEX", "ESP", "", "", "", "", "ROU", "", "", "RUS", "", "ITA", "ENG", "", "ITA", "PT", "ITA", "BRA", "ESP", "SCO", "AUS", "ARG", "BEL", "JPN", "ITA", "", "BRA", "USA", "ENG", "PT", "ENG", "", "USA", "ITA", "MEX", "UKR", "USA", "", "FRA", "BEL", "", "MEX", "", "", "USA", "USA", "GER", "ITA", "DEN", "BRA", "BRA", "", "POL", "ITA", "", "", "ITA", "BRA", "ENG", "SRB", "ESP", "ESP", "USA", "CRO", "CRO", "USA", "KSA", "", "NED", "ARG", "", "SWE", "TUR", "", "COL", "COL", "COL", "ESP", "", "UKR", "PT", "FRA", "RUS", "SWE", "UKR", "", "CZE", "SCO", "SCO", "", "UKR", "RUS", "KOR", "GER", "BRA", "BRA", "GER", "TUR", "ESP", "SWE", "ITA", "COL", "UKR", "GRE", "DEN", "TUR", "ESP", "PT", "FRA", "SRB", "PT", "ARG", "ARG", "GER", "ENG", "NED", "TUR", "GER", "CRO", "ROU", "ROU", "ROU", "", "ROU", "NED", "NED", "DEN", "NED", "DEN", "ROU", "GER", "", "MEX", "", "FRA", "SUI", "SUI", "UKR", "FRA", "UKR", "PT", "ROU", "CRO", "UKR", "SUI", "FRA", "SUI", "SUI", "JPN", "NED", "ROU", "NED", "SUI", "SUI", "ROU", "BEL", "ROU", "RUS", "SRB", "SCO", "PT", "PT", "CZE", "", "PT", "", "TUR", "", "", "NED", "", "ITA", "BRA", "BRA", "", "BRA", "COL", "NED", "", "NOR", "GER", "ITA", "ENG", "FRA", "SWE", "POL", "TUR", "JPN", "CRO", "TUR", "TUR", "TUR", "BEL", "ITA", "ESP", "PT", "CRO", "ARG", "ARG", "", "TUR", "ESP", "NED", "ARG", "", "ESP", "SUI", "AUT", "", "GER", "BRA", "", "", "FRA", "CRO", "", "POL", "TUR", "KOR", "KOR", "KOR", "SWE", "NOR", "GER", "SCO", "SWE", "TUR", "NOR", "SCO", "NED", "GER", "ITA", "NED", "GER", "SCO", "DEN", "GER", "GER", "USA", "CZE", "ENG", "ENG", "ARG", "DEN", "SWE", "", "SWE", "NOR", "SRB", "CRO", "ARG", "COL", "COL", "ARG", "ARG", "ITA", "COL", "USA", "BRA", "SCO", "GRE", "", "ENG", "GRE", "TUR", "", "", "JPN", "CZE", "POL", "SRB", "SRB", "CRO", "CRO", "COL", "", "", "BRA", "ITA", "TUR", "BEL", "BEL", "NOR", "RUS", "BEL", "BEL", "BEL", "BEL", "BEL", "GRE", "SWE", "USA", "TUR", "TUR", "", "UKR", "CZE", "JPN", "JPN", "TUR", "JPN", "TUR", "RUS", "GRE", "SCO", "TUR", "UKR", "TUR", "POL", "RUS", "NOR", "UKR", "RUS", "JPN", "USA", "USA", "AUT", "", "", "UKR", "BEL", "ARG", "ESP", "", "SUI", "ITA", "FRA", "", "ITA", "POL", "POL", "ENG", "POL", "ENG", "", "", "FRA", "GRE", "ESP", "GER", "", "", "MEX", "", "BEL", "FRA", "NOR", "ENG", "SCO", "COL", "RUS", "", "", "", "ENG", "DEN", "FRA", "", "", "AUS", "", "JPN", "", "GER", "ESP", "SWE", "ENG", "ENG", "FRA", "PT", "MEX", "AUS", "AUS", "TUR", "UKR", "UKR", "UKR", "ROU", "UKR", "UKR", "ENG", "DEN", "COL", "", "USA", "BRA", "JPN", "SWE", "CZE", "SRB", "", "NOR", "MEX", "FRA", "USA", "ITA", "RUS", "PT", "SCO", "POL", "BEL", "ESP", "FRA", "NED", "NED", "KSA", "KOR", "KOR", "", "KOR", "KOR", "KOR", "PT", "", "JPN", "FRA", "ITA", "SRB", "USA", "", "MEX", "", "USA", "USA", "USA", "ENG", "ARG", "FRA", "DEN", "SWE", "", "ENG", "ENG", "", "SRB", "GER", "", "FRA", "GRE", "SRB", "BEL", "DEN", "", "", "PT", "UKR", "", "GRE", "", "COL", "TUR", "RUS", "USA", "ESP", "TUR", "ROU", "", "GRE", "GRE", "GRE", "NED", "UKR", "FRA", "NED", "MEX", "", "", "ITA", "BRA", "GRE", "GRE", "GRE", "GRE", "GRE", "", "CZE", "RUS", "FRA", "ITA", "SCO", "SRB", "", "", "PT", "", "TUR", "COL", "AUS", "", "ITA", "", "ROU", "", "USA", "", "POL", "ITA", "GRE", "ARG", "", "POL", "CRO", "UKR", "", "", "PT", "USA", "", "", "", "", "", "MEX", "ENG", "", "", "MEX", "BEL", "BEL", "BRA", "GER", "BEL", "NED", "BEL", "", "ARG", "", "SRB", "SRB", "POL", "POL", "DEN", "SCO", "AUT", "ESP", "ENG", "ESP", "", "ESP", "", "ESP", "", "", "", "", "BRA", "FRA", "PT", "COL", "ARG", "NED", "", "ITA", "ARG", "NOR", "SCO", "RUS", "", "RUS", "BEL", "RUS", "FRA", "NED", "", "UKR", "GER", "UKR", "AUT", "ESP", "ESP", "", "USA", "NOR", "RUS", "FRA", "ITA", "AUT", "", "FRA", "ITA", "", "USA", "AUT", "ITA", "TUR", "USA", "ARG", "MEX", "ARG", "NOR", "JPN", "PT", "BRA", "MEX", "ESP", "ARG", "ITA", "GER", "", "USA", "ROU", "SUI", "ESP", "UKR", "", "ENG", "JPN", "JPN", "", "ITA", "CZE", "DEN", "BEL", "SWE", "TUR", "POL", "KOR", "CZE", "CZE", "CZE", "ENG", "CZE", "NED", "SRB", "RUS", "ITA", "BRA", "PT", "ESP", "SCO", "USA", "SCO", "GER", "FRA", "", "FRA", "POL", "BEL", "", "", "ENG", "NOR", "AUT", "ENG", "CRO", "ENG", "", "AUS", "", "BRA", "DEN", "AUT", "RUS", "NED", "ESP", "CZE", "", "ARG", "MEX", "JPN", "MEX", "RUS", "PT", "ITA", "USA", "RUS", "", "RUS", "ENG", "FRA", "", "TUR", "", "", "", "", "NOR", "FRA", "ROU", "", "MEX", "", "", "", "", "ROU", "ITA", "RUS", "CRO", "GER", "BEL", "ROU", "ROU", "PT", "ARG", "RUS", "JPN", "NED", "JPN", "NED", "FRA", "ESP", "", "ESP", "USA", "", "", "BRA", "DEN", "DEN", "ITA", "UKR", "GRE", "GER", "", "DEN", "NOR", "CZE", "", "", "ESP", "JPN", "NED", "PT", "PT", "PT", "SRB", "GRE", "UKR", "SWE", "SWE", "NOR", "ARG", "AUT", "BEL", "", "ENG", "AUS", "GER", "ENG", "ENG", "AUS", "AUS", "POL", "ENG", "", "POL", "AUT", "GER", "ENG", "", "", "GRE", "TUR", "", "JPN", "JPN", "SUI", "SUI", "POL", "SRB", "RUS", "RUS", "UKR", "BEL", "FRA", "SWE", "SWE", "TUR", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "UKR", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
 const NATS=["", "Albânia", "Alemanha", "Angola", "Argentina", "Argélia", "Arménia", "Arábia Saudita", "Austrália", "Azerbaijão", "Bangladesh", "Barbados", "Benim", "Bermudas", "Bielorrússia", "Bolívia", "Brasil", "Bulgária", "Burkina Faso", "Burundi", "Bélgica", "Bósnia", "CSSR", "Cabo Verde", "Camarões", "Canadá", "Catar", "Cazaquistão", "Chade", "Chile", "China", "Chipre", "Chéquia", "Colômbia", "Comores", "Congo", "Coreia do Norte", "Coreia do Sul", "Costa Rica", "Costa do Marfim", "Croácia", "Cuba", "Curaçau", "Dinamarca", "Djibouti", "EUA", "East Germany (GDR)", "Egito", "El Salvador", "Equador", "Eritrea", "Escócia", "Eslováquia", "Eslovénia", "Espanha", "Estónia", "Filipinas", "Finlândia", "França", "Gabão", "Gana", "Geórgia", "Grenada", "Grécia", "Guadalupe", "Guatemala", "Guernsey", "Guiana Francesa", "Guiné", "Guiné Equatorial", "Guiné-Bissau", "Haiti", "Honduras", "Hungria", "Ilhas Faroé", "Indonésia", "Inglaterra", "Iraque", "Irlanda", "Irlanda do Norte", "Irão", "Isle of Man", "Islândia", "Israel", "Itália", "Jamaica", "Japão", "Jordânia", "Jugoslawien (SFR)", "Kosovo", "Kuwait", "Letónia", "Libéria", "Lituânia", "Luxemburgo", "Líbia", "Macedonia", "Macedónia do Norte", "Madagáscar", "Malaysia", "Mali", "Malta", "Marrocos", "Martinica", "Mauritius", "Mauritânia", "Mayotte", "Moldávia", "Monaco", "Montenegro", "Moçambique", "México", "Netherlands Antilles", "New Caledonia", "Nicaragua", "Nigéria", "Noruega", "Nova Caledónia", "Nova Zelândia", "Omã", "Palestina", "Panamá", "Paraguai", "País de Gales", "Países Baixos", "Peru", "Polónia", "Portugal", "Quénia", "RD Congo", "República Centro-Africana", "República Dominicana", "Roménia", "Réunion", "Rússia", "Senegal", "Serbia and Montenegro", "Serra Leoa", "Seychelles", "Singapore", "St. Kitts & Nevis", "Suriname", "Suécia", "Suíça", "São Tomé e Príncipe", "Sérvia", "Síria", "Tanzânia", "The Gambia", "Togo", "Trindade e Tobago", "Tunísia", "Turquia", "Ucrânia", "UdSSR", "Uganda", "União Soviética", "Uruguai", "Usbequistão", "Venezuela", "Yugoslavia (Republic)", "Zaire", "Zimbabué", "Zâmbia", "África do Sul", "Áustria"];
 const TAGS=["bdo", "cBRA", "cENG", "cESP", "cFRA", "cGER", "cITA", "cPT", "euro", "t:Abel Ferreira", "t:Alex Ferguson", "t:Ancelotti", "t:André Villas-Boas", "t:Arne Slot", "t:Arrigo Sacchi", "t:Arsène Wenger", "t:Arteta", "t:Bielsa", "t:Bruno Lage", "t:Capello", "t:Carlos Queiroz", "t:Conte", "t:Cruyff", "t:Del Bosque", "t:Deschamps", "t:Fernando Santos", "t:Guardiola", "t:Hansi Flick", "t:Jesualdo Ferreira", "t:Joachim Löw", "t:Jorge Jesus", "t:José Mourinho", "t:José Peseiro", "t:Klopp", "t:Leonardo Jardim", "t:Lopetegui", "t:Luis Enrique", "t:Mancini", "t:Marco Silva", "t:Nuno Espírito Santo", "t:Paulo Bento", "t:Paulo Fonseca", "t:Pochettino", "t:Rafa Benítez", "t:Ranieri", "t:Roberto Martínez", "t:Rui Vitória", "t:Rúben Amorim", "t:Sarri", "t:Scaloni", "t:Scolari", "t:Simeone", "t:Sérgio Conceição", "t:Tuchel", "t:Van Gaal", "t:Vítor Pereira", "t:Xabi Alonso", "t:Zidane", "ucl", "uel", "wc"];
 const DB=`Lionel Messi|AVA|4|99|127.647.442|1987|E|170|208|4|0.3.4.26.36.42.49.58.60|D
@@ -643,7 +643,7 @@ Bobby Charlton|MED|76|93|552.695.556|1937||173|106||0.2.58.60|
 Figo|AVA|127|93|812.127.721.440|1972||180|127||0.3.6.20.22.23.31.37.50.54.58|D
 Thierry Henry|AVA|58|93|587.463.93.127.608|1977||188|123||8.11.15.60|
 Roberto Baggio|AVA|84|93|356.463.7.154.440.165|1967||174|56||0.11.14.19|
-Kaká|MED|16|92|834.7.721.637|1982|A|186|92|16|0.3.6.11.31.50.58.60|
+Kaká|MED|16|92|834.7.721.637|1982|A|186|92|16|0.3.6.11.31.34.50.58.60|
 Manuel Neuer|GR|2|92|133.782|1986|D|193|128|2|5.11.26.27.29.53.58.60|
 Sergio Ramos|DEF|54|92|787.721.647.577|1986|D|184|180|54|3.4.8.11.19.23.31.35.36.42.43.57.58.60|
 Toni Kroos|MED|2|92|133.524.721|1990|D|183|114|46|3.5.11.26.27.29.35.43.54.57.58.60|
@@ -660,7 +660,7 @@ Steven Gerrard|MED|76|91|532.499|1980|D|183|114|76|19.43.58.59|
 Zlatan Ibrahimović|AVA|142|91|550.32.463.440.127.7.647.552.499|1981|D|195|122|142|3.4.6.11.19.26.31.37.59|
 Iker Casillas|GR|54|91|721.325|1981|E|182|167|54|3.7.8.11.19.20.23.31.32.35.39.52.58.60|
 Andrea Pirlo|MED|84|91|165.440.729.7.463.609|1979|A|177|116|84|6.11.21.58.60|
-Francesco Totti|AVA|84|91|737|1976|A|180|58|84|6.19.44.60|
+Francesco Totti|AVA|84|91|737|1976|A|180|58|84|6.19.36.44.60|
 Karim Benzema|AVA|58|91|541.721.46.45|1987|D|185|97|58|0.3.4.11.24.31.35.43.57.58|
 Harry Kane|AVA|76|91|853.526.568.616.518.133|1993|D|188|125|76|5.12.21.31.39.42.53|
 Mohamed Salah|AVA|47|91|132.215.356.737.532.856|1992|E|175|119|47|2.13.20.31.33.58|D
@@ -677,18 +677,18 @@ George Weah|AVA|92|91|587.647.7.215.551.553.47|1966||182|75||0.14.15.19|
 Stoichkov|AVA|17|91|195.127.663.52.483.217.247|1966||178|85||0.3.22.54.58|E
 Rummenigge|AVA|2|91|133.440.786|1955||182|96||0.5.58|
 Philipp Lahm|DEF|2|90|133.298|1983|D|170|113|2|5.11.26.29.54.58.60|
-Frank Lampard|MED|76|90|925.830.215.551.609|1978|D|184|107|76|2.11.19.31.43.44.50.58.59|
+Frank Lampard|MED|76|90|925.830.215.551.609|1978|D|184|107|76|2.11.12.19.31.43.44.50.58.59|
 Wayne Rooney|AVA|76|90|299.552.247.263|1985|D|176|120|76|2.10.19.20.31.54.58.59|
-Didier Drogba|AVA|39|90|512.398.553.215.755.371.579|1978|A|189|104|39|2.11.31.37.50.58|
+Didier Drogba|AVA|39|90|512.398.553.215.755.371.579|1978|A|189|104|39|2.11.12.31.37.50.58|
 Dani Alves|DEF|16|90|279.787.127.463.647.834.865|1983|D|172|118|16|3.4.6.26.36.50.53.58.59|
 Sergio Agüero|AVA|4|90|438.110.551.127|1988|D|173|101|4|2.26.37.49.59|
 Thiago Silva|DEF|16|90|358.462.325.276.7.647.215|1984|D|181|113|16|4.6.7.11.42.50.53.58|
 Eden Hazard|AVA|20|90|530.215.721|1991|D|175|126|20|2.3.4.11.21.31.43.45.48.57.58.59|E
-Philippe Coutinho|MED|16|90|440.892.291.532.127.133.99.39.777|1992|D|172|68|16|3.5.6.27.31.33.42.43.50.58|
+Philippe Coutinho|MED|16|90|440.892.291.532.127.133.99.39.777|1992|D|172|68|16|3.5.6.27.31.33.42.43.44.50.58|
 Alisson|GR|16|90|443.737.532|1992|D|193|83|16|2.11.13.33.58|
-Thibaut Courtois|GR|20|90|377.110.215.721|1992|E|199|115|20|2.3.11.21.31.35.43.45.51.56.57.58.59|
+Thibaut Courtois|GR|20|90|377.110.215.721|1992|E|199|115|20|2.3.11.12.21.31.35.43.45.51.56.57.58.59|
 Jan Oblak|GR|53|90|140.136.629.519.732.110|1993|D|188|88|53|3.7.30.34.39.51.59|
-Rui Costa|MED|127|90|891.690.345.9.262.776.346.140.356.7|1996|D|179|0|127||
+Rui Costa (1996)|MED|127|90|891.690.345.9.262.776.346.140.356.7|1996|D|179|0|127||
 Jude Bellingham|MED|76|90|145.157.721|2003|D|186|60|76|3.11.53.56.58|
 Lamine Yamal|AVA|54|90|127|2007|E|183|37|54|3.8.27|D
 Oliver Kahn|GR|2|90|479.133|1969||188|86||5.8.29.58|
@@ -700,11 +700,11 @@ Eto'o|AVA|24|90|721.186.291.549.127.440.85.215.299.768.84.492.700|1981||180|118|
 Raúl González|AVA|54|90|721.59.782|1977||178|102||3.19.20.23.58|
 Robben|AVA|124|90|312.648.215.721.133|1984||180|96||11.26.31.54|D
 Bergkamp|AVA|124|90|32.440.93|1969||183|79||15.22.54|
-Javier Zanetti|DEF|4|89|125.440|1973|D|178|145|4|6.17.31.37.43.58|
+Javier Zanetti|DEF|4|89|125.440|1973|D|178|145|4|6.17.31.37.43.44.58|
 Bastian Schweinsteiger|MED|2|89|133.552.217|1984||0|121|2|5.26.29.31.54.58.59.60|
-John Terry|DEF|76|89|215.617.99|1980|D|187|78|76|2.11.19.21.31.43.44.50.58.59|
+John Terry|DEF|76|89|215.617.99|1980|D|187|78|76|2.11.12.19.21.31.43.44.50.58.59|
 Paul Scholes|MED|76|89|552|1974|D|168|66|76|2.10.20.58|
-Petr Cech|GR|32|89|806.731.215.93|1982|E|196|124|22|2.11.15.31.43.50.58.59|
+Petr Cech|GR|32|89|806.731.215.93|1982|E|196|124|22|2.11.12.15.31.43.50.58.59|
 Carles Puyol|DEF|54|89|127|1978|D|178|106|54|3.8.22.23.26.54.58.60|
 Ricardo Carvalho|DEF|127|89|325.909.74.215.721.587|1978|D|182|89|127|2.3.7.8.11.12.20.25.31.34.40.44.50.58.59|
 Pepe|DEF|127|89|554.325.721.141|1983|D|187|141|16|3.7.8.11.20.25.28.31.40.43.45.50.52.57.58|
@@ -717,7 +717,7 @@ Gareth Bale|AVA|123|89|805.853.721.500|1989|E|186|111|123|3.11.12.31.35.43.57.58
 Ángel Di María|AVA|4|89|738.140.721.552.647.463|1988|E|178|145|4|3.4.7.11.18.30.31.42.49.53.54.58.60|D
 Marcelo|DEF|16|89|777.930.648.141.541.156.926.721.358|1987|D|191|0|16||
 Thomas Müller|AVA|2|89|133.889|1989|D|185|131|2|5.11.26.27.29.53.54.58.60|
-Romelu Lukaku|AVA|20|89|80.215.924.299.552.440.737.601.351|1993|E|190|132|20|6.21.31.42.43.45.53.58|
+Romelu Lukaku|AVA|20|89|80.215.924.299.552.440.737.601.351|1993|E|190|132|20|6.12.21.31.42.43.45.53.58|
 Antoine Griezmann|AVA|58|89|725.110.127.637|1991|E|176|137|58|24.51.59.60|
 Raheem Sterling|AVA|76|89|532.551.215.93.354|1994|D|170|82|85|2.16.26.42.53|D
 Joshua Kimmich|MED|2|89|705.133.298|1995|D|177|116|2|5.11.26.27.29.53.58|
@@ -742,9 +742,9 @@ Klinsmann|AVA|2|89|298.440.587.853.133.768|1964||181|108||8.15.60|
 Cantona|AVA|58|89|15.156.578.622.516.552.553|1966||188|45||10|
 Michael Owen|AVA|76|88|532.721.610.552.825|1979|A|173|91|76|0.2.10.19.59|
 Rio Ferdinand|DEF|76|88|925.160.516.552.698|1978|D|189|81|76|2.10.19.20.58|
-Wesley Sneijder|MED|124|88|32.721.440.371.612.43|1984|A|170|134|124|3.6.31.37.43.54.58|
+Wesley Sneijder|MED|124|88|32.721.440.371.612.43|1984|A|170|134|124|3.6.31.37.43.44.54.58|
 Xabi Alonso|MED|54|88|753.725.532.721.133|1981|D|183|114|54|3.5.8.11.23.26.31.43.58.60|
-Fernando Torres|AVA|54|88|110.532.215.7|1984|D|186|110|54|8.14.23.31.43.44.51.58.59.60|
+Fernando Torres|AVA|54|88|110.532.215.7|1984|D|186|110|54|8.12.14.23.31.43.44.51.58.59.60|
 David Villa|AVA|54|88|813.779.888.127.110.557.609.906|1981|A|174|98|54|3.8.23.26.51.58.60|
 Cesc Fàbregas|MED|54|88|127.93.215.587.232|1987|D|179|113|54|2.3.8.15.21.22.23.26.31.34.48.54.59.60|
 Nemanja Vidic‎|DEF|145|88|808.294.809.552.440|1981|D|189|76|88|2.10.20.37.58|
@@ -752,7 +752,7 @@ Ivan Rakitic|MED|40|88|132.787.127.60.405|1988|D|184|106|143|3.35.36.58.59|
 David Silva|MED|54|88|753.888.203.551.725|1986|E|170|125|54|2.8.23.26.35.37.44.60|
 Mats Hummels|DEF|2|88|133.157.737|1988|D|191|78|2|5.11.27.29.33.44.53.60|
 Alexis Sánchez|AVA|29|88|227.871.734.127.93.552.440.553.787.579|1988|D|169|168|29|3.6.15.17.21.26.31|
-Miralem Pjanić|MED|21|88|323.541.737.463.127.141.194|1990|D|181|115|88|6.48|
+Miralem Pjanić|MED|21|88|323.541.737.463.127.141.194|1990|D|181|115|88|6.36.48|
 Edinson Cavani|AVA|157|88|252.652.601.647.552.888.150|1987|D|184|136|157|4.17.53|
 Pierre-Emerick Aubameyang|AVA|59|88|819.7.266.530.587.763.157.93.127.215.553.55.262|1989|D|187|86|58|3.6.11.15.16.33.53|
 Thiago Alcántara|MED|54|88|127.133.532|1991|D|174|46|84|3.5.11.23.26.27.33.35.36.58|
@@ -832,13 +832,13 @@ Van Persie|AVA|124|88|354.93.552.351|1983||183|102||10.15.54.55|
 Jairzinho|AVA|16|88|159.553.242.693|1944||173|1||60|D
 Crespo|AVA|4|88|734.663.510.440.215.7.378|1975||185|64||11.17.31.37.44|
 Miroslav Klose|AVA|2|87|0.923.133.510|1978|D|184|137|126|5.29.54.60|
-Lúcio|DEF|16|87|443.524.133.440.463.834.653|1978||0|105|16|5.6.31.43.50.58.60|
+Lúcio|DEF|16|87|443.524.133.440.463.834.653|1978||0|105|16|5.6.31.43.44.50.58.60|
 David Beckham|MED|76|87|552.695.721.499.7.647|1975|D|182|115|76|2.3.4.10.11.19.20.58|
-Ashley Cole|DEF|76|87|93.243.215.737.499.263|1980|E|176|107|76|2.11.15.19.31.43.50.58.59|
-Nicolas Anelka|AVA|58|87|647.93.721.532.551.351.155.215.755.463.924|1979|D|186|69|58|2.6.8.11.15.21.23.50.58|
+Ashley Cole|DEF|76|87|93.243.215.737.499.263|1980|E|176|107|76|2.11.12.15.19.31.43.50.58.59|
+Nicolas Anelka|AVA|58|87|647.93.721.532.551.351.155.215.755.463.924|1979|D|186|69|58|2.6.8.11.12.15.21.23.50.58|
 Ryan Giggs|MED|123|87|552|1973|E|179|64|123|2.10.20.58|
 Carlos Tevez|AVA|4|87|150.234.925.552.551.463.755|1984|D|171|76|4|2.6.10.20.21.37.58|
-Daniele De Rossi|MED|84|87|737.150|1983|A|184|117|84|19.21.44.60|
+Daniele De Rossi|MED|84|87|737.150|1983|A|184|117|84|19.21.36.44.60|
 Luca Toni|AVA|84|87|575.285.858.165.652.356.133.737.378.463.51.416|1977||0|47|84|5.6.21.44.54.60|
 Jérôme Boateng|DEF|2|87|418.408.551.133.541.764.501|1988|D|192|76|2|5.11.26.27.29.37.58.60|
 Sami Khedira|MED|2|87|298.721.463.418|1987|D|189|77|2|3.5.6.11.29.31.48.58.60|
@@ -847,7 +847,7 @@ Gonzalo Higuaín|AVA|4|87|734.721.601.463.7.215.442|1987|D|184|75|58|3.6.31.43.4
 Leonardo Bonucci|DEF|84|87|440.858.681.378.128.463.7.874.351|1987|D|189|121|84|6.8.21.31.37.48|
 Ivan Perišić|AVA|40|87|330.224.157.933.440.133.853.405.648|1989|A|186|158|88|5.6.21.27.33.37.58|E
 Javi Martínez|MED|54|87|638.101.133.700|1988|D|189|18|54|5.8.11.17.23.26.27.58.60|
-Juan Mata|MED|54|87|888.215.552.371.906.926.556|1988|E|170|41|54|8.23.31.43.54.58.59.60|
+Juan Mata|MED|54|87|888.215.552.371.906.926.556|1988|E|170|41|54|8.12.23.31.43.54.58.59.60|
 Diego Costa|AVA|54|87|163.669.110.203.67.886.719.215.112.934.159.395|1988|D|186|26|16|2.3.21.23.28.31.35.51.59|
 Georginio Wijnaldum|MED|124|87|354.648.610.532.647.737.40.46|1990|D|175|96|124|2.4.31.33.42.43.54.58|
 Mateo Kovacic|MED|40|87|277.440.721.215.551|1994|D|178|121|165|2.3.26.35.37.43.48.53.57.58.59|
@@ -988,8 +988,8 @@ Foden|AVA|76|87|551|2000||171|49||26.53|
 Forlán|AVA|157|87|438.552.905.110.440.443.208.677|1979||179|112||10.20|
 Trezeguet|AVA|58|87|683.587.463.430.734.611|1977||190|71||8.11.19.24.44.60|
 Pablo Aimar|MED|4|86|297.734.888.779.140|1979|D|170|52|4|3.7.17.30.43.44.59|
-Dejan Stankovic|MED|145|86|294.510.440|1978|D|181|164|88|6.31.37.43.58|
-Cristian Chivu|DEF|132|86|32.737.440|1980|E|184|75|132|6.19.31.37.43.58|
+Dejan Stankovic|MED|145|86|294.510.440|1978|D|181|164|88|6.31.37.43.44.58|
+Cristian Chivu|DEF|132|86|32.737.440|1980|E|184|75|132|6.19.31.37.43.44.58|
 Patrice Evra|DEF|58|86|580.612.587.552.463.553.925|1981|E|174|81|135|2.6.10.20.24.58|
 Alberto Gilardino|AVA|84|86|679.416.663.7.356.154.378.652.285.674.810|1982|D|184|57|84|11.58.60|
 Mario Gómez|AVA|2|86|298.133.356.141.933|1985|D|189|80|2|5.29.54.58|
@@ -1000,8 +1000,8 @@ Jesús Navas|MED|54|86|787.551|1985|D|170|56|54|2.8.23.26.35.36.59.60|
 Hugo Lloris|GR|58|86|612.541.853.500|1986|E|188|145|58|12.21.24.31.39.42.60|
 Maicon (1981)|DEF|16|86|242.587.440.551.737.240|1981|D|185|76|16|6.24.31.37.43.50.58|
 Javier Mascherano|MED|4|86|734.234.925.532.127.296|1984|D|174|147|4|3.17.26.36.43.58|
-Diego Milito|AVA|4|86|710.378.779.440|1979|D|183|25|4|6.17.31.43.58|
-Júlio César|GR|16|86|357.218.440.698.849.140|1979|E|186|87|16|6.7.30.31.37.43.46.50.58|
+Diego Milito|AVA|4|86|710.378.779.440|1979|D|183|25|4|6.17.31.43.44.58|
+Júlio César|GR|16|86|357.218.440.698.849.140|1979|E|186|87|16|6.7.30.31.37.43.44.46.50.58|
 Edin Dzeko|AVA|21|86|840.933.551.737.440.351.356|1986|D|192|152|88|2.5.31.37.41.44|
 Blaise Matuidi|MED|58|86|862.763.647.463.442|1987|E|175|84|58|4.6.11.24.48.60|
 Mario Mandzukic|AVA|40|86|277.933.133.110.463.39.7|1986|D|190|89|88|5.6.26.48.51.58|
@@ -1014,7 +1014,7 @@ Andrej Kramaric|AVA|40|86|277.592.404.518.421|1991|D|177|119|88|2.44|
 Willian|AVA|16|86|234.788.85.215.93.367.632.395|1988|D|175|70|16|2.16.21.31.38.48.50.55.59|E
 Nicolás Otamendi|DEF|4|86|917.325.112.888.551.140.734|1988|D|182|139|4|2.7.12.18.26.30.31.39.41.49.55.59.60|
 Henrikh Mkhitaryan|MED|6|86|563.788.157.552.93.737.440|1989|A|177|95|154|6.15.16.31.33.41.53.59|
-César Azpilicueta|DEF|54|86|638.181.553.215.110.787|1989|D|178|44|54|2.21.23.31.35.36.43.48.51.53.58.59|
+César Azpilicueta|DEF|54|86|638.181.553.215.110.787|1989|D|178|44|54|2.21.23.24.31.35.36.43.48.51.53.58.59|
 Nacho Fernández|DEF|54|86|721.55|1990|D|180|29|54|3.8.11.23.31.35.36.43.57.58|
 Jordan Henderson|MED|76|86|828.236.532.40.32.164.215|1990|D|182|91|76|2.19.33.53.58|
 Pedro (1987)|AVA|54|86|127.215.737.510|1987|A|167|65|54|2.3.8.21.23.26.31.35.36.41.48.58.59.60|D
@@ -1050,7 +1050,7 @@ Fred|MED|16|86|443.788.552.351.112|1993|A|170|32|16|31.41|
 Stanislav Lobotka|MED|52|86|613.203.601|1994|D|168|76|52|6.21|
 Andreas Christensen|DEF|43|86|215.158.127|1996|D|189|82|43|2.3.21.27.48.53.58.59|
 Federico Bernardeschi|AVA|84|86|356.241.463.849.154|1994|E|183|39|84|6.8.37.48|D
-Alessio Romagnoli|DEF|84|86|737.768.7.510.59|1995|E|185|13|84|6.19.37.44.48|
+Alessio Romagnoli|DEF|84|86|737.768.7.510.59|1995|E|185|13|84|6.19.36.37.44.48|
 Oleksandr Zinchenko|DEF|153|86|788.872.551.648.93.617.32|1996|E|175|75|153|2.16.26|
 José Gayà|DEF|54|86|888|1995|E|172|22|54|36.39|
 Moussa Dembélé|AVA|58|86|367.204.541.110.40|1996|D|187|25|58|3.41.51|
@@ -1156,10 +1156,10 @@ William Gallas|DEF|58|85|759.553.215.93.853.672|1977|D|182|84|58|2.12.15.31.44|
 Shaun Wright-Phillips|AVA|76|85|551.215.698.608|1981|D|166|36|76|2.19.31.37|D
 Michael Carrick|MED|76|85|831.925.145.853.552|1981|D|189|35|76|2.10.19.20.31.54.58.59|
 Mahamadou Diarra|MED|100|85|623.907.541.721.587.367|1981|D|182|1|100|3.4.19.31|
-Florent Malouda|AVA|58|85|502.398.541.215.856.323|1980|E|177|80|67|2.4.11.43.50.58|E
+Florent Malouda|AVA|58|85|502.398.541.215.856.323|1980|E|177|80|67|2.4.11.12.43.50.58|E
 Adrian Mutu|AVA|132|85|308.440.416.663.215.18.463.356.209.4.676|1979|D|180|77|132|19.44|
-Simone Perrotta|MED|84|85|729.463.128.218.737|1977|D|178|48|76|11.44.60|
-Walter Samuel|DEF|4|85|611.150.737.721.440.132|1978|E|183|56|4|6.17.19.31.37.43.58|
+Simone Perrotta|MED|84|85|729.463.128.218.737|1977|D|178|48|76|11.36.44.60|
+Walter Samuel|DEF|4|85|611.150.737.721.440.132|1978|E|183|56|4|6.17.19.31.37.43.44.58|
 Mirko Vucinic|AVA|109|85|513.737.463.47|1983|D|186|49|88|6.21.44|
 Juan Carlos Valerón|MED|54|85|507.549.110.262|1975|D|186|46|54|14.44|
 Joaquín|AVA|54|85|143.142.888.586.356|1981|D|181|51|54||D
@@ -1169,7 +1169,7 @@ Santi Cazorla|MED|54|85|905.586.93.59.723|1984|A|168|81|54|8.15.23.35.36|
 Júlio Baptista|MED|16|85|834.787.721.93.737.586.242.637.191|1981|A|185|47|16|3.15.19.44.50|
 João Moutinho|MED|127|85|812.325.587.934.163|1986|D|170|146|127|4.7.8.12.18.20.25.32.34.35.39.40.44.50.55.59|
 Fernando Llorente|AVA|54|85|101.144.463.787.830.853.601.871.753|1985|D|195|24|54|6.8.11.17.21.23.42.59.60|
-Branislav Ivanovic|DEF|145|85|624.535.215.947.924|1984|D|185|105|88|2.11.21.31.37.43.50.58.59|
+Branislav Ivanovic|DEF|145|85|624.535.215.947.924|1984|D|185|105|88|2.11.12.21.31.37.43.50.58.59|
 Mario Balotelli|AVA|84|85|440.551.7.532.612.553.165.580.29.329.378|1990|D|189|36|84|2.6.21.31.33.37.58|
 Stevan Jovetić|AVA|109|85|665.356.551.440.787.587.418.632.633|1989|D|183|91|88|2.34.37|
 Dries Mertens|AVA|20|85|465.882.648.601.371|1987|D|169|109|20|11.43.45.48|
@@ -1190,7 +1190,7 @@ Emre Can|DEF|2|85|133.524.532.463.157|1994|D|186|48|2|5.6.27.29.33.48|
 Matthias Ginter|DEF|2|85|365.157.158|1994|D|189|51|2|27.29.33.53.60|
 Lucas Digne|DEF|58|85|530.647.737.127.299.99|1993|E|178|64|58|3.4.11.24.36.38.43|
 Idrissa Gueye (1989)|MED|135|85|530.99.299.647|1989|D|174|136|135|4.38.42.53|
-Alessandro Florenzi|DEF|84|85|737.241.888.647.7|1991|D|173|49|84|6.8.21.31.37.41.42.44.52.53|
+Alessandro Florenzi|DEF|84|85|737.241.888.647.7|1991|D|173|49|84|6.8.21.31.36.37.41.42.44.52.53|
 Jesse Lingard|MED|76|85|552.518.145.166.263.925.617.327.234|1992|D|174|32|76|10.31.54.59|
 Alex Oxlade-Chamberlain|MED|76|85|805.93.532.141.204|1993|D|180|35|76|2.15.33|
 Leandro Trossard|AVA|20|85|377.536.473.625.166.93|1994|D|172|57|20|16.45|E
@@ -1243,7 +1243,7 @@ Dan Ndoye|AVA|143|85|509.612.132.154.617|2000|D|184|36|143|39.55|D
 Leon Bailey|AVA|85|85|377.524.99.737.632|1997|E|178|41|85||D
 Yoane Wissa|AVA|129|85|502.81.819.4.319.164.610|1996|D|176|42|58||
 Edson Álvarez|MED|111|85|77.32.925.351|1997|D|190|103|111|35.39|
-Giacomo Raspadori|AVA|84|85|781.601.110.100|2000|D|172|46|84|6.8.21.51|
+Giacomo Raspadori|AVA|84|85|781.601.110.100|2000|D|172|46|84|6.8.21.48.51|
 Felix Nmecha|MED|2|85|551.933.157|2000|D|190|12|2||
 Ismaïla Sarr|AVA|135|85|400.323.731.921.553.243|1998|D|185|87|135|44|D
 Francisco Trincão|MED|127|85|163.127.934.812.36|1999|E|184|19|127|7.9.18.25.45.47|
@@ -1275,11 +1275,11 @@ Joan García|GR|54|85|291.127|2001|D|194|3|54|27|
 Bart Verbruggen|GR|124|85|80.166|2002|D|193|37|124||
 Johan Bakayoko|AVA|20|85|648.705|2003|E|179|18|20||D
 Pape Matar Sarr|MED|135|85|400.323.853.463|2002|D|185|42|135|21.39.59|
-Giorgio Scalvini|DEF|84|85|100|2003|D|194|11|84|37.59|
+Giorgio Scalvini|DEF|84|85|100|2003|D|194|11|84|37.48.59|
 Strahinja Pavlović|DEF|145|85|665.587.207.132.767.7|2001|E|194|59|160|41.52|
 Jan Paul van Hecke|DEF|124|85|588.166.414.146|2000|D|189|16|124||
 Rayan Aït-Nouri|DEF|5|85|81.934.551|2001|E|180|33|58|18.26.35.39.55|
-Éderson|MED|16|85|242.234.360.764.100|1999|D|183|5|16|59|
+Éderson|MED|16|85|242.234.360.764.100|1999|D|183|5|16|48.59|
 Castello Lukeba|DEF|58|85|541.705|2002|E|184|1|58|41|
 Manu Koné|MED|58|85|854.158.737|2001|D|185|18|58|44|
 Roméo Lavia|MED|20|85|551.805.215|2004|D|181|1|20|26.42|
@@ -1333,17 +1333,17 @@ Per Mertesacker|DEF|2|84|923.93|1984|D|200|104|2|15.29.60|
 Andrea Barzagli|DEF|84|84|679.97.218.652.933.463|1981|D|187|73|84|5.6.21.60|
 Carlos Marchena|DEF|54|84|787.140.888.905.262|1979|D|182|69|54|3.8.23.43.44.59.60|
 David Albelda|MED|54|84|888.905|1977|D|182|51|54|3.43.44.59|
-Thiago Motta|MED|84|84|127.110.378.440.647|1982|E|187|32|16|3.4.6.11.21.31.43.54.58|
+Thiago Motta|MED|84|84|127.110.378.440.647|1982|E|187|32|16|3.4.6.11.21.31.43.44.54.58|
 Javier Saviola|AVA|4|84|734.127.587.787.721.140.586.632.416|1981|D|168|39|4|3.7.17.24.30.54.58.59|
 Daley Blind|DEF|124|84|32.312.552.133.386|1990|E|180|108|124|5.31.53.54.59|
-Goran Pandev|AVA|97|84|440.810.510.601.371.378.663|1983|E|184|75|88|6.31.43.58|
+Goran Pandev|AVA|97|84|440.810.510.601.371.378.663|1983|E|184|75|88|6.31.43.44.58|
 Luisão|DEF|16|84|242.140|1981|D|195|44|16|7.25.30.46.50|
 Ashley Young|DEF|76|84|921.99.552.440.299.447|1985|A|175|39|76|2.6.10.19.21.31.54.59|
 Darijo Srna|DEF|40|84|405.788.196|1982|D|182|134|88|41.59|
 Raúl Albiol|DEF|54|84|379.888.721.601.905.681|1985|D|190|58|54|3.8.11.23.31.35.36.43.44.48.59.60|
 Álvaro Negredo|AVA|54|84|719.72.721.787.551.888.565.141.51.245.886|1985|E|186|21|54|2.8.23.39|
 Giuseppe Rossi|AVA|84|84|552.610.663.905.356.203.523.378|1987|E|173|30|45|2.10.20|
-Lucho González|MED|4|84|427.734.325.553.57.102|1981|D|186|45|4|4.7.17.28.41.55|
+Lucho González|MED|4|84|427.734.325.553.57.102|1981|D|186|45|4|4.7.17.24.28.41.55|
 Fernandinho|MED|16|84|102.788.551|1985|D|179|53|16|2.26.50.59|
 Álvaro Arbeloa|DEF|54|84|779.721.262.532.925|1983|D|184|56|54|3.8.11.23.31.43.57.58.60|
 Juan Manuel Vargas|DEF|125|84|228.201.356.378.142|1983|E|186|62|125||
@@ -1432,7 +1432,7 @@ Kieran Tierney|DEF|51|84|204.93.725|1997|E|180|58|81|16|
 Nené|AVA|127|84|776.454.140|1995|E|187|0|127|7|
 Albert Gudmundsson|AVA|82|84|648.22.378.356.510|1997|D|177|46|82|13|
 Brais Méndez|MED|54|84|203.725.230|1997|E|187|4|54|36|
-Gianluca Scamacca|AVA|84|84|781.238.645.97.378.925.100|1999|D|195|25|84|37.59|
+Gianluca Scamacca|AVA|84|84|781.238.645.97.378.925.100|1999|D|195|25|84|37.48.59|
 Matvey Safonov|GR|134|84|494.647|1999|D|192|18|134|4.36.58|
 Daniel James|AVA|123|84|830.793.552.516.367|1997|D|171|65|76|17.38.47|D
 Everton|AVA|16|84|395.183.140.357|1996|D|174|25|16|11.30|E
@@ -1442,7 +1442,7 @@ Takehiro Tomiyasu|DEF|86|84|119.797.154.93.32.243|1998|D|187|46|86|16|
 Weston McKennie|MED|45|84|463.516|1998|D|180|71|45|42|
 Joelinton|MED|16|84|811.421.718.610|1996|D|186|8|16|11|
 Jonathan Burkardt|AVA|2|84|548.281|2000|D|181|5|2||
-Mile Svilar|GR|145|84|80.140.737|1999|D|189|1|20|7.18.30.31.44.46|
+Mile Svilar|GR|145|84|80.140.737|1999|D|189|1|20|7.18.30.31.38.44.46|
 Joe Willock|MED|76|84|93.215.425.175.147.913.610|1999|D|186|4|76|15.16.59|
 Noussair Mazraoui|DEF|102|84|32.133.552|1997|D|183|51|124|5.47.53|
 Merih Demiral|DEF|152|84|812.65.781.463.100.36|1998|D|190|65|152|6.30.32.48|
@@ -1481,7 +1481,7 @@ Jakub Kiwior|DEF|126|84|810.93.325|2000|E|189|45|126|7.16.25|
 Pedro Gonçalves|MED|127|84|934.345.812.356|1998|D|173|4|127|7.25.39.45.47|
 Aaron Ramsdale|GR|76|84|790.160.93.805.610|1998|D|190|5|76|16.53|
 Nicolò Fagioli|MED|84|84|460.463.238.356|2001|D|178|7|84||
-Charles De Ketelaere|MED|20|84|225.224.7.100|2001|E|192|39|20|45.59|
+Charles De Ketelaere|MED|20|84|225.224.7.100|2001|E|192|39|20|45.48.59|
 Martin Terrier|AVA|58|84|530.293.541.731.524|1997|D|184|13|58|56|E
 Andrea Cambiaso|DEF|84|84|378.285.463.154|2000|A|182|19|84||
 João Félix|AVA|127|84|140.110.215.127.7.52|1999|D|179|57|127|3.7.18.25.30.45.46.51.52|
@@ -1517,7 +1517,7 @@ Malo Gusto|DEF|58|84|541.215|2003|D|178|16|58|24.42|
 Georgiy Sudakov|MED|153|84|788.140|2002|A|177|36|153|31|
 Conor Bradley|DEF|79|84|532.155|2003|D|181|30|79|2.13.33|
 Kaishu Sano|MED|86|84|546.482.548|2000|A|176|15|86||
-Odilon Kossounou|DEF|39|84|20.410.224.524.100|2001|D|191|40|39|5.56|
+Odilon Kossounou|DEF|39|84|20.410.224.524.100|2001|D|191|40|39|5.48.56|
 Gavi|MED|54|84|127|2004|D|173|32|54|3.27.36|
 Cristhian Mosquera|DEF|54|84|888.93|2004|D|191|2|54|16|
 Jhon Durán|AVA|33|84|286.217.99.52.351.947.140|2003|E|185|17|33|30.31|
@@ -1567,10 +1567,10 @@ Maniche|MED|127|84|140.74.325.276.215.110.440.231.812|1977||173|53||2.7.20.31.37
 Balakov|MED|17|84|812.298|1966||176|92||20.29|
 Pauleta|AVA|127|84|776.292.262.156.647|1973||180|88||50|
 Jordão|AVA|127|84|140.779.812.909|1952||179|43||7|
-Yazalde|AVA|4|84|438.812.553.611.427|1946||176|10||7|
+Yazalde|AVA|4|84|438.812.553.611.427|1946||176|10||7.34|
 Roque Santa Cruz|AVA|122|83|133.146.551.142.586.185.528.598|1981|D|193|112|122|2.5.37.58|
 Claudio Pizarro|AVA|125|83|923.133.215.231|1978|D|184|85|125|5.26.50.58|
-Alou Diarra|MED|58|83|133.511.532.717.746.521.541.156.553.925.731.213.19|1981|D|189|44|58|4.5.43.58|
+Alou Diarra|MED|58|83|133.511.532.717.746.521.541.156.553.925.731.213.19|1981|D|189|44|58|4.5.24.43.58|
 Martín Demichelis|DEF|4|83|734.133.586.110.551.291|1980|D|184|51|4|2.5.54|
 Shay Given|GR|78|83|831.146.828.610.551.99.565.825|1976|D|185|134|78|37|
 Gareth Barry|MED|76|83|99.551.299.924|1981|E|184|53|76|2.19.37.45|
@@ -1582,19 +1582,19 @@ Sébastien Squillaci|DEF|58|83|587.4.541.787.93.746|1980|D|185|24|58|4.15.24|
 Philippe Mexès|DEF|58|83|15.737.7|1982|D|187|29|58|44|
 Mario Yepes|DEF|33|83|260.734.600.647.218.7.100.771|1976||0|102|33|6|
 Massimo Ambrosini|MED|84|83|209.7.356|1977|D|182|35|84|6.11.14.19.58|
-Marco Borriello|AVA|84|83|859.858.7.285.729.768.378.737.463.925.199.100.196.760|1982|E|186|7|84|6.11.44.58|
+Marco Borriello|AVA|84|83|859.858.7.285.729.768.378.737.463.925.199.100.196.760|1982|E|186|7|84|6.11.36.44.58|
 Vincenzo Iaquinta|AVA|84|83|650.871.463.209|1979|D|191|40|84|6.21.44.60|
 Antonio Di Natale|AVA|84|83|285.890.871|1977|D|170|42|84||
 Amauri|AVA|84|83|663.601.679.285.218.652.463.356.848|1980|D|188|1|16|44|
 Raúl Tamudo|AVA|54|83|291.66.725.719.649|1977|D|178|15|54|42|
-Paulo Ferreira|DEF|127|83|292.909.325.215|1979|D|183|62|127|2.7.11.20.30.31.43.50.58.59|
+Paulo Ferreira|DEF|127|83|292.909.325.215|1979|D|183|62|127|2.7.11.12.20.30.31.43.50.58.59|
 Luiz Gustavo|MED|16|83|192.421.133.933.553.351.52.834.102|1987|E|187|41|16|5.12.50.55.58|
 Lorik Cana|MED|1|83|647.553.828.371.510.600|1983|D|186|93|88||
 Diego Lugano|DEF|157|83|598.834.351.647.586.924.429|1980|D|188|95|157|11|
 Liedson|AVA|127|83|235.357.234.812.325|1977|D|175|15|16|7.20.25.32.40.41.55|
-Alex|DEF|16|83|777.215.648.647.7|1982|D|188|17|16|2.4.11.31.50.58|
+Alex|DEF|16|83|777.215.648.647.7|1982|D|188|17|16|2.4.11.12.31.50.58|
 Dante|DEF|16|83|462.530.702.822.158.133.933.612|1983|E|188|13|16|5.26.50.58|
-Sulley Muntari|MED|60|83|871.692.440.828.7.46.674.262.67|1984|E|179|84|60|6.31.43.58|
+Sulley Muntari|MED|60|83|871.692.440.828.7.46.674.262.67|1984|E|179|84|60|6.31.43.44.58|
 Yoann Gourcuff|MED|58|83|731.7.156.541.266|1986|D|185|31|58|4.11.24.58|
 Mousa Dembélé|MED|20|83|135.22.367.853|1987|E|185|82|20|12.42.45.54|
 Filipe Luís|DEF|16|83|355.32.262.110.215.357|1985|E|182|44|16|2.3.30.31.50.51.59|
@@ -1615,10 +1615,10 @@ Roberto Soldado|AVA|54|83|721.638.379.888.853.905.351.390.523|1985|D|180|12|54|3
 Felipe Melo|MED|16|83|357.242.395.549.709.72.356.463.371.440.653.358|1983|D|183|22|16|6.9.21.37.50|
 Ezequiel Garay|DEF|4|83|611.709.721.140.947.888.946|1986|D|188|32|4|7.12.30.31|
 Dejan Lovren|DEF|40|83|277.541.805.532.947.642|1989|D|188|78|88|2.33.42.58|
-Fernando Gago|MED|4|83|150.721.737.888.917|1986|D|177|61|4|3.31|
+Fernando Gago|MED|4|83|150.721.737.888.917|1986|D|177|61|4|3.31.36|
 Joe Hart|GR|76|83|793.551.147.145.848.925.175.853.204|1987|D|196|75|76|2.19.26.31.37|
 Jonny Evans|DEF|79|83|744.552.828.924.518|1988|A|188|107|79|2.10.20.47.54.58|
-André Ayew|AVA|60|83|553.319.5.830.925.351.59.617.511.588|1989|E|175|120|58|4.17|
+André Ayew|AVA|60|83|553.319.5.830.925.351.59.617.511.588|1989|E|175|120|58|4.17.24|
 Moussa Sissoko|MED|58|83|854.610.853.921.600.654|1989|D|187|71|58|24.31.42.43.44|
 Kamil Glik|DEF|126|83|680.652.128.848.587.139.237|1988|D|190|103|126|4.34|
 Danny Rose|DEF|76|83|516.853.921.675.168.828.610|1990|E|173|29|76|12.31.42.44|
@@ -1634,7 +1634,7 @@ Vitolo|AVA|54|83|507.787.110.379|1989|D|184|1|54|3.23.35.36.51.59|E
 Kevin Strootman|MED|124|83|807.882.648.737.553.378.196|1990|E|186|46|124|12.54|
 Luka Milivojevic|MED|145|83|712.711.294.80.632.243|1991|D|186|38|88|38.40.55|
 Seydou Doumbia|AVA|39|83|20.483.942.194.737.610.132.812.386.329|1987|A|179|37|39|30|
-Nico Gaitán|MED|4|83|140.150.110.530.163.668|1988|E|174|1|4|7.18.25.28.30.31.46.49.51.59|
+Nico Gaitán|MED|4|83|140.150.110.530.163.668|1988|E|174|1|4|7.18.25.28.30.31.38.46.49.51.59|
 Victor Wanyama|MED|128|83|135.204.805.853|1991|D|184|1|128|42|
 Aïssa Mandi|DEF|5|83|820.142.905.530|1991|D|184|122|58||
 Stephan El Shaarawy|AVA|84|83|378.650.7.587.737.755|1992|D|178|32|84|21.31.34.37.41.44|E
@@ -1642,7 +1642,7 @@ Simone Zaza|AVA|84|83|100.768.461.97.781.463.925.888.848|1991|E|186|18|84|6.21|
 Ander Herrera|MED|54|83|258.779.101.552.647.150|1989|D|182|2|54|4.17.31.35.42.53.54.59|
 Marc Bartra|DEF|54|83|291.127.157.142.856|1991|D|184|21|54|3.22.23.26.35.36.53.54.58|
 Sebastián Coates|DEF|157|83|598.532.828.812|1990|D|196|51|157|7.30.32.47|
-Erik Lamela|AVA|4|83|734.737.853.787.12|1992|E|184|25|4|12.31.35.42.49.59|D
+Erik Lamela|AVA|4|83|734.737.853.787.12|1992|E|184|25|4|12.31.35.36.42.49.59|D
 Germán Pezzella|DEF|4|83|734.142.356|1991|D|187|42|4|49.60|
 Michael Keane|DEF|76|83|552.518.263.146.175.299|1993|D|188|12|76|10.11.38.43.53.54|
 Carlos Bacca|AVA|33|83|459.224.787.7.905.390|1986|D|181|52|33|20.59|
@@ -1659,7 +1659,7 @@ Ryan Fraser|AVA|51|83|26.160.447.610.805.926|1994|D|163|26|51||E
 Vincent Aboubakar|AVA|24|83|580.885.319.325.141.52.411.151|1992|D|184|117|24|7.25.32.35.39.52|
 Divock Origi|AVA|20|83|377.530.532.933.7.617|1995|D|189|32|20|2.4.33.39.41.45.52.58|
 Djibril Sidibé|DEF|58|83|862.530.587.299.12.854.512|1992|D|183|18|58|4.11.24.34.38.60|
-Berat Djimsiti|DEF|1|83|338.100.118.139|1993|D|190|72|143|59|
+Berat Djimsiti|DEF|1|83|338.100.118.139|1993|D|190|72|143|48.59|
 Takumi Minamino|AVA|86|83|208.767.532.805.587|1995|D|172|73|86|2.33|E
 Matteo Politano|AVA|84|83|737.673.674.781.440.601|1993|E|171|20|84|6.21.37|D
 Morgan Sanson|MED|58|83|512.578.553.99.293.612|1994|D|180|10|58|12|
@@ -1724,7 +1724,7 @@ Konstantinos Tsimikas|DEF|63|83|632.289.532.737|1996|E|179|51|63|2.13.33.38.40.5
 Deniz Undav|AVA|2|83|875.166.298|1996|A|179|13|2||
 Eddie Nketiah|AVA|76|83|93.160.913.516.243|1999|D|175|1|76|15.16.17.53|
 Caoimhín Kelleher|GR|78|83|532.164|1998|D|188|32|78|2.13.33|
-Gerson|MED|16|83|358.737.356.357.553.947.242|1997|E|184|14|16|60|
+Gerson (1997)|MED|16|83|358.737.356.357.553.947.242|1997|E|184|14|16|60|
 Anton Stach|MED|2|83|394.548.421.516|1998|D|194|5|2|27|
 Boubakary Soumaré|MED|58|83|530.518.787|1999|D|188|14|58|4.17|
 Mouctar Diakhaby|DEF|68|83|541.888|1996|D|192|18|58||
@@ -1756,9 +1756,9 @@ Billy Gilmour|MED|51|83|215.616.166.601|2001|D|170|46|51|6.21.42.53.58|
 Luis Suárez (1997)|AVA|33|83|726.886.921.887.384.779.390.553.72.812|1997|D|179|17|33|38|
 Matty Cash|DEF|126|83|617.99|1997|D|185|25|76|25|
 Lewis Ferguson|MED|51|83|409.26.154|1999|D|181|27|51||
-Nikola Krstović|AVA|109|83|294.513.100|2000|D|185|34|160||
+Nikola Krstović|AVA|109|83|294.513.100|2000|D|185|34|160|48|
 Galeno|AVA|16|83|86.325.690.732.163.36|1997|D|179|1|16|7.47.52|E
-Marco Carnesecchi|GR|84|84|100.857.238|2000|D|191|0|84|59|
+Marco Carnesecchi|GR|84|84|100.857.238|2000|D|191|0|84|48.59|
 Estéban Lepaul|AVA|58|83|868.81.731|2000|D|181|0|58||
 Calvin Bassey|DEF|115|83|717.32.367|1999|E|185|45|84|38|
 Bafodé Diakité|DEF|58|83|854.530.160|2001|D|184|2|58|41|
@@ -1773,7 +1773,7 @@ Djed Spence|DEF|76|83|565.617.853.731.516.378.440|2000|D|184|14|76|21.53.59|
 Daniel Muñoz|DEF|33|83|733.106.377.243.617|1996|D|180|51|33||
 Edon Zhegrova|AVA|89|83|377.132.530.463|1999|E|180|46|2|41|D
 Evann Guessand|AVA|39|83|612.509.600.99.243|2001|D|188|23|58||D
-Isak Hien|DEF|142|83|268.416.100|1999|D|191|32|142|59|
+Isak Hien|DEF|142|83|268.416.100|1999|D|191|32|142|48.59|
 Senne Lammens|GR|20|83|225.224.744.552|2002|D|193|3|20|45.47|
 Yunus Musah|MED|45|83|888.7.100|2002|D|178|47|45|41.42.52|
 Fábio Silva|AVA|127|83|325.934.80.648.717.507.157|2002|D|185|1|127|7.18.35.39.52.55|
@@ -1828,7 +1828,7 @@ Brajan Gruda|MED|2|83|548.166.705|2004|E|178|20|2||
 Geny Catamo|AVA|110|83|812.908.554|2001|E|172|42|110|7.47|D
 Yegor Yarmolyuk|MED|153|83|749.164|2004|D|180|9|153||
 Loïc Badé|DEF|58|83|511.521.731.617.787.524|2000|D|191|1|58|59|
-Richard Ríos|MED|33|83|357.555.396.653.140.46|2000|D|185|37|33|9.18.31|
+Richard Ríos|MED|33|83|357.555.396.653.140.46|2000|D|185|37|33|9.18.31.38|
 Omari Hutchinson|MED|76|83|215.447.617.7|2003|E|174|2|76|42.55|
 Malick Fofana|AVA|20|83|465.541.828|2005|D|169|5|20|41|E
 Robin Risser|GR|58|83|293.266.727.521|2004|D|193|0|58||
@@ -1854,7 +1854,7 @@ Jaydee Canvot|DEF|58|83|854.243|2006|D|188|6|58||
 Marc Bernal|MED|54|83|127|2007|E|193|2|54|3.27|
 Assane Diao|AVA|135|83|143.142.232|2005|D|185|6|135||E
 Joaquín Panichelli|AVA|4|83|66.188.293|2002|D|190|1|4||
-Honest Ahanor|DEF|84|83|378.100.243|2008|E|184|2|84||
+Honest Ahanor|DEF|84|83|378.100.243|2008|E|184|2|84|48|
 Ayden Heaven|DEF|76|83|93.552|2006|E|189|3|76|16.47|
 Rio Ngumoha|AVA|76|83|532|2008|D|170|11|76|13|E
 El Hadji Malick Diouf|DEF|135|83|861.802.925.164|2004|E|177|23|135|39|
@@ -1872,7 +1872,7 @@ Richard Dunne|DEF|78|82|299.551.99.698|1979|D|188|80|78||
 Tim Howard|GR|45|82|608.552.299.229|1979|D|191|121|45|2.10.20.45|
 Sidney Govou|AVA|58|82|541.654.950|1979|D|177|49|58|4.28|D
 Jérémy Mathieu|DEF|58|82|330.854.888.127.812|1983|E|189|5|58|3.24.30.32.36.47.58|
-David Pizarro|MED|29|82|871.864.440.737.551.356|1979|D|168|46|29|6.17.37.44|
+David Pizarro|MED|29|82|871.864.440.737.551.356|1979|D|168|46|29|6.17.36.37.44|
 Matuzalém|MED|16|82|280.663.601.679.165.788.779.510.378.154.416|1980|E|178|0|16||
 Cristian Zaccardo|DEF|84|82|154.810.652.933.663.7.199|1981||0|17|84|5.60|
 Tommaso Rocchi|AVA|84|82|463.232.858.285.510.440.650|1977|D|177|3|84|58|
@@ -1880,13 +1880,13 @@ Fabrizio Miccoli|AVA|84|82|841.463.673.356.140.652.513|1979|D|168|10|84|6.19.24.
 Albert Riera|MED|54|82|549.156.291.551.532.632.371.921.871|1982|E|188|16|54|23.37.43|
 Ivica Olic|AVA|40|82|277.194.408.133.933.1|1979|E|182|104|88|5.54.59|
 Mikel Arteta|MED|54|82|127.647.717.725.299.93|1982|D|177|0|54|15.54|
-Yossi Benayoun|AVA|83|82|545.709.925.532.215.93.698.542|1980|D|175|102|83|11.15.43.58.59|D
-Salomon Kalou|AVA|39|82|20.354.300.215.530.418.159|1985|D|184|93|39|2.11.31.50.58|E
+Yossi Benayoun|AVA|83|82|545.709.925.532.215.93.698.542|1980|D|175|102|83|11.12.15.43.58.59|D
+Salomon Kalou|AVA|39|82|20.354.300.215.530.418.159|1985|D|184|93|39|2.11.12.31.50.58|E
 Tiago Mendes|MED|127|82|163.140.215.541.463.110|1981|D|183|66|127|2.3.4.20.25.28.31.40.44.50.51.59|
 Michel Bastos|MED|16|82|354.300.102.395.355.530.541.37.737.834.653.811.78|1983||0|10|16|50.59|
 Éver Banega|MED|4|82|150.888.110.611.787.440.60.254|1988|D|174|65|4|35.49.55.59|
 Bruno Alves|DEF|127|82|325.346.908.947.351.196.717.663.88.946|1981|D|189|96|127|7.8.20.25.28.30.31.40.50.55.58.59|
-Raúl Meireles|MED|127|82|149.265.325.532.215.351|1983|A|179|76|127|7.20.28.40.50.55.58|
+Raúl Meireles|MED|127|82|149.265.325.532.215.351|1983|A|179|76|127|7.12.20.28.40.50.55.58|
 Leighton Baines|DEF|76|82|929.299|1984|E|170|30|76|11.19.38.45|
 Ricardo|GR|127|82|149.812.142.518.909.629|1976|D|185|79|127|7.25.32.40.50.52|
 Helton|GR|16|82|892.519.325|1978|D|189|3|16|7.12.28.32.35.41.55.59|
@@ -1897,7 +1897,7 @@ Kevin-Prince Boateng|MED|60|82|418.853.157.692.378.7.507.281.781.127.356.141.580
 Gökhan Inler|MED|143|82|338.871.601.518.141.131.29|1984|A|183|89|143|2.43.44|
 Marouane Chamakh|AVA|102|82|156.93.925.243.197|1984|D|188|65|58|4.15|
 Riccardo Montolivo|MED|84|82|100.356.7|1985|D|181|66|84|21|
-Giampaolo Pazzini|AVA|84|82|100.356.768.440.7.416.523|1984|D|180|25|84||
+Giampaolo Pazzini|AVA|84|82|100.356.768.440.7.416.523|1984|D|180|25|84|44|
 Pablo Zabaleta|DEF|4|82|771.291.551.925|1985|D|176|58|4|2.26.37|
 Steve Mandanda|GR|58|82|511.553.243.731|1985|D|187|35|161|4.12.17.24.60|
 Kévin Gameiro|AVA|58|82|293.319.647.787.110.888|1987|D|172|13|58|4.11.24.51.59|
@@ -1909,7 +1909,7 @@ Carlos Vela|AVA|111|82|93.203.638.924.725.500|1989|E|177|72|111|15|D
 Nikola Kalinic|AVA|40|82|405.591.146.269.356.7.110.737.416|1988|A|187|42|88|41.51|
 Fredy Guarín|MED|33|82|286.150.763.325.440.755.892.567|1986|D|183|57|33|7.12.28.37.55.59|
 Borja Valero|MED|54|82|721.549.924.905.356.459.440|1985|D|175|1|54|21|
-Ryan Bertrand|DEF|76|82|160.215.628.616.720.617.99.805.518|1989|E|179|19|76|2.11.31.43.50.58.59|
+Ryan Bertrand|DEF|76|82|160.215.628.616.720.617.99.805.518|1989|E|179|19|76|2.11.12.31.43.50.58.59|
 Loïc Rémy|AVA|58|82|541.521.612.553.610.698.215.243.507.379.530.180.29.818|1987|D|185|31|58|2.4.21.24.31|
 Cenk Tosun|AVA|152|82|281.375.141.299.243.351.484|1991|D|183|53|2|11.25.31.38|
 Aleksandar Kolarov|DEF|145|82|244.624.510.551.737.440|1985|E|187|94|88|2.6.21.26.37.41.44|
@@ -1917,14 +1917,14 @@ Mamadou Sakho|DEF|58|82|647.532.243.578|1990|E|187|29|58|4.11.24.33|
 Joe Allen|MED|123|82|830.935.532.825|1990|D|170|77|123|33.45|
 Sebastian Giovinco|AVA|84|82|463.285.663.849.45.768|1987|D|164|23|84|6.21.24.44|
 Kevin Kampl|MED|53|82|524.394.899.767.157.705|1990|D|178|28|2|33.53.56|
-Ramires|MED|16|82|242.140.215.653|1987|D|179|52|16|2.7.11.19.30.31.43.50.58.59|
+Ramires|MED|16|82|242.140.215.653|1987|D|179|52|16|2.7.11.12.19.30.31.43.50.58.59|
 Matteo Darmian|DEF|84|82|7.650.652.848.552.663.440.154|1989|D|183|46|84|6.11.21.31.37.54.58.59|
 Sofiane Feghouli|MED|5|82|393.888.72.925.371.478.961|1989|D|177|82|58|39|
 Giacomo Bonaventura|MED|84|82|100.650.7.356.60|1989|D|180|18|84|21.37|
 Maximiliano Pereira|DEF|157|82|140.325.677.734|1984|D|173|125|157|7.30.32.35.39.52|
 Wilson Palacios|MED|72|82|145.929.853.825|1984|D|181|97|72||
 Victor Moses|MED|115|82|243.929.215.532.825.925.351.440.809.539.962|1990|D|177|38|115|2.21.43.45.46.48.59|
-Nicolas N'Koulou|DEF|24|82|587.553.541.848.921.90.374|1990|D|184|83|24|17.44|
+Nicolas N'Koulou|DEF|24|82|587.553.541.848.921.90.374|1990|D|184|83|24|17.24.44|
 José Callejón|AVA|54|82|291.721.601.356.390|1987|D|178|5|54|3.11.23.31.35.42.43.48|D
 Sergio Canales|MED|54|82|709.721.888.725.142.577|1991|E|175|11|54|3.31.36|
 Danny Welbeck|AVA|76|82|552.695.828.93.921.166.215|1990|D|185|42|76|2.10.15.19|
@@ -1941,7 +1941,7 @@ Nico Schulz|DEF|2|82|418.158.421.157|1993|E|180|0|2||
 Joshua King|AVA|116|82|552.695.158.426.146.160.299.921.351.854.48|1992|D|180|62|116|2.10.11.30.44|
 Marcos Rojo|DEF|4|82|296.809.812.552.150.710|1990|E|186|61|4|28.31.34.49.54.59|
 Willi Orbán|DEF|73|84|0.705|1992|D|186|72|2||
-Sead Kolasinac|DEF|21|82|93.553.100|1993|E|183|73|2|15.16.59|
+Sead Kolasinac|DEF|21|82|93.553.100|1993|E|183|73|2|15.16.48.59|
 Jannik Vestergaard|DEF|43|82|421.923.158.805.518|1992|A|199|59|43||
 William Carvalho|MED|127|82|812.207.142.649|1992|D|189|80|3|8.25.28.30.34.38.40|
 Chris Smalling|DEF|76|82|367.552.737.42.325|1989|D|194|31|76|2.10.19.31.41.54.59|
@@ -2029,7 +2029,7 @@ Olivier Boscagli|DEF|58|82|612.622.648.166|1997|E|181|5|108||
 Philip Billing|MED|43|82|425.160.601.566|1996|E|193|6|43|6.21|
 Sebastian Szymanski|MED|126|82|517.276.354.351.731|1999|E|174|54|126|13.31|
 Rafael Borré|AVA|33|82|260.110.905.734.281.923.443|1995|D|174|44|33|20.51.59|
-Vangelis Pavlidis|AVA|63|82|898.22.140|1998|A|186|57|63|18.31|
+Vangelis Pavlidis|AVA|63|82|898.22.140|1998|A|186|57|63|18.31.38|
 Jeff Reine-Adélaïde|MED|58|82|521.93.81.541.612.862.708.764.417|1998|D|184|21|58|15|
 Ridle Baku|DEF|2|82|548.933.705|1998|D|176|8|2|27.29|
 Manuel Lazzari|DEF|84|82|760.510|1993|D|174|3|84|48|
@@ -2043,7 +2043,7 @@ Rico Henry|DEF|85|82|920.164|1997|E|170|1|76||
 Nathan Tella|AVA|115|82|805.175.524|1999|D|173|2|76|5.56|D
 Kyle Walker-Peters|DEF|76|82|853.805.925|1997|D|173|2|76|39.42.53|
 Fran García|DEF|54|82|719.721.142|1999|E|169|2|54|3.11.56.58|
-Ben Godfrey|DEF|76|82|616.793.299.100.447.790.172|1998|D|184|2|76|11.43.53|
+Ben Godfrey|DEF|76|82|616.793.299.100.447.790.172|1998|D|184|2|76|11.43.48.53|
 Ladislav Krejci (1999)|DEF|32|82|806.386.934|1999|E|191|30|32|55|
 Sean Longstaff|MED|76|82|489.147.610.532.516|1997|D|187|0|76|43|
 Ché Adams|AVA|51|82|790.145.805.848|1996|D|175|50|76||
@@ -2051,8 +2051,8 @@ Nordi Mukiele|DEF|58|82|819.578.705.647.524.828|1997|D|187|1|58|4.36.56|
 Lucas Tousart|MED|58|82|885.541.418.874.818|1997|D|184|1|58|41|
 Amadou Diawara|MED|68|82|154.601.737.80|1997|D|183|1|68|11.31.41.44.48|
 Diogo Dalot|DEF|127|82|325.552.7|1999|D|184|37|127|7.25.31.45.47.52|
-Leandro Barreiro|MED|94|82|548.140|2000|D|174|73|94|18.31|
-Raoul Bellanova|MED|84|82|156.100.674.196.440.848|2000|D|188|6|84|44|
+Leandro Barreiro|MED|94|82|548.140|2000|D|174|73|94|18.31.38|
+Raoul Bellanova|MED|84|82|156.100.674.196.440.848|2000|D|188|6|84|44.48|
 Patson Daka|AVA|163|82|767.518|1998|D|183|46|163||
 Sergio Gómez|DEF|54|82|157.754.80.551.725|2000|E|173|2|54|2.26.58|
 Riccardo Orsolini|AVA|84|82|97.463.100.154|1997|E|186|13|84||D
@@ -2116,7 +2116,7 @@ Nuno Tavares|DEF|127|82|140.93.553.617.510|2000|E|183|3|127|16.18.30.39.48|
 Illan Meslier|GR|58|82|319.516|2000|E|197|13|58|17|
 Kristjan Asllani|MED|1|82|285.440.848.141|2002|D|179|42|1|6|
 Nathan Ngoy|DEF|20|82|822.530|2003|D|183|8|20||
-Nicola Zalewski|MED|126|82|737.440.100|2002|D|175|36|84|31.44|
+Nicola Zalewski|MED|126|82|737.440.100|2002|D|175|36|84|31.44.48|
 Gonçalo Ramos|AVA|127|82|140.647.7|2001|D|185|31|127|4.7.25.30.36.45.58|
 Adam Hlozek|AVA|32|82|806.524.421|2002|D|188|50|32|5.56|
 Gabriel Sara|MED|16|82|834.616.371|1999|E|177|1|16||
@@ -2146,7 +2146,7 @@ Borja Sainz|AVA|54|82|101.66.779.385.616.325|2001|D|174|5|54|7.17|E
 Keane Lewis-Potter|MED|76|82|426.164|2001|D|170|4|76||
 Robin Roefs|GR|124|82|589.828|2003|E|193|1|124||
 El Bilal Touré|AVA|100|82|820.72.100.298.141|2001|D|185|30|39|59|E
-António Silva|DEF|127|82|140|2003|D|187|20|127|7.18.31|
+António Silva|DEF|127|82|140|2003|D|187|20|127|7.18.31.38|
 Cher Ndour|MED|84|82|140.647.163.141.356|2004|D|190|2|84|4.7.36|
 Hákon Arnar Haraldsson|MED|82|82|233.530|2003|D|178|31|82|41|
 Diego Moreira|MED|20|82|140.215.541.293.7|2004|E|179|4|20|42|
@@ -2169,7 +2169,7 @@ Natan|DEF|16|82|357.704.601.142|2001|E|188|0|16|21|
 Rodrigo Muniz|AVA|16|82|235.357.367.565|2001|D|186|0|16|38|
 Chemsdine Talbi|AVA|102|82|225.224.828|2005|D|175|10|20||D
 Wilson Odobert|AVA|58|82|862.175.853|2004|D|182|16|58|59|E
-Kamaldeen Sulemana|AVA|60|82|613.731.805.100|2002|D|174|30|60||E
+Kamaldeen Sulemana|AVA|60|82|613.731.805.100|2002|D|174|30|60|48|E
 Pietro Comuzzo|DEF|84|82|356|2005|D|188|2|84||
 Luiz Henrique|AVA|16|82|358.142.159.947|2001|E|182|16|16|11|D
 Renato Veiga|DEF|127|82|115.132.215.463.905|2003|E|188|18|127|45|
@@ -2228,7 +2228,7 @@ Maxwell|DEF|16|81|242.32.285.647|1981|E|176|10|16|4.11.50|
 Steven Pienaar|MED|164|81|32.157.299.853.828|1982|A|170|61|164|45|
 Jérôme Rothen|MED|58|81|759.862.587.647.717.82.746|1978|E|177|13|58|24|
 Daniele Bonera|DEF|84|81|165.663.7.905|1981|D|183|16|84|6.11.58|
-Matteo Brighi|MED|84|81|463.154.663.165.218.737.100.848.781.673.285|1981|D|178|4|84|6.11.44|
+Matteo Brighi|MED|84|81|463.154.663.165.218.737.100.848.781.673.285|1981|D|178|4|84|6.11.36.44|
 Alberto Aquilani|MED|84|81|737.859.532.463.7.356.812.674.781.507|1984|D|186|38|84|19.30.43|
 Mohamed Sissoko|MED|100|81|15.888.532.463.647.356.523.721.755|1985|D|191|34|58|3.4.11.43.44.59|
 Fabricio Coloccini|DEF|4|81|150.7.771.66.110.905.262.610.69|1982|D|184|39|4|6.11.17.58|
@@ -2238,14 +2238,14 @@ Jonas Hofmann|MED|2|81|421.157.548.158.524|1992|D|176|23|2|5.27.29.33.53.56|
 Juanfran|DEF|54|81|523.888.203.141.32.779|1976|E|182|11|54|8.23.44|
 Fernando Navarro|DEF|54|81|127.67.549.787.262|1982|E|176|2|54|3.22.54.58.59|
 Cani|MED|54|81|258.779.905.110.262|1981|D|178|0|54|51|
-Bosingwa|DEF|127|81|149.363.325.215.698.856|1982|D|183|27|161|2.7.11.20.25.28.31.40.50.58|
+Bosingwa|DEF|127|81|149.363.325.215.698.856|1982|D|183|27|161|2.7.11.12.20.25.28.31.40.50.58|
 Craig Gordon|GR|51|81|413.828.204|1982|E|193|84|51||
 Alessio Cragno|GR|84|81|165.196.139.580.781.768|1994|D|184|0|84||
 Darren Bent|AVA|76|81|447.213.853.828.99.367.166.263.177|1984|D|180|13|76|19|
 Phil Jagielka|DEF|76|81|790.299.263.825|1982|D|180|41|76|19.38.45|
 Andy Johnson|AVA|76|81|145.243.299.367.698|1981|D|172|8|76|19|
 Artur Boruc|GR|126|81|517.204.356.805.160|1980|D|193|65|126|42|
-Rodrigo Taddei|AVA|16|81|653.794.737.673|1980|D|179|0|16|44|D
+Rodrigo Taddei|AVA|16|81|653.794.737.673|1980|D|179|0|16|36.44|D
 Romaric|MED|39|81|20.512.787.291.779.746.633|1983|E|187|1|39|42|
 Juanfran Torres|DEF|54|81|721.291.638.110.834|1985|D|181|22|54|3.23.51.59|
 Alessandro Gamberini|DEF|84|81|154.416.356.601.378.218|1981|D|185|8|84|43|
@@ -2264,13 +2264,13 @@ Dmytro Chygrynskyi|DEF|153|81|788.564.127.269.12.445|1986|D|189|29|154|3.26.59|
 Juan Arango|MED|159|81|577.649.697.549.158.226|1980||0|129|159||
 Mathieu Bodmer|MED|58|81|759.530.541.647.763.612.398.75|1982|D|190|0|58|4.11|
 Mathieu Debuchy|DEF|58|81|530.610.93.156.763.885|1985|D|177|27|58|4.15.24|
-Stéphane Mbia|MED|24|81|731.553.698.787.856.854.755.190.502|1986|D|189|68|24|4.59|
+Stéphane Mbia|MED|24|81|731.553.698.787.856.854.755.190.502|1986|D|189|68|24|4.24.59|
 Sven Bender|MED|2|81|1.157.524|1989|D|186|7|2|5.29.33.53|
 Naldo (1982)|DEF|16|81|462.923.933.587|1982|D|198|4|16|34|
 Micah Richards|DEF|76|81|551.356.99|1988|D|180|13|76|2.19.37|
 Kevin Mirallas|MED|20|81|530.763.632.299.356.744.374.582|1987|D|182|60|20|38.45|
 Eduardo (1982)|GR|127|81|163.136.909.378.140.131.277.215.907|1982|D|188|36|127|8.20.21.25.28.30.40.48|
-Daniel Osvaldo|AVA|84|81|427.100.513.356.154.291.737.805.463.440.325.150.125|1986|D|182|14|4|6.21.35.37.42|
+Daniel Osvaldo|AVA|84|81|427.100.513.356.154.291.737.805.463.440.325.150.125|1986|D|182|14|4|6.21.35.36.37.42|
 Rodrigo Palacio|AVA|4|81|125.150.378.440.154.165|1982|D|176|27|4|37|
 Bryan Ruiz|MED|38|81|465.334.367.648.812.777|1985|E|187|147|38|28.30|
 Milan Badelj|MED|40|81|277.592.408.356.510.378|1989|D|186|55|88||
@@ -2279,16 +2279,16 @@ Mathieu Valbuena|MED|58|81|553.276.541.351.632.87.474.965|1984|D|167|52|58|4.24|
 Lucas Leiva|MED|16|81|395.532.510|1987|D|179|24|16|33.43.48.50|
 Yann Sommer|GR|143|87|132.391.158.133.440.224|1988|D|183|94|143|5.6.53|
 Ömer Toprak|DEF|152|81|365.524.157.923.84|1989|D|187|27|2||
-Andrea Ranocchia|DEF|84|81|378.128.440.768.426.580|1988|D|195|21|84|6.21.37.38.43.48|
+Andrea Ranocchia|DEF|84|81|378.128.440.768.426.580|1988|D|195|21|84|6.21.37.38.43.44.48|
 Giovani dos Santos|AVA|111|81|127.853.447.371.709.549.905.499.77|1989|E|175|106|111||
-Bojan Krkic|AVA|54|81|127.737.7.32.825.548.66.579.906|1990|D|173|0|54|3.26.58|
+Bojan Krkic|AVA|54|81|127.737.7.32.825.548.66.579.906|1990|D|173|0|54|3.26.36.58|
 James McCarthy|MED|78|81|409.929.299.243.204|1990|D|180|43|51|38.45|
 Mateo Musacchio|DEF|4|81|734.905.7.510|1990|D|182|2|4|51|
 Domagoj Vida|DEF|40|81|594.524.277.275.141.12|1989|D|184|105|88||
 Lukas Hradecky|GR|57|81|289.172.281.524.587|1989|D|192|105|22|5.56|
 Andy Carroll|AVA|76|81|610.695.532.925.720.924.75.156|1989|E|193|9|76|19|
 Lars Stindl|MED|2|81|479.158|1988|D|181|11|2|29|
-Simon Kjær|DEF|43|81|566.652.933.737.530.351.787.100.7|1989|D|191|132|43|6.35.55|
+Simon Kjær|DEF|43|81|566.652.933.737.530.351.787.100.7|1989|D|191|132|43|6.35.36.55|
 Fedor Smolov|AVA|134|81|276.354.85.880.494.535.203|1990|D|187|45|154|19|
 Anthony Modeste|AVA|58|81|612.81.156.146.746.421.231.763.157|1988|D|188|0|58||
 Adil Rami|DEF|58|81|530.888.7.787.553.351.342.149.862|1985|D|191|36|58|4.24.28.59.60|
@@ -2309,19 +2309,19 @@ Gary Medel|MED|29|81|150.787.197.440.141.154.892|1987|D|171|161|29|17.37|
 Karim Bellarabi|AVA|2|81|278.524|1990|D|184|1|2|27.29.56|D
 Yuri Berchiche|DEF|54|81|725.101.853.216.886.887.753.647|1990|E|181|0|54|4|
 Tomáš Vaclík|GR|32|81|806.132.787.632.425.607.67.149|1989|D|189|54|22|35.59|
-Pizzi|MED|127|81|163.748.668.110.262.140.291.131.17.292|1989|D|177|17|127|7.18.25.30.31.40.45.46.51.59|
+Pizzi|MED|127|81|163.748.668.110.262.140.291.131.17.292|1989|D|177|17|127|7.18.25.30.31.34.38.40.45.46.51.59|
 Ganso|MED|16|81|777.834.787.75.358|1989|E|184|8|16|11.50|
 Martín Montoya|DEF|54|81|127.440.142.888.166.90|1991|D|175|5|54|3.22.26.36.37.58|
 Keirrison|AVA|16|81|235.653.140.127.356.777.242.537.92|1988|D|184|0|16|3.7.26.30.58|
 Adem Ljajic|MED|145|81|665.356.737.440.848.141.478.619|1991|D|182|47|88|21.37|
 Marcel Halstenberg|DEF|2|81|817.705|1991|E|188|0|2||
 Jonjo Shelvey|MED|76|81|213.532.147.830.610.617.180.301.175|1992|D|184|6|76|39.43|
-Rafael Tolói|DEF|84|81|389.834.737.100|1990|D|185|14|16|8.59|
+Rafael Tolói|DEF|84|81|389.834.737.100|1990|D|185|14|16|8.48.59|
 Mario Gaspar|DEF|54|81|905.921.283|1990|D|180|3|54|23.59|
 Danny Drinkwater|MED|76|81|552.425.197.921.129.518.215.146.175.99.484.720|1990|D|178|3|76|2.10.21.44.48.53|
 Sandro|MED|16|81|443.853.698.924.84.139.378.871.120|1989|D|187|18|16|12|
 Franco Vázquez|MED|4|81|138.652.719.787.663.238|1989|E|187|3|4|21.35.37.59|
-Yuto Nagatomo|DEF|86|81|333.209.440.371.553|1986|A|170|146|86|12.37|
+Yuto Nagatomo|DEF|86|81|333.209.440.371.553|1986|A|170|146|86|12.37.44|
 Josip Ilicic|MED|53|81|593.652.356.100|1988|E|190|1|88||
 Diego Demme|MED|2|81|91.750.705.601.418|1991|D|170|1|2|6.21.27.29|
 Christoph Kramer|MED|2|81|524.898.158|1991|D|191|12|2|29.60|
@@ -2336,7 +2336,7 @@ Portu|AVA|54|81|888.67.386.725.379|1992|D|167|2|54|39|D
 Wahbi Khazri|AVA|151|81|746.156.828.731.763.578|1991|D|176|74|58||E
 Michail Antonio|AVA|85|81|720.216.805.789.617.925|1990|D|180|24|76|35.39|
 Mattia Perin|GR|84|81|378.650.674.463.652|1992|D|188|2|84|6.21.48|
-Andrea Conti|DEF|84|81|100.673.7.663.768|1994|D|184|0|84|6|
+Andrea Conti|DEF|84|81|100.673.7.663.768|1994|D|184|0|84|6.48|
 Philipp Max|DEF|2|81|479.115.648.281.654.372|1993|E|177|3|2|43.46|
 Neto|GR|16|81|102.356.463.888.127.160.93.159|1989|D|190|1|16|6.16|
 Roberto Pereyra|MED|4|81|734.871.463.921.12|1991|A|182|19|4|6.38.48.49.51|
@@ -2394,7 +2394,7 @@ Lucas Alario|AVA|4|81|228.734.524.281.443.296|1992|D|185|9|4||
 Samu Castillejo|AVA|54|81|105.185.586.905.7.888.781|1995|E|182|0|54|6|D
 Luca Waldschmidt|AVA|2|81|281.408.365.140.933.231|1996|E|181|7|2|30|
 Roberto Gagliardini|MED|84|81|100.209.810.440.580.416|1994|D|188|7|84|6.21|
-Andrea Petagna|AVA|84|81|7.768.508.97.100.760.601.580.196|1995|E|190|1|84|44|
+Andrea Petagna|AVA|84|81|7.768.508.97.100.760.601.580.196|1995|E|190|1|84|44.48|
 Marco Benassi|MED|84|81|440.18.848.356.285.238|1994|D|184|0|84||
 Benjamin Henrichs|DEF|2|81|524.587.705|1997|D|185|19|2|27.29.34|
 Andreas Pereira|MED|16|81|552.390.888.510.357.367.653|1996|D|178|10|20|9.11.31.38.54|
@@ -2435,7 +2435,7 @@ Sergi Canós|AVA|54|81|127.532.164.616.632.888|1997|D|177|4|54|3.26.33.58|E
 Aarón Martín|DEF|54|81|291.548.203.378.709|1997|E|178|12|54||
 Jesús Vallejo|DEF|54|81|779.721.281.934.390.67|1997|D|184|0|54|3.11.35.39.43.57.58|
 Rob Holding|DEF|76|81|155.178.93.243.790.229|1995|D|189|5|76|15.16|
-Aleksey Miranchuk|MED|134|81|535.100.848.108|1995|E|182|53|134|59|
+Aleksey Miranchuk|MED|134|81|535.100.848.108|1995|E|182|53|134|48.59|
 Vedat Muriqi|AVA|89|81|385.376.180.351.510.549|1994|E|194|68|160|48|
 Vanja Milinković-Savić|GR|145|81|911.552.515.848.760.97.822.601|1997|D|202|20|54|21.54|
 Tosin Adarabioyo|DEF|76|81|551.924.146.367.215.853|1997|D|197|1|76|26.38|
@@ -2497,7 +2497,7 @@ Jesper Karlsson|AVA|142|81|284.22.154.513.26.882|1998|D|179|14|142|13|E
 Joël Piroe|AVA|141|81|807.648.830.516|1999|E|185|1|124||
 André Almeida (2000)|MED|127|81|908.888|2000|D|176|15|127||
 Anel Ahmedhodzic|DEF|21|81|550.420.156.790.354|1999|D|190|24|142||
-Moatasem Al-Musrati|MED|95|81|46.908.732.163.141.587.416|1996|D|189|42|95|25.52|
+Moatasem Al-Musrati|MED|95|81|46.908.732.163.141.587.416|1996|D|189|42|95|25.39.52|
 Igor Julio|DEF|16|81|318.767.932.117.760.356.166.925|1998|E|188|0|16|39|
 Nicolò Casale|DEF|84|81|416.673.694.895.285.510.154|1998|D|191|0|84|48|
 Arthur Cabral|AVA|16|81|202.653.132.356.140.159|1998|D|186|0|16|18.50|
@@ -2555,13 +2555,13 @@ Stephen Eustaquio|MED|25|81|851.520.214.185.668.325.500|1996|D|175|61|25|7.52|
 Pedrinho|AVA|16|81|234.140.788.112|1998|E|172|14|16|30.50|D
 Carlos Vinícius|AVA|16|81|86.724.601.732.587.140.853.648.367.371.395|1995|E|190|0|16|18.30.31.34.38|
 Andrei Rațiu|DEF|132|81|905.888.10.754.719|1998|D|183|38|132||
-Lazar Samardžić|MED|145|81|418.705.871.100|2002|E|184|28|2||
+Lazar Samardžić|MED|145|81|418.705.871.100|2002|E|184|28|2|48|
 Patrick Wimmer|AVA|165|81|117.91.933.421|2001|D|182|36|165||D
 Cameron Archer|AVA|76|81|99.695.565.790.805.15|2001|D|175|11|76||
-Anatoliy Trubin|GR|153|81|788.140|2001|D|199|29|153|18.31|
+Anatoliy Trubin|GR|153|81|788.140|2001|D|199|29|153|18.31.38|
 Thijs Dallinga|AVA|124|81|310.312.300.854.154|2000|D|190|1|124||
 Enzo Boyomo|DEF|24|81|67.886.638|2001|D|184|9|58||
-Franjo Ivanović|AVA|40|81|404.875.140|2003|D|185|9|165|18.31|
+Franjo Ivanović|AVA|40|81|404.875.140|2003|D|185|9|165|18.31.38|
 Kiliann Sildillia|DEF|58|81|365.648|2002|D|186|5|58||
 Matheus Henrique|MED|16|81|833.395.781.242|1997|D|175|1|16|34|
 Arsen Zakharyan|MED|134|81|276.725|2003|D|183|8|134||
@@ -2612,7 +2612,7 @@ Tim Iroegbunam|MED|76|81|99.698.299.426|2003|D|183|7|76||
 Daniele Ghilardi|DEF|84|81|416.768.737|2003|D|189|16|84||
 Mandela Keita|MED|20|81|625.744.663|2002|D|180|1|20||
 Nicolò Savona|DEF|84|81|460.463.617|2003|D|192|0|84||
-Lorenzo Bernasconi|MED|84|81|238.100|2003|E|190|0|84||
+Lorenzo Bernasconi|MED|84|81|238.100|2003|E|190|0|84|48|
 Jake O'Brien|DEF|78|81|831.708.541.299|2001|D|197|17|78|41|
 Andy Diouf|MED|58|81|731.132.521.440|2003|E|187|3|58||
 Guéla Doué|DEF|39|81|731.293.524|2002|D|187|24|58||
@@ -2655,7 +2655,7 @@ Sidiki Chérif|AVA|68|81|81.351.236|2006|D|188|0|68||
 Veljko Milosavljevic|DEF|145|81|294.160|2007|D|192|2|145||
 Martial Godo|AVA|39|81|929.367.293|2003|D|177|1|76|38|E
 Claudio Echeverri|MED|4|81|734.551.524.386.140|2006|D|170|0|4|26|
-Gianluca Prestianni|AVA|4|81|917.140|2006|D|166|6|4|18.31|D
+Gianluca Prestianni|AVA|4|81|917.140|2006|D|166|6|4|18.31.38|D
 Mikey Moore|AVA|76|81|853.717|2007|D|180|14|76|59|E
 Gift Orban|AVA|115|81|465.541.421.416|2002|D|178|0|115||
 Ismaëlo Ganiou|DEF|58|81|521.650|2005|D|182|2|58||
@@ -2688,7 +2688,7 @@ Jermaine Pennant|AVA|76|80|93.921.516.145.532.692.779.825.934.929|1983|D|173|0|7
 Matthew Upson|DEF|76|80|539.93.617.243.720.145.925.825.166.518.543|1979|E|185|21|76|2.15.19|
 Mark Schwarzer|GR|8|80|274.0.162.565.367.215.518|1972||0|109|8|31.44|
 Wes Brown|DEF|76|80|552.828|1979|D|184|23|76|2.10.19.20.58|
-Nicolás Burdisso|DEF|4|80|150.440.737.378.848|1981|D|183|49|4|6.17.31.37.44|
+Nicolás Burdisso|DEF|4|80|150.440.737.378.848|1981|D|183|49|4|6.17.31.36.37.44|
 Christian Abbiati|GR|84|80|580.7.463.848.110|1977|D|191|4|84|6.11.19.58|
 Mickaël Landreau|GR|58|80|600.647.530.746|1979|D|184|11|58|4|
 Paul Robinson|GR|76|80|516.853.146.175|1979|D|193|41|76|19|
@@ -2696,7 +2696,7 @@ Wayne Bridge|DEF|76|80|805.215.367.551.925.828.166.720|1980|E|178|36|76|2.19.31.
 Jussi Jääskeläinen|GR|57|80|155.925.929|1975|D|191|56|57||
 Péguy Luyindula|AVA|58|80|210.293.541.553.15.523.647.608|1979|D|178|6|161|4.11|
 Benoît Pedretti|MED|58|80|330.553.541.15.530.4.19|1980|D|178|22|58|4|
-Benoît Cheyrou|MED|58|80|530.15.553.849|1981|E|182|0|58|4|
+Benoît Cheyrou|MED|58|80|530.15.553.849|1981|E|182|0|58|4.24|
 Obafemi Martins|AVA|115|80|728.440.610.933.745.145.523.784.755|1984|A|170|1|115|6.37|
 Marco Marchionni|MED|84|80|285.663.679.463.356.768.508|1980|D|173|6|84|24.44|
 Morgan De Sanctis|GR|84|80|674.463.871.787.371.601.737.587|1977|D|190|6|84|4.11.34|
@@ -2717,7 +2717,7 @@ Jaroslav Plasil|MED|32|80|424.587.867.638.156.201|1982|D|182|103|22|24|
 Nery Castillo|AVA|111|80|252.632.788.551.269.217.90.649.527.719|1984|E|170|21|111|59|D
 Blerim Dzemaili|MED|143|80|338.155.848.663.601.371.378.154.579|1986|D|180|69|88|43|
 Michael Dawson|DEF|76|80|617.853.426|1983|D|189|6|76|12.19.38|
-Souleymane Diawara|DEF|135|80|511.330.213.156.553.612|1978|D|187|47|135|4|
+Souleymane Diawara|DEF|135|80|511.330.213.156.553.612|1978|D|187|47|135|4.24|
 Peter Odemwingie|AVA|115|80|530.535.924.197.825.168|1981|D|181|63|154||D
 José Moreira|GR|127|80|140.830.633.629.292|1982|D|185|23|127|7.25.28.30.50|
 Danny|AVA|127|80|554.812.276.947.946|1983|D|178|1|159|12.20.25.32.37.40.45|
@@ -2733,7 +2733,7 @@ Hatem Ben Arfa|MED|58|80|541.553.610.426.612.647.731.886.156.530|1987|E|179|15|5
 Heurelho Gomes|GR|16|80|242.648.853.421.921|1981|D|191|11|16|12.38|
 Antonio Nocerino|MED|84|80|463.118.378.241.679.652.7.925.848.663.637.139|1985|D|175|15|84|6.44|
 Manuel Pasqual|DEF|84|80|858.356.285|1982|E|178|1|84|21.37|
-Mauro Zárate|AVA|4|80|917.59.145.510.440.925.698.356.921.683|1987|D|175|0|4||
+Mauro Zárate|AVA|4|80|917.59.145.510.440.925.698.356.921.683|1987|D|175|0|4|44|
 Younès Kaboul|DEF|58|80|15.853.692.828.921|1986|D|192|5|58|12.38.42|
 Rolando|DEF|127|80|120.325.601.440.80.553.163|1985|D|189|21|23|7.12.20.25.28.30.35.40.41.43.55.59|
 Gonzalo Castro|MED|2|80|524.157.298.91|1987|D|172|5|2|53|
@@ -2777,7 +2777,7 @@ Maxime Gonalons|MED|58|80|541.737.787.390.223|1989|D|187|8|58|24.41|
 Andros Townsend|AVA|76|80|526.939.853.543.447.921.568.516.145.698.610.243.299.539.84|1991|E|181|13|76|12.42.43.53|D
 Roberto Soriano|MED|84|80|768.285.905.848.154|1991|D|182|1|2|21.37.44|
 Daniel Wass|MED|43|80|172.364.140.950.203.888.110|1989|D|181|44|43|30|
-Oriol Romeu|MED|54|80|127.215.888.298.805.386.119|1991|D|183|5|54|3.26.27.43.58|
+Oriol Romeu|MED|54|80|127.215.888.298.805.386.119|1991|D|183|5|54|3.12.26.27.43.58|
 Cheikhou Kouyaté|MED|135|80|80.470.925.243.617|1989|D|189|92|135|39|
 Lacina Traore|AVA|39|80|191.497.85.587.299.194.813.75.891|1990|E|203|13|39|34.44.45|
 Luuk de Jong|AVA|124|80|253.334.158.610.648.787.127.325|1990|D|188|39|143|7.35.54.59|
@@ -2803,8 +2803,8 @@ Marvin Plattenhardt|DEF|0|80|620.418|1992|E|181|7||29|
 Eduardo Vargas|AVA|29|80|864.601.395.299.888.698.421.843.112.598|1989|D|173|120|29|17.39.43.45.50|
 Josuha Guilavogui|MED|58|80|763.110.933.156.548|1990|D|188|7|58|3.24.51|
 Martin Braithwaite|AVA|43|80|289.854.565.156.186.127.291.395|1991|D|177|69|43||
-Andrea Bertolacci|MED|84|80|737.513.378.7.768.478.486.238|1991|E|179|1|84|21.37.41.44.52|
-Jordan Ayew|AVA|60|80|553.330.319.99.830.243.518.790|1991|D|182|119|58|4.20|
+Andrea Bertolacci|MED|84|80|737.513.378.7.768.478.486.238|1991|E|179|1|84|21.36.37.41.44.52|
+Jordan Ayew|AVA|60|80|553.330.319.99.830.243.518.790|1991|D|182|119|58|4.20.24|
 Koen Casteels|GR|20|82|377.421.923.933.55|1992|E|197|20|20|45|
 Rémy Cabella|MED|58|80|578.5.610.553.763.494.530.632.600|1990|D|172|4|58|4.12.24.41|
 Younès Belhanda|MED|102|80|578.275.612.371.29|1990|D|175|1|58|4|
@@ -2855,7 +2855,7 @@ Dwight Gayle|AVA|76|80|675.243.610.924.825.263.419|1989|D|174|0|76|43|
 Joseba Zaldua|DEF|54|80|725.186.245|1992|D|174|0|54||
 Rúben Semedo|DEF|127|80|812.909.905.754.732.632.325.39.21|1994|D|191|3|127|7.30|
 Jacob Murphy|AVA|76|81|616.147.831.783.236.610.924.789|1995|D|179|6|76|43|D
-Andreas Cornelius|AVA|43|80|233.197.100.156.663.856|1993|E|193|46|43||
+Andreas Cornelius|AVA|43|80|233.197.100.156.663.856|1993|E|193|46|43|48|
 Rick Karsdorp|DEF|124|80|354.737.648|1995|D|184|3|124|13.31.41.44|
 Ibrahim Amadou|MED|58|80|19.530.787.616.186.81.323|1993|D|183|0|24|17.41|
 Robin Quaison|AVA|142|80|14.652.548.40.90|1993|D|183|52|142||
@@ -2893,7 +2893,7 @@ Baptiste Santamaria|MED|58|80|855.81.365.731.612.888|1995|D|183|1|58||
 Fabián Balbuena|DEF|122|80|598.528.234.925.276.395|1991|D|188|47|122|55|
 Alfie Mawson|DEF|76|80|164.539.936.129.830.367.168|1994|D|189|0|76|44|
 Jeremiah St. Juste|DEF|124|80|414.354.548.812|1996|D|186|9|124|7.47|
-Nuno Santos|DEF|127|80|140.909.732.812|1995|E|177|2|127|7.18.30.31.46.47|
+Nuno Santos|DEF|127|80|140.909.732.812|1995|E|177|2|127|7.18.30.31.38.46.47|
 Josip Brekalo|AVA|40|80|277.933.298.848.356.405.484.723.418|1998|D|175|35|40||E
 Harry Souttar|DEF|8|80|825.273.740.518.790|1998|D|198|36|51||
 Oli McBurnie|AVA|51|80|162.830.169.129.790.507.426|1996|D|188|17|76||
@@ -2929,7 +2929,7 @@ Lucas Perri|GR|16|81|834.243.621.159.541.516|1997|D|197|0|16|41|
 Omar Alderete|DEF|122|80|382.427.132.418.888.379.828|1996|E|190|40|122||
 Amir Murillo|DEF|121|80|608.80.553.141|1996|D|185|97|121||
 Ko Itakura|DEF|86|80|485.551.312.158.32|1997|D|188|44|86|26|
-Mitchel Bakker|MED|124|80|32.647.524.100.530|2000|E|189|21|124|4.42.53.56.59|
+Mitchel Bakker|MED|124|80|32.647.524.100.530|2000|E|189|21|124|4.42.48.53.56.59|
 Rafa Mir|AVA|54|80|888.934.507.617.754.787.283|1997|D|191|1|54|35.39.59|
 Leo Østigård|DEF|116|80|576.901.166.817.236.825.378.601.731.421|1999|D|183|43|116|6|
 Thierry Correia|DEF|127|80|812.888|1999|D|176|10|127||
@@ -3131,7 +3131,7 @@ Pierre-Alain Frau|AVA|58|79|330.541.521.647.530.759|1980|D|175|0|58|4|
 Kevin Nolan|MED|76|79|155.610.925.526|1982|D|183|0|76||
 Rory Delap|MED|78|79|198.263.805.825.828.129.177|1976|D|183|11|76||
 Bobby Zamora|AVA|76|79|169.166.853.925.367.698|1981|E|184|2|76|19|
-Hilton|DEF|16|79|211.659.235.786.746.521.553.578|1977|D|180|0|16|4|
+Hilton|DEF|16|79|211.659.235.786.746.521.553.578|1977|D|180|0|16|4.24|
 Alexander Manninger|GR|165|79|767.93.356.291.848.154.165.794.871.463.115|1977||0|33|165|2.6.15.21.37.44|
 Anthony Réveillère|DEF|58|79|731.888.541.601.828|1979|D|180|20|58|4.43|
 Emiliano Moretti|DEF|84|79|356.463.575.154.663.888.378.848|1981|E|182|1|84|6.21.37.44|
@@ -3156,7 +3156,7 @@ Oguchi Onyewu|DEF|45|79|323.822.610.7.334.812.586.698.789.213|1982|D|193|69|45|6
 James Collins|DEF|123|79|197.925.99.447|1983|D|188|51|123||
 João Pereira|DEF|127|79|140.380.163.812.888.856|1984|D|172|40|127|7.30.39.40.47|
 Tom Huddlestone|MED|76|79|263.934.853.426|1986|D|188|4|76|12.19.38|
-Hilário|DEF|127|79|604.27.325.295.891.597.215.812|1975|D|189|1|127|2.7.11.25.30.31.43.50.58.59|
+Hilário|DEF|127|79|604.27.325.295.891.597.215.812|1975|D|189|1|127|2.7.11.12.25.30.31.43.50.58.59|
 Carlos Martins|MED|127|79|812.27.140.390.137.120|1982|A|172|17|127|7.20.25.30.32.40.50|
 Rio Mavuba|MED|58|79|156.905.530.806|1984|D|172|13||4.24|
 Xabi Prieto|MED|54|79|725|1983|D|187|0|54||
@@ -3215,7 +3215,7 @@ Zoran Tosic|AVA|145|79|665.552.231.194.644|1987|E|171|76|88|10|D
 Sergio Asenjo|GR|54|79|887.886.110.586.905|1989|D|189|1|54|23.35.36.51.59|
 Patrick van Aanholt|DEF|124|79|236.25.215.610.929.518.907.828.243.371.648.807|1990|E|176|19|124|45.54|
 Mikel San José|MED|54|79|101.532.145|1989|D|187|7|54|17.23.43|
-Henrique|DEF|16|79|235.653.524.127.709.601.358.120|1986|D|185|7|16|3.26.43.50.58|
+Henrique|DEF|16|79|235.653.524.127.709.601.358.120|1986|D|185|7|16|3.26.34.43.50.58|
 Jay Rodríguez|AVA|76|79|175.129.805.924|1989|D|185|1|76|42.53|
 André Santos (1983)|DEF|16|79|355.357.112.234.351.93.395|1983|E|180|24|16|15.50|
 Álvaro Pereira|DEF|157|79|191.325.440.834.296.379|1985|E|180|1|157|7.12.17.28.55.59|
@@ -3242,7 +3242,7 @@ Pierre-Michel Lasogga|AVA|2|79|933.524.418.408|1991|D|189|0|2|5|
 David Ospina|GR|33|79|106.612.93.601.52|1988|D|183|131|33|11.15.20|
 James Chester|DEF|123|79|552.675.684.198.426.924.99.825.263|1989|D|177|35|76|2.10.20.58|
 Souza (1989)|MED|16|79|892.325.395.834.351.36.141.122.131|1989|D|188|3|16|7.11.12.30.31.55.59|
-Gaël Kakuta|MED|129|79|215.367.155.266.907.510.719.787.262.75.521.11|1991|E|174|31|58|2.11.43.58|
+Gaël Kakuta|MED|129|79|215.367.155.266.907.510.719.787.262.75.521.11|1991|E|174|31|58|2.11.12.43.58|
 Juraj Kucka|MED|52|79|806.378.7.856.663.921|1987|D|186|112|22|44|
 Robin Olsen|GR|142|79|550.642.233.737.196.299.790.99|1990|D|196|79|142|11.44|
 Marvin Martin|MED|58|79|330.530.266.820|1988|D|170|15|58||
@@ -3258,7 +3258,7 @@ Stefan Ortega|GR|2|79|91.1.551.617.632|1992|D|185|0|2|2.26.55.58|
 Hiroshi Kiyotake|MED|86|79|208.620.787|1989|D|172|43|86||
 Davide Astori|DEF|84|79|7.238.196.737.356|1987|E|189|1|84|11.21.37.58|
 Dedryck Boyata|DEF|20|79|551.155.334.204.418.224|1990|D|188|31|20|2.37.45|
-Jeffrey Bruma|DEF|124|79|215.518.408.648.933.548.484.414.707|1991|D|189|1|124|2.11.43.54.58|
+Jeffrey Bruma|DEF|124|79|215.518.408.648.933.548.484.414.707|1991|D|189|1|124|2.11.12.43.54.58|
 Eliaquim Mangala|DEF|58|79|822.325.551.888.299.763.292|1991|E|187|8|58|2.7.24.26.41.55|
 Steve Cook|DEF|76|79|166.160.617|1991|D|185|0|76||
 Matt Ritchie|MED|51|79|692.831.160.610|1989|E|173|1|76|43|
@@ -3292,7 +3292,7 @@ Robbie Brady|MED|78|79|552.426.616.175.160.695|1992|E|176|73|78|10|
 Charlie Austin|AVA|76|79|831.175.698.805.924|1989|D|188|0|76||
 Joel Campbell|AVA|38|79|93.319.142.632.905.812.366.527.577.111|1992|E|178|150|38|15.30|
 Dan Burn|DEF|76|79|367.939.145.929.166.610|1992|E|201|9|76||
-Zé Luís|AVA|23|79|380.163.348.809.325.535.61.411.346.21|1991|E|184|19|23|7.32.46.52|
+Zé Luís|AVA|23|79|380.163.348.809.325.535.61.411.346.21|1991|E|184|19|23|7.32.34.46.52|
 Youssouf Sabaly|DEF|135|79|647.950.600.156.142|1993|D|173|32|58|44.52|
 Bruma|AVA|127|79|812.371.375.725.705.648.632.351.163.140.90|1994|D|173|12|70|18.25.28.30.31.37.45|E
 Josip Drmic|AVA|143|79|338.620.524.158.408.616.404.277|1992|D|184|35|143||
@@ -3432,7 +3432,7 @@ Josha Vagnoman|DEF|2|79|408.298|2000|D|190|2|2||
 Jovane Cabral|AVA|23|79|812.510.764.632.295|1998|D|174|30|23|7.32.47.48|E
 Javi Galán|DEF|54|80|246.754.203.110.725.638|1994|E|172|0|54|51|
 Yehvann Diouf|GR|135|79|862.820.612|1999|D|188|2|58||
-Alexander Bah|DEF|43|79|835.802.140|1997|D|183|23|43|7.18.31|
+Alexander Bah|DEF|43|79|835.802.140|1997|D|183|23|43|7.18.31.38|
 Anthony Caci|DEF|58|79|293.548|1997|A|184|1|58||
 Benedict Hollerbach|AVA|2|79|874.548|2001|A|181|2|2||
 Tijjani Noslin|AVA|124|79|362.416.510|1999|D|178|0|124|48|D
@@ -3451,7 +3451,7 @@ Nehuén Pérez|DEF|4|79|110.89.345.390.871.325|2000|D|186|3|4|7.51|
 Ben Cabango|DEF|123|79|830|2000|D|186|16|123||
 Emil Holm|DEF|142|79|431.835.810.100.154.463|2000|D|191|16|142|59|
 Aster Vranckx|MED|20|79|471.933.7.781|2002|D|183|9|20||
-Tomás Araújo|DEF|127|79|140.380|2002|D|187|6|127|18.31|
+Tomás Araújo|DEF|127|79|140.380|2002|D|187|6|127|18.31.38|
 Joe Scally|DEF|45|79|609.158|2002|D|184|28|45||
 Luke Thomas|DEF|76|79|518.790.565|2001|E|181|15|76||
 Brandon Williams|DEF|76|79|552.616.447|2000|D|180|0|76|47|
@@ -3582,7 +3582,7 @@ Youssouf Hadji|AVA|102|78|19.746.731.38.282|1980|D|183|64|102||
 Florent Balmont|MED|58|78|541.854.612.530.266|1980|D|168|0|58|4|
 Camel Meriem|MED|58|78|330.156.553.587.90.5.612.87|1979|D|174|3|58||
 Zoumana Camara|DEF|58|78|763.440.285.746.553.521.516.647|1979|D|182|1|58|4.11|
-Rod Fanni|DEF|58|78|521.502.612.731.553.38.213|1981|D|186|5|58|17|
+Rod Fanni|DEF|58|78|521.502.612.731.553.38.213|1981|D|186|5|58|17.24|
 Matthieu Chalmé|DEF|58|78|530.156.4|1980|D|176|0|58|4|
 Étienne Didot|MED|58|78|731.854.398|1983|D|175|0|58||
 Cristian Brocchi|MED|84|78|7.416.440.356.510|1976|D|171|1|84|6.11.14.19.58|
@@ -3628,7 +3628,7 @@ Javier Arizmendi|AVA|54|78|104.110.709.262.888.779.379.606.549|1984|D|191|1|54||
 Zdravko Kuzmanovic|MED|145|78|132.356.298.440.871.586|1987|D|186|1|143|37|
 Nikica Jelavic|AVA|40|78|405.949.718.717.299.426.925.592|1985|A|188|36|88|45|
 Emir Spahic|DEF|21|78|850.535.578.787.85.524.408|1980||0|94|88||
-Ali Al-Habsi|GR|119|78|51.155.929.166.720.45.924|1981|D|194|136|119|45|
+Ali Al-Habsi|GR|119|78|51.155.929.166.720.45.924|1981|D|194|136|119|30.45|
 Abou Diaby|MED|58|78|15.93.553|1986|D|191|16|58|15|
 Sidnei|DEF|16|78|443.140.141.291.262.142|1989|D|184|0|16|7.30|
 Kiko Casilla|GR|54|78|245.291.307.721.516.283.379|1986|D|190|6|54|3.17.22.35.42.43.57.58|
@@ -3653,7 +3653,7 @@ Fernando Amorebieta|DEF|159|78|101.144.367.565.813.438|1985|E|191|15|159|17|
 Robert Acquafresca|AVA|84|78|848.858.440.196.100.378.154.523|1987|D|184|0|84|6.31.37|
 Miralem Sulejmani|MED|145|78|665.414.32.140.942|1988|E|179|1|88|7.30|
 Chris Brunt|MED|79|78|565.789.924.168|1984|E|187|65|79||
-McDonald Mariga|MED|128|78|663.440.725.508.723|1987|D|183|40|128|43|
+McDonald Mariga|MED|128|78|663.440.725.508.723|1987|D|183|40|128|43.44|
 Mario Suárez|DEF|54|78|104.110.886.203.549.356.921.888.719|1987|D|189|1|54|3.23.51.59|
 Roberto|GR|54|78|104.110.384.779.140.632.291.586.925.66.886|1986|D|192|0|54|30.38.40.51.55.59|
 Rubinho|GR|16|78|234.909.378.652.18.848.463|1982|D|186|0|16|6.21.48|
@@ -3665,7 +3665,7 @@ Cata Díaz|DEF|4|78|738.185.228.150.379.110|1979|D|183|12|4|17.51|
 Sylvain Marveaux|MED|58|78|731.610.398.319|1986|E|172|0|58||
 Stéphane Ruffier|GR|58|78|587.763|1986|D|188|3|58|24|
 Roman Neustädter|DEF|134|78|548.158.351.276.473|1988|D|188|13|154|29.33|
-Fabrice Abriel|MED|58|78|647.786.75.398.319.553.612.885|1979|D|176|0|58|4|
+Fabrice Abriel|MED|58|78|647.786.75.398.319.553.612.885|1979|D|176|0|58|4.24|
 Ricky van Wolfswinkel|AVA|124|78|907.882.812.616.763.142.132.334|1989|D|186|2|124|28.54|
 Roger Johnson|DEF|76|78|936.197.145.934.789.925.213|1983|D|191|0|76||
 Benoît Trémoulinas|DEF|58|78|156.275.763.787|1985|E|173|5|58|4.24.35.59|
@@ -3677,7 +3677,7 @@ Stefan Radu|DEF|132|78|308.510|1986|E|183|13|132|48|
 Sebastian Rode|MED|2|78|281.133.157|1990|D|179|0|2|5.26.53.59|
 Luca Antonelli|DEF|84|78|7.128.663.378.285|1987|E|184|1|84|11.21.37.41.52.58|
 Emiliano Insúa|DEF|4|78|150.532.371.812.110.719.298.499.69.710|1989|E|179|4|4|3.28.43.51|
-Ljubomir Fejsa|MED|145|78|665.632.140.66|1988|D|183|1|88|7.18.30.31.34.46|
+Ljubomir Fejsa|MED|145|78|665.632.140.66|1988|D|183|1|88|7.18.30.31.34.38.46|
 Tony Jantschke|DEF|2|78|158|1990|D|177|0|46||
 Jordan Rhodes|AVA|51|78|641.447.164.425.146.565|1990|D|185|1|76||
 Nicolás Spolli|DEF|4|78|611.201.737.199.218.378|1983|D|193|0|4|51|
@@ -3733,7 +3733,7 @@ James McClean|MED|78|78|828.929.924.825.935.971|1989|E|180|103|79||
 Aleix Vidal|AVA|54|78|721.291.384.72.787.127.66|1989|D|177|5|54|3.35.36.59|D
 Jonathan Kodjia|AVA|39|78|820.75.759.81.168.99.43|1989|D|189|1|58||
 Rodrigo Battaglia|MED|4|78|427.710.163.582.738.214.812.66.549.112.150|1991|D|187|2|4|9.30.32.41.47.50.52|
-Sergi Gómez|DEF|54|78|127.203.787.291.74|1992|D|185|1|54|35.59|
+Sergi Gómez|DEF|54|78|127.203.787.291.74|1992|D|185|1|54|26.35.59|
 Alexander Schwolow|GR|2|78|365.91.418.874.413|1992|D|190|7|2||
 Facundo Ferreyra|AVA|4|78|125.917.788.610.140.291.203|1991|D|183|0|4|7.18.30.41.46|
 Connor Wickham|AVA|76|78|447.828.789.516.243|1993|D|189|0|76||
@@ -3766,7 +3766,7 @@ Lei Wu|AVA|30|78|291|1991|D|174|1|30|12|D
 George Saville|MED|79|78|215.568.164.934.168.565.539|1993|E|176|64|76|35.39.43.55|
 Saphir Taïder|MED|5|78|393.154.440.805.781|1992|D|180|1|58|37|
 Jetro Willems|DEF|124|78|807.648.281.610.394.312.417.589|1994|E|177|22|112|54|
-Gianluca Caprari|AVA|84|78|737.674.440.768.663.139.416.580|1993|D|171|1|84|44|
+Gianluca Caprari|AVA|84|78|737.674.440.768.663.139.416.580|1993|D|171|1|84|36.44|
 Jeff Hendrick|MED|78|78|263.175.610.698.720.789|1992|D|185|1|78||
 Paul-Georges Ntep|AVA|24|78|15.731.933.763.486.398.149|1992|D|180|6|24|28|E
 Vitor Hugo|DEF|16|78|811.450.202.78.653.356.856.279.654.112|1991|E|187|0|16|9.50|
@@ -3782,7 +3782,7 @@ Christophe Hérelle|DEF|103|78|330.867.862.612.818.323.151|1992|D|191|0|58||
 Omar Colley|DEF|148|78|268.377.768.141.642|1992|E|191|62|148|25.44|
 Moi Gómez|MED|54|78|905.379.813.754.638|1994|D|176|3|54|59|
 Ole Selnæs|MED|116|78|739.763.338|1994|E|190|32|116||
-Nuno Valente|DEF|127|78|163.910.748.92.909.812.325.299|1991|D|174|0|127|7.28.31.32.52.58|
+Nuno Valente|DEF|127|78|163.910.748.92.909.812.325.299|1991|D|174|0|127|7.28.31.32.34.52.58|
 Matheus|GR|16|78|78.163.32.294|1992|D|190|0|16|9.32.41.47.52|
 Janik Haberer|MED|2|78|421.898.365.874|1994|D|187|9|2||
 Jean-Eudes Aholou|MED|39|78|868.293.587.763.81|1994|E|186|7|39|34|
@@ -3797,7 +3797,7 @@ Marvin Friedrich|DEF|2|78|115.874.158|1995|D|193|4|2||
 Rubén Blanco|GR|54|78|203.553.386|1995|D|188|2|54|36.43|
 Josh Murphy|AVA|76|78|616.929.543.197|1995|D|173|0|76||E
 Danilo Cataldi|MED|84|78|510.241.378.139.356|1994|D|180|0|84|48|
-Marco Sportiello|GR|84|78|100.199.356.366.7|1992|D|192|0|84||
+Marco Sportiello|GR|84|78|100.199.356.366.7|1992|D|192|0|84|48|
 Alex Pritchard|MED|76|78|853.675.831.164.924.616.425.828.145.799|1993|D|168|10|76|42|
 Angus Gunn|GR|51|78|551.616.805.825.617|1996|D|196|25|76|26|
 Flavien Tait|MED|58|78|502.81.731.769.736|1993|D|176|0|58||
@@ -4036,7 +4036,7 @@ Jacopo Fazzini|MED|84|78|285.356|2003|D|178|5|84||
 Etienne Green|GR|76|78|763.175.311|2000|D|191|2|76||
 Joel Chima Fujita|MED|86|78|844.940.797.817|2002|D|175|8|86||
 Freddie Potts|MED|76|78|936.692.925|2003|D|183|0|76|39|
-Manu Silva|MED|127|78|349.908.140|2001|D|190|0|127|18.31|
+Manu Silva|MED|127|78|349.908.140|2001|D|190|0|127|18.31.38|
 Sinaly Diomandé|DEF|39|78|541.15|2001|D|184|11|39|41|
 Warmed Omari|DEF|34|78|731.541.408|2000|D|188|12|106|41|
 David Da Costa|MED|127|78|521.691|2001|D|168|6|127||
@@ -4124,7 +4124,7 @@ Ariza Makukula|AVA|127|77|908.186.600.886.787.384.554.140.155.486.909.623|1981|D
 Giovanni Pasquale|DEF|84|77|440.794.663.18.871.848|1982|E|182|0|84|6.37|
 Ferdinando Coppola|GR|84|77|601.154.97.728.729.679.7.100.794.848.416|1978|D|188|0|84|6.11.21.58|
 Giuseppe Sculli|AVA|84|77|463.241.575.218.165.378.510.674|1981|D|178|0|84|6.11.19.24|E
-Luca Castellazzi|GR|84|77|580.890.650.674.165.729.201.768.440.848|1975|E|192|0|84|43|
+Luca Castellazzi|GR|84|77|580.890.650.674.165.729.201.768.440.848|1975|E|192|0|84|43.44|
 Kalu Uche|AVA|115|77|291.930.156.72.606.484.57.523|1982|D|180|37|115|42|
 Gabriel Tamas|DEF|132|77|308.371.809.203.15.924.191.270.921.339.197.676|1983|D|188|67|132||
 Daniele Gastaldello|DEF|84|77|650.463.218.241.794.768.154.165|1983|D|187|1|84|6|
@@ -4139,7 +4139,7 @@ Sejad Salihovic|MED|21|77|418.421.408|1984|E|182|1|88||
 Michael Turner|DEF|76|77|213.526.164.426.828.616.367.789|1983|D|193|0|76||
 Jaroslav Drobny|GR|32|77|179.656.367.10.447.898.418.408.923.302|1979|D|192|1|22||
 Steve Sidwell|MED|76|77|93.164.166.720.215.99.367.825|1982|D|183|0|76|2.15|
-Quim|GR|127|77|163.140.265|1975|D|182|32|127|7.20.25.28.30.32.40.50|
+Quim|GR|127|77|163.140.265|1975|D|182|32|127|7.20.25.28.30.32.34.40.50|
 José Nunes|DEF|127|77|163.765.380.549|1977|D|185|0|127|28|
 Ángel López|DEF|54|77|507.203.905.142|1981|D|180|5|54||
 Borja Oubiña|MED|54|77|203.145|1982|D|178|2|54|36|
@@ -4159,7 +4159,7 @@ Gelson Fernandes|MED|143|77|329.551.763.218.518.871.812.365.731.281|1986|D|180|6
 Jussiê|MED|16|77|242.483.521.156.62|1983|D|181|0|16||
 Christian Terlizzi|DEF|84|77|209.652.768.201.890.674.794.857|1979|E|195|1|84|51|
 Daniele Mannini|MED|84|77|681.165.601.768.794.513|1983|D|183|0|84||
-Giulio Migliaccio|MED|84|77|128.841.100.652.356|1981|D|180|0|84||
+Giulio Migliaccio|MED|84|77|128.841.100.652.356|1981|D|180|0|84|48|
 Hugo Campagnaro|DEF|4|77|679.768.601.440.674|1980|D|181|17|4|37|
 Andrea Cossu|MED|84|77|416.196|1980|D|170|2|84||
 Abdoulay Konko|DEF|58|77|463.241.794.378.787.510.100|1984|D|184|0|58|19.24.48|
@@ -4171,7 +4171,7 @@ Benoît Costil|GR|58|77|759.193.731.156.15.530.764|1987|D|188|1|58|24.41|
 Túlio de Melo|AVA|16|77|112.512.652.530.950.211.886.811|1985|D|193|0|16|4|
 Riki|AVA|54|77|262.390|1980|E|187|0|54||
 Barreto|AVA|16|77|858.871.128.848.895|1985|D|171|0|16|21|
-Gianluca Curci|GR|84|77|737.794.768.154.548.410|1985||0|0|84||
+Gianluca Curci|GR|84|77|737.794.768.154.548.410|1985||0|0|84|36|
 Jonas Olsson|DEF|142|77|589.924.268.929|1983|E|193|25|142||
 Maxi López|AVA|4|77|734.127.549.395.201.7.768.218.848.871.892.241|1984|D|192|0|4|3.51.58|
 Óscar Serrano|MED|54|77|291.709.523.66|1981|E|178|7|54|22|
@@ -4188,7 +4188,7 @@ Zlatko Junuzovic|MED|165|77|117.923|1987|D|172|47|88||
 Silvestre Varela|AVA|127|77|812.200.909.295.325.924.663.486.120|1985|D|180|27|127|7.12.25.28.32.35.39.40.41.55.59|E
 Mark Noble|MED|76|77|925.447.426|1987|D|180|0|76||
 Pedro Geromel|DEF|16|77|653.214.908.231.549.395|1985|D|190|1|16|50|
-Luca Cigarini|MED|84|77|663.100.601.787.768.196.241|1986|D|175|0|84|44|
+Luca Cigarini|MED|84|77|663.100.601.787.768.196.241|1986|D|175|0|84|44.48|
 Tom Heaton|GR|76|77|552.831.744.197.698.936.168.175.99|1986|D|188|3|76|2.10.20.47.58|
 Srdjan Lakic|AVA|40|77|418.417.0.933.421.281.750|1983||0|0|88||
 Lasse Schöne|MED|43|77|414.253.589.32.378|1986|D|178|51|43||
@@ -4228,7 +4228,7 @@ Albert Crusat|AVA|54|77|291.719.72.929|1982|E|160|1|54|22.35.45|E
 Benjamin Hübner|DEF|2|77|315.421|1989|E|193|0|2||
 Fabiano (1988)|GR|31|77|834.79.629.325.351.633|1988|D|197|4|16|7.30.31.35.41.52.55|
 Tolgay Arslan|MED|2|77|408.141.351.871.557.775|1990|D|180|3|2||
-Jonathan|DEF|16|77|242.777.440.663.358|1986|D|170|0|16|37|
+Jonathan|DEF|16|77|242.777.440.663.358|1986|D|170|0|16|37.44|
 John Fleck|MED|51|77|717.147.236.790.146|1991|E|169|1|51||
 Ciprian Tatarusanu|GR|132|77|339.356.600.541.7|1986|D|198|74|132|6.44|
 Nordin Amrabat|AVA|102|77|71.884.648.486.371.586.921.186.52.12.426|1987|D|178|64|124|37.38|D
@@ -4257,14 +4257,14 @@ Borja García|MED|54|77|719.246.386.754|1990|D|175|0|54||
 Roman Zozulya|AVA|153|77|275.269.142.719.67.190|1989|D|176|33|154||
 Mohamed Diamé|MED|135|77|719.929.925.426.610.190|1987|D|184|31|58|43.45|
 Pedro Mendes|DEF|127|77|812.724.786.721.663.781.731.578.295|1990|D|186|0|143|3.28.31.40|
-Davide Faraoni|DEF|84|77|440.871.921.673.618.241.416.356|1991|D|180|7|84||
+Davide Faraoni|DEF|84|77|440.871.921.673.618.241.416.356|1991|D|180|7|84|44|
 Elias|MED|16|77|621.689.234.110.812.357.279|1985|D|173|1|16|11.28.30.34.50.55|
 Felipe Pardo|AVA|33|77|260.436.163.632.600.845.649.733.70|1990|D|178|3|33|20.28.38.40.52|D
 Alfred N'Diaye|MED|135|77|19.176.290.828.142.905.426.934|1990|D|189|1|58|38|
 Lukasz Skorupski|GR|126|79|401.737.285.154|1991|D|188|20|126|25|
 Celso Borges|MED|38|77|364.14.262.402|1988|D|183|164|38||
 André Almeida (1990)|DEF|127|77|120.140.519|1990|D|185|1|127|7.18.25.30.40.45.46|
-Sílvio|DEF|127|77|732.163.110.262.140.909.908|1987|D|176|1|127|7.18.25.30.31.40.45.46.51.59|
+Sílvio|DEF|127|77|732.163.110.262.140.909.908|1987|D|176|1|127|7.18.25.30.31.38.40.45.46.51.59|
 Francesco Caputo|AVA|84|77|128.764.794.285.781.768|1987|D|181|2|84|21|
 Fabián Rinaudo|MED|4|77|382.812.201|1987|D|175|8|4|28.34|
 Álex Fernández|MED|54|77|721.291.404.720.283.245|1992|D|183|0|54|31|
@@ -4276,7 +4276,7 @@ Leonardo Bittencourt|MED|2|77|157.231.421.923|1993|D|171|20|2|33|
 Muhamed Besic|MED|21|77|408.352.299.565.790.808|1992|D|180|47|2|11.38.43.45|
 Erik Durm|DEF|2|77|157.425.281.0|1992|D|183|7|2|33.53.59.60|
 Sergio Escudero|DEF|54|77|722.379.787.390.886.262|1989|E|176|0|54|35.59|
-Marko Livaja|AVA|40|79|405.440.320.209.100.745.285.507.12|1993|D|184|21|40|43|
+Marko Livaja|AVA|40|79|405.440.320.209.100.745.285.507.12|1993|D|184|21|40|43.44|
 Takashi Inui|AVA|86|77|940.208.898.281.753.142.66.791.906.974|1988|D|169|36|86||E
 Romain Alessandrini|AVA|58|77|223.731.553|1989|E|173|0|58|12.17|D
 Pelé (1991)|MED|70|77|120.378.7.94.629.137.140.668.349.732.587.345|1991|D|182|0|127|46|
@@ -4296,7 +4296,7 @@ Craig Dawson|DEF|76|77|924.155.921.925.934|1990|D|188|16|76|35.55|
 Rômulo (1987)|MED|84|77|462.211.242.102.356.416.463.378.510.165|1987|D|178|0|16|6|
 Wellington Nem|AVA|16|77|355.358.788.92|1992|E|165|3|16|41|D
 Sam Clucas|MED|76|77|426.830|1990|E|178|0|76|38|
-Jardel|DEF|16|77|280.777.450.292.629.140|1986|D|192|0|16|7.18.30.31.46|
+Jardel|DEF|16|77|280.777.450.292.629.140|1986|D|192|0|16|7.18.30.31.38.46|
 Luca Marrone|DEF|0|77|463.794.781.199.416.949.241.580|1990|D|186|0||6.21|
 Lisandro López (1989)|DEF|4|77|95.379.140.440.378.150.226.48.174.138|1989|D|187|4|4|7.30.46.49|
 Pontus Jansson|DEF|142|77|550.848.516.164|1991|D|196|27|142||
@@ -4312,7 +4312,7 @@ Paulo Oliveira|DEF|127|77|908.669.812.753.163|1992|D|187|1|127|25.30.32.38.45.46
 Anthony Limbombe|AVA|20|77|377.529.589.224.600.822.71.919|1994|D|177|1|20|45|E
 Jordan Lukaku|DEF|20|77|80.472.510.744.688|1994|E|180|8|20|45.48|
 Tomas Koubek|GR|32|77|424.806.804.731.115|1992|D|197|12|22||
-Tomas Kalas|DEF|32|77|795.215.907.231.565.367.168|1993|D|184|1|32|11.21.31.42.43.48.53.58|
+Tomas Kalas|DEF|32|77|795.215.907.231.565.367.168|1993|D|184|1|32|11.12.21.31.42.43.48.53.58|
 Nikola Vukcevic|MED|109|77|163.523|1991|E|187|1|88|9.28.32.41.52|
 Aderllan Santos|DEF|16|77|860.163.888.834.280.36.732.21|1989|D|193|0|16|28.32.39.52|
 Adrien Trébel|MED|98|77|600.822.80.509.702|1991|E|174|0|58||
@@ -4325,7 +4325,7 @@ Jack Stephens|DEF|76|77|684.805.831.565.236.160|1994|D|185|8|76|42|
 Paddy McNair|DEF|79|77|552.828.565.770.924.426|1995|D|189|82|79|31.47.54|
 Paul Dummett|DEF|123|77|610.816|1991|E|183|5|76|43|
 Stéphane Bahoken|AVA|24|77|612.816.293.81.484.486|1992|D|185|22|58||
-Prince Gouano|DEF|58|77|511.463.100.707.732.155.375.908.75|1993|D|186|0|58|6.21|
+Prince Gouano|DEF|58|77|511.463.100.707.732.155.375.908.75|1993|D|186|0|58|6.21.48|
 Lucas Piazón|MED|16|77|215.586.907.281.720.367.218.732.163.159.21|1994|D|182|2|16|21.42.43.48.53|
 Andraz Sporar|AVA|53|77|132.91.812.163.565.654.65|1994|D|186|68|53|7.43.46.47|
 Wallace Oliveira|DEF|16|77|358.215.440.907.199.395|1994|D|175|0|16|50|
@@ -4595,7 +4595,7 @@ Zito Luvumbo|AVA|3|77|232.196.549|2002|E|171|31|3|44|D
 Maestro|MED|3|77|295.29.65|2003|D|173|21|3||
 Matheus Martins|AVA|16|77|358.871.921.159|2003|D|183|10|16||E
 Leonardo Lelo|DEF|127|77|629.200.163|2000|E|175|5|127||
-João Victor|DEF|16|77|234.111.140.600.892.194|1998|D|190|0|16|31|
+João Victor|DEF|16|77|234.111.140.600.892.194|1998|D|190|0|16|31.38|
 Bertuğ Yıldırım|AVA|152|77|411.84.731.379.131|2002|D|191|5|152||
 Isidro Pitta|AVA|122|77|754.462.704|1999|D|185|6|122||
 Samuel Edozie|AVA|76|77|805.80|2003|D|181|0|76||E
@@ -4694,13 +4694,13 @@ Andreas Wolf|DEF|2|76|620.923.587|1982|D|182|0|154|44|
 Alexander Madlung|DEF|2|76|418.933.281.302|1982||0|5|2|5.29|
 Quique de Lucas|MED|54|76|291.647.215.66.722.307.203.430|1978|D|175|1|54|22.44|
 Jérémie Aliadière|AVA|58|76|93.204.925.934.565.319|1983|D|183|0|58|2.15|
-Hugo Viana|MED|127|76|812.610.888.638.163.62|1983|E|178|29|127|7.20.32.40.50|
+Hugo Viana|MED|127|76|812.610.888.638.163.62|1983|E|178|29|127|7.20.32.34.40.50|
 Steve Harper|GR|76|76|610.162.824.425.166.426.828|1975|D|188|0|76||
 Tony Hibbert|DEF|76|76|299|1981|D|173|0|76|45|
 Jason Roberts|AVA|62|76|934.168.169.924.692.929.146.720|1978|D|185|15|76||
 George McCartney|DEF|79|76|828.925.516|1981|E|183|34|79||
 Malik Fathi|DEF|2|76|809.548.486.1|1983|E|185|2|2|53|
-Bogdan Lobont|GR|132|76|326.32.308.356.737|1978|D|185|86|132|44|
+Bogdan Lobont|GR|132|76|326.32.308.356.737|1978|D|185|86|132|36.44|
 Steve von Bergen|DEF|143|76|606.338.418.209.378.652.942|1983|D|182|1|143||
 Hélder Postiga|AVA|127|76|325.853.763.654.812.779.888.510.262.732|1982|D|182|71|127|7.20.28.31.32.40.50.59|
 Souleymane Camara|AVA|135|76|587.398.612.578|1982|D|174|1|135|4.24|D
@@ -4738,7 +4738,7 @@ Silvio Proto|GR|20|76|80.135.472.632.510|1983|D|184|13|20||
 Michaël Ciani|DEF|58|76|702.15.193.319.156.510.812.291|1984|D|189|1|58|30|
 Grant Holt|AVA|76|76|789.617.147.793.616.929.99.425.934.419|1981|D|183|0|76||
 Dean Whitehead|MED|76|76|641.828.825.565.425|1982|D|183|0|76||
-Custódio|MED|127|76|812.276.908.163.33|1983|D|181|10|127|25.28.32.40.52|
+Custódio|MED|127|76|812.276.908.163.33|1983|D|181|10|127|25.28.32.34.40.52|
 Tonel|DEF|127|76|325.27.554.812.277.136.349.120.137|1980|D|184|26|127|20.25.40.50|
 Alan (1979)|AVA|16|76|446.554.325.908.163|1979|D|180|0|16|7.9.28.30.32.41.52|D
 David Vaughan|MED|123|76|239.725.147.828.617|1983|E|171|42|123||
@@ -4761,7 +4761,7 @@ Víctor Montaño|AVA|33|76|567.316.578.731.845|1984|D|180|1|33||
 Jérémy Clément|MED|58|76|541.717.647.763|1984|E|180|0|58|4|
 Panagiotis Kone|MED|63|76|448.165.154.871.356.390.12|1987|D|182|1|1|25|
 Pablo Barrientos|AVA|4|76|771.201.296|1985|E|176|1|4|51|D
-Júlio Sérgio|GR|16|76|777.462.737.513|1978|D|187|0|16|44|
+Júlio Sérgio|GR|16|76|777.462.737.513|1978|D|187|0|16|36.44|
 Daniele Conti|MED|84|76|737.196|1979|D|178|0|84||
 Brett Holman|MED|8|76|354.300.589.22.99.51|1984|D|177|63|8|54|
 Simone Tiribocchi|AVA|84|76|510.285.848.139.794.218.513.100.696|1978||0|0|84||
@@ -4769,13 +4769,13 @@ Simone Vergassola|MED|84|76|768.848.794|1976|D|174|0|84|21|
 Daniele Cacia|AVA|84|76|679.841.760.356.513.729.650.416.154.97|1983|D|181|0|84||
 Davide Biondini|MED|84|76|209.729.196.100.378.781|1983|D|180|2|84||
 Luca Rigoni|MED|84|76|729.679.218.652.378.663|1984|D|185|0|84||
-Cristian Raimondi|MED|84|76|100.696.652.18|1981|D|182|0|84||
+Cristian Raimondi|MED|84|76|100.696.652.18|1981|D|182|0|84|48|
 Emanuele Calaiò|AVA|84|76|848.841.674.601.794.378.201.810|1982|E|179|0|84|21.43|
 Weligton|DEF|16|76|659.669.391.586|1979|E|186|0|16|28|
 Daniele Galloppa|MED|84|76|737.859.97.794.663.575|1985|E|181|2|84|19|
 Cédric Hengbart|DEF|58|76|759.15.4|1980|D|183|0|58||
 Asier Riesgo|GR|54|76|753.725.638.386.186|1983|D|185|0|54||
-Laurent Bonnart|DEF|58|76|855.512.553.587.530.4.502|1979|A|171|0|58|4|
+Laurent Bonnart|DEF|58|76|855.512.553.587.530.4.502|1979|A|171|0|58|4.24|
 Dariusz Dudka|DEF|126|76|930.15.523.145.514|1983|D|184|65|126||
 Rúben Amorim|MED|127|76|120.140.163|1985|D|178|14|127|7.30.32.40.46|
 Evaldo|DEF|16|76|102.325.554.163.812.262.380.582|1982|E|183|0|16|28.30.34|
@@ -4793,7 +4793,7 @@ Diego Colotto|DEF|4|76|296.109.262.291|1981|D|184|0|4|42|
 Damià Abella|DEF|54|76|127.709.142.638.565|1982|A|188|4|54|3.22.58|
 Massimo Gobbi|DEF|84|76|858.196.356.663.218|1980|E|183|1|84||
 Alessandro Lucarelli|DEF|84|76|679.652.165.356.18.729.794.378.663|1977|E|182|0|84||
-Gennaro Bracigliano|GR|58|76|19.81.553|1980|D|183|0|58||
+Gennaro Bracigliano|GR|58|76|19.81.553|1980|D|183|0|58|24|
 Olivier Sorin|GR|58|76|19.15.731|1981|D|188|0|58||
 Davide Moro|MED|84|76|285.890.18.764|1982|D|176|0|84|48|
 Michael Agazzi|GR|84|76|100.859.781.359.196.218.7.565|1984|D|191|0|84|41.52|
@@ -4825,8 +4825,8 @@ Imanol Agirretxe|AVA|54|76|101.725|1987|D|187|0|54||
 Nicolai Müller|MED|2|76|394.762.548.408.281|1987|D|173|2|2|53|
 Brad Guzan|GR|45|76|99.426.565.108|1984|E|193|64|45||
 Victor Anichebe|AVA|115|76|299.924.828|1988|D|190|11|115||
-Hélder Barbosa|AVA|127|76|325.27.860.909.163.72.12.33.655.411|1987|E|172|2|127|7.28.32|E
-Morgan Amalfitano|MED|58|76|193.319.553.924.925.530.731|1985|D|178|1|58||
+Hélder Barbosa|AVA|127|76|325.27.860.909.163.72.12.33.655.411|1987|E|172|2|127|7.28.32.34|E
+Morgan Amalfitano|MED|58|76|193.319.553.924.925.530.731|1985|D|178|1|58|24|
 Leon Britton|MED|76|76|925.830.790|1982|D|167|0|76|45|
 Sven Ulreich|GR|2|76|298.133.408|1988|D|192|0|2|5.11.26.27.53|
 Nicolás Pareja|DEF|4|76|80.291.809.787|1984|D|181|1|4|35.42.49.59|
@@ -4835,14 +4835,14 @@ Kévin Constant|MED|68|76|854.502.218.378.7.856.154.329|1987|E|184|1|58||
 Chris Gunter|DEF|123|76|197.853.617.720.213|1989|D|180|109|123||
 Pedro Mosquera|MED|54|76|721.379.283.262.754.9|1988|E|184|1|54|31|
 Cédric Mongongu|DEF|129|76|587.950.290.578|1989|D|189|1|161||
-Antunes|DEF|127|76|363.668.737.513.520.18.656.586.275.379.812|1987|E|175|13|127|7.20.25.40.41.44.47.50|
+Antunes|DEF|127|76|363.668.737.513.520.18.656.586.275.379.812|1987|E|175|13|127|7.20.25.36.40.41.44.47.50|
 Paolo De Ceglie|DEF|84|76|463.794.378.663.553|1986|E|184|0|84|6.12.21.24.44|
 Fernando Forestieri|AVA|84|76|378.794.871.586.285.128.921.789|1990|D|172|0|4||
 Valentin Stocker|AVA|143|76|132.418|1989|E|179|1|143||E
 Miguel Torres|DEF|54|76|721.379.632.586|1986|D|184|0|54|3.19|
 Gabriel Mercado|DEF|4|76|710.296.734.787.57.443|1987|D|180|25|4|49|
 Claudio Yacob|MED|4|76|710.924|1987|D|182|2|4|51|
-Joel Obi|MED|115|76|440.663.848.218.65.764.729|1991|E|178|17|115|37.43|
+Joel Obi|MED|115|76|440.663.848.218.65.764.729|1991|E|178|17|115|37.43.44|
 Glenn Murray|AVA|76|76|198.824.166.243.720.160|1983|D|186|0|76||
 Modibo Maïga|AVA|100|76|512.330.925.698.323.52|1987|E|185|1|100||
 Filip Djordjevic|AVA|145|76|294.711.600.510.218|1987|E|186|14|88||
@@ -4860,7 +4860,7 @@ Kolbeinn Sigthórsson|AVA|82|76|22.32.600.371.14.431|1990|D|186|64|82|44.52.54|
 Gonzalo Bergessio|AVA|4|76|683.439.710.140.771.763.201.721.768.109|1984|D|179|3|4|3.11.31|
 Dimitrios Siovas|DEF|63|76|937.445.656.632.186.754.362.644|1988|E|191|20|63|25.34.38.40.55|
 André Dias|DEF|16|76|659.357.389.834.510|1979|D|184|1|16||
-Alberto Botía|DEF|54|76|127.813.787.283.632.45.63.488|1989|D|188|0|54|3.26.38.40.55|
+Alberto Botía|DEF|54|76|127.813.787.283.632.45.63.488|1989|D|188|0|54|3.26.30.38.40.55|
 Maurício (1988, Portimonense)|MED|16|76|358.34.947.642.654.690|1988|D|184|0|16|9.12.37|
 Bastian Oczipka|DEF|2|76|524.817.281.874.91|1989|E|185|0|2||
 Sebastián Blanco|MED|4|76|561.924|1988|A|168|1|4|49|
@@ -4910,7 +4910,7 @@ Timothée Kolodziejczak|DEF|58|76|541.521.612.787.158.843.763.662|1991|E|183|1|5
 Rúben Micael|MED|127|76|878.597.325.110.779.163.668.909|1986|D|176|1|127|7.12.25.28.32.40.45.51.52.59|
 Mirko Valdifiori|MED|84|76|209.285.601.848.760|1986|D|185|1|84|11.21.37.48|
 Enda Stevens|DEF|78|76|99.270.615.692.790|1990|E|183|0|78||
-Giulio Donati|DEF|84|76|440.513.650.524.548.580|1990|D|178|0|84|6.31.43.58|
+Giulio Donati|DEF|84|76|440.513.650.524.548.580|1990|D|178|0|84|6.31.43.44.58|
 André Martins|MED|127|76|812.724.120.632|1990|D|169|2|127|28.30.34.38.40|
 Laurent Depoitre|AVA|20|76|585.472.465.325.425|1988|D|191|1|20|39.45|
 Ashley Westwood|MED|76|76|239.99.175.212|1990|D|174|0|76||
@@ -5010,7 +5010,7 @@ Isaac Kiese Thelin|AVA|142|76|614.550.156.80.919.524.484.881|1992|D|189|33|142||
 Christopher Jullien|DEF|64|76|15.365.266.854.204.578|1993|D|196|0|58||
 Farid Boulaya|MED|5|76|316.223.746.386.323.43.433|1993|D|180|8|58||
 Adrien Hunou|AVA|58|76|731.223.569.81|1994|D|179|12|58||
-Viktor Kovalenko|MED|153|76|788.100.810.285|1996|D|182|33|153|41.59|
+Viktor Kovalenko|MED|153|76|788.100.810.285|1996|D|182|33|153|41.48.59|
 Saman Ghoddos|MED|80|76|75.164|1993|D|176|69|142|20|
 Marco Ilaimaharitra|MED|98|76|330.702.470.822|1995|D|178|36|58||
 Ibrahima Mbaye|DEF|135|76|440.18.154.191|1994|D|188|1|135|37|
@@ -5074,7 +5074,7 @@ Alfonso Espino|DEF|157|76|598.245.719.710|1992|E|172|0|157||
 Lewis Morgan|AVA|51|76|816.204.828.442.608.770|1996|A|178|7|51||E
 Ramadan Sobhi|AVA|47|76|825.425|1997|D|183|1|47|20|E
 Dael Fry|DEF|76|76|565|1997|D|190|0|76||
-Chris Willock|AVA|76|76|93.140|1998|D|178|0|76|2.15.18.30.31.46|E
+Chris Willock|AVA|76|76|93.140|1998|D|178|0|76|2.15.18.30.31.38.46|E
 Jae-sung Lee|MED|37|77|458.422.548|1992|E|180|110|37|40|
 Timothy Fosu-Mensah|DEF|124|76|552.243.367.524|1998|D|185|1|124|31.54.56.59|
 Cyriel Dessers|AVA|115|76|625.469.588.882.417.377.354.238.717.654|1994|D|185|11|20|13.43|
@@ -5121,7 +5121,7 @@ Mateu Morey|DEF|54|76|549.157|2000|D|173|0|54||
 Marco Grüll|AVA|165|76|761.718.923|1998|A|181|8|165||E
 Derrick Köhn|DEF|60|76|371.923.874|1999|E|180|3|2||
 Danny Namaso|AVA|24|76|720.325.15|2000|D|182|12|76|7.52|E
-Enrico Delprato|DEF|84|76|100.18.729.663|1999|D|183|12|84||
+Enrico Delprato|DEF|84|76|100.18.729.663|1999|D|183|12|84|48|
 Douglas Augusto|MED|16|76|358.234.279.642.600.494|1997|E|173|1|16|9|
 Felix Bacher|DEF|165|76|918.292|2000|D|190|1|165||
 Emanuel Vignato|AVA|84|76|218.154.285.681.764.11|2000|D|175|10|84||D
@@ -5211,7 +5211,7 @@ Luís Esteves|MED|127|76|597.380|1998|D|173|0|127||
 Andrew|GR|16|76|159.380.357|2001|D|189|0|16||
 Gaetano Oristanio|MED|84|76|336.440.196.895.663|2002|E|174|7|84|44|
 Marko Stamenić|MED|118|76|233.294.617.632.830|2002|D|188|41|118||
-Henrique Araújo|AVA|127|76|140.921.345.92|2002|D|182|32|127|7.18.31|
+Henrique Araújo|AVA|127|76|140.921.345.92|2002|D|182|32|127|7.18.31.38|
 Mohamed Bamba (2001)|AVA|39|76|932.319|2001|D|185|0|39||
 Olivier Deman|DEF|20|76|207.923.744|2000|E|181|3|20||
 Rumarn Burrell|AVA|85|76|565.162.489.344.177.698|2000|D|184|5|76||
@@ -5374,7 +5374,7 @@ Przemyslaw Tyton|GR|126|75|735.648.283.298.262.221.32.334|1987|D|195|14|126||
 Ryan Taylor|DEF|76|75|929.610.426|1984|D|179|0|76||
 Mouhamadou Dabo|DEF|58|75|763.787.541.862.759|1986|D|176|0|135||
 Siaka Tiéné|DEF|39|75|20.763.820.885.647.578|1982|E|177|1|39|4.11|
-Andrea Masiello|DEF|84|75|118.463.794.378.128.100|1986|D|184|0|84|19.21|
+Andrea Masiello|DEF|84|75|118.463.794.378.128.100|1986|D|184|0|84|19.21.48|
 Xisco|AVA|54|75|262.610.709.246.549.638.677.9|1986|D|188|0|54||
 Stephen Ward|DEF|78|75|934.166.175.825.447.920|1985|E|184|50|78||
 Stefan Aigner|AVA|2|75|91.1.281|1987|D|183|0|2||D
@@ -5390,7 +5390,7 @@ Abel Aguilar|MED|33|75|260.97.871.430.779.262.854.137.120.250|1985|D|185|71|33||
 DJ Campbell|AVA|76|75|823.164.145.518.147.263.698.447.146.568|1981|D|178|2|76||
 David Cobeño|GR|54|75|688.719.721.787.72|1982||188|0|54|20.35.59|
 Sebastian Prödl|DEF|165|75|827.923.921.871|1987|D|194|73|165|38|
-Garry Bocaly|DEF|103|75|553.578.5|1988|D|180|0|103|4|
+Garry Bocaly|DEF|103|75|553.578.5|1988|D|180|0|103|4.24|
 Federico Di Francesco|AVA|84|75|674.663.238.154.781.760.285.513.652|1994|D|171|0|84||E
 Makoto Hasebe|DEF|86|75|881.933.620.281|1984|D|180|1|86|5.59|
 Romain Danzé|DEF|58|75|731|1986|D|184|0|58||
@@ -5410,7 +5410,7 @@ Fabian Lustenberger|DEF|143|75|321.418.942|1988|D|180|1|143||
 Fraizer Campbell|AVA|76|75|744.552.426.853.828.197.243|1987|D|172|1|76|2.10.20.58|
 Darron Gibson|MED|78|75|552.744.934.299.828.929|1987|D|183|27|79|2.10.20.45.58|
 Timo Gebhart|MED|2|75|1.298.620.339|0|D|183|0|2||
-Fran Mérida|MED|54|75|127.93.725.110.163.430.102.754.638.719.291|1990|E|173|0|54|3.15.51.54.59|
+Fran Mérida|MED|54|75|127.93.725.110.163.430.102.754.638.719.291|1990|E|173|0|54|3.15.34.51.54.59|
 Yannick Djaló|AVA|127|75|812.200.140.854.756.581.909|1986|D|171|1|70|30.40.46|E
 Rudy Mater|DEF|58|75|885|1980|D|178|0|58||
 Ikechukwu Uche|AVA|115|75|379.779.390.905.843.586.384|1984|D|174|1|115||
@@ -5455,7 +5455,7 @@ Carlos Martínez|DEF|54|75|725.723.174|1986|D|189|0|54||
 David Abraham|DEF|4|75|438.384.132.379.421.281|1986|D|188|0|4||
 Javi Varas|GR|54|75|787.203.886.507|1982|D|182|0|54|59|
 Claudio Beauvue|AVA|64|75|862.502.746.398.541.203.186.759.262.866|1988|D|175|3|64||
-Mário Felgueiras|GR|127|75|812.690.163.909.732.191.492.668|1986|D|186|0|127|30.40|
+Mário Felgueiras|GR|127|75|812.690.163.909.732.191.492.668|1986|D|186|0|127|30.34.40|
 Fernando Varela|DEF|23|75|292.860.349.339.642.200.74|1987|D|185|40|127|9|
 Marwin Hitz|GR|143|75|331.943.337.933.115.157.132|1987|D|194|2|143|5|
 Miguel Lopes|DEF|127|75|732.325.142.163.812.541.390.33.486.295|1986|D|183|4|127|7.12.28.32.34.38.55.59|
@@ -5512,11 +5512,11 @@ Jordi Amat|DEF|75|75|291.719.830.142.466|1992|D|185|20|54|42|
 Rubén Sobrino|AVA|54|75|688.386.551.66.888.245|1992|D|185|0|54|26|
 Gueïda Fofana|MED|58|75|511.541|1991|D|182|0|58||
 Matthias Zimmermann|DEF|2|75|479.158.394.762.298.302|1992|D|177|0|2||
-Cote|DEF|54|75|813.737.725.325.905.753.638|1989|E|182|0|54|32.35|
+Cote|DEF|54|75|813.737.725.325.905.753.638|1989|E|182|0|54|32.35.36|
 Junior Stanislas|AVA|76|75|925.175.160|1989|D|183|0|76||E
 Alejandro Faurlín|MED|4|75|738.734.439.698.652|1986|E|185|0|4||
 Rubén Botta|MED|4|76|842.18.440.218.649.771.254.128.228.182|1990|E|175|0|4|37|
-Luca Caldirola|DEF|84|75|907.440.165.209.923.139.580|1991|E|186|31|84|43|
+Luca Caldirola|DEF|84|75|907.440.165.209.923.139.580|1991|E|186|31|84|43.44|
 Felix Klaus|AVA|2|75|394.365.933|1992|D|179|0|2||D
 Robert Beric|AVA|53|75|593.827.718.763.80|1991|D|188|1|88||
 Sammy Ameobi|AVA|76|75|610.565.197|1992|E|190|0|76|43|E
@@ -5579,7 +5579,7 @@ Sergio León|AVA|54|75|143.142.722.283.638.523.886|1989|D|176|0|54||
 Majeed Waris|AVA|60|75|429.809.885.856.319.325.600.293|1991|D|172|1|60|7.52|
 Michael Frey|AVA|143|75|942.530.321.338.351.620.919.744.698.391|1994|D|188|0|143||
 Yvon Mvogo|GR|143|75|942.705.648.319|1994|D|190|13|24||
-Cristian Lema|DEF|4|75|95.611.842.138.140.677.150|1990|D|191|0|4|7.18.30.31.46|
+Cristian Lema|DEF|4|75|95.611.842.138.140.677.150|1990|D|191|0|4|7.18.30.31.38.46|
 Louis Schaub|MED|165|75|718.231.408.321|1994|E|177|29|2||
 Nicolas Isimat-Mirin|DEF|58|75|885.587.648.141.854.476.907.474|1991|D|187|3|58|34.44|
 Naldo (1988)|DEF|16|75|627.689.242.395.154.390.871.379.812.494.291.84.61|1988|D|188|0|16|30.32.47|
@@ -5885,7 +5885,7 @@ Christian Oliva|MED|157|75|598.196.888.182.317.777|1996|D|178|0|157||
 André Silva (1997)|AVA|16|75|732.92.908.834|1997|E|181|0|16||
 Kazeem Olaigbe|AVA|20|75|740.207.731.856.492|2003|D|178|13|20||E
 Mohamed Abdelmonem|DEF|47|75|612|1999|D|184|38|47||
-Ebrima Colley|AVA|148|75|100.416.810.478.942|2000|D|180|29|148||E
+Ebrima Colley|AVA|148|75|100.416.810.478.942|2000|D|180|29|148|48|E
 Naatan Skyttä|MED|57|75|854.901.626.869.0|2002|E|174|6|57||
 Filipe Relvas|DEF|127|75|690.908.12|1999|E|192|0|127||
 Koba Koindredi|MED|58|75|888.723.292.812.509.132|2001|E|186|9|44|7.47|
@@ -5919,7 +5919,7 @@ Gabriele Piccinini|MED|84|75|728.681|2001|D|184|0|84||
 Filippo Terracciano|DEF|84|75|416.7.238|2003|D|186|1|84|41.52|
 Alejandro Francés|DEF|54|75|779.386|2002|D|182|20|54||
 Calvin Ramsay|DEF|51|75|26.695.155.929.489.532|2003|D|177|1|51|13|
-Rafael Luís|MED|127|75|293.140|2005|E|188|1|127|31|
+Rafael Luís|MED|127|75|293.140|2005|E|188|1|127|31.38|
 Peque Fernández|AVA|54|75|709.787|2002|D|172|2|54||
 Rafa Obrador|DEF|54|75|549.721.262.140.848|2004|E|181|5|54|11.57|
 Manuel Ángel|MED|54|75|721|2004|D|170|13|54||
@@ -6023,7 +6023,7 @@ Aleksa Damjanovic|AVA|145|75|294.524|2008|E|199|12|145||
 Seny Koumbassa|DEF|58|75|854|2007|D|194|4|58||
 Noah Edjouma|AVA|58|75|854.530|2005|E|182|3|58||D
 Wisdom Mike|AVA|2|75|133|2008|A|176|8|2||E
-Anísio Cabral|AVA|127|75|140|2008|E|187|6|127|31|
+Anísio Cabral|AVA|127|75|140|2008|E|187|6|127|31.38|
 Kaïl Boudache|AVA|5|75|612|2006|E|0|0|58||D
 Abdoul Koné|DEF|58|75|820.705|2005|D|192|4|58||
 Daniel Banjaqui|DEF|127|75|140|2008|D|184|3|127||
@@ -6067,7 +6067,7 @@ Goran Popov|DEF|97|74|294.522.414.275.924|1984|E|188|1|88||
 Corentin Jean|AVA|58|74|862.587.854.521|1995|D|170|0|58|4.34|
 Andrea Mantovani|DEF|84|74|848.859.218.652.154.673.618|1984|E|185|0|84||
 Leandro Rinaudo|DEF|84|74|652.890.764.209.794.601.463.618.18.128|1983|D|191|0|84||
-Jérémy Morel|DEF|98|74|319.553.541.731|1984|E|172|15|58|17|
+Jérémy Morel|DEF|98|74|319.553.541.731|1984|E|172|15|58|17.24|
 Simon Pouplin|GR|58|74|731.365.330.612|1985||0|0|58||
 Paul McShane|DEF|78|74|552.920.166.924.828.426.129.243.720|1986|D|183|1|78|10.20|
 Momo|AVA|54|74|507.67.262.709.142|1982|E|178|0|54||E
@@ -6108,7 +6108,7 @@ Razak Boukari|AVA|149|74|502.521.731.934.330|1987|D|187|1|149||D
 Tomas Pekhart|AVA|32|74|805.853.802.453.806.620.315.12.507.517.374.271|1989|D|194|26|22||
 Diego Contento|DEF|2|74|133.156.302|1990|E|177|0|2|5.26.54.58|
 Alejandro Alfaro|AVA|54|74|787.189.549.886.246.430|1986|D|175|0|54|59|E
-Nuno André Coelho|DEF|127|74|325.822.690.295.812.163.123.476.214|1986|D|190|0|127|7.28.32|
+Nuno André Coelho|DEF|127|74|325.822.690.295.812.163.123.476.214|1986|D|190|0|127|7.28.32.34|
 Lino Marzorati|DEF|84|74|7.285.196.781.575|1986|D|184|0|84|11|
 Takayuki Morimoto|AVA|86|74|844.201.618.51.452.485|1988|D|180|10|86|51|
 Samir Ujkani|GR|89|74|652.618.218.378.508.180.848.285|1988|D|186|24|88||
@@ -6117,7 +6117,7 @@ Paul Baysse|DEF|58|74|156.193.818.763.612.586.759|1988|D|185|0|58||
 Ervin Zukanovic|DEF|21|74|340.466.470.465.218.768.737.100.378.36.760.478.98|1987|E|188|1|88|31.41.44|
 Rafael Bracali|GR|16|74|667.462.597.325.629.655.92.149|1981|D|185|0|16|7.52.55|
 Paulão|DEF|16|74|112.78.892.604.163.763.142.772|1982|D|188|0|16||
-Paulo Vinícius|DEF|16|74|776.520.629.519.163.149.87.191.339|1984|D|186|0|16|28.32|
+Paulo Vinícius|DEF|16|74|776.520.629.519.163.149.87.191.339|1984|D|186|0|16|28.32.34|
 Jean-Sylvain Babin|DEF|103|74|502.321.9.390.813.542|1986|D|181|1|58||
 George Boyd|AVA|51|74|823.675.617.426.175|1985|E|186|8|76||E
 Alexander Esswein|AVA|2|74|0.933.274.620.115.418.298|1990|D|182|0|2|5|D
@@ -6145,7 +6145,7 @@ Egidio Arévalo Ríos|MED|157|74|677.577.252.159.226.652.217.843.109|1982|D|168|
 Gabriel Hauche|AVA|4|74|710.218.226|1986|D|169|5|4|51|
 Mauro dos Santos|DEF|4|74|125.722.72.753.186|1989|D|188|0|4||
 Leonel Vangioni|DEF|4|74|611.734.7|1987|E|181|3|4||
-Ukra|AVA|127|74|325.891.629.163.732.41.195.776|1988|D|176|1|127|7.12.25.28.39.45.55.59|D
+Ukra|AVA|127|74|325.891.629.163.732.41.195.776|1988|D|176|1|127|7.12.25.28.34.39.45.55.59|D
 José María Basanta|DEF|4|74|296.577.356|1984|E|188|12|4|51|
 Andreas Bjelland|DEF|43|74|540.613.334.164.233|1988|E|188|29|43||
 Karim Aït-Fana|AVA|102|74|578|1989|D|175|1|58|4|E
@@ -6166,11 +6166,11 @@ Panagiotis Tachtsidis|MED|63|74|12.378.209.416.737.201.848.196.632.617.513.42.19
 Nathan Baker|DEF|76|74|99.568.168|1991|E|189|0|76||
 Ryder Matos|AVA|16|74|356.279.246.653.199.871.416.285|1993|D|182|0|16||
 Pietro Iemmello|AVA|84|74|356.696.618.359.810.781.139.673.507.366|1992|D|186|0|84||
-Giuseppe De Luca|AVA|84|74|890.100.128|1991|A|168|0|84||
+Giuseppe De Luca|AVA|84|74|890.100.128|1991|A|168|0|84|48|
 Tiago Pinto|DEF|127|74|812.860.163.732.262.709.639.82|1988|E|177|0|127|39.40|
 Vaclav Pilar|MED|32|74|424.902.933.365.804.795.453.153|1988|A|171|22|22||
 Sebastián Fernández|AVA|157|74|125.586.719.598.252|1985|D|171|14|157|28|
-Xavi Torres|MED|54|74|127.586.523.379.142.813|1986|D|179|0|54|28|
+Xavi Torres|MED|54|74|127.586.523.379.142.813|1986|D|179|0|54|26.28|
 Míchel Herrero|MED|54|74|888.262.430.523.379.723.886.189|1988|D|182|0|54||
 Henri Bienvenu|AVA|24|74|942.351.779.290.862|1988|D|180|1|24||
 Hal Robson-Kanu|AVA|123|74|720.831.924|1989|E|183|46|76||
@@ -6179,7 +6179,7 @@ Kyle Bartley|DEF|76|74|93.790.717.830.145.516.924|1991|D|194|0|76|15|
 Rubén Rochina|AVA|54|74|146.779.719.390.745.523|1991|E|182|0|54||D
 Jonás Ramalho|DEF|3|74|101.144.386.638.586|1993|D|185|1|54|17|
 Baba|AVA|135|74|554.787.523.379|1988|D|182|0|135||
-Raffaele Di Gennaro|GR|84|74|440.222.508.841.810.674|1993|D|188|3|84|6.31.37.43.58|
+Raffaele Di Gennaro|GR|84|74|440.222.508.841.810.674|1993|D|188|3|84|6.31.37.43.44.58|
 Chechu Dorado|DEF|54|74|258.754.142.905.719|1982|E|181|0|54||
 Xabi Etxeita|DEF|54|74|144.101.307.283.754.379.753|1987|D|186|1|54||
 Iago Herrerín|GR|54|74|101.184.144.104.186.56.888.13.261|1988|D|187|0|54|17|
@@ -6202,7 +6202,7 @@ Teófilo Gutiérrez|AVA|33|74|459.856.710.506.185.734.812.738.260.2|1985|D|177|5
 Daniel Ayala|DEF|54|74|532.426.263.616.617.565|1990|D|190|0|54|43|
 Serdar Dursun|AVA|152|74|290.257.478.394.351.65.490|1991|D|190|10|2|30.55|
 Janis Blaswich|GR|2|74|158.274.417.705.767.524|1991|D|193|0|2||
-Denis Alibec|AVA|132|74|335.440.471.154.339.486.191.113|1991|E|187|45|132||
+Denis Alibec|AVA|132|74|335.440.471.154.339.486.191.113|1991|E|187|45|132|44|
 Ivo Pinto|DEF|127|74|325.380.909.748.519.732.191.277.616.345.362|1990|D|182|0|127|7.12.28.59|
 Yoric Ravet|AVA|58|74|393.763.81.509.391.942.365|1989|D|178|0|58||D
 Aridane Hernández|DEF|54|74|887.66.390.245.638.719|1989|D|188|0|54||
@@ -6226,7 +6226,7 @@ Ikechi Anya|MED|51|74|936.615.787.203.245.390.921.263|1988|A|166|1|51|38|
 Facundo Bertoglio|MED|4|74|228.275.395.950.842.98.17.644.69.90.912|1990|D|172|1|4||
 Onel Hernández|AVA|41|74|91.923.933.278.616.565|1993|D|172|0|41||E
 Sergio Araujo|AVA|4|74|150.842.507.12|1992|D|180|0|4||
-Lorenzo Crisetig|MED|84|74|440.663.810.241.196.154.366|1993|E|184|0|84|37|
+Lorenzo Crisetig|MED|84|74|440.663.810.241.196.154.366|1993|E|184|0|84|37.44|
 Eric Bauthéac|AVA|58|74|266.612.530|1987|E|168|0|58|17.41|D
 Greg Cunningham|DEF|78|74|518.551.617.168.695.197|1991|E|183|4|78|2.37|
 Bruno Zuculini|MED|4|74|710.551.888.246.565.719.12.416.734|1993|D|182|2|4|39.49.51|
@@ -6260,12 +6260,12 @@ Maxime Colin|DEF|58|74|866.862.80.164.145.323|1991|D|180|7|58||
 Unai Bustinza|DEF|54|74|101.144.186.586|1992|D|174|0|54||
 Stuart Dallas|DEF|79|74|164.615.516|1991|D|183|1|79|17|
 Leonardo Mancuso|AVA|84|74|222.674|1992|D|182|0|84||
-Valerio Verre|MED|84|74|737.378.794.871.652.673.674.768.416.285|1994|A|181|0|84|44|
+Valerio Verre|MED|84|74|737.378.794.871.652.673.674.768.416.285|1994|A|181|0|84|36.44|
 Federico Ceccherini|DEF|84|74|18.241.356.416.478.238|1992|D|187|0|84||
 Manuel Pucciarelli|AVA|84|74|285.218|1991|D|174|0|84|48|
 Nicolas Benezet|AVA|58|74|622.950.759.398|1991|D|170|0|58||E
 Gen Shoji|DEF|86|74|482.854.372.546|1992|D|182|20|86||
-Federico Viviani|MED|84|74|737.650.674.508.416.154.760.366|1992|D|180|0|84||
+Federico Viviani|MED|84|74|737.650.674.508.416.154.760.366|1992|D|180|0|84|36|
 Pedro Tiba|MED|127|74|909.163.886.214.514.380|1988|D|174|0|127|9.32.41.52|
 Andrew Hjulsager|MED|43|74|172.203.390.472.465.893|1995|D|175|0|43||
 Eddy Gnahoré|MED|58|74|145.601.199.241.673.652.75.97.308.339|1993|D|188|2|58|48|
@@ -6335,7 +6335,7 @@ Arkadiusz Reca|MED|126|74|931.100.760.241.810.517|1995|E|187|15|126||
 Fabrizio Angileri|DEF|4|74|388.734.379.234|1994|E|185|0|4||
 Gerard Gumbau|MED|54|74|127.186.386.283.390.719|1994|E|188|0|54|3.36|
 Henrique Dourado|AVA|16|74|211.777.570.693.653.242.908|1989|E|186|0|16|32.52|
-Jhonder Cádiz|AVA|159|74|878.597.582.909.140.266.603.345.527.649|1995|D|190|18|159|18.30.31|
+Jhonder Cádiz|AVA|159|74|878.597.582.909.140.266.603.345.527.649|1995|D|190|18|159|18.30.31.38|
 Mihailo Ristic|DEF|145|74|294.494.806.578.140.203|1995|E|180|9|21|7.43|
 Ionuț Nedelcearu|DEF|132|74|308.872.12.241.652.35|1996|D|190|27|132||
 Antonio Raíllo|DEF|54|81|143.291.688.549|1991|D|187|0|54||
@@ -6479,7 +6479,7 @@ Dion Sanderson|DEF|76|74|934|1999|D|188|0|76||
 Iván Angulo|AVA|33|74|286.653.242.159.690.637|1999|D|179|4|33|9|E
 Koki Saito|AVA|86|74|941.536.807.698|2001|D|170|1|86||E
 Jeremy Ngakia|DEF|129|74|925.921|2000|D|184|0|76|44|
-Samuel Soares|GR|127|74|140|2002|D|190|0|127|7.18.31|
+Samuel Soares|GR|127|74|140|2002|D|190|0|127|7.18.31.38|
 George Bello|DEF|45|74|108.91.501|2002|E|170|7|115|42|
 Claudio Spinelli|AVA|4|74|842.773.378.241.89.382.324.506.255.438.892|1997|D|180|0|4||
 Livan Burcu|AVA|152|74|762.874|2004|D|180|7|2||E
@@ -6680,13 +6680,13 @@ Markus Suttner|DEF|165|73|117.315.166.302|1987|E|179|1|165||
 Nick Proschwitz|AVA|2|73|933.332.321.750.426.129.164.236.797.807|1986|D|192|0|46||
 Danny Fox|DEF|51|73|299.920.236.204.175.805.617.929|1986|E|183|4|76|42|
 Tobias Sippel|GR|2|73|0.158|1988|D|183|0|2||
-Boukary Dramé|DEF|135|73|647.330.725.218.100.760|1985|E|180|12|58||
+Boukary Dramé|DEF|135|73|647.330.725.218.100.760|1985|E|180|12|58|48|
 Lukas Jutkiewicz|AVA|76|73|831.299.684.425.583.236.565.155.175.145|1989|E|185|0|76||
 Stefano Celozzi|DEF|2|73|479.298.281.898|1988||0|0|2||
 Alex Smithies|GR|76|73|425.698.197|1990|D|189|0|76||
 Kevin Lejeune|MED|58|73|15.600.855.323|1985|E|181|0|58||
 Tarantini|MED|127|73|748.690.732|1983|D|188|0|127|39|
-Aleandro Rosi|DEF|84|73|737.218.18.794.663.781.378.356.366.241.673|1987|D|180|0|84|44|
+Aleandro Rosi|DEF|84|73|737.218.18.794.663.781.378.356.366.241.673|1987|D|180|0|84|36.44|
 Richard Stearman|DEF|76|73|518.934.447.367.790.425.263|1987|D|191|0|76||
 Draman Haminu|AVA|60|73|294.376.535.497.5.380|1986|A|173|43|60||E
 Dusan Svento|DEF|52|73|802.767.231|1985||0|1|22||
@@ -6709,7 +6709,7 @@ Jordi Gómez|MED|54|73|127.291.830.929.828.146.719.525.633|1985|E|178|0|54|42.45
 Sebastian Langkamp|DEF|2|73|408.479.115.418.923|1988|D|191|0|2||
 Mario Vrancic|MED|21|73|548.750.616|1989|E|187|1|88|33.53|
 Thomas Kraft|GR|2|73|133.418|1988|D|187|0|2|5.54|
-Leandro Greco|MED|84|73|737.416.681.679.632.18.378|1986|E|184|0|84|19.34.44|
+Leandro Greco|MED|84|73|737.416.681.679.632.18.378|1986|E|184|0|84|19.34.36.44|
 Régis Gurtner|GR|58|73|293.866.511.75.521|1986|D|182|0|58||
 Paco Montañés|AVA|54|73|127.9.779.291|1986|D|172|0|54||E
 Dominic Maroh|DEF|53|73|620.231|1987|D|186|7|2||
@@ -6755,7 +6755,7 @@ Scott Arfield|MED|25|73|344.425.175.717.212.155.533|1988|D|178|19|51||
 Christoph Moritz|MED|2|73|548|1990|D|186|0|2|53|
 Mauro Formica|MED|4|73|611.146.652.185|1988|D|179|1|4||
 Carlos Matheu|DEF|4|73|438.196.100.794.254.125|1985|D|182|1|4||
-Daniel Candeias|AVA|127|73|325.891.732.668.690.597.140.620.390.323.65.717.376|1988|D|177|0|127|7.18.28.30.31.46|D
+Daniel Candeias|AVA|127|73|325.891.732.668.690.597.140.620.390.323.65.717.376|1988|D|177|0|127|7.18.28.30.31.38.46|D
 Erwin Mulder|GR|124|73|354.300.414.830.387|1989|D|193|0|124||
 Almog Cohen|MED|83|73|620.315|1988|D|170|13|83||
 Alexandre Oukidja|GR|5|73|530.585.293.323.433|1988|D|184|7|58|4|
@@ -6807,7 +6807,7 @@ Oriol Riera|AVA|54|73|127.203.246.9.638.929.262|1986|D|186|1|54||
 Vasco Regini|DEF|84|73|209.768.359.285.601.760.663|1990|E|185|0|84|11.21.44.48|
 Álvaro Cejudo|AVA|54|73|143.507.638.142|1984|D|176|0|54||
 Adam Clayton|MED|76|73|551.198.516.675.543.425.565|1989|D|175|0|76|37|
-Vid Belec|GR|53|73|440.241.629.492.199.768.139.764|1990|D|192|1|88|37.43|
+Vid Belec|GR|53|73|440.241.629.492.199.768.139.764|1990|D|192|1|88|37.43.44|
 Jordi Xumetra|AVA|54|73|386.283.523|1985|D|177|1|54||D
 Emiliano Alfaro|AVA|157|73|771.62.510|1988|D|173|1|157||
 Saúl Berjón|AVA|54|73|507.9.722.753.723.174|1986|D|178|0|54||E
@@ -6877,7 +6877,7 @@ Michel|AVA|16|73|669.668.163.140|1986|E|182|0|16|30.32|
 Nico Yennaris|MED|30|73|93.160.164.936|1993|D|171|1|76|15|
 Hugo Vieira|AVA|127|73|292.380.813.140.163.850.294.940.799|1988|D|178|0|127|28.30|
 Nathaniel Méndez-Laing|AVA|65|73|934.675.790.692.793.197.565.789.263.543|1992|D|178|20|76||D
-Luis Fariña|MED|4|73|710.140.262.719.864.98.265|1991|D|177|0|4|18.30.31.46.51|
+Luis Fariña|MED|4|73|710.140.262.719.864.98.265|1991|D|177|0|4|18.30.31.38.46.51|
 Toño García|DEF|54|73|523|1989|E|180|0|54||
 Juan Rafael Fuentes|DEF|54|73|246.291.638|1990|E|178|0|54||
 Alexander Hack|DEF|2|73|548.55.608.338|1993|E|193|4|2||
@@ -6924,7 +6924,7 @@ Pablo Ceppelini|MED|157|73|677.196.593|1991|D|179|0|157||
 Federico Rodríguez|AVA|157|73|677.378.154.679.320|1991|E|185|0|157||
 Amato Ciciretti|AVA|84|73|139.663|1993|E|170|0|84||D
 Benno Schmitz|DEF|2|73|318.767.705.231.391|1994|D|182|0|2||
-Mame Thiam|AVA|135|75|118.440.463.949.642.285.484.351.486.670.301|1992|D|185|4|135||
+Mame Thiam|AVA|135|75|118.440.463.949.642.285.484.351.486.670.301|1992|D|185|4|135|44|
 Dimitri Bisoli|MED|84|73|694.165|1994|D|180|0|84||
 David Juncà|DEF|54|73|386.753.203.930.384|1993|E|178|0|54||
 Loïck Landre|DEF|58|73|647.223.368.521.378.681.622.488|1992|D|182|0|58|11|
@@ -7357,7 +7357,7 @@ Kerwin Vargas|AVA|33|73|349.212|2002|D|180|2|33||D
 Mohamed Kaba|MED|68|73|885.513.600|2001|D|185|0|58||
 Tyler Fredricson|DEF|76|73|552|2005|D|188|2|76|47|
 Francesco Coppola|DEF|84|73|681|2005|D|195|1|84||
-João Rego|MED|127|73|140|2005|D|182|15|127|18.31|
+João Rego|MED|127|73|140|2005|D|182|15|127|18.31.38|
 Gustavo Varela|AVA|23|73|140.380|2005|D|184|5|127||
 Alieu Njie|AVA|142|73|848|2005|D|185|6|142||E
 David Jiménez|DEF|54|73|721|2004|D|170|5|54||
@@ -7403,7 +7403,7 @@ Carlos Macià|MED|54|73|905|2008|D|190|4|54||
 Romuald Peiser|GR|58|72|647.524.326.862.604.27|1979|D|187|0|58|52|
 Moreno|DEF|127|72|908.518.597|1981|D|188|0|127|32.46.52|
 Manú|AVA|127|72|74.575.140.295.554.517.122.909|1982|D|171|0|127|7.25|D
-Paulo César|AVA|16|72|903.380.908.732.519.163|1980|D|175|0|16|30.32|D
+Paulo César|AVA|16|72|903.380.908.732.519.163|1980|D|175|0|16|30.32.34|D
 Zé Pedro (1978)|MED|127|72|149.909.120|1978|E|187|0|127|30|
 Tony|DEF|127|72|214.295.191.908.668.669|1980|D|174|0|58|41.46|
 Ricardo Nunes|GR|127|72|891.27.519.325.909.214|1982|D|188|0|127|12.32.35.39.52|
@@ -7427,7 +7427,7 @@ Pato Rodríguez|AVA|4|72|438.777.296.12.582|1990|D|172|0|4|28|E
 Rafik Halliche|DEF|5|72|140.597.367.27.700.292.582|1986|D|187|41|5|7.30.52|
 David Simão|MED|127|73|140.668.27.554.92.195.149.744.12.582|1990|E|183|11|58|7.30.46|
 Diogo Amado|MED|127|72|724.812.519.292.789|1990|D|178|0|127|38.40|
-Diogo Viana|DEF|127|72|325.884.265.669.380.195.137.120.163.346|1990|D|174|0|127|7.12.28.59|
+Diogo Viana|DEF|127|72|325.884.265.669.380.195.137.120.163.346|1990|D|174|0|127|7.12.28.41.59|
 Cauê Silva|MED|16|72|520.629.582.120|1989|D|184|0|16|52|
 Braga|MED|127|72|765.520.732.669.214.265|1983|D|181|0|127|39|
 João Aurélio|DEF|127|72|597.908.582.651|1988|D|182|11|127|32|
@@ -7440,8 +7440,8 @@ Enzo Zidane|MED|58|72|721.66.509.265.736|1995|A|185|1|58|11.43.57|
 Antonio Briseño|DEF|111|72|109.843.317.349.219.845|1994|D|186|1|111||
 Flávio Ferreira|DEF|127|72|27.748.586|1991|D|180|0|127|12.52|
 Vincent Sasso|DEF|58|72|600.136.163.789.137.120.786.149.869|1991|D|190|0|58|28.32.52|
-Bebeto|DEF|16|72|279.554.847|1990|D|174|0|16|60|
-Juankar|DEF|54|72|721.163.779.142.390.586.654.90|1990|E|179|5|54|31|
+Bebeto (1990)|DEF|16|72|279.554.847|1990|D|174|0|16|60|
+Juankar|DEF|54|72|721.163.779.142.390.586.654.90|1990|E|179|5|54|31.34|
 Joãozinho|DEF|127|72|547.136.812.163.878.470.847.292|1989|E|185|0|127|28.34|
 Josué Sá|DEF|127|72|908.214.80.484.754.538.542.732.380|1992|D|187|6|127|46.52|
 Tomané|AVA|127|72|908.655.92.847.294.769.17.346.21|1992|D|186|4|127|32.46.52|
@@ -7528,7 +7528,7 @@ Ricardo Silva (1980)|DEF|23|71|345.363.136.668.908|1980|D|186|14|127|41|
 Bruno Amaro|MED|127|71|669.597.27.909.92|1983|D|181|0|127|12|
 Vasco Fernandes|DEF|127|71|629.156.520.203.283.136.682.90.909.953.214.200|1986|D|182|0|127|52|
 Rui Miguel|MED|127|71|28.748.604.944.668.908.494.326.860|1983|D|171|0|127||
-Paulo Lopes|GR|127|71|140.380.765.295.860.349|1978|D|184|0|127|7.18.30.31.46|
+Paulo Lopes|GR|127|71|140.380.765.295.860.349|1978|D|184|0|127|7.18.30.31.38.46|
 Rúben Fernandes|DEF|127|71|690.891.292.797.380.346|1986|D|187|1|127|38|
 Marcelo Boeck|GR|16|71|443.554.812.211|1984|D|191|0|16|28.30.34.38|
 Muriel|GR|16|71|443.693.137.120|1987|E|189|0|16||
@@ -7536,7 +7536,7 @@ João Guilherme|DEF|16|71|443.554.17|1986|D|184|0|16||
 Arthuro|AVA|16|71|240.565.709.813.66.246.339.34.203.357.519.878.292|1982|E|193|0|16||
 Djalmir|AVA|16|71|345.120.765.349.629|1976|D|183|0|16|52|
 Gonçalo Santos|MED|127|71|27.776.265.292.277|1986|D|185|0|127|12.38|
-Fernando Alexandre|MED|127|71|140.547.295.163.520.629.27.582|1985|D|184|0|127|25.52|
+Fernando Alexandre|MED|127|71|140.547.295.163.520.629.27.582|1985|D|184|0|127|25.34.52|
 Gottardi|GR|16|71|443.693.627.462.519.597.554|1985|D|193|0|16||
 Bakary Bouba Saré|MED|18|71|80.739.191.277.37.908.582.137|1990|D|189|1|39|32.46.52|
 João Ribeiro|AVA|127|71|604.27.908.635.629|1987|D|176|0|127|12.46|E
@@ -7564,7 +7564,7 @@ Patrick Bauer|DEF|2|71|298.554.213|1992|D|192|0|2||
 Marlon de Jesús|AVA|49|71|395.734.545.577.697.92|1991|D|188|1|49||
 Rafael Martins|AVA|16|71|395.258.102.211.909.523.582.908.200.776|1989|D|177|0|16|32|
 Lassad Nouioui|AVA|151|71|4.502.262.204.92.333|1986|D|188|3|58||
-Carlão|AVA|16|71|519.163.482.668|1986|D|191|0|16|32|
+Carlão|AVA|16|71|519.163.482.668|1986|D|191|0|16|32.34|
 Florent Hanin|DEF|58|72|511.520.163.582.655.529.826.331.137.908.662.81|1990|E|177|0|58|28.32|
 Amido Baldé|AVA|70|71|776.812.207.908.204.919.323.554.847|1991|D|193|1|70|46|
 Jean Barrientos|MED|157|71|710.908.930.937.912.11|1990|D|174|0|157|46|
@@ -7742,7 +7742,7 @@ John Ogu|MED|115|70|519.27|1988|E|192|1|115|52|
 André Claro|AVA|127|70|345.92.909.292.149|1991|D|183|0|127||
 Cristiano Figueiredo|GR|127|70|163.910.27.655.137.120.909.314.191.308|1990|D|195|0|2|28|
 Adriano Facchini|GR|16|70|149.79.878.380.477.597.265|1983|D|187|0|16||
-Ulises Dávila|MED|111|70|219.907.215.246.189.909.778|1991|E|172|0|111|43.58|
+Ulises Dávila|MED|111|70|219.907.215.246.189.909.778|1991|E|172|0|111|12.43.58|
 Fábio Espinho|MED|127|70|520.582.538.586.149|1985|D|174|0|127||
 Érick Moreno|AVA|33|70|671.567.163.655.886.847|1991|D|184|0|33|9.32.41.52|
 José Valencia|AVA|33|70|691.738.438.349|1991|D|186|0|33||
@@ -7852,7 +7852,7 @@ Sam McCallum|DEF|76|70|236|2000|E|177|0|76||
 Benji Michel|AVA|45|70|637.92.766.873|1997|D|178|0|45||E
 Vaclav Sejk|AVA|32|70|806.840.453.735.944.345.414.795|2002|D|180|1|32||
 Bruno Langa|DEF|110|70|909.214.72.651.295.699|1997|E|178|38|110||
-João Veloso|MED|127|70|140|2005|D|185|9|127|31|
+João Veloso|MED|127|70|140|2005|D|185|9|127|31.38|
 Ángel Algobia|MED|54|70|379.523.21|1999|D|188|0|54||
 Maranhão|AVA|16|70|811.353.355.847|1999|D|172|0|16||D
 Lucas Barros|DEF|16|70|159.748.380.847.911|1999|E|180|0|16||
@@ -7923,10 +7923,10 @@ Adilson (1982)|AVA|16|69|554|1982||192|0|16||
 Manassé Enza-Yamissi|DEF|130|69|15.622.330.75.676.380.868|1989|E|190|1|130||
 Rodney Wallace|MED|38|69|247.691.92.811.609.476|1988|E|180|32|38||
 Héctor Quiñónes|DEF|33|69|325.668|1992|E|178|0|33|7|
-Aníbal Capela|DEF|127|69|163.910.748.582.27.732|1991|A|188|0|127|28.32.52|
+Aníbal Capela|DEF|127|69|163.910.748.582.27.732|1991|A|188|0|127|28.32.34.52|
 Tiago Ferreira|DEF|127|69|949.878.877|1993|E|185|0|127||
 Maciej Makuszewski|AVA|126|69|454.34.515.909|1989|D|176|0|126||E
-André Geraldes|DEF|127|69|214.732.265.131.120.137.812.909.813.542.17.200|1991|D|181|0|127|38|
+André Geraldes|DEF|127|69|214.732.265.131.120.137.812.909.813.542.17.200|1991|D|181|0|127|38.41|
 Nildo Petrolina|AVA|16|69|860.136.348.92.582.265|1986|E|175|0|16||E
 Manoel|AVA|16|69|306.669.86.27|1989|D|185|0|16|52|
 Gegé|DEF|23|69|295.860.748.554.92.668|1988|D|183|1|23||
@@ -8012,7 +8012,7 @@ Pintassilgo|MED|127|68|908.582.92|1985|D|168|0|127||
 Halisson|DEF|16|68|777.693.380.627|1985|D|189|0|16||
 Christian Pouga|AVA|24|68|338.520.554.625.639.529.149|1986|D|193|0|24||
 André Schembri|AVA|101|68|278.352.656.633.149|1986|D|178|1|101||
-Vinicius|MED|16|68|597.878.265.629.163.582.17|1986|D|186|0|16|32|
+Vinicius|MED|16|68|597.878.265.629.163.582.17|1986|D|186|0|16|32.34|
 Dejan Mezga|MED|40|68|593.405.87.597|1985|D|172|0|88||
 Celestino|MED|127|68|812.292.295.120.191.629|1987|D|177|0|23|40|
 Rene Mihelic|MED|53|68|593.597.525|1988|D|177|3|88||
@@ -8031,7 +8031,7 @@ Dejan Skolnik|MED|40|68|593.597|1989|E|175|0|88||
 Jaime Simões|DEF|127|68|136.191.87.878|1989|D|188|0|127|34|
 Bolívia|MED|15|68|102.353.355.397.604.792.582|1985|D|181|1|16||
 Viktor Lundberg|AVA|142|68|14.716.554|1991|D|187|0|||
-Palmeira|DEF|127|68|163.295.910.847.120.137.200|1989|D|187|0|127|30.32|
+Palmeira|DEF|127|68|163.295.910.847.120.137.200|1989|D|187|0|127|30.32.34|
 Alex Gonçalves|AVA|16|68|358.443.79.582.938|1990|D|182|0|16||
 Assis|GR|16|68|120.363.908.149|1989||187|0|16|46|
 Adama François|DEF|135|68|149.909.122|1989|D|194|0|135||
@@ -8081,7 +8081,7 @@ César|GR|16|68|357.689.353.279.149|1992|D|192|3|16|30|
 Mica Pinto|DEF|94|68|120.137.878.362.807.907.195.309|1993|E|176|43|94||
 Bruno Brígido|GR|16|68|240.235.396.349.295.28|1991|D|187|0|16||
 Cláudio Winck|DEF|16|74|443.416.211.811.892.554.484|1994|D|184|0|16||
-João Teixeira|MED|127|72|140.908.934.617.909.214.732.380|1994|D|178|3|127|18.30.31.32.46.52|
+João Teixeira|MED|127|72|140.908.934.617.909.214.732.380|1994|D|178|3|127|18.30.31.32.38.46.52|
 Tomás Podstawski|MED|127|68|909|1995|A|181|0|127||
 Leandro Silva|MED|127|68|27.668.92|1994|D|173|0|127||
 Franck Bambock|MED|58|68|754.807.246.554.393.348.655|1995|D|181|0|24||
@@ -8128,7 +8128,7 @@ Welinton Junior|AVA|16|68|265.690|1993|D|175|0|16||D
 Crislan|AVA|16|68|102.621.163.847|1992|E|190|0|16|9.32.41|
 Felipe Abner|DEF|16|69|235.292.102.346.708.869|1996|E|180|0|16||
 Flávio Ramos|DEF|16|68|349.376.668|1994|D|191|0|16||
-Didi|MED|127|68|908|1994|A|177|0|127||
+Didi (1994)|MED|127|68|908|1994|A|177|0|127||
 Christian|MED|16|68|17.86.191.597.668|1989|E|182|0|16||
 Sandro Lima|AVA|16|68|86.732.28.214.292.380.376.399.670.111.74|1990|D|186|0|16|39|
 André Ferreira|GR|127|68|520.265.776.668.390.886.582|1996|D|193|0|127||
@@ -8306,7 +8306,7 @@ João Dias|DEF|127|67|325.694.776.860.27.149|1986|D|180|0|127|7.52|
 Trigueira|GR|127|67|149.732.860.878.27.909.582.847.904.21|1988|D|192|4|127||
 Manuel Curto|MED|127|67|295.851.292.604.519.944.529|1986|D|187|0|127||
 Kalidou Yero|AVA|135|67|316.325.690.631.380.669|1991|D|197|2|135|7.12.28.59|
-Luís Felipe|DEF|16|67|653.704.240.140.909|1991|D|178|0|16|18.30.31.46.50|
+Luís Felipe|DEF|16|67|653.704.240.140.909|1991|D|178|0|16|18.30.31.38.46.50|
 Fábio Pacheco|MED|127|67|909.554.582|1988|D|180|0|127||
 Luís Ribeiro|GR|127|67|292|1992|D|188|0|127||
 André Fontes|MED|127|67|27.349.604.669.582.214|1985|D|179|0|127|12|
@@ -8467,7 +8467,7 @@ Ricardo Ferreira (1989)|GR|127|66|163.629.554.690|1989|D|186|0|127|30|
 Yago Fernández|DEF|127|66|380.550.386.12.429|1988|D|194|0|127||
 Rafa Sousa|MED|127|66|669.597.582|1988|E|186|0|127||
 Jorge Monteiro|AVA|127|66|325.295.748.776.582.13.448|1988|D|171|0|127|7.28|E
-Pires|AVA|127|66|910.265.349.582.690|1981|D|179|0|127||
+Pires|AVA|127|66|910.265.349.582.690|1981|D|179|0|127|41|
 Fábio Ervões|DEF|127|66|748.878.669.149.910|1987|D|185|0|127|28|
 Daniel|DEF|127|66|380|1987|D|185|0|127||
 Vítor Bastos|DEF|127|66|908.910.363.629.591.727|1990|D|190|0|127|46|
@@ -8552,7 +8552,7 @@ Diogo Almeida|AVA|127|65|668|2000|D|184|0|127||
 Kiki (1998)|AVA|127|65|520.200|1998|E|172|0|127||D
 Cláudio Silva|DEF|127|65|349|2000|E|188|0|127||
 Miguel Sousa|MED|127|67|554.547.200.520|1998|D|176|0|127||
-Robinho|DEF|127|65|120|1997|D|171|0|127||
+Robinho (1997)|DEF|127|65|120|1997|D|171|0|127||
 Diogo Rodrigues|DEF|127|65|690.748.870.676|1999|D|183|0|127||
 Herculano Nabian|AVA|127|65|908.285|2004|D|182|0|70||
 Gustavo Mendonça|MED|127|65|21|2003|D|176|4|127||
@@ -9492,7 +9492,157 @@ Brice Maubleu|GR|58|70|763.393.855|1990|D|192|0|||
 Pierrick Capelle|MED|58|70|81.1217.1218.223|1987|E|181|0|||
 Giovanni Haag|MED|58|70|727.19|2000|D|187|0|||
 Léo Pétrot|DEF|58|70|283|1997|E|188|0|||
-Cristian Shpendi|AVA|1|70|209|2003|D|181|0|||`.split("\n").map(l=>{const[n,p,c,r,cl,by,ft,h,caps,born,tg,w]=l.split("|");return{n,p,c:NATS[c],r:+r,cl:cl?cl.split(".").map(i=>CLUBS[i]):[],by:+by,ft,h:+h,caps:+caps,born:born?NATS[born]:"",tg:tg?tg.split(".").map(i=>TAGS[i]):[],w:w||""}});
+Cristian Shpendi|AVA|1|70|209|2003|D|181|0|||
+Raymond Kopa|MED|58|92|81.820.721|1931||168|45||58.0|D
+Luis Suárez Miramontes|MED|54|91|262.1219.127.440.768|1935||176|32||58.8.0|
+Omar Sívori|AVA|4|92|734.463.601|1935||163|19||0|
+Josef Masopust|MED|32|89|840.271.1220|1931||177|63||0|
+Denis Law|AVA|51|91|425.551.848.552|1940||175|55||58.0|
+Oleg Blokhin|AVA|156|90|275.1221.1222|1952||180|112||0|E
+Allan Simonsen|AVA|43|87|893.158.127.213|1952||166|55||0|
+Igor Belanov|AVA|156|87|1223.220.275.158.278.322|1960||173|33||0|
+Jean-Pierre Papin|AVA|58|90|885.224.553.7.133.156.398.1224|1963||177|54||58.0|
+Matthias Sammer|DEF|2|90|274.298.440.157|1967||181|51||8.58.0|
+Kevin Keegan|AVA|76|89|783.532.408.805.610.1225|1951||173|63||58.0|
+Paolo Rossi|AVA|84|90|463.232.1226.673.7.416|1956||174|48||60.58.0|
+Stanley Matthews|AVA|76|91|825.1227.147|1915||174|54||0|D
+Michael Ballack|MED|2|89|1228.0.524.133.215|1976||189|98|||
+Alan Shearer|AVA|76|89|805.146.610|1970||183|63|||
+Gary Lineker|AVA|76|88|518.299.127.853.599|1960||177|80|||
+Mario Kempes|AVA|4|90|439.738.888.734.430.1229.1230.1231.1232.1233|1954||182|43||60|
+Frank Rijkaard|MED|124|91|32.812.779.7|1962||190|73||8.58|
+Dino Zoff|GR|84|92|871.987.601.463|1942||182|112||60.8|
+Giuseppe Meazza|AVA|84|92|440.7.463.890.100|1910||169|53||60|
+Filippo Inzaghi|AVA|84|87|729.679.1234.416.663.100.463.7|1973||182|57||60.58|
+Davor Šuker|AVA|40|88|594.277.787.721.93.925.1|1968||181|69||58|
+Gennaro Gattuso|MED|84|87|673.717.764.7.329|1978||177|73||60.58|
+Bebeto|AVA|16|88|279.280.357.892.262.242.787.159.1235.482.46|1964||174|75||60|
+Roy Keane|MED|78|88|1236.617.552.204|1971||178|67||58|
+Paul Breitner|DEF|2|90|133.721.278|1951||176|48||60.8.58|
+Fabien Barthez|GR|58|86|854.553.587.552.600|1971||180|87||60.8.58|
+Rudi Völler|AVA|2|88|1237.1.923.737.553.524|1960||179|90||60.58|
+Rivelino|MED|16|91|234.358.45|1946||169|92||60|E
+Kenny Dalglish|AVA|51|91|204.532|1951||173|102||58|
+Just Fontaine|AVA|58|90|1238.612.820|1933||174|21|||
+Carlos Valderrama|MED|33|87|1239.567.260.578.886.436.459.1240.1241.229|1961||177|111|||
+Andreas Brehme|DEF|2|88|1242.1243.0.133.440.779|1960||176|86||60|
+Gordon Banks|GR|76|91|1244.1245.518.1246.825.1247.1248.1249|1937||183|73||60|
+Robert Pires|MED|58|87|820.323.553.93.905.99.1250|1973||185|79||60.8|E
+Paul Gascoigne|MED|76|87|610.853.510.717.565.299.175.1251.1252|1967||177|57|||
+Henrik Larsson|AVA|142|87|1253.1100.354.204.127.552.1254|1971||177|106||58|
+Gigi Riva|AVA|84|91|663.1255.196|1944||180|42||8|
+Dragan Stojković|MED|145|87|713.294.553.416.599|1965||173|84|||
+Bixente Lizarazu|DEF|58|87|156.1256.101.133.647|1969||169|97||60.8.58|
+Zbigniew Boniek|AVA|126|88|1257.928.463.737|1956||180|80||58|
+Jari Litmanen|MED|57|87|1258.1017.32.1259.127.532.1260.1261.550.367|1971||181|137||58|
+Edgar Davids|MED|124|88|32.7.463.440.127.853.243.1192|1973||168|74||58|
+Roger Milla|AVA|24|86|1262.1263.1264.885.587.746.763.578.1224.1265.1232.1266|1952||176|63|||
+Fritz Walter|MED|2|91|1267.0.1268|1920||175|61||60|
+Daniel Passarella|DEF|4|90|780.734.356.440|1953||177|70||60|
+Careca|AVA|16|88|396.834.601.483.777.1269.1270.1271|1960||182|64|||
+Bobby Moore|DEF|76|92|925.367.1272.566.1273|1941||177|108||60|
+Berti Vogts|DEF|2|87|158|1946||168|96||60.8|
+Pierre Littbarski|AVA|2|87|1212.1274.231.1275.452.1276|1960||168|73||60|D
+Juan Sebastián Verón|MED|4|87|296.150.768.663.510.552.215.440.1277.1278|1975||186|73|||
+Gianluca Zambrotta|DEF|84|87|232.128.463.127.7.1279|1977||181|98||60|
+Peter Shilton|GR|76|88|518.825.617.805.263.684.1280.155.236.925.526|1949||183|125||58|
+Osvaldo Ardiles|MED|4|86|439.138.427.853.647.1281.698.146.1249.831|1952||169|52||60|
+Christian Vieri|AVA|84|88|694.848.681.1282.895.100.463.110.510.440.7.587.356|1973||185|49|||
+Sepp Maier|GR|2|90|133|1944||183|95||60.8.58|
+Johan Neeskens|MED|124|90|1283.32.127.1284.312.1285.1286.1287|1951||173|49||58|
+Gianluca Vialli|AVA|84|88|238.768.463.215|1964||180|59||58|
+Giacinto Facchetti|DEF|84|91|440|1942||188|94||8.58|
+Uwe Seeler|AVA|2|90|408.1288|1936||170|72|||
+Sándor Kocsis|AVA|73|91|352.1034.1289.127|1929||0|68|||
+Sol Campbell|DEF|76|86|925.853.93.692.1084.610|1974||188|73|||
+Ian Rush|AVA|123|89|1290.532.463.516.610.935.790.1291|1961||180|73||58|
+Gunnar Nordahl|AVA|142|90|256.1292.7.737.1293|1921||180|33|||
+Giuseppe Bergomi|DEF|84|87|440|1963||183|81||60|
+Djalma Santos|DEF|16|89|693.653.102|1929||172|98||60|
+Paulo Roberto Falcão|MED|16|90|443.737.834|1953||183|28|||
+Nílton Santos|DEF|16|90|159|1925||180|75||60|
+Gianfranco Zola|AVA|84|88|1294.1295.601.663.215.196|1966||168|35|||
+Didi|MED|16|90|1296.1297.1298.358.159.721.1299.1300.834|1928||174|68||60|
+David Seaman|GR|76|86|516.675.145.698.93.551|1963||193|75|||
+Andy Cole|AVA|76|85|93.367.168.610.552.146.551.692.828.145.175.617|1971||178|15||58|
+Paco Gento|AVA|54|91|1301.1302.709.721|1933||168|43||58|E
+Oliver Bierhoff|AVA|2|85|1303.408.158.767.97.871.7.587.218|1968||191|70||8|
+Marc Overmars|AVA|124|87|387.32.93.127|1973||173|86||58|E
+Hugo Sánchez|AVA|111|90|865.1304.110.721.77.719.1305.501.1306.250.1307.1308|1958||174|58|||
+José Luis Chilavert|GR|122|86|1006.1089.771.779.917.293.677|1965||188|74|||
+René Higuita|GR|33|82|886.1309.106.1300.436.1310.459.671.1038.733.1311.1312|1966||172|68|||
+Nwankwo Kanu|AVA|115|85|1313.32.440.93.924.692|1976||197|87||58.59|
+Salvatore Schillaci|AVA|84|84|1314.463.440.974.1315|1964||173|16||59|
+Hakan Şükür|AVA|152|86|1316.176.371.848.440.663.146|1971||191|112||59|
+Ali Daei|AVA|80|84|1317.963.59.91.133.418.1318.1319.1274|1969||192|149|||
+Andrey Arshavin|AVA|134|86|947.93.497.1320|1981||172|75||59|E
+Robinho|AVA|16|86|777.721.551.7.1321.112.799.131|1984||172|100|||E
+Emmanuel Adebayor|AVA|149|84|323.587.93.551.721.853.243.131.486.1015.1322|1984||191|87|||
+Klaas-Jan Huntelaar|AVA|124|85|1323.648.253.1324.414.32.721.7.782|1983||186|76|||
+Dirk Kuyt|AVA|124|84|882.354.532.351.1325|1980||184|104|||D
+Rafael van der Vaart|MED|124|85|32.408.721.853.142.566.289|1983||176|109|||
+Ole Gunnar Solskjær|AVA|116|84|1326.576.552|1973||179|67||58|
+Robbie Keane|AVA|78|84|934.236.440.516.853.532.204.925.499.99.1327|1980||175|146|||
+Dimitar Berbatov|AVA|17|86|195.1328.524.1329.853.552.367.587.642.1330|1981||189|78|||
+Teddy Sheringham|AVA|76|84|568.268.1150.617.853.552.692.925.1331.823|1966||185|51||58|
+Luís Fabiano|AVA|16|85|689.731.834.325.787.1137.892|1980||185|45||59|
+Milan Baroš|AVA|32|83|126.532.99.541.692.371.84.573.804|1981||184|93||58|
+Eiður Guðjohnsen|AVA|82|83|1332.648.1333.155.215.127.587.853.825.367.12.207.224.1334.576.1335|1978||187|88||58|
+Leonardo|MED|16|87|357.834.888.482.647.7|1969||178|60||60|
+Grzegorz Lato|AVA|126|88|821.469.1305|1950||175|100|||D
+Kazimierz Deyna|MED|126|88|517.1336.1337.551.1304|1947||180|97|||
+Raí|MED|16|86|1338.689.834.647|1965||189|49||60|
+Juan Alberto Schiaffino|MED|157|91|677.7.737|1925||175|21||60|
+Obdulio Varela|MED|157|89|1103.677|1917||178|45||60|
+Enzo Francescoli|MED|157|90|1103.734.1275.553.196.848|1961||181|73|||
+Leônidas|AVA|16|90|1339.1340.677.892.159.1341.357.834|1913||173|19|||
+Silvio Piola|AVA|84|90|696.510.848.463.618|1913||178|34||60|
+Sandro Mazzola|MED|84|90|440|1942||179|70||8.58|
+Teófilo Cubillas|MED|125|89|1068.132.325.1249.1285.1342|1949||173|81|||
+Elías Figueroa|DEF|29|89|1103.1343.677.443.1011.227.1249|1946||183|47|||
+Gaetano Scirea|DEF|84|91|100.463|1953||178|78||60.58.59|
+Alessandro Costacurta|DEF|84|87|580.7|1966||182|59||58|
+Claudio Gentile|DEF|84|87|1344.890.463.356.679|1953||178|71||60.59|
+Ruud Krol|DEF|124|89|32.1345.601.1346|1949||184|83||58|
+Günter Netzer|MED|2|89|158.721.391|1944||178|37||8|
+Wolfgang Overath|MED|2|88|231|1943||176|81||60|
+Bernd Schuster|MED|2|89|231.127.721.110.524.865|1959||181|21||8|
+Gerson|MED|16|89|357.159.834.358|1941||170|70||60|
+Tostão|AVA|16|90|78.242.892|1947||170|54||60|
+Uli Hoeneß|MED|2|87|133.620|1952||180|35||60.8.58|
+Emilio Butragueño|AVA|54|88|1347.1348.721.1307.1308|1963||168|69||59|
+Míchel|MED|54|87|1348.721.1307|1963||183|66||59|D
+Andoni Zubizarreta|GR|54|86|1349.725.66.144.101.127.1256.888|1961||187|126||58|
+Rinat Dasayev|GR|156|89|1350.1351.809.787|1957||187|91|||
+Walter Zenga|GR|84|88|764.440.1352.1353.768.650.607|1960||188|58||59|
+Jean-Marie Pfaff|GR|20|87|1354.133.529.856|1953||180|64|||
+Cláudio Taffarel|GR|16|86|285.729.443.663.728.112.371|1966||180|104||60.59|
+Ricardo Zamora|GR|54|90|1355.291.127.721.612|1901||181|46|||
+Geoff Hurst|AVA|76|88|1356.1357.925.1358.1227.825.1359.924.1273.1288|1941||0|49||60|
+Rui Costa|MED|127|90|140.1360.356.7|1972||180|94||58|
+Jens Lehmann|GR|2|86|782.7.157.93.298|1969||191|61||59|
+Jerzy Dudek|GR|126|84|1361.1362.354.532.721|1973||187|60||58|
+Rüştü Reçber|GR|152|84|84.351.127.141|1973||186|120|||
+Laurent Blanc|DEF|58|87|578.601.622.763.15.127.553.440.552|1965||192|97||60.8|
+Marco Materazzi|DEF|84|84|510.1314.1363.857.673.199.299.440.1364|1973||193|41||60.58|
+Tony Adams|DEF|76|86|93|1966||191|66|||
+Sami Hyypiä|DEF|57|85|1365.1259.532.524|1973||195|105||58.59|
+Roberto Ayala|DEF|4|86|1002.734.601.7.888.779.905.710|1973||177|115||59|
+Frank de Boer|DEF|124|86|32.127.371.57.717.954|1970||179|112||58.59|
+Siniša Mihajlović|DEF|145|85|1366.911.294.737.768.510.440|1969||183|63||58|
+Jürgen Kohler|DEF|2|87|1367.231.133.463.157|1965||186|105||60.8.58.59|
+Esteban Cambiasso|MED|4|86|1348.438.734.721.440.518.632|1980||177|52||58|
+Mark van Bommel|MED|124|85|362.648.127.133.7|1977||186|79||58|
+Phillip Cocu|MED|124|86|22.907.648.127.47|1970||185|101|||
+Torsten Frings|MED|2|85|1368.923.157.133.849|1976||182|79|||
+Guti|MED|54|85|1347.721.1348.141|1976||185|13||58|
+Mauro Camoranesi|MED|84|85|69.778.125.1103.185.416.463.298.1369.710|1976||174|55||60|
+Youri Djorkaeff|MED|58|86|393.293.587.647.440.0.155.146.608|1968||178|82||60.8.59|
+Hidetoshi Nakata|MED|86|85|792.673.737.663.154.356.155|1977||175|77|||
+Park Ji-sung|MED|37|84|498.648.552.698|1981||173|100||58|
+Emre Belözoğlu|MED|152|84|371.440.610.351.110.131|1980||170|101||59|
+Eric Abidal|DEF|58|84|1370.587.530.541.127.632|1979||186|67||58|
+Christian Panucci|DEF|84|84|378.7.721.440.215.587.737.663|1973||184|57||58|`.split("\n").map(l=>{const[n,p,c,r,cl,by,ft,h,caps,born,tg,w]=l.split("|");return{n,p,c:NATS[c],r:+r,cl:cl?cl.split(".").map(i=>CLUBS[i]):[],by:+by,ft,h:+h,caps:+caps,born:born?NATS[born]:"",tg:tg?tg.split(".").map(i=>TAGS[i]):[],w:w||""}});
 const COACHES=[
  {n:"José Mourinho",f:"4-2-3-1",t:"contra"},
  {n:"Guardiola",f:"4-3-3",t:"posse"},
@@ -10409,7 +10559,9 @@ const PW=105,PH=68,GY0=30.34,GY1=37.66,GH=2.44,NETB=106.9;
 const CAM={x:70,y:30,zoom:1,D0:30,HC:9,base:2.15};
 let VIEW={W:360,H:225,F:580,yh:0};
 function setView(W,H){const F=W*CAM.base*CAM.zoom;let yh=.66*H-CAM.HC*F/(CAM.y+CAM.D0);yh=Math.min(yh,.36*H-CAM.HC*F/(PH+3+CAM.D0));VIEW={W,H,F,yh}}
-function prj(x,y,z){const d=Math.max(2,y+CAM.D0),s=VIEW.F/d;return{x:VIEW.W/2+(x-CAM.x)*s,y:VIEW.yh+(CAM.HC-(z||0))*s,s}}
+/* cada equipa ataca para uma baliza e trocam ao intervalo: a TV mostra a jogada espelhada quando é o caso */
+let FLIP=false;
+function prj(x,y,z){const d=Math.max(2,y+CAM.D0),s=VIEW.F/d;return{x:VIEW.W/2+(x-CAM.x)*(FLIP?-s:s),y:VIEW.yh+(CAM.HC-(z||0))*s,s}}
 function poly(x,pts,fill){x.beginPath();pts.forEach((p,i)=>{const q=prj(p[0],p[1],p[2]||0);i?x.lineTo(q.x,q.y):x.moveTo(q.x,q.y)});x.closePath();x.fillStyle=fill;x.fill()}
 function seg(x,a,b,c,d,z1,z2){const p=prj(a,b,z1||0),q=prj(c,d,z2||0);x.beginPath();x.moveTo(p.x,p.y);x.lineTo(q.x,q.y);x.stroke()}
 function arc(x,cx,cy,r,a0,a1,n){x.beginPath();for(let i=0;i<=n;i++){const a=lerp(a0,a1,i/n),p=prj(cx+Math.cos(a)*r,cy+Math.sin(a)*r,0);i?x.lineTo(p.x,p.y):x.moveTo(p.x,p.y)}x.stroke()}
@@ -10517,7 +10669,7 @@ function figure(x,p){
   /* sombra */
   [-.75,.75,2.4].forEach(a=>{x.save();x.translate(g.x,g.y);x.scale(1,.28);x.rotate(a);x.fillStyle="rgba(0,0,0,.09)";x.beginPath();x.ellipse(0,-h*.32,h*.09,h*.38,0,0,7);x.fill();x.restore()});
   x.fillStyle=`rgba(0,0,0,${.34-Math.min(.2,lift*.1)})`;x.beginPath();x.ellipse(g.x,g.y,h*.21,h*.055,0,0,7);x.fill();
-  x.save();x.translate(X,Y);x.scale(p.dir<0?-1:1,1);if(p.rot)x.rotate(p.rot);x.lineCap="round";x.lineJoin="round";
+  x.save();x.translate(X,Y);x.scale((p.dir<0)!==FLIP?-1:1,1);if(p.rot)x.rotate(p.rot);x.lineCap="round";x.lineJoin="round";
   x.rotate(lean);
   const hipY=-h*.49,th=h*.25,shn=h*.25,ua=h*.155,fa=h*.145,lw=h*.085,ol=Math.max(1,h*.018);
   const OL="#0f1f16";
@@ -10607,6 +10759,7 @@ function drawHud(x,S,W,H){
   x.restore();x.textAlign="left";
 }
 function drawS(S,x,W,H){
+  FLIP=S.idle?!!(LIVE&&LIVE.minute>45):!!S.flip;
   CAM.x=S.cam.x+(S.cam.sx||0);CAM.y=S.cam.y;CAM.zoom=S.cam.z;setView(W,H);
   const shake=S.shake&&S.t-S.shake<.4?Math.sin(S.t*70)*W*.004:0;
   x.save();x.translate(shake,0);
@@ -10950,11 +11103,11 @@ function eventPlay(e,idx){
   if(pat==="through"&&e.how==="chapeu")o.chip=true;
   if(kind==="wide"&&(pat==="through"||pat==="build")&&S.rng()<.35){o.kind="goal";o.offside=true;o.flagX=86.5;e.tx=`${e.s} marca, mas o fiscal de linha levanta a bandeira: fora de jogo!`}
   const beats=PAT[pat](S,c,o.kind,o);
-  S.beats=beats;S.title=`${e.m}' · ${st.N[e.t]}`;return S;
+  S.beats=beats;S.title=`${e.m}' · ${st.N[e.t]}`;S.flip=(e.t===1)!==(+e.m>45);return S;
 }
 /* momentos com decisão: a jogada pára no instante decisivo */
 function momentPlay(stop,k){
-  const st=LIVE.st,S=newS(LIVE.key+":mom"+k),t=stop.t;
+  const st=LIVE.st,S=newS(LIVE.key+":mom"+k),t=stop.t;S.flip=stop.so?false:(t===1)!==(+stop.m>45);
   const fin=stop.type==="ca"?stop.fw.n:stop.type==="fk"?stop.tk.n:stop.sh.n,ast=stop.type==="ca"?stop.sh.n:stop.type==="co"?stop.tk.n:null;
   const c=sceneCtx(t,fin,ast!==fin?ast:null);S.ctx=c;
   if(stop.type==="pen"){S.beats=PAT.pen(S,c,"goal",{split:true}).lead}
@@ -11027,7 +11180,7 @@ const teamCols=j=>COLHEX[LIVE.st.ci[j]];
 const reduceMo=()=>window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
 function drawNow(S){const {x,W,H}=scCanvas();drawS(S,x,W,H);scCaption(S.cap,S.capBig)}
 function drawSnap(S,sn,x,W,H){
-  const F={t:sn.t,cam:{x:lerp(sn.cam.x,sn.b.x+1.5,.55),y:lerp(sn.cam.y,sn.b.y,.4),z:sn.cam.z*1.3,sx:0},ripple:S.ripple,goalT:S.goalT,flag:S.flag&&sn.t>=S.flag.t0?S.flag:null,shake:0,parts:null,
+  const F={flip:S.flip,t:sn.t,cam:{x:lerp(sn.cam.x,sn.b.x+1.5,.55),y:lerp(sn.cam.y,sn.b.y,.4),z:sn.cam.z*1.3,sx:0},ripple:S.ripple,goalT:S.goalT,flag:S.flag&&sn.t>=S.flag.t0?S.flag:null,shake:0,parts:null,
     ball:{...sn.b},trail:[],pl:S.pl.map((p,i)=>({...p,...sn.pl[i]}))};
   const i=S.snaps.indexOf(sn);for(let k=Math.max(0,i-6);k<=i;k++){const b=S.snaps[k].b;F.trail.push([b.x,b.y,b.z])}
   drawS(F,x,W,H);
@@ -11068,7 +11221,7 @@ function idleS(){
   const f442=[[30,34,1],[40,12],[39,27],[39,41],[40,56],[49,14],[48,29],[48,39],[49,54],[51,30],[51,38]];
   if(LIVE){f442.forEach(([x,y,g],i)=>addP(S,"h"+i,0,"",x,y,{kit:g?"#c8f04a":teamCols(0),gk:!!g}));f442.forEach(([x,y,g],i)=>addP(S,"a"+i,1,"",PW-x,PH-y,{kit:g?"#1f2630":teamCols(1),gk:!!g}))}
   S.ball.x=52.5;S.ball.y=34;S.cam={x:52.5,y:30,z:.82};S.pl.forEach(p=>{p.tgt={x:p.x,y:p.y};p.hold=true;p.dir=p.team===0?1:-1});
-  SC.idleS=S;return S;
+  S.idle=true;SC.idleS=S;return S;
 }
 function tvIdle(){
   if(SC.busy||$("sMatch").hidden||!LIVE||$("tv").hidden)return;
