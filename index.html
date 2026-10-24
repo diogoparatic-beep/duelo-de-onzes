@@ -362,6 +362,8 @@ body.picking .askpage .list{padding-bottom:170px}
 .sbar{flex:none;display:grid;grid-template-columns:1fr auto 1fr auto;align-items:stretch;border-radius:12px;overflow:hidden;background:#050d09;border:1px solid var(--lineC);font-family:var(--cond);font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.35)}
 .sbar .bt{padding:10px 12px;font-size:1.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;align-self:center}
 .sbar .bt.r{text-align:right}
+.sbar .bt.rc::before{content:"";display:inline-block;width:.52em;height:.74em;background:#e5251b;border-radius:2px;margin-right:.35em;vertical-align:-.06em;transform:rotate(-7deg);box-shadow:0 0 0 1px rgba(0,0,0,.35),0 2px 6px rgba(229,37,27,.55);animation:rcIn .5s ease-out}
+@keyframes rcIn{0%{transform:scale(2.4) rotate(-20deg);opacity:0}100%{transform:rotate(-7deg);opacity:1}}
 .sbar b{background:#eef6ef;color:#0d2419;padding:6px 14px;font-family:var(--display);font-weight:900;font-size:1.6rem;line-height:1.2;font-variant-numeric:tabular-nums;display:flex;align-items:center}
 .sbar .bm{background:var(--gold);color:var(--onGold);padding:0 12px;font-size:1.05rem;display:flex;align-items:center;font-variant-numeric:tabular-nums;white-space:nowrap}
 #sCap #capPitch{flex:1;min-height:0;display:flex;justify-content:center}
@@ -10207,7 +10209,7 @@ function startMatch(o){
   LIVE={...o,ci:[o.a,o.b],minute:0,i:0,si:0,pos:1,score:[0,0],pen:[0,0],dec:[{},{}],waiting:null,done:false,recorded:false,usedPat:new Set(),ch:[0,0],lastSc:-20,momS:null,leadRunning:false};
   LIVE.st=simStart(o.a,o.b);LIVE.plan=makePlan(LIVE.st,o.key);
   const st=LIVE.st;
-  $("bH").textContent=st.N[0];$("bA").textContent=st.N[1];$("bH").style.color=COL[st.ci[0]];$("bA").style.color=COL[st.ci[1]];
+  $("bH").textContent=st.N[0];$("bA").textContent=st.N[1];$("bH").classList.remove("rc");$("bA").classList.remove("rc");$("bH").style.color=COL[st.ci[0]];$("bA").style.color=COL[st.ci[1]];
   $("bS").textContent="0–0";$("clock").textContent="0'";$("feed").innerHTML="";$("skip").hidden=false;$("toResult").hidden=true;$("momBox").hidden=true;
   show("sMatch");whistle(1);SC.skip=false;requestAnimationFrame(tvIdle);
   addLine({m:0,info:true,tx:`Começa o jogo! ${st.T[0].coach.n} contra ${st.T[1].coach.n}.`});
@@ -10241,6 +10243,7 @@ function flushTo(min,pens){
 function addLine(e){
   const st=LIVE.st;
   if(e.goal&&e.m!=="PEN"){LIVE.score[e.t]++;$("bS").textContent=LIVE.score.join("–");goalSound()}
+  if(e.red&&e.t!=null)$(e.t?"bA":"bH").classList.add("rc");
   if(e.goal&&e.m==="PEN"){LIVE.pen[e.t]++;$("clock").textContent=`Penáltis ${LIVE.pen.join("–")}`}
   const li=el("li",(e.goal?"goal ":"")+(e.red?"red ":"")+(e.mom?"mom ":"")+(e.info?"info":""));if(e.t!=null&&!e.info)li.style.setProperty("--c",COL[st.ci[e.t]]);
   const etx=String(e.tx).replace(/ \((?:\d{4}|[^)]*\d{4}[^)]*)\)/g,"");
