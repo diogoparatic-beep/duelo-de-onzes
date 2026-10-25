@@ -315,6 +315,12 @@ body.picking .askpage .list{padding-bottom:170px}
 .mode.main .ic{background:rgba(0,0,0,.12);color:var(--onGold)}
 .mode.main small,.mode.main .ar{color:rgba(26,20,5,.7)}
 .minirow{display:flex;justify-content:center;gap:6px}
+.flagbtn{flex:none;background:transparent;border:1px solid var(--lineC);color:var(--muted);border-radius:999px;padding:3px 10px;font:700 .78rem var(--cond);letter-spacing:.06em;cursor:pointer}
+.repRow{display:flex;align-items:center;gap:10px;justify-content:space-between;border:1px solid var(--lineC);border-radius:12px;padding:8px 10px}
+.repRow .t{min-width:0;font-size:.92rem;line-height:1.3}.repRow .t small{display:block;color:var(--muted)}
+.repRow button{flex:none;font:700 .8rem var(--cond);letter-spacing:.04em;border-radius:10px;border:1px solid var(--gold);background:transparent;color:var(--gold);padding:7px 10px;cursor:pointer}
+.repRow button[disabled]{opacity:.5;border-color:var(--lineC);color:var(--muted)}
+.msg .replink{margin-left:6px;background:none;border:0;color:var(--gold);text-decoration:underline;font:inherit;cursor:pointer;padding:0}
 .ver{margin:2px 0 0;text-align:center;font-size:.72rem;color:var(--muted);opacity:.7}
 .botLv{display:flex;flex-direction:column;gap:8px}
 .lv{text-align:left;background:var(--turf3);border:1px solid var(--lineC);border-radius:14px;padding:11px 14px;color:var(--chalk);font:inherit;cursor:pointer}
@@ -424,7 +430,7 @@ body.picking .askpage .list{padding-bottom:170px}
       <button class="mode" id="tourBtn"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 14v4M8 21h8"/></svg></span><span><b>Torneio</b><small>4 ou 8 amigos num só telemóvel</small></span><span class="ar">›</span></button>
     </div>
     <div class="minirow"><button class="minibtn" data-sheet="shHow">Como jogar</button><button class="minibtn" data-sheet="shOpts">Definições</button><button class="minibtn" id="histBtn" data-sheet="shHist" hidden>Histórico</button></div>
-    <p class="ver" id="verTag">versão 25/10 · 14h</p>
+    <p class="ver" id="verTag">versão 25/10 · 21h</p>
   </div>
 
   <!-- ONLINE -->
@@ -480,6 +486,7 @@ body.picking .askpage .list{padding-bottom:170px}
   <!-- 3. ESCOLHAS -->
   <div class="screen fit" id="sDraft" hidden>
     <div class="topbar">
+      <button class="flagbtn" id="dReport" type="button" aria-label="Reportar um erro">⚑ Erro?</button>
       <span class="lbl" id="dRound"></span>
       <div class="who" id="dWho" style="font-size:1.3rem"></div>
     </div>
@@ -596,11 +603,20 @@ body.picking .askpage .list{padding-bottom:170px}
     <p class="muted" id="bRec" style="font-size:.92rem"></p>
     <button class="btn" id="bGo">Começar</button>
   </div></div>
+  <div class="sheet" id="shReport" hidden><div class="sheetIn">
+    <div class="shHead"><h2>Reportar um erro</h2><button class="xbtn" data-close aria-label="Fechar">✕</button></div>
+    <p class="muted" style="margin:0">Se o jogo disse que um jogador não cumpre a regra e cumpre (ou o contrário), toca no caso. Eu vejo a lista e corrijo.</p>
+    <div id="repList" style="display:flex;flex-direction:column;gap:8px"></div>
+    <label class="field" for="repTxt"><span class="lbl">Outro erro (escreve o que está mal)</span><textarea id="repTxt" rows="3" maxlength="300" style="width:100%;box-sizing:border-box;background:var(--turf3);color:var(--chalk);border:1px solid var(--lineC);border-radius:12px;padding:10px;font:inherit"></textarea></label>
+    <button class="btn" id="repSend">Enviar</button>
+    <span class="msg ok" id="repMsg"></span>
+  </div></div>
   <div class="sheet" id="shOpts" hidden><div class="sheetIn">
     <div class="shHead"><h2>Definições</h2><button class="xbtn" data-close aria-label="Fechar">✕</button></div>
     <label class="toggle" for="listMode"><span>Modo fácil: mostrar a lista de jogadores possíveis</span><input type="checkbox" id="listMode"></label>
     <label class="toggle" for="sndOn"><span>Som (apito e golos)</span><input type="checkbox" id="sndOn" checked></label>
     <label class="toggle" for="showR"><span>Mostrar a qualidade dos jogadores durante a escolha</span><input type="checkbox" id="showR"></label>
+    <div class="panel" id="repLocal" hidden style="display:flex;flex-direction:column;gap:8px"><span class="lbl">Erros reportados neste telemóvel</span><span class="muted" id="repLocalN"></span><button class="btn ghost" id="repCopy">Copiar para enviar ao Diogo</button><span class="msg ok" id="repCopyMsg"></span></div>
   </div></div>
   <div class="sheet" id="shChem" hidden><div class="sheetIn">
     <div class="shHead"><h2>Química</h2><button class="xbtn" data-close aria-label="Fechar">✕</button></div>
@@ -667,11 +683,11 @@ Bobby Charlton|MED|76|93|552.695.556|1937||173|106||0.2.58.60|
 Figo|AVA|127|93|812.127.721.440|1972||180|127||0.3.6.20.22.23.31.37.50.54.58|D
 Thierry Henry|AVA|58|93|587.463.93.127.608|1977||188|123||2.3.4.8.11.15.26.58.60|
 Roberto Baggio|AVA|84|93|356.463.7.154.440.165|1967||174|56||0.6.11.14.19.59|
-Kaká|MED|16|92|834.7.721.637|1982|A|186|92|16|0.3.6.11.31.34.50.58.60|
+Kaká|MED|16|92|834.7.721.637|1982|A|186|92|16|0.11.3.31.50.58.6.60|
 Manuel Neuer|GR|2|92|133.782|1986|D|193|128|2|11.26.27.29.5.53.58.60|
 Sergio Ramos|DEF|54|92|787.721.647.577|1986|D|184|180|54|11.19.23.3.31.35.36.4.42.43.57.58.60.8|
 Toni Kroos|MED|2|92|133.524.721|1990|D|183|114|46|11.26.27.29.3.35.43.5.54.57.58.60|
-Luis Suárez|AVA|157|92|598.312.32.532.127.110.395.442|1987|D|182|143|157|3.17.36.38.51.58|
+Luis Suárez|AVA|157|92|598.312.32.532.127.110.395.442|1987|D|182|143|157|17.3.36.51.58|
 Neymar|AVA|16|92|777.127.647.45|1992|D|175|130|16|11.3.30.36.4.42.50.53.58|
 Kevin De Bruyne|MED|20|92|377.215.923.933.551.601|1991|D|181|127|20|2.21.26.31.43.45.58|
 Virgil van Dijk|DEF|124|92|312.204.805.532|1991|D|195|100|124|13.2.33.54.58|
@@ -739,7 +755,7 @@ Giorgio Chiellini|DEF|84|89|18.737.463.356.500|1984|E|187|117|84|19.21.24.37.44.
 Radamel Falcao|AVA|33|89|734.325.110.587.552.215.371.719.567|1986|D|177|105|33|12.20.28.31.34.4.44.51.54.59.7|
 Gareth Bale|AVA|123|89|805.853.721.500|1989|E|186|111|123|11.12.3.31.35.43.57.58|D
 Ángel Di María|AVA|4|89|738.140.721.552.647.463|1988|E|178|145|4|11.18.3.30.31.4.42.49.53.54.58.60.7|D
-Marcelo|DEF|16|89|777.930.648.141.541.156.926.721.358|1987|D|191|0|16|39|
+Marcelo|DEF|16|89|777.930.648.141.541.156.926.721.358|1987|D|191|0|16||
 Thomas Müller|AVA|2|89|133.889|1989|D|185|131|2|11.26.27.29.5.53.54.58.60|
 Romelu Lukaku|AVA|20|89|80.215.924.299.552.440.737.601.351|1993|E|190|132|20|12.21.31.42.43.45.53.58.6|
 Antoine Griezmann|AVA|58|89|725.110.127.637|1991|E|176|137|58|24.51.59.60|
@@ -794,7 +810,7 @@ Raphaël Varane|DEF|58|88|521.721.552.232|1993|D|191|93|58|11.24.3.31.35.43.57.5
 Timo Werner|AVA|2|88|298.705.215.853.756|1996|D|180|57|2|27.29.53.58.59|
 Riyad Mahrez|AVA|5|88|511.518.551.36.954|1991|E|179|120|58|2.26.44.58|D
 Aymeric Laporte|DEF|54|88|101.184.144.551.52|1994|E|191|52|58|17.2.23.26.35.36.58.60.8|
-Marquinhos|DEF|16|88|234.737.647|1994|D|183|112|16|4.11.16.36.42.50.53.58|
+Marquinhos|DEF|16|88|234.737.647|1994|D|183|112|16|11.36.4.42.50.53.58|
 John Stones|DEF|76|88|129.299.551.440|1994|D|188|94|76|2.26.45.53.58|
 Leroy Sané|AVA|2|88|551.133.371|1996|E|183|80|2|2.26.27.29.5.53|D
 Sadio Mané|AVA|135|88|400.323.767.805.532.133.52|1992|D|175|130|135|2.30.33.5.53.58|E
@@ -908,7 +924,7 @@ Milan Škriniar|DEF|52|87|768.440.647.351|1995|D|187|87|52|21.31.36.4.6|
 Raúl Jiménez|AVA|111|87|77.110.140.934.367|1991|D|188|130|111|18.35.38.39.46.51.7|
 Dele Alli|MED|76|87|543.853.299.141.232|1996|D|188|37|76|21.31.39.42|
 Hakim Ziyech|AVA|102|87|414.334.32.215.371.39.159.957|1993|E|180|64|124|42.53.58|D
-Ederson|GR|16|87|732.140.551.351|1993|E|188|32|16|2.7.11.26.30.39.46.58|
+Ederson|GR|16|87|732.140.551.351|1993|E|188|32|16|11.2.26.39.46.58.7|
 Youri Tielemans|MED|20|87|80.587.518.99.552|1997|D|176|93|20|34.45.59|
 Luka Jović|AVA|145|87|294.87.140.281.721.356.7.12|1997|D|182|52|160|11.18.3.41.46.52.57.58.7|
 Sergej Milinković-Savić|MED|145|87|911.377.510.45|1995|D|192|56|54|30.48|
@@ -1187,7 +1203,7 @@ Walter Samuel|DEF|4|85|611.150.737.721.440.132|1978|E|183|56|4|17.19.31.37.43.44
 Mirko Vucinic|AVA|109|85|513.737.463.47|1983|D|186|49|88|21.44.6|
 Juan Carlos Valerón|MED|54|85|507.549.110.262|1975|D|186|46|54|14.44|
 Joaquín|AVA|54|85|143.142.888.586.356|1981|D|181|51|54||D
-Simão|AVA|127|85|812.127.140.110.141.291|1979|D|174|85|127|7.20.25.28.32.42.50.54.59|E
+Simão|AVA|127|85|812.127.140.110.141.291|1979|D|174|85|127|20.25.28.42.50.54.59.7|E
 Lukas Podolski|AVA|2|85|231.133.93.440.371.906.84.401|1985|E|183|130|126|15.29.37.5.60|
 Santi Cazorla|MED|54|85|905.586.93.59.723|1984|A|168|81|54|15.23.35.36.8|
 Júlio Baptista|MED|16|85|834.787.721.93.737.586.242.637.191|1981|A|185|47|16|15.19.3.44.50|
@@ -1368,7 +1384,7 @@ Raúl Albiol|DEF|54|84|379.888.721.601.905.681|1985|D|190|58|54|11.23.3.31.35.36
 Álvaro Negredo|AVA|54|84|719.72.721.787.551.888.565.141.51.245.886|1985|E|186|21|54|2.23.39.8|
 Giuseppe Rossi|AVA|84|84|552.610.663.905.356.203.523.378|1987|E|173|30|45|10.2.20.44|
 Lucho González|MED|4|84|427.734.325.553.57.102|1981|D|186|45|4|17.24.28.4.41.55.7|
-Fernandinho|MED|16|84|102.788.551|1985|D|179|53|16|2.26.40.50.59|
+Fernandinho|MED|16|84|102.788.551|1985|D|179|53|16|2.26.50.59|
 Álvaro Arbeloa|DEF|54|84|779.721.262.532.925|1983|D|184|56|54|11.23.3.31.43.57.58.60.8|
 Juan Manuel Vargas|DEF|125|84|228.201.356.378.142|1983|E|186|62|125||
 Antonio Valencia|DEF|49|84|905.929.552.503.701|1985|D|180|99|49|10.2.31.54.59|
@@ -1414,7 +1430,7 @@ Gerard Moreno|AVA|54|84|905.549.291|1992|E|180|21|54|36.59|
 James Ward-Prowse|MED|76|84|805.925.617.175|1994|D|177|11|76|35.39.42|
 Seko Fofana|MED|39|84|551.367.746.871.521.52.40.731.325|1995|D|185|34|58|7|
 Héctor Bellerín|DEF|54|84|921.93.142.127.812|1995|D|178|4|54|15.16.3.35.36.47|
-Ben Davies|DEF|123|84|830.853|1993|E|181|100|123|21.31.33.39.42.59|
+Ben Davies|DEF|123|84|830.853|1993|E|181|100|123|21.31.39.42.59|
 Bryan Cristante|MED|84|84|7.140.652.674.100.737|1995|D|186|48|84|30.31.41.44.46.7.8|
 Elseid Hysaj|DEF|1|84|285.601.510|1994|D|182|100|1|11.48|
 Mario Pašalić|MED|40|84|405.215.283.587.7.809.100|1995|D|188|93|2|21.34.48.59|
@@ -1616,7 +1632,7 @@ Luiz Gustavo|MED|16|83|192.421.133.933.553.351.52.834.102|1987|E|187|41|16|12.5.
 Lorik Cana|MED|1|83|647.553.828.371.510.600|1983|D|186|93|88||
 Diego Lugano|DEF|157|83|598.834.351.647.586.924.429|1980|D|188|95|157|11|
 Liedson|AVA|127|83|235.357.234.812.325|1977|D|175|15|16|20.25.32.40.41.55.7|
-Alex|DEF|16|83|777.215.648.647.7|1982|D|188|17|16|2.4.5.7.11.12.28.31.32.46.50.52.58|
+Alex|DEF|16|83|777.215.648.647.7|1982|D|188|17|16|11.12.2.31.4.50.58|
 Dante|DEF|16|83|462.530.702.822.158.133.933.612|1983|E|188|13|16|26.5.50.58|
 Sulley Muntari|MED|60|83|871.692.440.828.7.46.674.262.67|1984|E|179|84|60|31.43.44.58.6|
 Yoann Gourcuff|MED|58|83|731.7.156.541.266|1986|D|185|31|58|11.24.4.58|
@@ -1628,7 +1644,7 @@ Antonio Candreva|MED|84|83|841.871.18.463.663.209.510.440.768.764|1987|D|180|54|
 Salvatore Sirigu|GR|84|83|652.238.647.787.638.848.378.601.356.612.478|1987|D|192|28|84|11.21.37.4.8|
 Bacary Sagna|DEF|58|83|15.93.551.139.579|1983|D|176|65|58|15.24.26|
 Clint Dempsey|AVA|45|83|607.367.853.784|1983|D|185|141|45|12|
-Lisandro López|AVA|4|83|710.325.541.43.443|1983|D|174|7|4|7.28.30.46.49|
+Lisandro López|AVA|4|83|710.325.541.43.443|1983|D|174|7|4|28.7|
 Samir Handanovic|GR|0|83|871.858.510.440|1984|D|193|81||21.37.6|
 Yohan Cabaye|MED|58|83|530.610.647.243.51.763|1986|D|173|48|58|24.4|
 Jakub Blaszczykowski|AVA|126|83|930.157.356.933|1985|D|176|109|126|25.33.5.53|D
@@ -1700,7 +1716,7 @@ Stefano Sensi|MED|84|83|209.781.236.440.768.580.83|1995|D|168|9|84|21.6|
 Lucas Vázquez|DEF|54|83|721.291.524|1991|D|173|9|54|11.3.35.43.57.58|
 Thomas Strakosha|GR|1|83|510.764.164.12|1995|D|193|47|63|48|
 Xaver Schlager|MED|165|83|318.767.933.705.617|1997|E|174|59|165||
-Otávio|MED|127|83|443.325.908.52.55|1995|D|172|22|16|7.32.35.39.46.50.52|
+Otávio|MED|127|83|443.325.908.52.55|1995|D|172|22|16|32.35.39.46.52.7|
 Ola Aina|DEF|115|83|215.426.848.367.617|1996|D|184|48|76|2.21.39.55|
 Breel Embolo|AVA|143|83|132.158.587.731.108|1997|D|184|92|24||
 Duje Caleta-Car|DEF|40|83|767.318.553.805.541.725.781|1996|D|193|38|40|12.41|
@@ -1909,10 +1925,10 @@ Salomon Kalou|AVA|39|82|20.354.300.215.530.418.159|1985|D|184|93|39|11.12.2.31.5
 Tiago Mendes|MED|127|82|163.140.215.541.463.110|1981|D|183|66|127|2.20.25.28.3.31.4.40.44.50.51.59|
 Michel Bastos|MED|16|82|354.300.102.395.355.530.541.37.737.834.653.811.78|1983||0|10|16|50.59|
 Éver Banega|MED|4|82|150.888.110.611.787.440.60.254|1988|D|174|65|4|35.49.55.59|
-Bruno Alves|DEF|127|82|325.346.908.947.351.196.717.663.88.946|1981|D|189|96|127|7.8.20.25.28.30.31.40.46.50.55.58.59|
+Bruno Alves|DEF|127|82|325.346.908.947.351.196.717.663.88.946|1981|D|189|96|127|20.25.28.30.31.40.50.55.58.59.7.8|
 Raúl Meireles|MED|127|82|149.265.325.532.215.351|1983|A|179|76|127|12.20.28.40.50.55.58.7|
 Leighton Baines|DEF|76|82|929.299|1984|E|170|30|76|11.19.38.45|
-Ricardo|GR|127|82|149.812.142.518.909.629|1976|D|185|79|127|2.3.7.10.20.25.32.40.50.52|
+Ricardo|GR|127|82|149.812.142.518.909.629|1976|D|185|79|127|25.32.40.50.52.7|
 Helton|GR|16|82|892.519.325|1978|D|189|3|16|12.28.32.35.41.55.59.7|
 Aaron Lennon|AVA|76|82|516.853.299.175.486|1987|D|165|23|76|12.19.42.45|D
 Thomas Vermaelen|DEF|20|82|32.707.93.127.737.906|1985|E|183|85|20|15.3.36.45|
@@ -1928,7 +1944,7 @@ Kévin Gameiro|AVA|58|82|293.319.647.787.110.888|1987|D|172|13|58|11.24.4.51.59|
 Gary Cahill|DEF|76|82|99.175.790.155.215.243.160|1985|D|193|61|76|19.2.21.31.43.48.59|
 Lars Bender|MED|2|82|1.524|1989|D|185|19|2|29|
 Armando Izzo|DEF|84|82|859.601.118.378.848.580|1992|D|183|3|84||
-Danilo|DEF|16|82|450.667.102.653.871.154.325.721.551.463|1984|D|185|0|16|2.3.6.7.9.11.26.35.39.41.43.48.50.55.57.58|
+Danilo|DEF|16|82|450.667.102.653.871.154.325.721.551.463|1984|D|185|0|16|11.2.26.3.35.41.43.48.50.55.57.58.6.7|
 Carlos Vela|AVA|111|82|93.203.638.924.725.500|1989|E|177|72|111|15|D
 Nikola Kalinic|AVA|40|82|405.591.146.269.356.7.110.737.416|1988|A|187|42|88|41.51|
 Fredy Guarín|MED|33|82|286.150.763.325.440.755.892.567|1986|D|183|57|33|12.28.37.55.59.7|
@@ -2150,7 +2166,7 @@ Daniel Svensson|DEF|142|82|170.613.157|2002|E|183|16|142||
 Albian Hajdari|DEF|89|82|132.460.320.421|2003|E|189|7|143||
 Dwight McNeil|AVA|76|82|175.299|1999|E|183|10|76||E
 Vitinha (2000)|AVA|127|82|163.553.378|2000|D|178|10|127||
-Beto|AVA|70|82|690.871.299.356|1998|D|194|10|127|7.12.20.25.28.30.32.40.55.59|
+Beto|AVA|70|82|690.871.299.356|1998|D|194|10|127||
 Leif Davis|DEF|76|82|516.160.447|1999|E|182|0|76|17|
 Charlie Cresswell|DEF|76|82|516.568.854|2002|D|190|26|76|17|
 Igor Matanovic|AVA|40|82|817.281.479.365|2003|D|194|12|2||
@@ -2390,7 +2406,7 @@ Maximilian Philipp|AVA|2|81|365.157.276.933.923|1994|D|183|10|2||
 Lazar Markovic|AVA|145|81|665.140.532.351.812.426.80.367.374.856|1994|D|175|1|160|30.31.38.55.7|D
 Wataru Endo|MED|86|81|792.881.797.298.532|1993|D|178|73|86|13.2.33|
 Gabriel Paulista|DEF|16|81|280.905.93.888.110.141.234|1990|D|185|0|16|15.51|
-João Mário|MED|127|81|812.909.440.925.535.140.141.12|1993|D|179|56|127|7.8.21.25.28.30.34.38.45.47.52|
+João Mário|MED|127|81|812.909.440.925.535.140.141.12|1993|D|179|56|127|21.25.28.30.34.38.45.47.7.8|
 Robert Andrich|MED|2|81|418.274.415.874.524|1994|D|187|19|2|5.56|
 Niklas Stark|DEF|2|81|620.418.923|1995|D|190|2|2|29|
 Denis Suárez|MED|54|81|551.127.787.905.93.203.291.66|1994|D|176|1|54|2.3.36.37.59|
@@ -2576,7 +2592,7 @@ Morten Frendrup|MED|43|81|172.378|2001|D|178|2|43||
 Eduardo Quaresma|DEF|127|81|812.847.421|2002|D|185|12|127|47.7|
 Tariq Lamptey|DEF|60|81|215.166.356|2000|D|163|11|76||
 Stephen Eustaquio|MED|25|81|851.520.214.185.668.325.500|1996|D|175|61|25|52.7|
-Pedrinho|AVA|16|81|234.140.788.112|1998|E|172|14|16|12.30.50|D
+Pedrinho|AVA|16|81|234.140.788.112|1998|E|172|14|16|30.50|D
 Carlos Vinícius|AVA|16|81|86.724.601.732.587.140.853.648.367.371.395|1995|E|190|0|16|18.30.31.34.38|
 Andrei Rațiu|DEF|132|81|905.888.10.754.719|1998|D|183|38|132||
 Lazar Samardžić|MED|145|81|418.705.871.100|2002|E|184|28|2|48|
@@ -2892,7 +2908,7 @@ Daniel Amartey|DEF|60|80|268.233.518.141|1994|D|186|1|60|2.25.44|
 Riechedly Bazoer|DEF|42|80|32.933.325.882.907.22.492|1996|D|184|6|124|54|
 Munir El Haddadi|MED|102|80|127.888.66.787.379.507.186.67|1995|E|177|12|54|3.35.36.58.59|
 Stefan Posch|DEF|165|80|421.154.100.232.548|1997|D|188|56|165||
-Matheus Pereira|MED|16|80|812.214.620.924.45.242|1996|E|175|1|16|30.32.34.47.50|
+Matheus Pereira|MED|16|80|812.214.620.924.45.242|1996|E|175|1|16|30.32.34.47|
 Trezeguet (1994)|AVA|47|80|80.585.484.99.131.856.57|1994|D|181|97|47|20|E
 Denis Bouanga|AVA|59|80|319.293.855.622.763.500|1994|D|180|53|58||E
 Léo Dubois|DEF|58|80|600.541.371.131.301|1994|D|178|13|58|44.52|
@@ -2917,7 +2933,7 @@ Baptiste Santamaria|MED|58|80|855.81.365.731.612.888|1995|D|183|1|58||
 Fabián Balbuena|DEF|122|80|598.528.234.925.276.395|1991|D|188|47|122|55|
 Alfie Mawson|DEF|76|80|164.539.936.129.830.367.168|1994|D|189|0|76|44|
 Jeremiah St. Juste|DEF|124|80|414.354.548.812|1996|D|186|9|124|47.7|
-Nuno Santos|DEF|127|80|140.909.732.812|1995|E|177|2|127|7.18.28.30.31.38.46.47|
+Nuno Santos|DEF|127|80|140.909.732.812|1995|E|177|2|127|18.30.31.38.46.47.7|
 Josip Brekalo|AVA|40|80|277.933.298.848.356.405.484.723.418|1998|D|175|35|40||E
 Harry Souttar|DEF|8|80|825.273.740.518.790|1998|D|198|36|51||
 Oli McBurnie|AVA|51|80|162.830.169.129.790.507.426|1996|D|188|17|76||
@@ -3239,7 +3255,7 @@ Zoran Tosic|AVA|145|79|665.552.231.194.644|1987|E|171|76|88|10|D
 Sergio Asenjo|GR|54|79|887.886.110.586.905|1989|D|189|1|54|23.35.36.51.59|
 Patrick van Aanholt|DEF|124|79|236.25.215.610.929.518.907.828.243.371.648.807|1990|E|176|19|124|45.54|
 Mikel San José|MED|54|79|101.532.145|1989|D|187|7|54|17.23.43|
-Henrique|DEF|16|79|235.653.524.127.709.601.358.120|1986|D|185|7|16|3.4.26.28.34.43.50.58|
+Henrique|DEF|16|79|235.653.524.127.709.601.358.120|1986|D|185|7|16|26.3.43.50.58|
 Jay Rodríguez|AVA|76|79|175.129.805.924|1989|D|185|1|76|42.53|
 André Santos (1983)|DEF|16|79|355.357.112.234.351.93.395|1983|E|180|24|16|15.50|
 Álvaro Pereira|DEF|157|79|191.325.440.834.296.379|1985|E|180|1|157|12.17.28.55.59.7|
@@ -4031,7 +4047,7 @@ Eric Martel|MED|2|78|705.117.231.548|2002|D|188|30|2||
 Faris Moumbagna|AVA|24|78|495.835.152.553.238|2000|E|185|9|24||
 Alfie Doughty|MED|76|78|213.825.197.539|1999|E|183|0|76||
 Iván Jaime|MED|54|78|105.345.325.888.579|2000|D|180|4|54|52|
-Marcos Paulo|AVA|127|78|358.110.345.188.834.708.149.462|2001|D|186|5|16|52|E
+Marcos Paulo|AVA|127|78|358.110.345.188.834.708.149.462|2001|D|186|5|16||E
 Jens Castrop|MED|37|78|620.158|2003|D|178|8|2||
 Manu Sánchez|DEF|54|78|104.110.638.203.66.523|2000|E|171|10|54|3.43.51|
 Robin Hranac|DEF|32|78|660.902.421|2000|D|189|17|32||
@@ -4280,7 +4296,7 @@ Neil Taylor|DEF|123|77|935.830.99.565|1989|E|176|48|123||
 Borja García|MED|54|77|719.246.386.754|1990|D|175|0|54||
 Roman Zozulya|AVA|153|77|275.269.142.719.67.190|1989|D|176|33|154||
 Mohamed Diamé|MED|135|77|719.929.925.426.610.190|1987|D|184|31|58|43.45|
-Pedro Mendes|DEF|127|77|812.724.786.721.663.781.731.578.295|1990|D|186|0|143|3.28.31.40.47|
+Pedro Mendes|DEF|127|77|812.724.786.721.663.781.731.578.295|1990|D|186|0|143|28.3.31.40|
 Davide Faraoni|DEF|84|77|440.871.921.673.618.241.416.356|1991|D|180|7|84|44|
 Elias|MED|16|77|621.689.234.110.812.357.279|1985|D|173|1|16|11.28.30.34.50.55|
 Felipe Pardo|AVA|33|77|260.436.163.632.600.845.649.733.70|1990|D|178|3|33|20.28.38.40.52|D
@@ -4883,7 +4899,7 @@ Zanka|DEF|43|76|233.648.425.351.302.164.80.499|1990|D|189|37|43||
 Kolbeinn Sigthórsson|AVA|82|76|22.32.600.371.14.431|1990|D|186|64|82|44.52.54|
 Gonzalo Bergessio|AVA|4|76|683.439.710.140.771.763.201.721.768.109|1984|D|179|3|4|11.3.31|
 Dimitrios Siovas|DEF|63|76|937.445.656.632.186.754.362.644|1988|E|191|20|63|25.34.38.40.55|
-André Dias|DEF|16|76|659.357.389.834.510|1979|D|184|1|16|39|
+André Dias|DEF|16|76|659.357.389.834.510|1979|D|184|1|16||
 Alberto Botía|DEF|54|76|127.813.787.283.632.45.63.488|1989|D|188|0|54|26.3.30.38.40.55|
 Maurício (1988, Portimonense)|MED|16|76|358.34.947.642.654.690|1988|D|184|0|16|9.12.37|
 Bastian Oczipka|DEF|2|76|524.817.281.874.91|1989|E|185|0|2||
@@ -5529,7 +5545,7 @@ Moritz Leitner|MED|2|75|1.157.298.510.115.616.338|1992|D|178|0|2|33.5.53|
 Lukas Rupp|MED|2|75|479.158.750.298.421.616.90|1991|D|178|0|2||
 Albert Adomah|AVA|60|75|168.565.99.617.197.698|1987|D|185|1|76||D
 Diego Farias|AVA|16|75|218.416.359.650.781.196.285.513.810|1990|D|172|0|16|44|E
-Éder|AVA|127|75|27.163.830.530.535.56|1987|A|190|35|70|8.12.17.21.25.28.32.37.40.52|
+Éder|AVA|127|75|27.163.830.530.535.56|1987|A|190|35|70|12.17.25.28.32.40.52.8|
 Andre Hoffmann|DEF|2|75|302|1993|D|190|0|2||
 Mikel Balenziaga|DEF|54|75|725.101.886.262|1988|E|177|0|54|17|
 Jordi Amat|DEF|75|75|291.719.830.142.466|1992|D|185|20|54|42|
@@ -6897,7 +6913,7 @@ Joe Mason|AVA|78|73|684.197.155.934|1991|D|178|0|76|35.39.55|
 Tommy Smith|DEF|76|73|425.825|1992|D|185|0|76||
 Ahmad Benali|MED|95|73|551.165.652.674.241.681|1992|D|173|1|76|2.37|
 Tobias Figueiredo|DEF|127|73|812.597.617.426.360.240.102.457|1994|D|188|16|127|30.32.38.47|
-Michel|AVA|16|73|669.668.163.140|1986|E|182|0|16|9.30.32|
+Michel|AVA|16|73|669.668.163.140|1986|E|182|0|16|30.32|
 Nico Yennaris|MED|30|73|93.160.164.936|1993|D|171|1|76|15|
 Hugo Vieira|AVA|127|73|292.380.813.140.163.850.294.940.799|1988|D|178|0|127|28.30|
 Nathaniel Méndez-Laing|AVA|65|73|934.675.790.692.793.197.565.789.263.543|1992|D|178|20|76||D
@@ -7536,7 +7552,7 @@ Hélio Varela|AVA|23|72|690.465.542|2002|D|176|23|127||E
 Marko Milovanović|AVA|145|72|665.72.74|2003|D|197|3|136||
 Mateo Tanlongo|MED|4|72|738.812.233.732|2003|D|177|0|4|47|
 Zé Vítor|DEF|16|72|78.279.597|2001|E|189|0|16||
-João Costa|AVA|127|72|737.40|2005|E|178|1|16|7.52|D
+João Costa|AVA|127|72|737.40|2005|E|178|1|16||D
 João Tornich|DEF|16|72|690.501|2002|D|194|0|16||
 Antoine Joujou|AVA|58|72|511.663.345|2003|D|189|8|58||E
 Salvador Blopa|DEF|127|72|812|2007|D|188|9|127||
@@ -9861,7 +9877,7 @@ const orderOf=round=>{const o=[...Array(G.n).keys()];return round%2?o.reverse():
 function youthFor(t,pos){const T=G.teams[t],c=T.picks.concat(T.bench||[]).filter(x=>x.youth).length;return{n:"Júnior da formação"+(c?" "+(c+1):""),p:pos==="SUP"?"MED":pos,c:"Portugal",r:64,cl:[],youth:true}}
 function replay(){
   G.teams=G.cfg.map(c=>({coach:c.coach,form:c.form,slots:c.form?buildSlots(c.form):[],picks:[],bench:[]}));
-  G.taken=new Set();G.used=new Set();G.rules=[];G.lastEv=null;G.lastCat=null;
+  G.taken=new Set();G.used=new Set();G.rules=[];G.lastEv=null;G.lastCat=null;G.pickLog=[];
   for(let i=0;;i++){
     const round=Math.floor(i/G.n),k=i%G.n;if(round>=RD){G.cur={i,done:true};return}
     if(k===0){const r=withRng(seeded(G.seed+":r"+round),chooseRule);G.used.add(r.l);G.rules[round]=r;G.lastCat=r.cat}
@@ -9876,6 +9892,7 @@ function replay(){
     const mates=G.teams[pk].picks.filter(x=>!x.youth&&!p.youth&&x.cl.some(c=>p.cl.includes(c))).map(x=>({x,c:x.cl.find(c=>p.cl.includes(c))}));
     s.pl=p;if(s.pos==="SUP")G.teams[pk].bench.push(p);else G.teams[pk].picks.push(p);if(!p.youth)G.taken.add(p.n);
     G.lastEv={i,t:pk,p,label:s.label,best,mates,rule:rule.l};
+    if(!p.youth)(G.pickLog=G.pickLog||[]).push({n:p.n,rule:rule.l,t:pk});
   }
 }
 const picker=()=>G.cur.picker;
@@ -10048,6 +10065,7 @@ function tryPlayer(p){
   if(!G.cur.rule.t(p)){
     G.tries--;
     say(`${p.n} não cumpre a regra "${G.cur.rule.l}". `+(G.tries<=0?"Acabaram as tentativas.":`Restam ${G.tries} tentativa${G.tries>1?"s":""}.`),"bad");$("dInput").value="";drawAsk();
+    G.lastNo={n:p.n,rule:G.cur.rule.l};const rl=el("button","replink","Está errado?");rl.onclick=()=>openReport();$("dMsg").append(rl);
     claimOffer(p);return;
   }
   place(p);
@@ -10450,6 +10468,12 @@ $("brPlay").onclick=()=>{if(isTourOnline()){const mt=myTourMatch();if(mt)startTo
       else if(r.length===2){G.tour.rounds.push([{a:loserOf(r[0]),b:loserOf(r[1]),res:null,third:true}],[{a:r[0].res.w,b:r[1].res.w,res:null}])}
       else{const nr=[];for(let i=0;i<r.length;i+=2)nr.push({a:r[i].res.w,b:r[i+1].res.w,res:null});G.tour.rounds.push(nr)}}
   },back:"Voltar ao quadro"})};
+$("dReport").onclick=()=>openReport();
+$("repSend").onclick=async()=>{const t=$("repTxt").value.trim();if(!t){$("repMsg").textContent="Escreve primeiro o que está mal.";return}
+  const ok=await sendReport({kind:"texto",txt:t,rule:G&&G.cur&&G.cur.rule?G.cur.rule.l:""});$("repTxt").value="";$("repMsg").textContent=ok?"Obrigado! O erro ficou registado.":"Guardado neste telemóvel. Em Definições podes copiá-lo para enviar ao Diogo."};
+$("repCopy").onclick=async()=>{const L=repLocal(),tx="Erros no Duelo de Onzes:\n"+L.map(r=>r.kind==="texto"?`- ${r.txt}`:`- ${dn(r.n)} ${r.kind==="cumpre"?"CUMPRE":"NÃO cumpre"} "${r.rule}"`).join("\n");
+  try{await navigator.clipboard.writeText(tx);$("repCopyMsg").textContent="Copiado. Cola na conversa com o Diogo."}catch(e){$("repCopyMsg").textContent=tx}};
+setTimeout(()=>{try{drawRepLocal()}catch(e){}},0);
 $("brNew").onclick=()=>{if(G&&G.mode==="online"){leaveOnline();return}G=null;show("sStart")};
 
 /* ---- força das equipas ---- */
@@ -10503,11 +10527,13 @@ const onPitch=T=>T.picks.filter(p=>!(T.off&&T.off.has(p.n)));
 function shooter(T){if(!field(T).length)return null;return wpick(field(T).map(p=>[p,(p.p==="AVA"?5:p.p==="MED"?2.2:.6)*Math.pow(p.r/80,4)]))}
 function assister(T,not){return wpick(field(T).filter(p=>p!==not).map(p=>[p,(p.p==="MED"?3:p.p==="AVA"?2:1)*Math.pow(p.r/80,3)]))}
 const gkOf=T=>T.picks.find(p=>p.p==="GR");
-const STY={AVA:["cruz","iso","prim","drib","cruz"],MED:["longe","chega","chapeu","longe"],DEF:["cab","recarga","cab"]};
+const STY={AVA:["cruz","iso","prim","drib","cruz","iso","prim","drib","cruz","iso"],MED:["longe","chega","chapeu","longe","chega","longe","chega"],DEF:["cab","recarga","cab","cab","recarga"]};
 const GOALTX={
-  AVA:[n=>`remate cruzado de ${n}`,n=>`${n} isola-se e não perdoa`,n=>`${n} finaliza de primeira`,n=>`jogada individual de ${n}, que deixa dois para trás e marca`,n=>`${n} aparece ao segundo poste`],
-  MED:[n=>`bomba de fora da área de ${n}`,n=>`${n} chega de trás e finaliza`,n=>`${n} faz um chapéu ao guarda-redes`,n=>`livre direto de ${n} ao ângulo`],
-  DEF:[n=>`${n} de cabeça, na sequência de um canto`,n=>`${n} aproveita uma recarga na área`,n=>`${n} sobe no livre e cabeceia para golo`]
+  AVA:[n=>`remate cruzado de ${n}`,n=>`${n} isola-se e não perdoa`,n=>`${n} finaliza de primeira`,n=>`jogada individual de ${n}, que deixa dois para trás e marca`,n=>`${n} aparece ao segundo poste`,
+    n=>`${n} ganha nas costas da defesa e atira rasteiro`,n=>`${n} remata colocado, junto ao poste`,n=>`${n} tira o defesa do caminho e fuzila`,n=>`${n} encosta ao primeiro poste`,n=>`${n} desvia com classe, sem hipóteses para o guarda-redes`],
+  MED:[n=>`bomba de fora da área de ${n}`,n=>`${n} chega de trás e finaliza`,n=>`${n} faz um chapéu ao guarda-redes`,n=>`remate em arco de ${n} ao ângulo`,
+    n=>`${n} aparece na área no momento certo`,n=>`que pontapé de ${n}, a bola entra junto à barra`,n=>`${n} entra pelo meio e remata para golo`],
+  DEF:[n=>`${n} de cabeça, na sequência de um canto`,n=>`${n} aproveita uma recarga na área`,n=>`${n} sobe no livre e cabeceia para golo`,n=>`${n} ganha nas alturas e cabeceia sem hipóteses`,n=>`${n} empurra para a baliza na confusão da área`]
 };
 function simStart(a,b){
   const T=[G.teams[a],G.teams[b]].map(x=>({...x,off:new Set()})),S=[strength(T[0]),strength(T[1])];
@@ -10531,6 +10557,28 @@ function kitOf(p){const st=LIVE&&LIVE.st;if(!st||!st.kit)return null;const j=[0,
   if(j!=null){const K=st.kit[j];return{pat:K.pat,c2:K.c2,num:K.nums.get(p.name),cap:K.cap===p.name}}
   if(p.gk){for(const j of [0,1]){const n=st.kit[j].nums.get(p.name);if(n)return{pat:"solid",num:n}}}
   return null}
+/* reportar erros: vai para a base de dados do artifact (quando existe) e fica sempre também neste telemóvel */
+const VERSION="25/10";
+let REPDB=null;(async()=>{try{if(window.claude&&claude.use)REPDB=await claude.use("db")}catch(e){REPDB=null}})();
+const repLocal=()=>store("duelo_reports")||[];
+const repSent=new Set();
+async function sendReport(r){
+  r={...r,at:Date.now(),v:VERSION,mode:G?G.mode:""};
+  const L=repLocal();L.unshift(r);store("duelo_reports",L.slice(0,60));
+  let ok=false;if(REPDB){try{await REPDB.collection("reports").add(r);ok=true}catch(e){ok=false}}
+  drawRepLocal();return ok;
+}
+function openReport(){
+  const box=$("repList");box.innerHTML="";$("repMsg").textContent="";
+  const row=(t,sub,btn,rep)=>{const k=JSON.stringify(rep);const r=el("div","repRow"),tx=el("div","t");tx.append(t);tx.append(el("small",null,sub));
+    const b=el("button",null,repSent.has(k)?"Enviado":btn);b.disabled=repSent.has(k);b.onclick=async()=>{b.disabled=true;b.textContent="A enviar…";const ok=await sendReport(rep);repSent.add(k);b.textContent=ok?"Enviado ✓":"Guardado ✓";$("repMsg").textContent=ok?"Obrigado! O erro ficou registado.":"Guardado neste telemóvel. Em Definições podes copiá-lo para enviar ao Diogo."};
+    r.append(tx,b);box.append(r)};
+  if(G&&G.lastNo)row(dn(G.lastNo.n),`O jogo disse que NÃO cumpre "${G.lastNo.rule}"`,"Cumpre!",{kind:"cumpre",n:G.lastNo.n,rule:G.lastNo.rule});
+  ((G&&G.pickLog)||[]).slice(-10).reverse().forEach(e=>row(dn(e.n),`Aceite em "${e.rule}"${G.names&&G.names[e.t]?" · "+G.names[e.t]:""}`,"Não cumpre",{kind:"nao_cumpre",n:e.n,rule:e.rule}));
+  if(!box.children.length)box.append(el("p","muted","Ainda não há escolhas neste jogo. Podes escrever o erro em baixo."));
+  openSheet("shReport");
+}
+function drawRepLocal(){const L=repLocal();$("repLocal").hidden=!L.length;$("repLocalN").textContent=`${L.length} erro${L.length===1?"":"s"} guardado${L.length===1?"":"s"}.`}
 function simHalf(st,from,to){
   const {T,S,N,ev,goals}=st;
   for(let m=from;m<=to;m++){
@@ -10557,12 +10605,18 @@ function simHalf(st,from,to){
         goals[t]++;st.on[t]++;const as=Math.random()<.75?assister(T[t],sh):null;
         st.stats.g[sh.n]=(st.stats.g[sh.n]||0)+1;if(as)st.stats.a[as.n]=(st.stats.a[as.n]||0)+1;
         const GL=GOALTX[sh.p]||GOALTX.AVA,gi=rand(GL.length),how=GL[gi](sh.n),sty=(STY[sh.p]||STY.AVA)[gi];
-        ev.push({m,t,goal:true,k:"goal",s:sh.n,a:as?as.n:null,how:sty,tx:`GOLO! ${how[0].toUpperCase()+how.slice(1)}`+(as?`, após passe de ${as.n}.`:".")+(counter?" Contra-ataque mortal!":"")+(m>=88&&goals[t]===goals[o]+1&&goals[o]>0?" Golo da vitória mesmo no fim!":"")});
+        const AS=[n=>`, após passe de ${n}.`,n=>`, assistido por ${n}.`,n=>`. Grande passe de ${n}.`,n=>`, servido por ${n}.`,n=>`, a passe de ${n}.`];
+        const ng=st.stats.g[sh.n],ctx=ng===2?` Bis de ${sh.n}!`:ng===3?` Hat-trick de ${sh.n}!`:ng>3?` Já são ${ng} golos de ${sh.n}!`:"";
+        const sit=goals[t]===goals[o]?" Está tudo empatado!":goals[t]===goals[o]+1&&goals[o]>0?(m>=88?" Golo da vitória mesmo no fim!":" Reviravolta! Passa para a frente."):goals[t]===1&&goals[o]===0?" Abre o marcador!":"";
+        const GO=["GOLO!","GOLO!","GOLAÇO!","É GOLO!","GOLO!"][rand(5)];
+        ev.push({m,t,goal:true,k:"goal",s:sh.n,a:as?as.n:null,how:sty,tx:`${GO} ${how[0].toUpperCase()+how.slice(1)}`+(as?AS[rand(AS.length)](as.n):".")+(counter?" Contra-ataque mortal!":"")+ctx+sit});
       }else{
         const r=Math.random();
-        if(r<.4){st.on[t]++;if(gk)st.stats.sv[gk.n]=(st.stats.sv[gk.n]||0)+1;ev.push({m,t,k:"save",s:sh.n,tx:any([`Grande defesa de ${gk.n} a remate de ${sh.n}!`,`${gk.n} voa e nega o golo a ${sh.n}.`,`${sh.n} obriga ${gk.n} a defesa apertada.`])})}
-        else if(r<.85)ev.push({m,t,k:"miss",s:sh.n,tx:any([`${sh.n} remata ao lado.`,`${sh.n} atira por cima da barra.`,`Oportunidade para ${sh.n}, mas falha o alvo.`,`${sh.n} tenta o chapéu, mas a bola sai por cima.`])});
-        else ev.push({m,t,k:"post",s:sh.n,tx:any([`Ao poste! ${sh.n} esteve tão perto…`,`Na barra! Remate de ${sh.n}.`])});
+        if(r<.4){st.on[t]++;if(gk)st.stats.sv[gk.n]=(st.stats.sv[gk.n]||0)+1;ev.push({m,t,k:"save",s:sh.n,tx:any([`Grande defesa de ${gk.n} a remate de ${sh.n}!`,`${gk.n} voa e nega o golo a ${sh.n}.`,`${sh.n} obriga ${gk.n} a defesa apertada.`,
+          `${gk.n} estica-se todo e tira o golo a ${sh.n}!`,`Remate forte de ${sh.n}, ${gk.n} defende para canto.`,`${gk.n} segura sem problemas o remate de ${sh.n}.`,`Que reflexos de ${gk.n}! ${sh.n} não acredita.`,`${sh.n} remata à figura de ${gk.n}.`])})}
+        else if(r<.85)ev.push({m,t,k:"miss",s:sh.n,tx:any([`${sh.n} remata ao lado.`,`${sh.n} atira por cima da barra.`,`Oportunidade para ${sh.n}, mas falha o alvo.`,`${sh.n} tenta o chapéu, mas a bola sai por cima.`,
+          `${sh.n} remata torto, a bola vai para a bancada.`,`${sh.n} tenta de longe, sem perigo.`,`Cabeceamento de ${sh.n} ao lado.`,`${sh.n} demora a rematar e a defesa corta.`,`${sh.n} desperdiça uma boa ocasião.`,`Remate de ${sh.n} a rasar o poste!`])});
+        else ev.push({m,t,k:"post",s:sh.n,tx:any([`Ao poste! ${sh.n} esteve tão perto…`,`Na barra! Remate de ${sh.n}.`,`${sh.n} acerta no ferro!`,`A bola de ${sh.n} bate no poste e sai!`])});
       }
     }
     for(const t of [0,1]){
@@ -10609,7 +10663,9 @@ function scCanvas(){const c=$("scCv"),R=c.getBoundingClientRect(),w=Math.max(200
   if(c.width!==Math.round(w*r)||c.height!==Math.round(h*r)){c.width=Math.round(w*r);c.height=Math.round(h*r)}const x=c.getContext("2d");x.setTransform(r,0,0,r,0,0);return{x,W:w,H:h}}
 function scCaption(t,big){const e=$("scCap");if(e.textContent!==t)e.textContent=t;e.className="sccap"+(big?" big":"")+(t?"":" off");const lw=$("scLower");if(lw)lw.style.opacity=big?0:1}
 const DNRX=/ \((?:\d{4}|[^)]*\d{4}[^)]*)\)/g,dn=n=>String(n||"").replace(DNRX,"");
-const lastName=n=>{const p=dn(n).split(" ");return p.length>1&&p[p.length-1].length<=3?p.slice(-2).join(" "):p[p.length-1]};
+const PARTS=new Set(["di","de","da","do","dos","das","del","della","van","von","der","den","ter","la","le","du","mac","st.","el","al"]);
+const lastName=n=>{const p=dn(n).split(" ");if(p.length<2)return p[0];const l=p[p.length-1],q=p[p.length-2];
+  if(l.length<=3||PARTS.has(q.toLowerCase()))return(p.length>2&&PARTS.has(p[p.length-3].toLowerCase())?p.slice(-3):p.slice(-2)).join(" ");return l};
 
 /* campo: 105 x 68 m; a equipa que ataca vai sempre para a direita (baliza em x=105) */
 const PW=105,PH=68,GY0=30.34,GY1=37.66,GH=2.44,NETB=106.9;
@@ -10722,6 +10778,9 @@ function figure(x,p){
   if(pose==="dive"){L1=.2;L2=-.15;K1=.15;K2=.3;A1=2.95;A2=2.75;E1=0;E2=.1}
   if(pose==="slide"){L1=1.45;L2=1.0;K1=.1;K2=.65;A1=-.8;A2=1.1;lean=-.38;bob=-.12}
   if(pose==="wall"){A1=.55;A2=.5;E1=2.1;E2=2.0;L1=.05;L2=-.05}
+  if(pose==="card"){A2=2.75;E2=.05;A1=.15;E1=.3;lean=-.05}
+  if(pose==="board"){A1=2.2;E1=.4;A2=2.25;E2=.35;lean=0}
+  if(pose==="sad"){A1=.05;A2=-.05;E1=.2;E2=.2;lean=.18}
   const X=g.x,Y=g.y-(lift+bob)*g.s;
   /* sombra */
   [-.75,.75,2.4].forEach(a=>{x.save();x.translate(g.x,g.y);x.scale(1,.28);x.rotate(a);x.fillStyle="rgba(0,0,0,.09)";x.beginPath();x.ellipse(0,-h*.32,h*.09,h*.38,0,0,7);x.fill();x.restore()});
@@ -10749,6 +10808,7 @@ function figure(x,p){
     if(p.gk){seg2(S,El,lw*.95,c);seg2(El,W,lw*.85,c);x.fillStyle=front?"#f6f6f6":"#cfcfcf";x.beginPath();x.arc(W[0],W[1],h*.05,0,7);x.fill();return}
     seg2(S,[lerp(S[0],El[0],.55),lerp(S[1],El[1],.55)],lw*1.05,c);
     seg2([lerp(S[0],El[0],.5),lerp(S[1],El[1],.5)],El,lw*.8,sk);seg2(El,W,lw*.75,sk);
+    if(front&&p.cardCol){x.fillStyle="#111";x.fillRect(W[0]-h*.052,W[1]-h*.19,h*.104,h*.15);x.fillStyle=p.cardCol;x.fillRect(W[0]-h*.045,W[1]-h*.183,h*.09,h*.136)}
     if(front&&KI.cap){x.strokeStyle="#ffd23f";x.lineWidth=lw*1.12;x.lineCap="butt";x.beginPath();x.moveTo(lerp(S[0],El[0],.34),lerp(S[1],El[1],.34));x.lineTo(lerp(S[0],El[0],.5),lerp(S[1],El[1],.5));x.stroke();x.lineCap="round"}
     x.fillStyle=sk;x.beginPath();x.arc(W[0],W[1],lw*.45,0,7);x.fill()};
   /* lado de trás primeiro */
@@ -10803,6 +10863,11 @@ function drawBall(x,S){
   const gr=x.createRadialGradient(q.x-r*.35,q.y-r*.35,r*.1,q.x,q.y,r);gr.addColorStop(0,"#fff");gr.addColorStop(1,"#b9c0bc");x.fillStyle=gr;x.beginPath();x.arc(q.x,q.y,r,0,7);x.fill();
   const sp=S.t*Math.hypot(B.vx||0,B.vy||0)*.9;x.fillStyle="#222";x.beginPath();x.arc(q.x+Math.cos(sp)*r*.35,q.y+Math.sin(sp)*r*.35,r*.3,0,7);x.fill();
 }
+function drawBoard(x,S){const b=S.board;if(!b)return;const q=prj(b.x,b.y,2.25),w=q.s*1.05,h=q.s*.95;
+  x.fillStyle="#0b0b0b";x.fillRect(q.x-w/2,q.y-h,w,h);x.strokeStyle="#666";x.lineWidth=Math.max(1,q.s*.05);x.strokeRect(q.x-w/2,q.y-h,w,h);
+  const blink=(S.t*3|0)%2===0||S.t>1.2;x.font=`900 ${Math.round(h*.4)}px Barlow Condensed,Arial Narrow,sans-serif`;x.textAlign="center";x.textBaseline="middle";
+  if(blink){x.fillStyle="#ff3b30";x.fillText(String(b.out||"?"),q.x,q.y-h*.72);x.fillStyle="#34e36b";x.fillText(String(b.inn||"?"),q.x,q.y-h*.27)}
+  x.textAlign="left";x.textBaseline="alphabetic"}
 function drawFlag(x,S){if(!S.flag)return;const p=prj(S.flag.x,-1.2,0),q=prj(S.flag.x,-1.2,2.2);const up=clamp((S.t-S.flag.t0)/.3,0,1);
   x.strokeStyle="#222";x.lineWidth=2;x.beginPath();x.moveTo(p.x,p.y);x.lineTo(q.x,lerp(p.y,q.y,up));x.stroke();x.fillStyle="#ffd84d";x.fillRect(q.x,lerp(p.y,q.y,up),p.s*.6,p.s*.4)}
 function puff(S,x0,y0,n,sp,col){S.parts=S.parts||[];for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,v=sp*(.4+Math.random()*.8);S.parts.push({x:x0,y:y0,z:.05,vx:Math.cos(a)*v,vy:Math.sin(a)*v*.6,vz:1.2+Math.random()*2.2,l:.5+Math.random()*.4,c:col||(Math.random()<.5?"#3fae68":"#7ad18f")})}}
@@ -10837,7 +10902,7 @@ function drawS(S,x,W,H){
   drawStadium(x,S.t,S);drawTurf(x);drawGoalAt(x,S,PW);drawGoalAt(x,S,0);
   const ents=S.pl.map(p=>({y:p.y,f:()=>figure(x,p)}));ents.push({y:S.ball.y-.01,f:()=>drawBall(x,S)});
   ents.sort((a,b)=>b.y-a.y).forEach(e=>e.f());
-  drawParts(x,S);drawFlag(x,S);
+  drawParts(x,S);drawFlag(x,S);drawBoard(x,S);
   x.restore();
 
   const vg=x.createRadialGradient(W*.5,H*.55,H*.35,W*.5,H*.55,W*.8);vg.addColorStop(0,"rgba(0,0,0,0)");vg.addColorStop(1,"rgba(0,0,0,.3)");x.fillStyle=vg;x.fillRect(0,0,W,H);
@@ -10846,7 +10911,7 @@ function drawS(S,x,W,H){
 /* ---- motor: passos fixos de 1/60 s (igual em todos os telemóveis) ---- */
 const DT=1/60,GRAV=9.81;
 function newS(seedKey){
-  return{t:0,pl:[],R:{},ball:{x:60,y:34,z:0,vx:0,vy:0,vz:0,mode:"free",owner:null,fly:null},beats:[],bi:-1,bEnd:0,frozen:false,done:false,doneT:0,tail:.9,
+  return{key:seedKey||"",t:0,pl:[],R:{},ball:{x:60,y:34,z:0,vx:0,vy:0,vz:0,mode:"free",owner:null,fly:null},beats:[],bi:-1,bEnd:0,frozen:false,done:false,doneT:0,tail:.9,
     cap:"",capBig:false,cam:{x:70,y:30,z:1},trail:[],ripple:null,flag:null,goalOpen:false,bx0:60,lineMin:0,shake:0,rng:seeded(seedKey||"x"),onFreeze:null};
 }
 function addP(S,role,team,name,x,y,o={}){
@@ -10916,7 +10981,7 @@ function stepCam(S){
   const k=S.t<.05?1:shot?.09:.055;
   S.cam.vx=lerp(S.cam.vx||0,(tx-S.cam.x)*k,.35);S.cam.x+=S.cam.vx;
   S.cam.y=lerp(S.cam.y,S.camHold?S.camHold.y:clamp(B.y,17,52),S.t<.05?1:.04);
-  let zt=B.x>86?1.28:B.x>76?1.12:1;if(shot)zt=1.42;if(S.goalT!=null&&S.t-S.goalT<1.2)zt=1.5;
+  let zt=B.x>86?1.28:B.x>76?1.12:1;if(shot)zt=1.42;if(S.goalT!=null&&S.t-S.goalT<1.2)zt=1.5;if(S.zoomLock)zt=S.zoomLock;
   S.cam.z=lerp(S.cam.z,zt,shot?.06:.03);
   S.cam.sx=Math.sin(S.t*.9)*.12+Math.sin(S.t*2.3)*.04;
 }
@@ -11176,6 +11241,36 @@ function eventPlay(e,idx){
   const beats=PAT[pat](S,c,o.kind,o);
   S.beats=beats;S.title=`${e.m}' · ${st.N[e.t]}`;S.flip=(e.t===1)!==(+e.m>45);return S;
 }
+/* cartões e substituições também aparecem na TV */
+function cardPlay(e){
+  const st=LIVE.st,S=newS(LIVE.key+":card"+e.m+":"+e.pl),t=e.t,col=COLHEX[st.ci[t]],oc=COLHEX[st.ci[1-t]];
+  const yy=24+hash(strHash(e.pl))*16,xx=40+hash(strHash(e.pl+"x"))*25;
+  const off=addP(S,"off",0,e.pl,xx,yy,{kit:col});off.dir=1;off.pose="stand";off.tagT=99;off.hold=true;off.tgt={x:xx,y:yy};
+  const ref=addP(S,"ref",1,"",xx+1.6,yy+.4,{kit:"#1a1a1a"});ref.dir=-1;ref.hold=true;ref.tgt={x:xx+1.6,y:yy+.4};
+  const fo=addP(S,"vit",1,"",xx+3.6,yy+1.6,{kit:oc});fo.dir=-1;fo.pose="sad";fo.poseT=99;fo.hold=true;fo.tgt={x:xx+3.6,y:yy+1.6};
+  [[xx-5,yy-6,0],[xx+7,yy-4,1],[xx-3,yy+7,1]].forEach(([a,b,j],i)=>{const q=addP(S,"o"+i,j,"",a,b,{kit:j?oc:col});q.dir=j?-1:1;q.hold=true;q.tgt={x:a+(j?-2:2),y:b}});
+  S.ball.hide=true;S.cam={x:xx+1.6,y:yy-2,z:2.7};S.camHold={x:xx+1.6,y:yy-2};S.zoomLock=2.7;
+  const red=e.card==="r",second=red&&/Segundo amarelo/.test(e.tx);
+  const lbl=red?(second?`Segundo amarelo para ${ln(e.pl)}… e vermelho!`:`Vermelho direto para ${ln(e.pl)}!`):any([`Amarelo para ${ln(e.pl)}.`,`O árbitro mostra o amarelo a ${ln(e.pl)}.`,`${ln(e.pl)} vê o cartão amarelo.`]);
+  S.beats=[BT.wait(.35),BT.fn(S=>{ref.pose="card";ref.poseT=99;ref.cardCol=second?"#ffd23f":red?"#e5251b":"#ffd23f";S.cap=lbl;S.capBig=red&&!second})];
+  if(second)S.beats.push(BT.wait(.9),BT.fn(S=>{ref.cardCol="#e5251b";S.cap=`Vermelho! ${st.N[t]} fica com menos um.`;S.capBig=true}));
+  S.beats.push(BT.wait(red?.6:1.3));
+  if(red)S.beats.push(BT.fn(S=>{off.pose=null;off.poseT=0;off.hold=true;off.tgt={x:xx-6,y:-1};off.boost=2.2;ref.pose=null;ref.poseT=0;ref.cardCol=null}),BT.wait(1.6));
+  else S.beats.push(BT.fn(S=>{ref.pose=null;ref.poseT=0;ref.cardCol=null}),BT.wait(.4));
+  S.title=`${e.m}' · ${st.N[t]}`;return S;
+}
+function subPlay(e){
+  const st=LIVE.st,S=newS(LIVE.key+":sub"+e.m+":"+e.o),t=e.t,col=COLHEX[st.ci[t]],K=st.kit&&st.kit[t];
+  const bx=52.5,by=-1.6;
+  const of=addP(S,"of4",1,"",bx,by,{kit:"#1a1a1a"});of.dir=1;of.pose="board";of.poseT=99;of.hold=true;of.tgt={x:bx,y:by};
+  const inn=addP(S,"in",0,e.i,bx-1.6,by+.4,{kit:col});inn.dir=1;inn.hold=true;inn.tgt={x:bx-1.6,y:by+.4};inn.tagT=99;
+  const out=addP(S,"out",0,e.o,bx+9,by+9,{kit:col});out.dir=-1;out.hold=true;out.tgt={x:bx+1.4,y:by+.8};out.boost=2.4;out.tagT=0;
+  S.board={x:bx+.25,y:by-.05,out:K&&K.nums.get(e.o)||"",inn:K&&K.nums.get(e.i)||""};
+  S.ball.hide=true;S.cam={x:bx+1.5,y:by+4,z:2};S.camHold={x:bx+1.5,y:by+4};S.zoomLock=2;
+  S.beats=[BT.cap(`Substituição em ${st.N[t]}`),BT.wait(1.3),BT.fn(S=>{out.tagT=99;inn.tagT=0;S.cap=`Sai ${ln(e.o)}…`}),BT.wait(1),
+    BT.fn(S=>{inn.tgt={x:bx+4,y:by+6};inn.boost=3;inn.sprint=true;inn.tagT=99;S.cap=`…entra ${ln(e.i)}.`}),BT.wait(1.3)];
+  S.title=`${e.m}' · ${st.N[t]}`;return S;
+}
 /* momentos com decisão: a jogada pára no instante decisivo */
 function momentPlay(stop,k){
   const st=LIVE.st,S=newS(LIVE.key+":mom"+k),t=stop.t;S.flip=stop.so?false:(t===1)!==(+stop.m>45);
@@ -11249,7 +11344,41 @@ function PAT_FIN(S,type,k,o){const T=newS("tmp");T.rng=S.rng;const res=PAT[type]
 /* ---- reprodução das jogadas na TV ---- */
 const teamCols=j=>COLHEX[LIVE.st.ci[j]];
 const reduceMo=()=>window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
-function drawNow(S){const {x,W,H}=scCanvas();drawS(S,x,W,H);scCaption(S.cap,S.capBig)}
+const CAPV=[
+ [/^GOLO!$/,["GOLO!","GOLOOO!","GOLAÇO!","É GOLO!","LÁ DENTRO!","GOLO, GOLO, GOLO!"]],
+ [/^AO POSTE!$/,["AO POSTE!","NO FERRO!","BATE NO POSTE!","O POSTE SALVA!"]],
+ [/^NA BARRA!$/,["NA BARRA!","À BARRA!","NA TRAVE!","A BARRA ESTREMECE!"]],
+ [/^PARA FORA!$/,["PARA FORA!","AO LADO!","FALHOU!","QUE PERDIDA!","LONGE DO ALVO!"]],
+ [/^CORTADO!$/,["CORTADO!","BLOQUEADO!","CORTE DECISIVO!","TRAVADO!"]],
+ [/^Passe a rasgar!$/,["Passe a rasgar!","Que passe!","Passe de rutura!","Bola em profundidade!","Passe teleguiado!"]],
+ [/^Contra-ataque!$/,["Contra-ataque!","Saída rápida!","Transição a toda a velocidade!","Contra-golpe!"]],
+ [/^Tabelinha!$/,["Tabelinha!","Um-dois!","Tabela perfeita!","Combinação rápida!"]],
+ [/^Deixa o defesa no chão!$/,["Deixa o defesa no chão!","Que finta!","Sentou o defesa!","Drible de mestre!","Passa por ele como quer!"]],
+ [/^Decide!$/,["Decide!","E agora?","Momento decisivo…","Tudo em aberto…"]],
+ [/^Cruzamento para a área…$/,["Cruzamento para a área…","Bola para a área…","Centro tenso…","Cruzamento venenoso…"]],
+ [/^Remate de longe!$/,["Remate de longe!","Bomba de fora da área!","Tenta de longe!","Que pontapé!"]],
+ [/^Remata já!$/,["Remata já!","Remate de primeira!","Arrisca!","Sem pensar duas vezes!"]],
+ [/^Baliza aberta…$/,["Baliza aberta…","Só tem de encostar…","Baliza escancarada…"]],
+ [/^Passe para a área…$/,["Passe para a área…","Bola na área…","Passe para o meio…"]],
+ [/^(.+) pela ala…$/,["$1 pela ala…","$1 acelera pelo flanco…","$1 desce pela linha…","$1 cola-se à linha…"]],
+ [/^(.+) com a bola…$/,["$1 com a bola…","$1 pede a bola…","$1 recebe…","$1 tem a bola…"]],
+ [/^(.+) conduz a meio-campo…$/,["$1 conduz a meio-campo…","$1 avança com a bola…","$1 transporta o jogo…","$1 sobe com a bola…"]],
+ [/^(.+) abre o jogo…$/,["$1 abre o jogo…","$1 muda o flanco…","$1 lança na ala…","$1 vira o jogo…"]],
+ [/^(.+) isolado…$/,["$1 isolado…","$1 sozinho!","$1 escapa-se…","$1 fica na cara do golo…"]],
+ [/^(.+) de cabeça!$/,["$1 de cabeça!","Cabeceamento de $1!","$1 sobe mais alto!","$1 ganha nas alturas!"]],
+ [/^(.+) de primeira!$/,["$1 de primeira!","Remate de primeira de $1!","$1 nem deixa cair!"]],
+ [/^(.+) na recarga!$/,["$1 na recarga!","$1 aparece na recarga!","Recarga de $1!"]],
+ [/^(.+) prepara o remate…$/,["$1 prepara o remate…","$1 arma o pé…","$1 procura o ângulo…","$1 ajeita para o remate…"]],
+ [/^(.+) avança…$/,["$1 avança…","$1 parte para a baliza…","$1 ganha metros…","$1 vai embora…"]],
+ [/^(.+) serve…$/,["$1 serve…","$1 passa…","$1 encontra um colega…","$1 solta a bola…"]],
+ [/^(.+) remata…$/,["$1 remata…","$1 dispara…","$1 tenta a sorte…","$1 atira…"]],
+ [/^(.+) procura espaço…$/,["$1 procura espaço…","$1 procura uma linha de passe…","$1 olha para a frente…"]],
+ [/^(.+) parte para cima…$/,["$1 parte para cima…","$1 enfrenta o defesa…","$1 vai para o um contra um…"]],
+];
+function capVary(t,S){if(!t)return t;S._cv=S._cv||{};if(S._cv[t]!=null)return S._cv[t];let out=t;
+  for(const [rx,L] of CAPV){const m=t.match(rx);if(m){const k=Math.floor(hash(strHash((S.key||"")+"|"+t))*L.length);out=L[k].replace("$1",m[1]||"");break}}
+  return S._cv[t]=out}
+function drawNow(S){const {x,W,H}=scCanvas();drawS(S,x,W,H);scCaption(capVary(S.cap,S),S.capBig)}
 function drawSnap(S,sn,x,W,H){
   const F={flip:S.flip,t:sn.t,cam:{x:lerp(sn.cam.x,sn.b.x+1.5,.55),y:lerp(sn.cam.y,sn.b.y,.4),z:sn.cam.z*1.3,sx:0},ripple:S.ripple,goalT:S.goalT,flag:S.flag&&sn.t>=S.flag.t0?S.flag:null,shake:0,parts:null,
     ball:{...sn.b},trail:[],pl:S.pl.map((p,i)=>({...p,...sn.pl[i]}))};
@@ -11303,6 +11432,7 @@ window.addEventListener("resize",()=>{if(!SC.busy)tvIdle()});
 /* que acontecimentos do relato viram jogada na TV (igual nos dois telemóveis) */
 function wantScene(e){
   if(e.mom||e.info||e.m==="PEN")return false;
+  if(e.card||e.sub)return true;
   if(e.k==="goal"||e.k==="pen"){LIVE.lastSc=e.m;return true}
   if(e.k!=="save"&&e.k!=="post"&&e.k!=="miss")return false;
   const h=e.m<=45?0:1;if(LIVE.ch[h]>=2||e.m-LIVE.lastSc<9)return false;
@@ -11375,7 +11505,7 @@ function runFeed(until,final){
 function flushTo(min,pens){
   const ev=LIVE.st.ev;
   while(LIVE.i<ev.length){const e=ev[LIVE.i];if(e.m==="PEN"){if(!pens)break;addLine(e);LIVE.i++;break}if(e.m>min)break;
-    if(!e._sc&&!SC.skip&&wantScene(e)){e._sc=1;runS(eventPlay(e,LIVE.i),()=>{});return}
+    if(!e._sc&&!SC.skip&&wantScene(e)){e._sc=1;runS(e.card?cardPlay(e):e.sub?subPlay(e):eventPlay(e,LIVE.i),()=>{});return}
     addLine(e);LIVE.i++}
 }
 
@@ -11526,7 +11656,7 @@ function resolveStop(k){
       const em=stop.ht?46:stop.m;
       P.forEach(([b,i])=>{const inn=B[b]&&B[b].pl,sl=T.slots[i];if(n>=MAXSUB||!inn||B[b].out||!sl||!sl.pl||sl.pos==="SUP"||T.off.has(sl.pl.n))return;const out=sl.pl;
         sl.pl=inn;B[b].pl=out;B[b].out=true;n++;(st.subLog=st.subLog||[]).push({t:j,i:inn.n,o:out.n,m:em});T.picks=T.picks.map(x=>x===out?inn:x);if(T.cap===out)T.cap=null;
-        st.ev.push({m:em,t:j,tx:`Substituição em ${st.N[j]}${stop.ht?" ao intervalo":""}: entra ${inn.n}, sai ${out.n}.`});rr.append(el("div","rv",`${st.N[j]}: ⬆ ${dn(inn.n)} · ⬇ ${dn(out.n)}`))});
+        st.ev.push({m:em,t:j,sub:1,i:inn.n,o:out.n,tx:`Substituição em ${st.N[j]}${stop.ht?" ao intervalo":""}: entra ${inn.n}, sai ${out.n}.`});rr.append(el("div","rv",`${st.N[j]}: ⬆ ${dn(inn.n)} · ⬇ ${dn(out.n)}`))});
       T.nsub=n;st.T[j]=T;st.S[j]=strength(T)});
     const none=[0,1].every(j=>!subPairs(d[j][k]).length);
     rr.hidden=none;LIVE.si++;if(!stop.ht)flushTo(stop.m,false);
