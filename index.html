@@ -262,6 +262,14 @@ body.picking .askpage .list{padding-bottom:170px}
 .rscore .pens{font-family:var(--cond);font-weight:700;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;background:var(--gold);color:var(--onGold);border-radius:999px;padding:3px 10px;white-space:nowrap}
 .rwin{font-family:var(--display);font-weight:900;font-size:1.5rem;text-transform:uppercase;text-align:center;line-height:1.05}
 .mvp2{display:flex;align-items:center;gap:14px}
+.goalpick{display:flex;flex-direction:column;gap:8px;width:100%}
+.gpGoal{position:relative;width:100%;max-width:420px;margin:0 auto;aspect-ratio:2.4/1;border:5px solid #f4f6f5;border-bottom:0;border-radius:4px 4px 0 0;box-sizing:border-box;
+  background:#2457a8 repeating-linear-gradient(90deg,rgba(255,255,255,.06) 0 10px,transparent 10px 20px);box-shadow:inset 0 0 0 2px rgba(0,0,0,.25),0 6px 0 -2px #3b7a4f}
+.gpGoal .gp{position:absolute;height:40%;aspect-ratio:1;width:auto;border-radius:50%;padding:0;border:3px solid #f4f6f5;background:radial-gradient(circle at 50% 45%,#9fd88a,#4c8f3d);color:#0b1a12;
+  display:grid;place-items:center;font:800 .7rem var(--cond);letter-spacing:.02em;text-transform:uppercase;cursor:pointer;transition:transform .12s;overflow:hidden}
+.gpGoal .gp:hover,.gpGoal .gp:focus-visible{transform:scale(1.07);outline:3px solid var(--gold)}
+.gpGoal .gpTE{left:4%;top:6%}.gpGoal .gpTD{right:4%;top:6%}.gpGoal .gpM{left:50%;top:30%;translate:-50% 0}.gpGoal .gpBE{left:17%;bottom:5%}.gpGoal .gpBD{right:17%;bottom:5%}
+.gphint{font-size:.85rem;margin:0}
 #notes{display:flex;flex-direction:column;gap:10px;margin-top:8px}
 .nlist{display:flex;flex-direction:column}
 .nrow{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:10px;padding:7px 4px 7px 0;border-top:1px solid rgba(255,255,255,.06)}
@@ -379,6 +387,9 @@ body.picking .askpage .list{padding-bottom:170px}
 /* ---- antes do jogo e jogo ---- */
 #sPre .tabs{flex:none}
 #sMatch .tv{flex:none}
+#sMatch{position:relative}
+#sMatch .mombox{flex:0 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain}
+.backtop{position:absolute;left:50%;transform:translateX(-50%);bottom:76px;z-index:20;background:var(--gold);color:var(--onGold);border:0;border-radius:999px;padding:10px 18px;font:800 1rem var(--cond);letter-spacing:.04em;box-shadow:0 8px 22px rgba(0,0,0,.45);cursor:pointer}
 @media (prefers-reduced-motion:no-preference){#sMatch .tv{animation:tvin .28s ease-out}@keyframes tvin{from{opacity:0;transform:scale(.97)}}}
 .lbPlayers{display:flex;flex-direction:column;gap:6px;width:100%;text-align:left}
 .lbP{display:flex;align-items:center;gap:10px;background:var(--turf3);border:1px solid var(--lineC);border-radius:10px;padding:9px 12px;font-weight:700}
@@ -430,7 +441,7 @@ body.picking .askpage .list{padding-bottom:170px}
       <button class="mode" id="tourBtn"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 14v4M8 21h8"/></svg></span><span><b>Torneio</b><small>4 ou 8 amigos num só telemóvel</small></span><span class="ar">›</span></button>
     </div>
     <div class="minirow"><button class="minibtn" data-sheet="shHow">Como jogar</button><button class="minibtn" data-sheet="shOpts">Definições</button><button class="minibtn" id="histBtn" data-sheet="shHist" hidden>Histórico</button></div>
-    <p class="ver" id="verTag">versão 25/10 · 21h</p>
+    <p class="ver" id="verTag">versão 26/10 · 19h</p>
   </div>
 
   <!-- ONLINE -->
@@ -550,6 +561,7 @@ body.picking .askpage .list{padding-bottom:170px}
       <button class="linkbtn" id="momKeep" hidden>Manter tudo igual</button>
     </div>
     <ul class="feed" id="feed"></ul>
+    <button class="backtop" id="backTop" hidden type="button">⬆ Voltar ao jogo</button>
     <button class="btn ghost" id="skip">Saltar para o fim</button>
     <button class="btn" id="toResult" hidden>Ver análise</button>
   </div>
@@ -11293,14 +11305,21 @@ function momentPlay(stop,k){
   S.beats.push(BT.cap("Decide!"),BT.freeze());S.title=stop.so?`Penáltis · ${st.N[t]}`:`${stop.m}' · ${st.N[t]}`;return S;
 }
 const SIDEW={E:"à esquerda",M:"ao meio",D:"à direita"};
+/* zona do penálti: TE/TD ângulos, BE/BD rasteiros, M meio (valores antigos E/M/D também servem) */
+const PZ=v=>({s:v==="M"?"M":v.slice(-1),h:v==="M"?"M":v.length>1?v[0]:"B"});
+const PZW={TE:"para o ângulo esquerdo",TD:"para o ângulo direito",M:"ao meio",BE:"rasteiro à esquerda",BD:"rasteiro à direita",E:"à esquerda",D:"à direita"};
 function momentFinish(S,stop,res,a,d){
   const c=S.ctx,k=res.kind,f="fin",fn=(S.R.fin||{}).name||"",same=a===d,r=S.rng,gkn=ln((S.R.gk||{}).name||"");
   const hud=(la,ld)=>BT.fn(S=>{S.hud={la,ld}});
   if(stop.type==="pen"){
-    const ay=a==="E"?36.7:a==="D"?31.3:34,az=a==="M"?(k==="goal"?1.9:1.2):.5+r()*.6;
-    const ky=d==="E"?36.6:d==="D"?31.4:34;
-    return[hud(`Bate ${SIDEW[a]}`,`GR ${d==="M"?"fica ao meio":"atira-se "+SIDEW[d]}`),BT.dive("gk",{x:PW-.4,y:ky,z:d==="M"?1:.6},.5,{jump:d==="M"}),
-      BT.shot(f,{kind:k,noKeeper:true,y:k==="goal"&&same?(ay>34?37.3:ay<34?30.8:34):ay,z:k==="goal"&&same?1.95:az,T:.42,cap:`${ln(fn)} bate ${SIDEW[a]}…`,hold:k==="save",after:2.2})];
+    const za=PZ(a),zd=PZ(d),Y={E:36.75,D:31.25,M:34},Zh={T:1.95,B:.3,M:1.05};
+    let ay=Y[za.s],az=Zh[za.h];
+    if(k==="post"){ay=za.s==="E"?37.62:za.s==="D"?30.38:34;az=za.h==="T"?2.1:.6}
+    if(k==="bar"){az=2.44;ay=za.s==="M"?34:ay}
+    if(k==="wide"){ay=za.s==="E"?38.4:za.s==="D"?29.6:34;az=za.h==="T"?2.9:.4}
+    const ky=Y[zd.s],kz=zd.h==="T"?1.75:zd.h==="B"?.3:1;
+    return[hud(`Bate ${PZW[a]||""}`,`GR defende ${(PZW[d]||"").replace("rasteiro","em baixo")}`),BT.dive("gk",{x:PW-.4,y:ky,z:kz},.5,{jump:zd.s==="M"}),
+      BT.shot(f,{kind:k,noKeeper:true,y:ay,z:az,T:za.h==="T"?.46:.4,cap:`${ln(fn)} bate ${PZW[a]||""}…`,hold:k==="save"&&a===d,after:2.2})];
   }
   if(stop.type==="uu"){
     const LA={C:"Pica a bola",R:"Remate rasteiro",F:"Finta o GR"}[a],LD={C:"GR fica em pé",R:"GR atira-se ao chão",F:"GR sai aos pés"}[d];
@@ -11444,7 +11463,7 @@ function wantScene(e){
 let LIVE=null,timer=null;
 function stopFeed(){if(timer){clearInterval(timer);timer=null}}
 const MOM={
-  pen:{a:[["E","À esquerda"],["M","Ao meio"],["D","À direita"]],d:[["E","Atira-se para a esquerda"],["M","Fica no meio"],["D","Atira-se para a direita"]],qa:"Para onde bates?",qd:"Para onde te atiras?"},
+  pen:{a:[["TE","Ângulo esquerdo"],["TD","Ângulo direito"],["M","Ao meio"],["BE","Rasteiro à esquerda"],["BD","Rasteiro à direita"]],d:[["TE","Ângulo esquerdo"],["TD","Ângulo direito"],["M","Fica ao meio"],["BE","Em baixo à esquerda"],["BD","Em baixo à direita"]],qa:"Onde metes a bola?",qd:"Que zona defendes?"},
   uu:{a:[["C","Picar a bola"],["R","Rematar rasteiro"],["F","Fintar o guarda-redes"]],d:[["C","Ficar em pé"],["R","Atirar-se ao chão"],["F","Sair aos pés"]],qa:"Como finalizas?",qd:"Como defende o teu guarda-redes?"},
   ca:{a:[["P","Passar"],["R","Rematar já"]],d:[["P","Cortar a linha de passe"],["R","Fechar o remate"]],qa:"O que fazes?",qd:"Como defendes?"},
   fk:{a:[["B","Por cima da barreira"],["P","Ao poste do guarda-redes"]],d:[["B","A barreira salta"],["P","O guarda-redes cobre o poste"]],qa:"Como bates o livre?",qd:"Como defendes o livre?"},
@@ -11526,13 +11545,19 @@ $("skip").onclick=()=>{
   if(stop.kind==="end"){while(LIVE.i<LIVE.st.ev.length){addLine(LIVE.st.ev[LIVE.i]);LIVE.i++}endOrPens()}else reachStop();
 };
 $("toResult").onclick=result;
+/* quem desce na lista de lances volta ao jogo com um toque; decisões e golos puxam a vista para cima sozinhos */
+const feedTop=(smooth)=>{const f=$("feed");f.scrollTo({top:0,behavior:smooth&&!reduceMo()?"smooth":"auto"});$("backTop").hidden=true};
+$("feed").addEventListener("scroll",()=>{$("backTop").hidden=$("feed").scrollTop<140},{passive:true});
+$("backTop").onclick=()=>{feedTop(true);const sc=$("sMatch");sc.scrollTo&&sc.scrollTo({top:0});$("momBox").hidden||$("momBox").scrollIntoView({block:"nearest"})};
 
 /* decisões: intervalo e momentos */
 /* se o jogador previsto para o momento foi expulso, entra outro da mesma equipa */
 function fixStop(k){
   const stop=LIVE.plan[k];if(!stop||stop.kind!=="mom"||stop.so)return;const st=LIVE.st,A=st.T[stop.t],D=st.T[1-stop.t];
-  const sub=(T,p,not)=>{if(!p||!T.off.has(p.n))return p;const L=field(T).filter(x=>!not.includes(x.n));return L.find(x=>x.p===p.p)||L.sort((a,b)=>b.r-a.r)[0]||p};
-  const n={...stop};n.sh=sub(A,stop.sh,[]);n.fw=sub(A,stop.fw,[n.sh&&n.sh.n]);n.tk=sub(A,stop.tk,[]);n.df=sub(D,stop.df,[]);LIVE.plan[k]=n;
+  /* expulso OU substituído: entra quem está agora em campo, na mesma posição */
+  const inPitch=(T,p)=>onPitch(T).some(x=>x.n===p.n);
+  const sub=(T,p,not)=>{if(!p||inPitch(T,p))return p;const L=(p.p==="GR"?onPitch(T).filter(x=>x.p==="GR"):field(T)).filter(x=>!not.includes(x.n));return L.find(x=>x.p===p.p)||L.sort((a,b)=>b.r-a.r)[0]||p};
+  const n={...stop};n.sh=sub(A,stop.sh,[]);n.fw=sub(A,stop.fw,[n.sh&&n.sh.n]);n.tk=sub(A,stop.tk,[]);n.df=sub(D,stop.df,[]);n.gk=sub(D,stop.gk,[])||stop.gk;LIVE.plan[k]=n;
   /* livre perigoso: muitas vezes vem de uma falta que dá amarelo */
   if(n.type==="fk"&&!n.cardDone){n.cardDone=1;const h=hash(strHash(LIVE.key+":fkcard"+k));if(h<.55){const L=field(D);if(L.length){const pl=L[Math.floor(hash(strHash(LIVE.key+":fkpl"+k))*L.length)];giveCard(st,1-n.t,pl.n,n.m,"y","falta à entrada da área")}}}
 }
@@ -11559,6 +11584,7 @@ function botSubs(j){const T=liveTeam(j),B=T.slots.map((s,i)=>[s,i]).filter(([s])
   const lim=subsLeft(j);B.forEach(([b,bi],k)=>{if(b.out||out.length>=lim)return;let best=null;XI.forEach(([s,si])=>{if(usedX.has(si)||(s.pos==="GR")!==(b.pl.p==="GR"))return;const fit=fitsSlot(b.pl,s)?0:6,gain=b.pl.r-fit-s.pl.r;if(gain>1&&(!best||gain>best.g))best={si,g:gain}});
     if(best&&(LIVE.plan[LIVE.waiting]||{}).ht&&best.g<4)best=null;if(best){usedX.add(best.si);out.push(k+":"+best.si)}});return out.join(",")||"-"}
 function drawSubs(k){
+  if($("feed").scrollTop>0)feedTop(false);
   const stop=LIVE.plan[k],st=LIVE.st,d=decGet(),box=$("momRows");box.innerHTML="";
   $("momTitle").textContent=stop.ht?"Intervalo · Substituições":`${stop.m}' · Substituições`;$("momSub").textContent="Até 3 trocas no jogo todo (intervalo e 60'). Quem sai já não volta. Toca num suplente e depois no jogador que sai.";$("momKeep").hidden=true;$("momResult").hidden=true;
   [0,1].forEach(x=>{if(!d[x][k]&&!canSub(x))d[x][k]="-"});
@@ -11602,6 +11628,7 @@ function takerOpts(stop){const st=LIVE.st,L=[...field(st.T[stop.t])].sort((a,b)=
 function takerOf(stop,d,k){const v=d[stop.t]["t"+k];if(v==null)return null;const L=takerOpts(stop);return L[+v]||null}
 function drawDecision(){
   const k=LIVE.waiting;if(k==null||LIVE.leadRunning)return;
+  if($("feed").scrollTop>0)feedTop(false);
   if(LIVE.plan[k].kind==="sub")return drawSubs(k);
   const stop=LIVE.plan[k],st=LIVE.st,d=decGet(),box=$("momRows");box.innerHTML="";
   const ttl=$("momTitle"),sub=$("momSub");$("momResult").textContent="";$("momResult").hidden=true;
@@ -11637,7 +11664,13 @@ function drawDecision(){
       row.append(el("span","lbl","Formação"+(cur!==T.form?` · muda de ${T.form} para ${cur}`:"")),fc);
       if(cur!==T.form){const oo=oopList(reform(T,cur));row.append(el("span","muted",oo.length?`Fora de posição (rendem menos): ${oo.join(", ")}`:"Todos ficam nas suas posições."))}
       row.append(el("span","lbl","Atitude"))}
-    if(mine&&!d[side][k])optsFor(stop,side).forEach(([v,l])=>{const b=el("button","chip");b.append(l);b.setAttribute("aria-pressed",d[side][k]===v);
+    if(mine&&!d[side][k]&&stop.type==="pen"){ch.classList.add("goalpick");const att=side===stop.t;
+      const g=el("div","gpGoal");optsFor(stop,side).forEach(([v,l])=>{const b=el("button","chip gp gp"+v);b.setAttribute("aria-label",l);b.title=l;
+        b.append(el("span","gpl",{TE:"Alto",TD:"Alto",M:"Meio",BE:"Baixo",BD:"Baixo"}[v]));
+        b.onclick=()=>{d[side][k]=v;LIVE.passOk=false;if(G.mode==="online")pushPresence();drawDecision()};g.append(b)});
+      ch.append(g,el("p","muted gphint",att?"Em cima (ângulos): quase impossível de defender, mas podes falhar. Em baixo: mais seguro. Meio: só resulta se o guarda-redes se atirar.":"Escolhe a zona que vais cobrir. Se fores para o lado certo, ainda podes chegar à bola."));
+    }
+    else if(mine&&!d[side][k])optsFor(stop,side).forEach(([v,l])=>{const b=el("button","chip");b.append(l);b.setAttribute("aria-pressed",d[side][k]===v);
       b.onclick=()=>{if(stop.kind==="ht"){const f=LIVE.formSel&&LIVE.formSel[side];if(f&&f!==st.T[side].form)d[side]["f"+k]=f}d[side][k]=v;LIVE.passOk=false;if(G.mode==="online")pushPresence();drawDecision()};ch.append(b)});
     else ch.append(el("span","muted",d[side][k]?(mine?"Escolheste: "+(optsFor(stop,side).find(o=>o[0]===d[side][k])||["",""])[1]:"Já decidiu (em segredo)."):"A decidir…"));
     row.append(ch);box.append(row);
@@ -11681,9 +11714,13 @@ function resolveStop2(k){
   const res=withRng(seeded(LIVE.key+":mom"+k+":"+a+df),()=>{
     const r=Math.random(),r2=Math.random(),cl=(v,lo,hi)=>Math.min(hi,Math.max(lo,v));
     let kind="wide",sc=stop.sh,as=null,tx="";
-    if(stop.type==="pen"){const sh=stop.sh,gk=stop.gk;
-      if(same){kind=r<.15?"goal":"save";tx=kind==="goal"?`${gk.n} adivinhou o lado, mas o remate de ${sh.n} é forte demais. GOLO!`:`${gk.n} adivinha o lado e defende o penálti de ${sh.n}!`}
-      else{kind=r<cl(.82+(sh.r-gk.r)*.01,.6,.95)?"goal":"post";tx=kind==="goal"?`GOLO! ${sh.n} engana ${gk.n} e marca de penálti.`:`${sh.n} engana o guarda-redes… e manda ao poste!`}}
+    if(stop.type==="pen"){const sh=stop.sh,gk=stop.gk,za=PZ(a),zd=PZ(df),sameSide=za.s===zd.s&&za.s!=="M";
+      /* ângulos: difícil de defender mas fácil de falhar; rasteiros mais seguros; meio arriscado */
+      const acc=cl(({T:.84,B:.94,M:.97})[za.h]+(sh.r-82)*.004,.7,.99);
+      if(r2>acc){kind=za.h==="T"?(r<.5?"bar":"wide"):"post";tx=kind==="bar"?`${sh.n} tenta o ângulo… e acerta na barra!`:kind==="wide"?`${sh.n} tenta o ângulo e a bola sai por cima!`:`${sh.n} bate colocado… e manda ao poste!`}
+      else if(same){kind=r<(za.h==="T"?.35:.12)?"goal":"save";tx=kind==="goal"?`${gk.n} estava lá, mas o remate de ${sh.n} é forte demais. GOLO!`:`${gk.n} adivinha a zona e defende o penálti de ${sh.n}!`}
+      else if(sameSide){kind=r<cl((za.h==="T"?.72:.5)+(sh.r-gk.r)*.01,.3,.85)?"goal":"save";tx=kind==="goal"?`GOLO! ${gk.n} foi para o lado certo, mas ${sh.n} meteu ${za.h==="T"?"no ângulo":"rasteiro"}.`:`${gk.n} foi para o lado certo e chega à bola de ${sh.n}!`}
+      else{kind="goal";tx=za.s==="M"?`GOLO! ${sh.n} bate ao meio e ${gk.n} já tinha saído para o lado.`:`GOLO! ${sh.n} engana ${gk.n} e marca de penálti.`}}
     else if(stop.type==="uu"){const sh=stop.sh,gk=stop.gk;
       if(same){kind=r<.12?"goal":"save";tx=kind==="goal"?`${gk.n} leu a intenção, mas ${sh.n} marca na mesma!`:`${gk.n} leu tudo e fica com a bola!`}
       else{kind=r<cl(.6+(sh.r-gk.r)*.012,.4,.85)?"goal":r2<.4?"post":"wide";
