@@ -332,6 +332,11 @@ body.picking .askpage .list{padding-bottom:170px}
 .mode.main .ic{background:rgba(0,0,0,.12);color:var(--onGold)}
 .mode.main small,.mode.main .ar{color:rgba(26,20,5,.7)}
 .minirow{display:flex;justify-content:center;gap:6px}
+#tmPill{position:fixed;top:max(8px,env(safe-area-inset-top,0px));right:10px;z-index:61;background:#050d09;color:var(--chalk);border:2px solid var(--gold);border-radius:999px;padding:5px 12px;font:800 1rem var(--cond);letter-spacing:.03em;box-shadow:0 6px 18px rgba(0,0,0,.4);font-variant-numeric:tabular-nums}
+html.tmOn .askHead,html.tmOn #sDraft .topbar{padding-right:86px}
+#tmPill.low{border-color:#ff5d4f;color:#ff8a80;animation:tmp .9s ease-in-out infinite}
+@keyframes tmp{50%{transform:scale(1.08)}}
+@media (prefers-reduced-motion:reduce){#tmPill.low{animation:none}}
 #netPill{position:fixed;top:max(8px,env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);z-index:60;background:#3a2a05;color:var(--gold);border:1px solid var(--gold);border-radius:999px;padding:6px 14px;font:700 .85rem var(--cond);letter-spacing:.04em;box-shadow:0 6px 18px rgba(0,0,0,.4)}
 .flagbtn{flex:none;background:transparent;border:1px solid var(--lineC);color:var(--muted);border-radius:999px;padding:3px 10px;font:700 .78rem var(--cond);letter-spacing:.06em;cursor:pointer}
 .repRow{display:flex;align-items:center;gap:10px;justify-content:space-between;border:1px solid var(--lineC);border-radius:12px;padding:8px 10px}
@@ -404,7 +409,8 @@ body.picking .askpage .list{padding-bottom:170px}
 @keyframes tvzp{50%{box-shadow:0 0 0 4px rgba(255,209,102,.25)}}
 @media (prefers-reduced-motion:reduce){.tvz{animation:none}}
 #sMatch{position:relative}
-html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none}
+html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;height:100%}
+.screen{overscroll-behavior:contain}
 #sMatch .mombox{max-height:52dvh}
 #sMatch .mombox{flex:0 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain}
 .backtop{position:absolute;left:50%;transform:translateX(-50%);bottom:76px;z-index:20;background:var(--gold);color:var(--onGold);border:0;border-radius:999px;padding:10px 18px;font:800 1rem var(--cond);letter-spacing:.04em;box-shadow:0 8px 22px rgba(0,0,0,.45);cursor:pointer}
@@ -461,7 +467,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none}
       <button class="mode" id="tourBtn"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 14v4M8 21h8"/></svg></span><span><b>Torneio</b><small>4 ou 8 amigos num só telemóvel</small></span><span class="ar">›</span></button>
     </div>
     <div class="minirow"><button class="minibtn" data-sheet="shHow">Como jogar</button><button class="minibtn" data-sheet="shOpts">Definições</button><button class="minibtn" id="histBtn" data-sheet="shHist" hidden>Histórico</button></div>
-    <p class="ver" id="verTag">versão 27/10 · 20h15</p>
+    <p class="ver" id="verTag">versão 28/10 · 00h</p>
   </div>
 
   <!-- ONLINE -->
@@ -621,6 +627,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none}
   </div>
 </div>
 <div id="pickCard" hidden role="status"></div>
+<div id="tmPill" hidden aria-live="off"></div>
 <div id="netPill" hidden role="status">A religar aos outros telemóveis…</div>
 <div class="sheet" id="shNames" hidden><div class="sheetIn">
     <div class="shHead"><h2>Quem joga?</h2><button class="xbtn" data-close aria-label="Fechar">✕</button></div>
@@ -652,6 +659,9 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none}
     <div class="shHead"><h2>Definições</h2><button class="xbtn" data-close aria-label="Fechar">✕</button></div>
     <label class="toggle" for="listMode"><span>Modo fácil: mostrar a lista de jogadores possíveis</span><input type="checkbox" id="listMode"></label>
     <label class="toggle" for="sndOn"><span>Som (apito e golos)</span><input type="checkbox" id="sndOn" checked></label>
+    <div style="display:flex;flex-direction:column;gap:8px;padding:6px 0"><span class="lbl">Tempo para cada escolha</span>
+      <div class="chips" id="tmChips"><button class="chip" data-s="0">Sem limite</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button></div>
+      <span class="muted" style="font-size:.85rem">Se o tempo acabar, o jogo escolhe por ti. Online vale o tempo de quem cria o jogo.</span></div>
     <label class="toggle" for="showR"><span>Mostrar a qualidade dos jogadores durante a escolha</span><input type="checkbox" id="showR"></label>
     <div class="panel" id="repLocal" hidden style="display:flex;flex-direction:column;gap:8px"><span class="lbl">Erros reportados neste telemóvel</span><span class="muted" id="repLocalN"></span><button class="btn ghost" id="repCopy">Copiar para enviar ao Diogo</button><span class="msg ok" id="repCopyMsg"></span></div>
   </div></div>
@@ -669,6 +679,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none}
         <li>Cada um escolhe um <b>treinador</b>. É ele que define a <b>tática</b>.</li>
         <li>Escolhem a <b>formação</b>. A preferida do treinador dá um pequeno bónus.</li>
         <li>11 rondas: cada ronda tem uma regra, como "Jogou no FC Porto" ou "Brasileiro". Toca numa posição vaga do teu onze e <b>escreve o nome</b> de um jogador que cumpra a regra.</li>
+        <li>Em cada ronda começa a escolher um treinador diferente, à vez. Há um <b>tempo</b> para cada escolha (muda-se em Definições): se acabar, o jogo escolhe por ti.</li>
         <li>Tens 3 tentativas. Se falhares, entra um <b>júnior da formação</b> (fraquinho).</li>
         <li><b>Química:</b> cada jogador ganha +1 por colega com quem passou pelo mesmo clube e +½ por colega do mesmo país (até 3). A equipa vai até 33 e química alta dá até +4 em todos os setores.</li>
         <li>No fim, simulamos o jogo com base na qualidade, na tática e na química.</li>
@@ -9807,12 +9818,12 @@ const norm=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
 const COL=["var(--home)","var(--away)","#ffd166","#7fe0a8","#c792ea","#ff9f43","#5ad1e6","#f78fb3"];
 function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
 const SCREENS=["sStart","sLobby","sTour","sCoach","sDraft","sCap","sPre","sBracket","sMatch","sResult"];
-function show(id){const was=SCREENS.find(s=>!$(s).hidden);SCREENS.forEach(s=>$(s).hidden=s!==id);if(was!==id)window.scrollTo(0,0);document.documentElement.classList.toggle("lockmatch",id==="sMatch"||id==="sStart");if(id==="sStart")requestAnimationFrame(fitStart)}
+function show(id){const was=SCREENS.find(s=>!$(s).hidden);SCREENS.forEach(s=>$(s).hidden=s!==id);if(was!==id)window.scrollTo(0,0);document.documentElement.classList.add("lockmatch");if(id==="sStart")requestAnimationFrame(fitStart)}
 function fitStart(){const s=document.getElementById("sStart");if(!s||s.hidden)return;const F=["fit1","fit2","fit3","fit4"];s.classList.remove(...F);
   for(const c of F){if(s.scrollHeight<=s.clientHeight+1)break;s.classList.add(c)}}
 window.addEventListener("resize",()=>requestAnimationFrame(fitStart));
 new MutationObserver(()=>requestAnimationFrame(fitStart)).observe(document.getElementById("sStart"),{subtree:true,attributes:true,attributeFilter:["hidden"]});
-requestAnimationFrame(()=>{if(!document.getElementById("sStart").hidden){document.documentElement.classList.add("lockmatch");fitStart()}});
+document.documentElement.classList.add("lockmatch");requestAnimationFrame(fitStart);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>fitStart());
 function store(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k));if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
 
@@ -9823,9 +9834,14 @@ function withRng(r,fn){const o=Math.random;Math.random=r;try{return fn()}finally
 const newSeed=()=>Math.random().toString(36).slice(2,10);
 
 let G=null;
+let TMSET=(()=>{const v=store("duelo_tm");return v===0||v===30||v===45||v===60?v:45})();
+function drawTmChips(){$("tmChips").querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.s===TMSET))}
+$("tmChips").querySelectorAll(".chip").forEach(b=>b.onclick=()=>{TMSET=+b.dataset.s;store("duelo_tm",TMSET);drawTmChips();
+  if(G&&(G.mode!=="online"||G.me===0)){G.tm=TMSET;if(G.mode==="online")pushPresence()}});
+drawTmChips();
 function newGame(mode,names,seed){
   G={mode,names,n:names.length,seed,cfg:names.map(()=>({coach:null,form:null})),caps:names.map(()=>null),picks:[],mine:[],m:0,me:null,dec:{},res:{},playing:null,cardI:-1,
-     showR:$("showR").checked,listMode:$("listMode").checked,teams:null,cur:null,sel:null,tries:3,peekT:null,shownM:0,lastI:-1,coachFor:-1,tour:null};
+     tm:TMSET,showR:$("showR").checked,listMode:$("listMode").checked,teams:null,cur:null,sel:null,tries:3,peekT:null,shownM:0,lastI:-1,coachFor:-1,tour:null};
 }
 (function(){const s=store("duelo_names");if(s){$("n0").value=s[0]||"";$("n1").value=s[1]||""}
   const o=store("duelo_online");if(o&&o.code){const b=$("resumeBtn");$("resumeTxt").textContent=`Retomar jogo ${o.code}`;b.hidden=false}})();
@@ -9916,7 +9932,7 @@ function chooseRule(){
     const r=cands.find(r=>G.teams.every((_,t)=>eligible(t,r).filter(p=>p.r>=q).length>=min));if(r)return r}
   return FREE;
 }
-const orderOf=round=>{const o=[...Array(G.n).keys()];return round%2?o.reverse():o};
+const orderOf=round=>{const n=G.n,f=round%n;return[...Array(n).keys()].map(k=>(f+k)%n)};
 function youthFor(t,pos){const T=G.teams[t],c=T.picks.concat(T.bench||[]).filter(x=>x.youth).length;return{n:"Júnior da formação"+(c?" "+(c+1):""),p:pos==="SUP"?"MED":pos,c:"Portugal",r:64,cl:[],youth:true}}
 function replay(){
   G.teams=G.cfg.map(c=>({coach:c.coach,form:c.form,slots:c.form?buildSlots(c.form):[],picks:[],bench:[]}));
@@ -10025,7 +10041,7 @@ function drawPitch(box,t,o={}){
 }
 function draftScreen(){
   if($("sDraft").hidden)document.body.classList.remove("picking");
-  if(G.lastI!==G.cur.i){G.lastI=G.cur.i;G.sel=null;G.pick=null;G.tries=3;G.peekT=null;G.claimReq=null;claimHide();$("dMsg").textContent="";$("dWhich").innerHTML="";$("dInput").value=""}
+  if(G.lastI!==G.cur.i){G.lastI=G.cur.i;G.turnT=Date.now();G.sel=null;G.pick=null;G.tries=3;G.peekT=null;G.claimReq=null;claimHide();$("dMsg").textContent="";$("dWhich").innerHTML="";$("dInput").value=""}
   drawDraft();show("sDraft");
   if(G.mode!=="online"&&isBot(G.cur.picker))setTimeout(botPick,0);
 }
@@ -10275,8 +10291,8 @@ $("lbAddBot").onclick=()=>{if(!G||!G.online||G.me!==0||G.online.go||rosterFull()
   syncBots();pushPresence();lobby()};
 function removeOnlineBot(i){if(!G||G.me!==0||G.online.go)return;const r=G.online.ro[i];if(!r||!r.b)return;G.online.ro.splice(i,1);
   G.online.ro.forEach((x,j)=>{if(j>0&&!x.b)G.names[j]=x.n});syncBots();pushPresence();lobby()}
-function botChoice(t){
-  const lv=G.bots[t],T=G.teams[t];
+function botChoice(t,lvIn){
+  const lv=lvIn||G.bots[t],T=G.teams[t];
   return withRng(seeded(G.seed+":bp"+G.cur.i),()=>{
     const opts=[];T.slots.forEach((s,i)=>{if(s.pl)return;eligible(t,G.cur.rule,s.pos,s.label).forEach(p=>opts.push({i,p}))});
     const xi=opts.filter(o=>T.slots[o.i].pos!=="SUP");if(xi.length&&xi.some(o=>o.p.r>=70))opts.splice(0,opts.length,...xi);
@@ -10287,6 +10303,24 @@ function botChoice(t){
     const mid=opts.filter(o=>o.p.r>=68&&o.p.r<=81);const l=mid.length?mid:opts.slice(Math.floor(opts.length/2));return l[rand(l.length)];
   });
 }
+/* tempo por escolha: quando acaba, o jogo escolhe por quem está na vez (um jogador mediano, para não compensar deixar o tempo acabar) */
+let tmLast=0;
+setInterval(()=>{
+  const pill=$("tmPill");
+  const on=!!(G&&G.tm>0&&G.cur&&!G.cur.done&&!$("sDraft").hidden&&G.turnT&&!isBot(G.cur.picker));
+  document.documentElement.classList.toggle("tmOn",on);
+  if(!on){pill.hidden=true;return}
+  const now=Date.now(),paused=!$("claimBox").hidden||!!G.claimReq;
+  if(paused&&tmLast)G.turnT+=now-tmLast;tmLast=now;
+  const left=Math.max(0,Math.ceil(G.tm-(now-G.turnT)/1000));
+  pill.hidden=false;pill.textContent=paused?"⏸ "+left+" s":"⏱ "+left+" s";pill.classList.toggle("low",left<=10&&!paused);
+  pill.setAttribute("aria-label",`Faltam ${left} segundos para ${G.names[G.cur.picker]} escolher`);
+  if(left<=0&&!paused&&canAct()&&G.timeoutAt!==G.cur.i){G.timeoutAt=G.cur.i;
+    const t=G.cur.picker;let c;try{c=botChoice(t,1)}catch(e){c=null}
+    if(!c||c.i<0){const fr=G.teams[t].slots.findIndex(x=>!x.pl);c={i:fr,p:null}}
+    G.sel=c.i;place(c.p);
+    const ts=$("dToast");ts.textContent=`⏱ Acabou o tempo! O jogo escolheu ${c.p?c.p.n.replace(/ \([^)]*\)$/,""):"um júnior da formação"} para ${G.names[t]}.`;ts.hidden=false}
+},250);
 /* jogo bot contra bot: simulado de uma vez, sem paragens */
 function quickBotMatch(mt){
   const st=simStart(mt.a,mt.b);
@@ -10488,7 +10522,7 @@ function myPresence(){
   return{g:"duelo",code:G.online.code,uid:G.online.uid,n:G.online.n,host:me===0,name:me!=null?G.names[me]:myName(),seed:me===0?G.seed:null,
     ro:me===0?G.online.ro:null,go:me===0?!!G.online.go:null,
     coach:c.coach?c.coach.n:null,form:c.coach?c.form:null,picks:G.mine.map(e=>({o:e.o,s:e.s,n:e.n,y:e.y?1:0})),m:G.m,cap:me!=null?G.caps[me]:null,
-    dec:h&&side!=null?{k:dk,d:h[side]}:null,claim:G.claimReq||null,cans:G.claimAns||null,res:G.res||null,play:G.playing||null,bots:me===0&&G.botSt?G.botSt:null};
+    dec:h&&side!=null?{k:dk,d:h[side]}:null,claim:G.claimReq||null,cans:G.claimAns||null,res:G.res||null,play:G.playing||null,bots:me===0&&G.botSt?G.botSt:null,tm:me===0?G.tm:null};
 }
 function pushPresence(){
   const me=G.me,c=me!=null?G.cfg[me]:{coach:null,form:null};
@@ -10521,7 +10555,7 @@ function onPeers(ch){
       if(typeof h.n==="number"&&(h.n===2||h.n===4)&&h.n!==G.online.n){G.online.n=h.n;ensureN(h.n)}
       if(Array.isArray(h.ro)){G.online.ro=h.ro.filter(r=>r&&typeof r.u==="string").slice(0,G.online.n).map(r=>({u:r.u,n:cleanName(r.n)||"Treinador",...(r.b>=1&&r.b<=3?{b:r.b}:{})}));
         const i=G.online.ro.findIndex(r=>r.u===G.online.uid);if(i>0&&G.me!==i){G.me=i;G.names[i]=myName();pushPresence()}}
-      G.online.go=!!h.go;
+      G.online.go=!!h.go;if([0,30,45,60].includes(h.tm))G.tm=h.tm;
     }
   }
   if(G.online.ro)G.online.ro.forEach((r,i)=>{if(i!==G.me&&i<G.n)G.names[i]=r.n});
