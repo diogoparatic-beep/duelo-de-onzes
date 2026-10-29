@@ -476,7 +476,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
       <button class="mode" id="tourBtn"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 14v4M8 21h8"/></svg></span><span><b>Torneio</b><small>4 ou 8 amigos num só telemóvel</small></span><span class="ar">›</span></button>
     </div>
     <div class="minirow"><button class="minibtn" data-sheet="shHow">Como jogar</button><button class="minibtn" data-sheet="shOpts">Definições</button><button class="minibtn" id="histBtn" data-sheet="shHist" hidden>Histórico</button></div>
-    <p class="ver" id="verTag">versão 28/10 · 01h20</p>
+    <p class="ver" id="verTag">versão 29/10 · 16h</p>
   </div>
 
   <!-- ONLINE -->
@@ -670,7 +670,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
     <label class="toggle" for="sndOn"><span>Som (apito e golos)</span><input type="checkbox" id="sndOn" checked></label>
     <div style="display:flex;flex-direction:column;gap:8px;padding:6px 0"><span class="lbl">Tempo para cada escolha</span>
       <div class="chips" id="tmChips"><button class="chip" data-s="0">Sem limite</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button></div>
-      <span class="muted" style="font-size:.85rem">Se o tempo acabar, entra um júnior da formação num lugar vago do teu onze, à sorte. Online vale o tempo de quem cria o jogo.</span></div>
+      <span class="muted" style="font-size:.85rem">Se o tempo acabar, entra um júnior da formação: primeiro para o banco e, se o banco estiver cheio, para um lugar vago do onze, à sorte. Online vale o tempo de quem cria o jogo.</span></div>
     <label class="toggle" for="showR"><span>Mostrar a qualidade dos jogadores durante a escolha</span><input type="checkbox" id="showR"></label>
     <div class="panel" id="repLocal" hidden style="display:flex;flex-direction:column;gap:8px"><span class="lbl">Erros reportados neste telemóvel</span><span class="muted" id="repLocalN"></span><button class="btn ghost" id="repCopy">Copiar para enviar ao Diogo</button><span class="msg ok" id="repCopyMsg"></span></div>
   </div></div>
@@ -10319,7 +10319,8 @@ function botChoice(t,lvIn){
 }
 /* tempo por escolha: quando acaba, entra um júnior da formação num lugar vago do onze (sorteado) */
 let tmLast=0;
-function timeoutSlot(t,i){const T=G.teams[t],xi=T.slots.map((x,j)=>[x,j]).filter(([x])=>!x.pl&&x.pos!=="SUP").map(([,j])=>j);
+function timeoutSlot(t,i){const T=G.teams[t],bf=T.slots.findIndex(x=>!x.pl&&x.pos==="SUP");if(bf>=0)return bf;
+  const xi=T.slots.map((x,j)=>[x,j]).filter(([x])=>!x.pl&&x.pos!=="SUP").map(([,j])=>j);
   const pool=xi.length?xi:T.slots.map((x,j)=>[x,j]).filter(([x])=>!x.pl).map(([,j])=>j);if(!pool.length)return -1;
   return pool[withRng(seeded(G.seed+":to"+i),()=>rand(pool.length))]}
 setInterval(()=>{
@@ -10336,7 +10337,7 @@ setInterval(()=>{
   if(left<=0&&!paused&&canAct()&&G.timeoutAt!==G.cur.i){G.timeoutAt=G.cur.i;
     const t=G.cur.picker,si=timeoutSlot(t,G.cur.i);if(si<0)return;
     G.pick=null;claimHide();G.sel=si;place(null);
-    const ts=$("dToast");ts.textContent=`⏱ Acabou o tempo! Entrou um júnior da formação para ${G.teams[t].slots[si].label} na equipa de ${G.names[t]}.`;ts.hidden=false}
+    const ts=$("dToast");ts.textContent=`⏱ Acabou o tempo! Entrou um júnior da formação ${G.teams[t].slots[si].pos==="SUP"?"para o banco":"para "+G.teams[t].slots[si].label} na equipa de ${G.names[t]}.`;ts.hidden=false}
   /* online: se quem está na vez não responde (telemóvel bloqueado ou sem rede), quem criou o jogo mete o júnior por ele */
   if(G.tm-(now-G.turnT)/1000<=-8&&!paused&&G.mode==="online"&&G.me===0&&G.cur.picker!==G.me&&!isBot(G.cur.picker)){G.tko=G.tko||{};const i=G.cur.i;
     if(!G.tko[i]){const si=timeoutSlot(G.cur.picker,i);if(si>=0){G.tko[i]={o:i,s:si,y:1,t:G.cur.picker,at:Date.now()};pushPresence();mergePicks();render()}}}
@@ -10545,7 +10546,7 @@ function myPresence(){
   return{g:"duelo",code:G.online.code,uid:G.online.uid,n:G.online.n,host:me===0,name:me!=null?G.names[me]:myName(),seed:me===0?G.seed:null,
     ro:me===0?G.online.ro:null,go:me===0?!!G.online.go:null,
     coach:c.coach?c.coach.n:null,form:c.coach?c.form:null,picks:G.mine.map(e=>({o:e.o,s:e.s,n:e.n,y:e.y?1:0,at:e.at||0})),m:G.m,cap:me!=null?G.caps[me]:null,
-    dec:h&&side!=null?{k:dk,d:h[side]}:null,claim:G.claimReq||null,cans:G.claimAns||null,res:G.res||null,play:G.playing||null,bots:me===0&&G.botSt?G.botSt:null,tko:me===0&&G.tko?Object.values(G.tko):null,tm:me===0?G.tm:null};
+    dec:h&&side!=null?{k:dk,d:h[side]}:null,lv:LIVE&&LIVE.dk&&!LIVE.done?{k:LIVE.dk,si:LIVE.si,w:timer?0:1}:null,claim:G.claimReq||null,cans:G.claimAns||null,res:G.res||null,play:G.playing||null,bots:me===0&&G.botSt?G.botSt:null,tko:me===0&&G.tko?Object.values(G.tko):null,tm:me===0?G.tm:null};
 }
 function pushPresence(){
   const me=G.me,c=me!=null?G.cfg[me]:{coach:null,form:null};
@@ -10563,6 +10564,13 @@ function mergePicks(){
 }
 /* lado (0 ou 1) de um lugar num jogo identificado por chave */
 function sideIn(dk,seat){if(dk[0]==="m")return seat;const mt=tourMatchByKey(dk);return !mt?null:mt.a===seat?0:mt.b===seat?1:null}
+/* jogo online sincronizado: se o outro telemóvel já chegou à próxima paragem (ou mais à frente), este salta até lá */
+function liveSync(){
+  if(!G||G.mode!=="online"||!LIVE||!LIVE.dk||LIVE.done||$("sMatch").hidden||!timer)return;
+  const o=LIVE.ci[1-LIVE.mySide],p=PEERS[o];if(!p||!p.lv||p.lv.k!==LIVE.dk)return;
+  if(p.lv.si>LIVE.si||(p.lv.si===LIVE.si&&p.lv.w))setTimeout(()=>{if(timer&&LIVE&&!LIVE.done)$("skip").click()},0);
+}
+setInterval(()=>{try{liveSync()}catch(e){}},1000);
 function onPeers(ch){
   if(!G||!G.online)return;LASTCH=ch;
   const list=ch.peers.filter(x=>!x.isMe&&x.presence&&x.presence.g==="duelo"&&x.presence.code===G.online.code&&typeof x.presence.uid==="string").map(x=>x.presence);
@@ -10602,6 +10610,7 @@ function onPeers(ch){
   });
   if(G.me==null){lobby();return}
   mergePicks();lockTakenCoach();
+  liveSync();
   if(LIVE&&LIVE.waiting!=null&&!$("sMatch").hidden){drawDecision();return}
   if(LIVE&&!LIVE.done&&!$("sMatch").hidden)return;
   if(!$("sDraft").hidden&&G.cfg.every(c=>c.form)){replay();if(!G.cur.done&&G.lastI===G.cur.i){maybeCard();drawDraft();return}}
@@ -10630,7 +10639,9 @@ function podium(R){const fin=R[R.length-1][0],th=R.find(r=>r[0]&&r[0].third);if(
 function tourMatchByKey(k){for(const r of tourRounds())for(const mt of r)if(mt.key===k)return mt;return null}
 function myTourMatch(){for(const r of tourRounds())for(const mt of r)if(!mt.res&&(mt.a===G.me||mt.b===G.me))return mt;return null}
 function startTourOnlineMatch(mt){
-  G.playing=mt.key;pushPresence();
+  const o=mt.a===G.me?mt.b:mt.a;
+  if(!isBot(o)&&!(PEERS[o]&&PEERS[o].play===mt.key)){G.playing=mt.key;G.waitStart=mt.key;pushPresence();bracketOnline();return}
+  G.waitStart=null;G.playing=mt.key;pushPresence();
   const ri=+mt.key[1];
   startMatch({a:mt.a,b:mt.b,key:G.seed+":"+mt.key,dk:mt.key,mySide:mt.a===G.me?0:1,onDone:R=>{
     G.res=G.res||{};G.res[mt.key]={g:R.goals,p:R.pens,w:R.w===0?mt.a:mt.b};G.playing=null;pushPresence();
@@ -10654,8 +10665,10 @@ function bracketOnline(){
   if(champ!=null){$("brTitle").textContent=`🏆 ${G.names[champ]} ganha o torneio!`;$("brTitle").style.color=COL[champ];$("brPlay").hidden=true;$("brNew").hidden=false;if(!G.confettiDone){G.confettiDone=1;confetti()}}
   else{$("brTitle").textContent="Quadro do torneio";$("brTitle").style.color="";
     if(mine){const o=mine.a===G.me?mine.b:mine.a,oppIn=PEERS[o]&&PEERS[o].play===mine.key;$("brPlay").hidden=false;$("brPlay").disabled=false;
-      $("brPlay").textContent=oppIn?`${G.names[o]} já está em campo. Entrar!`:`Jogar: ${G.names[mine.a]} x ${G.names[mine.b]}`;
-      if(oppIn&&!G.autoIn){G.autoIn=mine.key;setTimeout(()=>{if(G&&G.autoIn===mine.key&&!$("sBracket").hidden)startTourOnlineMatch(mine)},900)}}
+      $("brPlay").textContent=oppIn?`${G.names[o]} está à tua espera. Entrar!`:`Jogar: ${G.names[mine.a]} x ${G.names[mine.b]}`;
+      if(G.waitStart===mine.key){if(oppIn){setTimeout(()=>{if(G&&G.waitStart===mine.key&&!$("sBracket").hidden)startTourOnlineMatch(mine)},0)}
+        else{$("brPlay").disabled=true;$("brPlay").textContent=`À espera que ${G.names[o]} entre em campo…`}}
+      else if(oppIn&&!G.autoIn){G.autoIn=mine.key;setTimeout(()=>{if(G&&G.autoIn===mine.key&&!$("sBracket").hidden)startTourOnlineMatch(mine)},300)}}
     else{$("brPlay").hidden=false;$("brPlay").disabled=true;$("brPlay").textContent="À espera dos outros jogos…"}}
   show("sBracket");
 }
@@ -11946,7 +11959,7 @@ function fixStop(k){
   if(n.type==="fk"&&!n.cardDone){n.cardDone=1;const h=hash(strHash(LIVE.key+":fkcard"+k));if(h<.55){const L=field(D);if(L.length){const pl=L[Math.floor(hash(strHash(LIVE.key+":fkpl"+k))*L.length)];giveCard(st,1-n.t,pl.n,n.m,"y","falta à entrada da área")}}}
 }
 function reachStop(){
-  fixStop(LIVE.si);
+  fixStop(LIVE.si);if(G&&G.mode==="online"&&LIVE.dk)pushPresence();
   const stop=LIVE.plan[LIVE.si];$("skip").hidden=true;
   if(stop.kind==="ht"){whistle(2);$("clock").textContent="Intervalo"}
   else if(stop.kind==="sub"&&stop.ht){$("clock").textContent="Intervalo"}
