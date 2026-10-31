@@ -427,6 +427,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
 .lbPlayers{display:flex;flex-direction:column;gap:6px;width:100%;text-align:left}
 .lbP{display:flex;align-items:center;gap:10px;background:var(--turf3);border:1px solid var(--lineC);border-radius:10px;padding:9px 12px;font-weight:700}
 .lbP.off{opacity:.5;font-weight:400}
+.tmPick{display:flex;flex-direction:column;gap:8px;width:100%}.tmPick .chips{gap:5px;flex-wrap:nowrap}.tmPick .chip{flex:1 1 auto;padding:7px 4px;white-space:nowrap;font-size:.9rem;text-align:center}#lbTm .chips{justify-content:center}
 .lbP .bx{margin-left:auto;border:0;background:transparent;color:var(--muted);font:700 1rem var(--cond);cursor:pointer;padding:2px 6px}
 .lbP .blv{color:var(--muted);font-weight:400;font-size:.85em}
 .sbar{flex:none;display:grid;grid-template-columns:1fr auto 1fr auto;align-items:stretch;border-radius:12px;overflow:hidden;background:#050d09;border:1px solid var(--lineC);font-family:var(--cond);font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.35)}
@@ -476,7 +477,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
       <button class="mode" id="tourBtn"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 14v4M8 21h8"/></svg></span><span><b>Torneio</b><small>4 ou 8 amigos num só telemóvel</small></span><span class="ar">›</span></button>
     </div>
     <div class="minirow"><button class="minibtn" data-sheet="shHow">Como jogar</button><button class="minibtn" data-sheet="shOpts">Definições</button><button class="minibtn" id="histBtn" data-sheet="shHist" hidden>Histórico</button></div>
-    <p class="ver" id="verTag">versão 29/10 · 16h20</p>
+    <p class="ver" id="verTag">versão 31/10 · 23h59</p>
   </div>
 
   <!-- ONLINE -->
@@ -492,6 +493,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
     </div>
     <div class="panel" id="lbWait" hidden style="display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center">
       <span class="lbl">Código do jogo</span><div class="code" id="lbCodeShow"></div><p class="muted" id="lbStatus"></p><div id="lbPlayers" class="lbPlayers" hidden></div>
+      <div class="tmPick" id="lbTm" hidden style="align-items:center"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div><p class="muted" id="lbTmInfo" hidden style="font-size:.9rem;margin:0"></p>
       <div id="lbBots" hidden style="display:flex;flex-direction:column;gap:8px;align-items:center;width:100%"><span class="lbl">Faltam jogadores? Junta bots</span>
         <div class="chips" id="lbBotLv"><button class="chip" data-lv="1">Fácil</button><button class="chip" data-lv="2">Médio</button><button class="chip" data-lv="3">Lenda</button></div>
         <button class="btn ghost" id="lbAddBot">+ Adicionar bot</button></div><button class="btn" id="lbStart" hidden>Começar o torneio</button><button class="btn ghost" id="lbShare" hidden>Partilhar link do jogo</button>
@@ -508,6 +510,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
     <div class="chips" id="tSize"><button class="chip" data-n="4">4 treinadores</button><button class="chip" data-n="8">8 treinadores</button></div>
     <div class="panel" id="tNames" style="display:flex;flex-direction:column;gap:12px"></div>
     <div class="panel" id="tBotLv" style="display:flex;flex-direction:column;gap:8px"><span class="lbl">Nível dos bots</span><div class="chips" id="tLv"><button class="chip" data-lv="1">Fácil</button><button class="chip" data-lv="2">Médio</button><button class="chip" data-lv="3">Lenda</button></div></div>
+    <div class="panel"><div class="tmPick"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div></div>
     <div class="grow"></div>
     <button class="btn" id="tGo">Começar o torneio</button>
     <button class="btn ghost" id="tBack">Voltar</button>
@@ -642,6 +645,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
     <div class="shHead"><h2>Quem joga?</h2><button class="xbtn" data-close aria-label="Fechar">✕</button></div>
     <label class="field" for="n0"><span class="lbl" style="display:flex;align-items:center;gap:8px"><span class="dot" style="--c:var(--home)"></span>Treinador 1</span><input type="text" id="n0" maxlength="16" value="Rui" autocomplete="off"></label>
     <label class="field" for="n1"><span class="lbl" style="display:flex;align-items:center;gap:8px"><span class="dot" style="--c:var(--away)"></span>Treinador 2</span><input type="text" id="n1" maxlength="16" value="Tiago" autocomplete="off"></label>
+<div class="tmPick"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div>
     <button class="btn" id="goBtn">Começar</button>
   </div></div>
   <div class="sheet" id="shBot" hidden><div class="sheetIn">
@@ -654,6 +658,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
       <button class="lv" data-lv="3"><b>Lenda</b><small>Quase sempre o melhor disponível. Boa sorte.</small></button>
     </div>
     <p class="muted" id="bRec" style="font-size:.92rem"></p>
+    <div class="tmPick"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div>
     <button class="btn" id="bGo">Começar</button>
   </div></div>
   <div class="sheet" id="shReport" hidden><div class="sheetIn">
@@ -669,7 +674,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
     <label class="toggle" for="listMode"><span>Modo fácil: mostrar a lista de jogadores possíveis</span><input type="checkbox" id="listMode"></label>
     <label class="toggle" for="sndOn"><span>Som (apito e golos)</span><input type="checkbox" id="sndOn" checked></label>
     <div style="display:flex;flex-direction:column;gap:8px;padding:6px 0"><span class="lbl">Tempo para cada escolha</span>
-      <div class="chips" id="tmChips"><button class="chip" data-s="0">Sem limite</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button></div>
+      <div class="chips tmChips" id="tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div>
       <span class="muted" style="font-size:.85rem">Se o tempo acabar, entra um júnior da formação: primeiro para o banco e, se o banco estiver cheio, para um lugar vago do onze, à sorte. Online vale o tempo de quem cria o jogo.</span></div>
     <label class="toggle" for="showR"><span>Mostrar a qualidade dos jogadores durante a escolha</span><input type="checkbox" id="showR"></label>
     <div class="panel" id="repLocal" hidden style="display:flex;flex-direction:column;gap:8px"><span class="lbl">Erros reportados neste telemóvel</span><span class="muted" id="repLocalN"></span><button class="btn ghost" id="repCopy">Copiar para enviar ao Diogo</button><span class="msg ok" id="repCopyMsg"></span></div>
@@ -9844,9 +9849,10 @@ function withRng(r,fn){const o=Math.random;Math.random=r;try{return fn()}finally
 const newSeed=()=>Math.random().toString(36).slice(2,10);
 
 let G=null;
-let TMSET=(()=>{const v=store("duelo_tm");return v===0||v===30||v===45||v===60?v:45})();
-function drawTmChips(){$("tmChips").querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.s===TMSET))}
-$("tmChips").querySelectorAll(".chip").forEach(b=>b.onclick=()=>{TMSET=+b.dataset.s;store("duelo_tm",TMSET);drawTmChips();
+const TMOPT=[0,30,45,60,90];
+let TMSET=(()=>{const v=store("duelo_tm");return TMOPT.includes(v)?v:45})();
+function drawTmChips(){document.querySelectorAll(".tmChips .chip").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.s===TMSET))}
+document.querySelectorAll(".tmChips .chip").forEach(b=>b.onclick=()=>{TMSET=+b.dataset.s;store("duelo_tm",TMSET);drawTmChips();
   if(G&&(G.mode!=="online"||G.me===0)){G.tm=TMSET;if(G.mode==="online")pushPresence()}});
 drawTmChips();
 function newGame(mode,names,seed){
@@ -10281,6 +10287,8 @@ function lobby(msg){
       if(r&&r.b){row.append(el("span","blv","bot · "+LVN[r.b]));if(host&&!G.online.go){const x=el("button","bx","✕");x.type="button";x.setAttribute("aria-label","Tirar "+r.n);x.onclick=()=>removeOnlineBot(i);row.append(x)}}
       L.append(row)}}
     $("lbBots").hidden=!(host&&n>2&&!G.online.go&&!full);
+    $("lbTm").hidden=!(host&&!G.online.go);drawTmChips();
+    $("lbTmInfo").hidden=host||G.me==null;$("lbTmInfo").textContent=`Tempo para cada escolha: ${G.tm?G.tm+" s":"sem tempo"} (escolhe quem cria o jogo).`;
     $("lbBotLv").querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.lv===onlineBotLv));
     $("lbStart").hidden=!(host&&n>2&&!G.online.go);$("lbStart").disabled=!full;
     $("lbStart").textContent=full?"Começar o torneio":`À espera de ${n-ro.length} jogador${n-ro.length>1?"es":""}…`;
@@ -10591,7 +10599,7 @@ function onPeers(ch){
       if(typeof h.n==="number"&&(h.n===2||h.n===4)&&h.n!==G.online.n){G.online.n=h.n;ensureN(h.n)}
       if(Array.isArray(h.ro)){G.online.ro=h.ro.filter(r=>r&&typeof r.u==="string").slice(0,G.online.n).map(r=>({u:r.u,n:cleanName(r.n)||"Treinador",...(r.b>=1&&r.b<=3?{b:r.b}:{})}));
         const i=G.online.ro.findIndex(r=>r.u===G.online.uid);if(i>0&&G.me!==i){G.me=i;G.names[i]=myName();pushPresence()}}
-      G.online.go=!!h.go;if([0,30,45,60].includes(h.tm))G.tm=h.tm;
+      G.online.go=!!h.go;if(TMOPT.includes(h.tm))G.tm=h.tm;
     }
   }
   if(G.online.ro)G.online.ro.forEach((r,i)=>{if(i!==G.me&&i<G.n)G.names[i]=r.n});
