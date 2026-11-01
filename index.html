@@ -501,7 +501,21 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
 .li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:0;border-top:1px solid var(--lineC);background:transparent;color:var(--chalk);font:600 .95rem var(--body);text-align:left;cursor:pointer;width:100%}
 .li:first-child{border-top:0}.li .v{color:var(--muted);display:flex;gap:4px;align-items:center;font-weight:600;min-width:0;text-align:right}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-#sStart .ver,#sMe .ver{margin-top:auto}
+#sMe .ver{margin-top:auto}#sStart .ver{margin-top:0}
+
+/* ---- página inicial (opção 2) ---- */
+.hero2{position:relative;padding:26px 2px 4px;isolation:isolate}.hero2 .pitchbg{position:absolute;inset:-14px -40px auto;width:calc(100% + 80px);z-index:-1;opacity:.5}
+.kick2{display:inline-block;background:rgba(198,255,61,.12);color:var(--gold);border:1px solid rgba(198,255,61,.35);border-radius:999px;padding:5px 12px;font:700 .75rem var(--body);letter-spacing:.08em;text-transform:uppercase}
+.logo2{font:900 clamp(3.4rem,17vw,4.4rem)/.86 var(--display);text-transform:uppercase;margin-top:12px;letter-spacing:.01em}.logo2 em{color:var(--gold);font-style:normal;display:block}
+.grid4{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.big{border-radius:24px;padding:16px;min-height:150px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;text-align:left;background:var(--card);border:1px solid var(--lineC);color:var(--chalk);cursor:pointer;font-family:var(--body)}
+.big.hi{background:linear-gradient(150deg,#d6ff6a,#9fe41f);color:var(--onGold);border:0}.big.lgc{background:linear-gradient(135deg,#1e3a2a,#141922 60%,#1b2740)}
+.big .ic{width:42px;height:42px;border-radius:14px;background:var(--turf3);display:grid;place-items:center;font-size:1.3rem}.big.hi .ic{background:rgba(0,0,0,.12)}
+.big b{display:block;font:800 1.12rem var(--body)}.big small{display:block;font:500 .8rem var(--body);opacity:.72;margin-top:2px}.big:active{transform:scale(.98)}
+.mini2{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-top:auto}.mini2 button{border:0;background:none;color:var(--muted);font:600 .92rem var(--body);cursor:pointer;padding:8px 2px}
+.seg2{display:grid;grid-template-columns:1fr 1fr;background:var(--card);border:1px solid var(--lineC);border-radius:16px;padding:4px;gap:4px}
+.seg2 button{border:0;background:transparent;color:var(--muted);font:700 .95rem var(--body);padding:11px;border-radius:12px;cursor:pointer}.seg2 button[aria-pressed=true]{background:var(--gold);color:var(--onGold)}
+#sStart{gap:16px}
 /* ===== Tema "Estádio": escuro, cartões arredondados, verde-lima ===== */
 :root{
   --turf:#0a0d12; --turf2:#10151d; --turf3:#1c2330; --card:#141922; --chalk:#f2f5f9; --muted:#8a96a8; --lineC:#262f3d;
@@ -526,25 +540,37 @@ input[type=text],input[type=search]{background:var(--card);border-color:var(--li
 
 <div class="app">
   <!-- 1. INÍCIO -->
-  <div class="screen navscr" id="sStart">
-    <div class="hiTop"><h1 id="hiName">Olá!</h1><button class="avBtn" id="hiAv" type="button" aria-label="O meu perfil">?</button></div>
+  <div class="screen" id="sStart">
+    <div class="hero2"><svg class="pitchbg" viewBox="0 0 400 260" aria-hidden="true" fill="none" stroke="rgba(238,246,239,.25)" stroke-width="2"><path d="M20 250 L60 30 H340 L380 250 Z"/><path d="M118 30 L112 70 H288 L282 30"/><path d="M200 250 A60 40 0 0 1 200 170"/></svg>
+      <span class="kick2">Futebol entre amigos</span><div class="logo2">Duelo de<em>Onzes</em></div></div>
     <button class="contCard" id="resumeBtn" type="button" hidden><span class="crest" id="contCrest"></span><span class="ct"><b id="resumeTxt">Continuar o jogo</b><small>Jogo online a meio</small></span><span class="go">Voltar</span></button>
-    <div class="tiles"><button class="tile hi" id="tileHere" type="button"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18h2"/></svg></span><span><b>Jogar aqui</b><small>No mesmo telemóvel</small></span></button>
-      <button class="tile" id="tileOnline" type="button"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1"/></svg></span><span><b>Jogar online</b><small>Cada um no seu</small></span></button></div>
-    <span class="lbl">Contra</span>
-    <div class="chips" id="vsChips"><button class="chip" data-v="amigo" type="button">Um amigo</button><button class="chip" data-v="bot" type="button">Bot</button><button class="chip" data-v="t4" type="button">Torneio 4</button><button class="chip" data-v="t8" type="button">Torneio 8</button></div>
-    <div class="list">
-      <button class="li" type="button" data-opt="th"><span>Tipo de draft</span><span class="v"><span id="optTh"></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
-      <button class="li" type="button" data-opt="tm"><span>Tempo por escolha</span><span class="v"><span id="optTm"></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
-      <button class="li" type="button" data-opt="lg" id="optLgRow"><span>Conta para a liga</span><span class="v"><span id="optLg"></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
+    <div class="grid4">
+      <button class="big hi" id="cardQuick" type="button"><span class="ic">⚡</span><span><b>Jogo rápido</b><small>Amigo ou bot, aqui</small></span></button>
+      <button class="big" id="cardOnline" type="button"><span class="ic">🌐</span><span><b>Online</b><small>Cada um no seu telemóvel</small></span></button>
+      <button class="big" id="cardTour" type="button"><span class="ic">🏆</span><span><b>Torneio</b><small>4 ou 8 treinadores</small></span></button>
+      <button class="big lgc" id="cardLiga" type="button"><span class="ic">🏟️</span><span><b>Liga</b><small id="cardLigaTx">Épocas com draft e mercado</small></span></button>
     </div>
-    <span class="msg" id="homeMsg"></span>
-    <div class="row2"><button class="btn ghost" id="codeBtn" type="button">Tenho um código</button><button class="btn ghost" type="button" data-sheet="shHow">Como jogar</button></div>
-    <p class="ver" id="verTag">versão 01/11 · 18h30 · novo visual</p>
-    <div hidden><button id="goStart"></button><button id="botBtn"></button><button id="onlineBtn"></button><button id="tourBtn"></button><button id="lgBtn"></button><button id="histBtn"></button></div>
+    <div class="mini2"><button type="button" id="goMe">👤 Perfil</button><button type="button" data-sheet="shOpts">⚙️ Definições</button><button type="button" data-sheet="shHow">📖 Como jogar</button></div>
+    <p class="ver" id="verTag">versão 01/11 · 19h</p>
+    <div hidden><button id="goStart"></button><button id="botBtn"></button><button id="onlineBtn"></button><button id="tourBtn"></button><button id="lgBtn"></button><button id="histBtn"></button><button id="hiAv"></button><span id="hiName"></span></div>
   </div>
-  <div class="screen navscr" id="sMe" hidden>
-    <div class="hiTop"><h1>O meu perfil</h1></div>
+  <div class="screen" id="sQuick" hidden>
+    <div class="hiTop"><button class="topBack" type="button" data-home aria-label="Voltar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Jogo rápido</h1></div>
+    <span class="lbl">Contra</span>
+    <div class="seg2" id="qVs"><button type="button" data-v="amigo">👥 Um amigo</button><button type="button" data-v="bot">🤖 O bot</button></div>
+    <div class="panel" id="qAmigo" style="display:flex;flex-direction:column;gap:10px">
+      <label class="field" for="q0"><span class="lbl">Treinador 1</span><input type="text" id="q0" maxlength="16" autocomplete="off"></label>
+      <label class="field" for="q1"><span class="lbl">Treinador 2</span><input type="text" id="q1" maxlength="16" autocomplete="off"></label></div>
+    <div class="panel" id="qBot" hidden style="display:flex;flex-direction:column;gap:10px">
+      <label class="field" for="qb"><span class="lbl">O teu nome</span><input type="text" id="qb" maxlength="16" autocomplete="off"></label>
+      <span class="lbl">Nível do bot</span><div class="chips" id="qLv"><button class="chip" type="button" data-lv="1">Fácil</button><button class="chip" type="button" data-lv="2">Médio</button><button class="chip" type="button" data-lv="3">Lenda</button></div></div>
+    <div class="panel" style="display:flex;flex-direction:column;gap:12px"><div class="thPick"><span class="lbl">Tipo de draft</span><div class="chips thChips"><button class="chip" data-th="">Normal</button><button class="chip" data-th="pt">Só portugueses</button><button class="chip" data-th="lendas">Só lendas</button><button class="chip" data-th="novos">Geração atual</button><button class="chip" data-th="ligapt">Jogaram em Portugal</button><button class="chip" data-th="sam">Sul-americanos</button><button class="chip" data-th="craques">Só craques</button></div></div><div class="tmPick"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div></div>
+    <div class="grow"></div>
+    <button class="btn" id="qGo" type="button">Começar</button>
+  </div>
+
+  <div class="screen" id="sMe" hidden>
+    <div class="hiTop"><button class="topBack" type="button" data-home aria-label="Voltar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><h1>O meu perfil</h1></div>
     <div class="panel" style="display:flex;align-items:center;gap:14px"><span class="avBig" id="meAv">?</span>
       <label class="field" for="meName" style="flex:1"><span class="lbl">O teu nome (igual em todos os jogos e na liga)</span><input type="text" id="meName" maxlength="16" autocomplete="off"></label></div>
     <div class="list">
@@ -562,14 +588,14 @@ input[type=text],input[type=search]{background:var(--card);border-color:var(--li
     <div class="panel" id="lbChoose" style="display:flex;flex-direction:column;gap:12px">
       <label class="field" for="lbName"><span class="lbl">O teu nome</span><input type="text" id="lbName" maxlength="16" autocomplete="off"></label>
       <button class="btn" id="lbCreate">Criar duelo (2)</button>
-      <button class="btn ghost" id="lbCreate4">Criar torneio (4 telemóveis)</button>
+      <div class="row2"><button class="btn ghost" id="lbCreate4">Torneio de 4</button><button class="btn ghost" id="lbCreate8">Torneio de 8</button></div>
       <span class="lbl" style="text-align:center">ou entra no jogo de um amigo</span>
       <div class="askrow"><input type="text" id="lbCode" maxlength="4" placeholder="CÓDIGO" autocomplete="off" autocapitalize="characters" style="text-transform:uppercase;letter-spacing:.3em;font-weight:700"><button class="btn go" id="lbJoin">Entrar</button></div>
       <div class="msg bad" id="lbErr"></div>
     </div>
     <div class="panel" id="lbWait" hidden style="display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center">
       <span class="lbl">Código do jogo</span><div class="code" id="lbCodeShow"></div><p class="muted" id="lbStatus"></p><div id="lbPlayers" class="lbPlayers" hidden></div>
-      <div id="lbOpts" hidden style="display:flex;flex-direction:column;gap:10px;width:100%"><div class="thPick"><span class="lbl">Tipo de draft</span><div class="chips thChips"><button class="chip" data-th="">Normal</button><button class="chip" data-th="pt">Só portugueses</button><button class="chip" data-th="lendas">Só lendas</button><button class="chip" data-th="novos">Geração atual</button><button class="chip" data-th="ligapt">Jogaram em Portugal</button><button class="chip" data-th="sam">Sul-americanos</button><button class="chip" data-th="craques">Só craques</button></div></div><label class="toggle lgPick" hidden><span>Contar para a liga <b class="lgN"></b></span><input type="checkbox" checked></label><div class="tmPick" id="lbTm" style="align-items:center"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div></div><p class="muted" id="lbTmInfo" hidden style="font-size:.9rem;margin:0"></p>
+      <div id="lbOpts" hidden style="display:flex;flex-direction:column;gap:10px;width:100%"><div class="thPick"><span class="lbl">Tipo de draft</span><div class="chips thChips"><button class="chip" data-th="">Normal</button><button class="chip" data-th="pt">Só portugueses</button><button class="chip" data-th="lendas">Só lendas</button><button class="chip" data-th="novos">Geração atual</button><button class="chip" data-th="ligapt">Jogaram em Portugal</button><button class="chip" data-th="sam">Sul-americanos</button><button class="chip" data-th="craques">Só craques</button></div></div><div class="tmPick" id="lbTm" style="align-items:center"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div></div><p class="muted" id="lbTmInfo" hidden style="font-size:.9rem;margin:0"></p>
       <div id="lbBots" hidden style="display:flex;flex-direction:column;gap:8px;align-items:center;width:100%"><span class="lbl">Faltam jogadores? Junta bots</span>
         <div class="chips" id="lbBotLv"><button class="chip" data-lv="1">Fácil</button><button class="chip" data-lv="2">Médio</button><button class="chip" data-lv="3">Lenda</button></div>
         <button class="btn ghost" id="lbAddBot">+ Adicionar bot</button></div><button class="btn" id="lbStart" hidden>Começar o torneio</button><button class="btn ghost" id="lbShare" hidden>Partilhar link do jogo</button>
@@ -586,13 +612,13 @@ input[type=text],input[type=search]{background:var(--card);border-color:var(--li
     <div class="chips" id="tSize"><button class="chip" data-n="4">4 treinadores</button><button class="chip" data-n="8">8 treinadores</button></div>
     <div class="panel" id="tNames" style="display:flex;flex-direction:column;gap:12px"></div>
     <div class="panel" id="tBotLv" style="display:flex;flex-direction:column;gap:8px"><span class="lbl">Nível dos bots</span><div class="chips" id="tLv"><button class="chip" data-lv="1">Fácil</button><button class="chip" data-lv="2">Médio</button><button class="chip" data-lv="3">Lenda</button></div></div>
-    <div class="panel"><div class="thPick"><span class="lbl">Tipo de draft</span><div class="chips thChips"><button class="chip" data-th="">Normal</button><button class="chip" data-th="pt">Só portugueses</button><button class="chip" data-th="lendas">Só lendas</button><button class="chip" data-th="novos">Geração atual</button><button class="chip" data-th="ligapt">Jogaram em Portugal</button><button class="chip" data-th="sam">Sul-americanos</button><button class="chip" data-th="craques">Só craques</button></div></div><label class="toggle lgPick" hidden><span>Contar para a liga <b class="lgN"></b></span><input type="checkbox" checked></label><div class="tmPick"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div></div>
+    <div class="panel"><div class="thPick"><span class="lbl">Tipo de draft</span><div class="chips thChips"><button class="chip" data-th="">Normal</button><button class="chip" data-th="pt">Só portugueses</button><button class="chip" data-th="lendas">Só lendas</button><button class="chip" data-th="novos">Geração atual</button><button class="chip" data-th="ligapt">Jogaram em Portugal</button><button class="chip" data-th="sam">Sul-americanos</button><button class="chip" data-th="craques">Só craques</button></div></div><div class="tmPick"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div></div>
     <div class="grow"></div>
     <button class="btn" id="tGo">Começar o torneio</button>
     <button class="btn ghost" id="tBack">Voltar</button>
   </div>
-  <div class="screen navscr" id="sSeason" hidden>
-    <div class="hiTop"><h1 id="seaTitle">Liga</h1></div><p class="muted" id="seaStatus" style="margin:0"></p>
+  <div class="screen" id="sSeason" hidden>
+    <div class="hiTop"><button class="topBack" type="button" data-home aria-label="Voltar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><h1 id="seaTitle">Liga</h1></div><p class="muted" id="seaStatus" style="margin:0"></p>
     <div id="seaTop" style="display:flex;flex-direction:column;gap:8px"></div>
     <div class="chips" id="seaTabs" hidden></div>
     <span class="msg" id="seaMsg"></span>
@@ -736,7 +762,7 @@ input[type=text],input[type=search]{background:var(--card);border-color:var(--li
     <div class="shHead"><h2>Quem joga?</h2><button class="xbtn" data-close aria-label="Fechar">✕</button></div>
     <label class="field" for="n0"><span class="lbl" style="display:flex;align-items:center;gap:8px"><span class="dot" style="--c:var(--home)"></span>Treinador 1</span><input type="text" id="n0" maxlength="16" value="Rui" autocomplete="off"></label>
     <label class="field" for="n1"><span class="lbl" style="display:flex;align-items:center;gap:8px"><span class="dot" style="--c:var(--away)"></span>Treinador 2</span><input type="text" id="n1" maxlength="16" value="Tiago" autocomplete="off"></label>
-<div class="thPick"><span class="lbl">Tipo de draft</span><div class="chips thChips"><button class="chip" data-th="">Normal</button><button class="chip" data-th="pt">Só portugueses</button><button class="chip" data-th="lendas">Só lendas</button><button class="chip" data-th="novos">Geração atual</button><button class="chip" data-th="ligapt">Jogaram em Portugal</button><button class="chip" data-th="sam">Sul-americanos</button><button class="chip" data-th="craques">Só craques</button></div></div><label class="toggle lgPick" hidden><span>Contar para a liga <b class="lgN"></b></span><input type="checkbox" checked></label><div class="tmPick"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div>
+<div class="thPick"><span class="lbl">Tipo de draft</span><div class="chips thChips"><button class="chip" data-th="">Normal</button><button class="chip" data-th="pt">Só portugueses</button><button class="chip" data-th="lendas">Só lendas</button><button class="chip" data-th="novos">Geração atual</button><button class="chip" data-th="ligapt">Jogaram em Portugal</button><button class="chip" data-th="sam">Sul-americanos</button><button class="chip" data-th="craques">Só craques</button></div></div><div class="tmPick"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div>
     <button class="btn" id="goBtn">Começar</button>
   </div></div>
   <div class="sheet" id="shBot" hidden><div class="sheetIn">
@@ -749,7 +775,7 @@ input[type=text],input[type=search]{background:var(--card);border-color:var(--li
       <button class="lv" data-lv="3"><b>Lenda</b><small>Quase sempre o melhor disponível. Boa sorte.</small></button>
     </div>
     <p class="muted" id="bRec" style="font-size:.92rem"></p>
-    <div class="thPick"><span class="lbl">Tipo de draft</span><div class="chips thChips"><button class="chip" data-th="">Normal</button><button class="chip" data-th="pt">Só portugueses</button><button class="chip" data-th="lendas">Só lendas</button><button class="chip" data-th="novos">Geração atual</button><button class="chip" data-th="ligapt">Jogaram em Portugal</button><button class="chip" data-th="sam">Sul-americanos</button><button class="chip" data-th="craques">Só craques</button></div></div><label class="toggle lgPick" hidden><span>Contar para a liga <b class="lgN"></b></span><input type="checkbox" checked></label><div class="tmPick"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div>
+    <div class="thPick"><span class="lbl">Tipo de draft</span><div class="chips thChips"><button class="chip" data-th="">Normal</button><button class="chip" data-th="pt">Só portugueses</button><button class="chip" data-th="lendas">Só lendas</button><button class="chip" data-th="novos">Geração atual</button><button class="chip" data-th="ligapt">Jogaram em Portugal</button><button class="chip" data-th="sam">Sul-americanos</button><button class="chip" data-th="craques">Só craques</button></div></div><div class="tmPick"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div>
     <button class="btn" id="bGo">Começar</button>
   </div></div>
   <div class="sheet" id="shReport" hidden><div class="sheetIn">
@@ -792,7 +818,7 @@ input[type=text],input[type=search]{background:var(--card);border-color:var(--li
   </div></div>
   <div class="sheet" id="shGameOpts" hidden><div class="sheetIn">
     <div class="shHead"><h2>Opções do jogo</h2><button class="xbtn" data-close aria-label="Fechar">✕</button></div>
-    <div class="thPick"><span class="lbl">Tipo de draft</span><div class="chips thChips"><button class="chip" data-th="">Normal</button><button class="chip" data-th="pt">Só portugueses</button><button class="chip" data-th="lendas">Só lendas</button><button class="chip" data-th="novos">Geração atual</button><button class="chip" data-th="ligapt">Jogaram em Portugal</button><button class="chip" data-th="sam">Sul-americanos</button><button class="chip" data-th="craques">Só craques</button></div></div><label class="toggle lgPick" hidden><span>Contar para a liga <b class="lgN"></b></span><input type="checkbox" checked></label><div class="tmPick"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div>
+    <div class="thPick"><span class="lbl">Tipo de draft</span><div class="chips thChips"><button class="chip" data-th="">Normal</button><button class="chip" data-th="pt">Só portugueses</button><button class="chip" data-th="lendas">Só lendas</button><button class="chip" data-th="novos">Geração atual</button><button class="chip" data-th="ligapt">Jogaram em Portugal</button><button class="chip" data-th="sam">Sul-americanos</button><button class="chip" data-th="craques">Só craques</button></div></div><div class="tmPick"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div>
     <button class="btn" data-close type="button">Feito</button>
   </div></div>
   <div class="sheet" id="shLeague" hidden><div class="sheetIn">
@@ -9946,9 +9972,9 @@ const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=rand(i+1);[a[i]
 const norm=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
 const COL=["var(--home)","var(--away)","#ffd166","#7fe0a8","#c792ea","#ff9f43","#5ad1e6","#f78fb3"];
 function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
-const SCREENS=["sStart","sLobby","sTour","sCoach","sDraft","sCap","sPre","sBracket","sMatch","sResult","sSeason","sMe"];
+const SCREENS=["sStart","sLobby","sTour","sCoach","sDraft","sCap","sPre","sBracket","sMatch","sResult","sSeason","sMe","sQuick"];
 function show(id){const was=SCREENS.find(s=>!$(s).hidden);SCREENS.forEach(s=>$(s).hidden=s!==id);
-  const tb=document.getElementById("tabbar");if(tb){const on=["sStart","sSeason","sMe"].includes(id);tb.hidden=!on;tb.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.go===id))}
+  const tb=document.getElementById("tabbar");if(tb){const on=false;tb.hidden=!on;tb.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.go===id))}
   if(id==="sStart"&&typeof drawHome==="function")drawHome();if(was!==id)window.scrollTo(0,0);document.documentElement.classList.add("lockmatch");if(FITS[id])requestAnimationFrame(fitStart)}
 const FITS={sLobby:["fA","fB","fC"],sTour:["fA","fB","fC"]};
 function fitStart(){for(const id in FITS){const s=document.getElementById(id);if(!s||s.hidden)continue;const F=FITS[id];s.classList.remove(...F);
@@ -9984,7 +10010,7 @@ document.querySelectorAll(".tmChips .chip").forEach(b=>b.onclick=()=>{TMSET=+b.d
 drawTmChips();
 function newGame(mode,names,seed){
   G={mode,names,n:names.length,seed,cfg:names.map(()=>({coach:null,form:null})),caps:names.map(()=>null),picks:[],mine:[],m:0,me:null,dec:{},res:{},playing:null,cardI:-1,
-     tm:TMSET,avoid:mode==="online"&&!seed?null:(store("duelo_recent_rules")||[]).slice(-70),theme:mode==="online"&&!seed?null:(THEME||null),lg:mode==="online"&&!seed?null:(LEAGUE&&LGON?LEAGUE:null),showR:$("showR").checked,listMode:$("listMode").checked,teams:null,cur:null,sel:null,tries:3,peekT:null,shownM:0,lastI:-1,coachFor:-1,tour:null};
+     tm:TMSET,avoid:mode==="online"&&!seed?null:(store("duelo_recent_rules")||[]).slice(-70),theme:mode==="online"&&!seed?null:(THEME||null),lg:null,showR:$("showR").checked,listMode:$("listMode").checked,teams:null,cur:null,sel:null,tries:3,peekT:null,shownM:0,lastI:-1,coachFor:-1,tour:null};
 }
 (function(){const s=store("duelo_names");if(s){$("n0").value=s[0]||"";$("n1").value=s[1]||""}
   const o=store("duelo_online");if(o&&o.code){const b=$("resumeBtn");$("resumeTxt").textContent=`Retomar jogo ${o.code}`;b.hidden=false}})();
@@ -10530,6 +10556,7 @@ function hostBots(){
 }
 setInterval(()=>{try{hostBots()}catch(e){console.error(e)}},1500);
 $("lbCreate4").onclick=()=>hostGame(4);
+$("lbCreate8").onclick=()=>hostGame(8);
 $("lbStart").onclick=()=>{if(!G||!G.online||G.me!==0||!rosterFull())return;
   if(G.online.sea&&new Set(G.online.ro.map(r=>seaK(r.n))).size<G.online.ro.length){lobby("Há dois treinadores com o mesmo nome. Na época cada um tem de ter um nome diferente (mudem em 'O teu nome').");return}G.online.go=true;pushPresence();render();setTimeout(()=>{try{hostBots()}catch(e){}},50)};
 $("lbJoin").onclick=()=>{
@@ -10702,7 +10729,7 @@ function resetGame(seed,gen){
 }
 function newRound(){
   if(!G||G.mode!=="online")return;
-  if(G.me===0){resetGame(newSeed(),(G.online.gen||0)+1);G.avoid=(store("duelo_recent_rules")||[]).slice(-70);G.theme=THEME||null;G.tm=TMSET;G.lg=LEAGUE&&LGON?LEAGUE:null;
+  if(G.me===0){resetGame(newSeed(),(G.online.gen||0)+1);G.avoid=(store("duelo_recent_rules")||[]).slice(-70);G.theme=THEME||null;G.tm=TMSET;G.lg=null;
     if(G.online.ro)G.online.ro.forEach((r,i)=>{if(r.b){r.n="Bot "+G.online.ro.slice(0,i+1).filter(x=>x.b).length;G.names[i]=r.n}});syncBots();
     pushPresence();lobby();return}
   G.online.nx=(G.online.gen||0)+1;pushPresence();lobby(`À espera que ${G.names[0]} comece o novo jogo…`);
@@ -12671,7 +12698,7 @@ async function seaSubscribe(c){
   let subSid=null,u2=null;
   seaUnsub.push(D.onValue(D.ref(db,`leagues/${c}/cur`),snap=>{SEACUR=pj(snap.val());const sid=SEACUR&&SEACUR.sid;
     if(sid!==subSid){subSid=sid;if(u2){try{u2()}catch(e){}}SEA=null;
-      if(sid){u2=D.onValue(D.ref(db,seaBase(c,sid)),s2=>{SEA=seaParse(s2.val());SEA.sid=sid;seaTick();drawSeason()});seaUnsub.push(()=>u2&&u2())}}
+      if(sid){u2=D.onValue(D.ref(db,seaBase(c,sid)),s2=>{SEA=seaParse(s2.val());SEA.sid=sid;seaTick();drawSeason();if(!$("sStart").hidden)drawHome()});seaUnsub.push(()=>u2&&u2())}}
     drawSeason()}));
 }
 /* calendário: todos contra todos (método do círculo), duas voltas com casa/fora trocados */
@@ -12838,7 +12865,6 @@ function seaHomeRows(body,m){
   if(m){if(m.st==="market")row("🔁 Mercado de transferências","aberto",()=>{seaTab="mk";drawSeason()});
     else if(m.st==="leg1")row("🔁 Mercado de transferências","depois da 1.ª volta",()=>{});
     row("📅 Todas as jornadas","",()=>{seaTab="jor";drawSeason()});row("📊 Classificação completa","",()=>{seaTab="tab";drawSeason()});row("👕 Plantéis","",()=>{seaTab="sq";drawSeason()})}
-  row("🏟️ Jogos livres da liga","",()=>{lgTab="tab";drawLeague();openSheet("shLeague")});
   row("✉️ Convidar amigos",LEAGUE.c,()=>$("lgCopy").click());
   row("🚪 Sair da liga","",()=>{if(confirm("Sair desta liga neste telemóvel? Os resultados ficam guardados.")){setLeague(null);seaUnsub.forEach(u=>{try{u()}catch(e){}});seaUnsub=[];SEAC=null;SEA=null;drawSeason()}});
   body.append(L);
@@ -12898,34 +12924,42 @@ async function seaSign(k,p,sq,mk){
 $("lgSeason").onclick=()=>openSeason();
 $("toSeason").onclick=()=>{if(G&&G.mode==="online"){if(ROOM)ROOM.leave().catch(()=>{});ROOM=null;PEERS={};store("duelo_online",null)}stopMatchUI();G=null;openSeason()};
 
-/* ---- página principal, perfil e separadores ---- */
-let VS=(()=>{const v=store("duelo_vs");return["amigo","bot","t4","t8"].includes(v)?v:"amigo"})();
+/* ---- página principal, jogo rápido e perfil ---- */
+let VS=(()=>{const v=store("duelo_vs");return v==="bot"?"bot":"amigo"})();
 const avCol=n=>COLHEX[[...String(n||"?")].reduce((a,c)=>a+c.charCodeAt(0),0)%COLHEX.length];
-function drawHome(){
-  const nm=myName(),ini=(nm.trim()[0]||"?").toUpperCase();
-  $("hiName").textContent=nm&&nm!=="Treinador"?`Olá, ${nm} 👋`:"Olá! 👋";$("hiAv").textContent=ini;$("hiAv").style.background=avCol(nm);
-  document.querySelectorAll("#vsChips .chip").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===VS));
-  $("optTh").textContent=THEMES[THEME||""].n.replace(/ \(.*\)$/,"");$("optTm").textContent=TMSET?TMSET+" s":"Sem tempo";
-  $("optLgRow").hidden=!LEAGUE;$("optLg").textContent=LEAGUE?(LGON?LEAGUE.n:"Não"):"";
-  const o=store("duelo_online");if(o&&o.code){$("resumeBtn").hidden=false;$("resumeTxt").textContent=`Continuar o jogo ${o.code}`;$("contCrest").innerHTML=shieldSVG((o.name||nm||"?")[0],avCol(o.name||nm),30)}
-  $("homeMsg").textContent="";
-}
 function shieldSVG(l,c,s){return`<svg width="${s}" height="${Math.round(s*1.15)}" viewBox="0 0 40 46" aria-hidden="true"><path d="M20 2 L37 8 V22 C37 34 29 41 20 44 C11 41 3 34 3 22 V8 Z" fill="${c}" stroke="rgba(255,255,255,.85)" stroke-width="2"/><text x="20" y="30" text-anchor="middle" font-family="Inter,Arial" font-weight="800" font-size="19" fill="#0a0d12">${String(l||"?").toUpperCase()}</text></svg>`}
-document.querySelectorAll("#vsChips .chip").forEach(b=>b.onclick=()=>{VS=b.dataset.v;store("duelo_vs",VS);drawHome()});
-$("tileHere").onclick=()=>{unlockAudio();if(VS==="amigo")openSheet("shNames");else if(VS==="bot")$("botBtn").click();else{tourSize=VS==="t8"?8:4;$("tourBtn").click()}};
-$("tileOnline").onclick=()=>{unlockAudio();if(VS==="bot"){$("homeMsg").textContent="O jogo contra o bot é no mesmo telemóvel: escolhe 'Jogar aqui'.";return}
-  store("duelo_names",[$("n0").value.trim(),$("n1").value.trim()]);G=null;PEERS={};hostGame(VS==="t8"?8:VS==="t4"?4:2)};
-$("codeBtn").onclick=()=>$("onlineBtn").click();
-document.querySelectorAll("#sStart [data-opt]").forEach(b=>b.onclick=()=>{drawThChips();drawTmChips();drawLgPicks();openSheet("shGameOpts")});
-$("shGameOpts").addEventListener("click",()=>setTimeout(drawHome,0));
-$("hiAv").onclick=()=>goTab("sMe");
+function drawHome(){
+  const nm=myName(),o=store("duelo_online");
+  if(o&&o.code){$("resumeBtn").hidden=false;$("resumeTxt").textContent=`Continuar o jogo ${o.code}`;$("contCrest").innerHTML=shieldSVG((o.name||nm||"?")[0],avCol(o.name||nm),30)}else $("resumeBtn").hidden=true;
+  let tx="Épocas com draft e mercado";
+  if(LEAGUE){tx=LEAGUE.n;if(SEA&&SEA.m&&SEAC===LEAGUE.c){const m=SEA.m,me=seaMe();
+    if(m.st==="market")tx="Mercado aberto";else if(m.st==="done")tx=`Campeão: ${m.ch}`;
+    else if(me){const F=seaFixtures(m.mem),f=F.find(x=>x.leg===(m.st==="leg1"?1:2)&&!SEA.r[x.fid]&&(x.h===me||x.a===me));if(f)tx=`Jornada ${f.rd} · tu x ${f.h===me?f.a:f.h}`}}
+    else seaSubscribe(LEAGUE.c)}
+  $("cardLigaTx").textContent=tx;
+}
+function drawQuick(){
+  document.querySelectorAll("#qVs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===VS));$("qAmigo").hidden=VS!=="amigo";$("qBot").hidden=VS!=="bot";
+  document.querySelectorAll("#qLv .chip").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.lv===botLv));drawThChips();drawTmChips();
+}
+$("cardQuick").onclick=()=>{unlockAudio();$("q0").value=$("n0").value;$("q1").value=$("n1").value;$("qb").value=$("n0").value;drawQuick();show("sQuick")};
+document.querySelectorAll("#qVs button").forEach(b=>b.onclick=()=>{VS=b.dataset.v;store("duelo_vs",VS);drawQuick()});
+document.querySelectorAll("#qLv .chip").forEach(b=>b.onclick=()=>{botLv=+b.dataset.lv;store("duelo_botlv",botLv);drawQuick()});
+$("qGo").onclick=()=>{unlockAudio();
+  if(VS==="amigo"){$("n0").value=$("q0").value;$("n1").value=$("q1").value;$("goBtn").click()}
+  else{$("bName").value=$("qb").value;$("bGo").click()}};
+$("cardOnline").onclick=()=>{unlockAudio();$("onlineBtn").click()};
+$("cardTour").onclick=()=>{unlockAudio();$("tourBtn").click()};
+$("cardLiga").onclick=()=>openSeason();
+$("goMe").onclick=()=>{drawMe();show("sMe")};
 function drawMe(){const nm=myName();$("meName").value=$("n0").value;$("meAv").textContent=(nm.trim()[0]||"?").toUpperCase();$("meAv").style.background=avCol(nm);$("meVer").textContent=$("verTag").textContent}
 $("meName").addEventListener("input",()=>{$("n0").value=$("meName").value;store("duelo_names",[$("n0").value.trim(),$("n1").value.trim()]);drawMe()});
 $("meHist").onclick=()=>{drawHistory();openSheet("shHist")};
 function goTab(id){if(id==="sSeason")return openSeason();if(id==="sMe"){drawMe();show("sMe");return}G=null;show("sStart")}
-document.querySelectorAll("#tabbar button").forEach(b=>b.onclick=()=>goTab(b.dataset.go));
 document.querySelectorAll("[data-back]").forEach(b=>b.onclick=()=>$(b.dataset.back).click());
-drawHome();if(!$("sStart").hidden)show("sStart");
+document.querySelectorAll("[data-home]").forEach(b=>b.onclick=()=>{G=null;show("sStart")});
+drawHome();
+
 
 /* ---- som e festa ---- */
 let AC=null;
