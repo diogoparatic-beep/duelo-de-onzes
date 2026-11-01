@@ -427,6 +427,8 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
 .lbPlayers{display:flex;flex-direction:column;gap:6px;width:100%;text-align:left}
 .lbP{display:flex;align-items:center;gap:10px;background:var(--turf3);border:1px solid var(--lineC);border-radius:10px;padding:9px 12px;font-weight:700}
 .lbP.off{opacity:.5;font-weight:400}
+.watchBtn{margin:4px 10px 10px;width:calc(100% - 20px);padding:9px;font-size:1rem}
+.thPick{display:flex;flex-direction:column;gap:8px;width:100%}.thPick .chips{gap:5px}.thPick .chip{padding:6px 10px;font-size:.88rem}
 .tmPick{display:flex;flex-direction:column;gap:8px;width:100%}.tmPick .chips{gap:5px;flex-wrap:nowrap}.tmPick .chip{flex:1 1 auto;padding:7px 4px;white-space:nowrap;font-size:.9rem;text-align:center}#lbTm .chips{justify-content:center}
 .lbP .bx{margin-left:auto;border:0;background:transparent;color:var(--muted);font:700 1rem var(--cond);cursor:pointer;padding:2px 6px}
 .lbP .blv{color:var(--muted);font-weight:400;font-size:.85em}
@@ -477,7 +479,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
       <button class="mode" id="tourBtn"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 14v4M8 21h8"/></svg></span><span><b>Torneio</b><small>4 ou 8 amigos num só telemóvel</small></span><span class="ar">›</span></button>
     </div>
     <div class="minirow"><button class="minibtn" data-sheet="shHow">Como jogar</button><button class="minibtn" data-sheet="shOpts">Definições</button><button class="minibtn" id="histBtn" data-sheet="shHist" hidden>Histórico</button></div>
-    <p class="ver" id="verTag">versão 01/11 · 00h30</p>
+    <p class="ver" id="verTag">versão 01/11 · 14h</p>
   </div>
 
   <!-- ONLINE -->
@@ -493,7 +495,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
     </div>
     <div class="panel" id="lbWait" hidden style="display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center">
       <span class="lbl">Código do jogo</span><div class="code" id="lbCodeShow"></div><p class="muted" id="lbStatus"></p><div id="lbPlayers" class="lbPlayers" hidden></div>
-      <div class="tmPick" id="lbTm" hidden style="align-items:center"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div><p class="muted" id="lbTmInfo" hidden style="font-size:.9rem;margin:0"></p>
+      <div id="lbOpts" hidden style="display:flex;flex-direction:column;gap:10px;width:100%"><div class="thPick"><span class="lbl">Tipo de draft</span><div class="chips thChips"><button class="chip" data-th="">Normal</button><button class="chip" data-th="pt">Só portugueses</button><button class="chip" data-th="lendas">Só lendas</button><button class="chip" data-th="novos">Geração atual</button><button class="chip" data-th="ligapt">Jogaram em Portugal</button><button class="chip" data-th="sam">Sul-americanos</button><button class="chip" data-th="craques">Só craques</button></div></div><div class="tmPick" id="lbTm" style="align-items:center"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div></div><p class="muted" id="lbTmInfo" hidden style="font-size:.9rem;margin:0"></p>
       <div id="lbBots" hidden style="display:flex;flex-direction:column;gap:8px;align-items:center;width:100%"><span class="lbl">Faltam jogadores? Junta bots</span>
         <div class="chips" id="lbBotLv"><button class="chip" data-lv="1">Fácil</button><button class="chip" data-lv="2">Médio</button><button class="chip" data-lv="3">Lenda</button></div>
         <button class="btn ghost" id="lbAddBot">+ Adicionar bot</button></div><button class="btn" id="lbStart" hidden>Começar o torneio</button><button class="btn ghost" id="lbShare" hidden>Partilhar link do jogo</button>
@@ -510,7 +512,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
     <div class="chips" id="tSize"><button class="chip" data-n="4">4 treinadores</button><button class="chip" data-n="8">8 treinadores</button></div>
     <div class="panel" id="tNames" style="display:flex;flex-direction:column;gap:12px"></div>
     <div class="panel" id="tBotLv" style="display:flex;flex-direction:column;gap:8px"><span class="lbl">Nível dos bots</span><div class="chips" id="tLv"><button class="chip" data-lv="1">Fácil</button><button class="chip" data-lv="2">Médio</button><button class="chip" data-lv="3">Lenda</button></div></div>
-    <div class="panel"><div class="tmPick"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div></div>
+    <div class="panel"><div class="thPick"><span class="lbl">Tipo de draft</span><div class="chips thChips"><button class="chip" data-th="">Normal</button><button class="chip" data-th="pt">Só portugueses</button><button class="chip" data-th="lendas">Só lendas</button><button class="chip" data-th="novos">Geração atual</button><button class="chip" data-th="ligapt">Jogaram em Portugal</button><button class="chip" data-th="sam">Sul-americanos</button><button class="chip" data-th="craques">Só craques</button></div></div><div class="tmPick"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div></div>
     <div class="grow"></div>
     <button class="btn" id="tGo">Começar o torneio</button>
     <button class="btn ghost" id="tBack">Voltar</button>
@@ -520,6 +522,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
     <div id="brBox" style="display:flex;flex-direction:column;gap:16px"></div>
     <div class="grow"></div>
     <button class="btn" id="brPlay"></button>
+    <button class="btn ghost" id="brShare">📷 Partilhar o meu onze</button>
     <button class="btn ghost" id="brNew" hidden>Novo jogo</button>
   </div>
 
@@ -542,7 +545,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
       <span class="lbl" id="dRound"></span>
       <div class="who" id="dWho" style="font-size:1.3rem"></div>
     </div>
-    <div class="rule"><span class="lbl">Regra desta ronda</span><div class="r" id="dRule"></div></div>
+    <div class="rule"><span class="lbl" id="dRuleLbl">Regra desta ronda</span><div class="r" id="dRule"></div></div>
     <div class="toast" id="dToast" hidden></div>
     <div class="toast wait" id="dWait" hidden></div>
     <div id="dPitch" class="pitchbox"></div>
@@ -583,6 +586,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
     <span class="lbl">Fichas de jogo</span>
     <div id="preTeams" style="display:flex;flex-direction:column;gap:12px;flex:1;min-height:0"></div>
     <p class="muted" id="preNote"></p>
+    <button class="btn ghost" id="preShare">📷 Partilhar este onze</button>
     <button class="btn" id="kickOff">Apito inicial</button>
   </div>
 
@@ -606,6 +610,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
     <button class="backtop" id="backTop" hidden type="button">⬆ Voltar ao jogo</button>
     <button class="btn ghost" id="skip">Saltar para o fim</button>
     <button class="btn" id="toResult" hidden>Ver análise</button>
+    <button class="btn ghost" id="specExit" hidden>Sair e voltar ao quadro</button>
   </div>
 
   <!-- 6. RESULTADO -->
@@ -625,6 +630,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
     <div class="panel"><span class="lbl">Força das equipas</span><div class="stats" id="stats2"></div></div>
     <div id="postTeams" style="display:flex;flex-direction:column;gap:14px"></div>
     <div class="panel" style="display:flex;flex-direction:column;gap:8px">
+      <button class="btn" id="shareImg">📷 Partilhar imagem do resultado</button>
       <button class="btn ghost" id="shareBtn">Copiar resumo para o WhatsApp</button>
       <span class="msg ok" id="shareMsg"></span>
       <textarea id="shareTxt" hidden rows="8" style="width:100%;box-sizing:border-box;background:var(--turf3);color:var(--chalk);border:1px solid var(--lineC);border-radius:12px;padding:10px;font:inherit"></textarea>
@@ -645,7 +651,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
     <div class="shHead"><h2>Quem joga?</h2><button class="xbtn" data-close aria-label="Fechar">✕</button></div>
     <label class="field" for="n0"><span class="lbl" style="display:flex;align-items:center;gap:8px"><span class="dot" style="--c:var(--home)"></span>Treinador 1</span><input type="text" id="n0" maxlength="16" value="Rui" autocomplete="off"></label>
     <label class="field" for="n1"><span class="lbl" style="display:flex;align-items:center;gap:8px"><span class="dot" style="--c:var(--away)"></span>Treinador 2</span><input type="text" id="n1" maxlength="16" value="Tiago" autocomplete="off"></label>
-<div class="tmPick"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div>
+<div class="thPick"><span class="lbl">Tipo de draft</span><div class="chips thChips"><button class="chip" data-th="">Normal</button><button class="chip" data-th="pt">Só portugueses</button><button class="chip" data-th="lendas">Só lendas</button><button class="chip" data-th="novos">Geração atual</button><button class="chip" data-th="ligapt">Jogaram em Portugal</button><button class="chip" data-th="sam">Sul-americanos</button><button class="chip" data-th="craques">Só craques</button></div></div><div class="tmPick"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div>
     <button class="btn" id="goBtn">Começar</button>
   </div></div>
   <div class="sheet" id="shBot" hidden><div class="sheetIn">
@@ -658,7 +664,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
       <button class="lv" data-lv="3"><b>Lenda</b><small>Quase sempre o melhor disponível. Boa sorte.</small></button>
     </div>
     <p class="muted" id="bRec" style="font-size:.92rem"></p>
-    <div class="tmPick"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div>
+    <div class="thPick"><span class="lbl">Tipo de draft</span><div class="chips thChips"><button class="chip" data-th="">Normal</button><button class="chip" data-th="pt">Só portugueses</button><button class="chip" data-th="lendas">Só lendas</button><button class="chip" data-th="novos">Geração atual</button><button class="chip" data-th="ligapt">Jogaram em Portugal</button><button class="chip" data-th="sam">Sul-americanos</button><button class="chip" data-th="craques">Só craques</button></div></div><div class="tmPick"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div>
     <button class="btn" id="bGo">Começar</button>
   </div></div>
   <div class="sheet" id="shReport" hidden><div class="sheetIn">
@@ -696,7 +702,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
         <li>Em cada ronda começa a escolher um treinador diferente, à vez. Há um <b>tempo</b> para cada escolha (muda-se em Definições): se acabar, entra um júnior da formação.</li>
         <li>Tens 3 tentativas. Se falhares, entra um <b>júnior da formação</b> (fraquinho).</li>
         <li><b>Química:</b> cada jogador ganha +1 por colega com quem passou pelo mesmo clube e +½ por colega do mesmo país (até 3). A equipa vai até 33 e química alta dá até +4 em todos os setores.</li>
-        <li>No jogo, <b>os golos só acontecem nos lances em que vocês escolhem</b>: se quem defende não adivinhar, é golo; se adivinhar, não é.</li>
+        <li>No jogo, <b>os golos só acontecem nos lances em que vocês escolhem</b>: se quem defende não adivinhar, é golo; se adivinhar, não é.</li><li>A equipa mais forte (qualidade, tática, química e capitão) tem <b>mais lances de ataque</b>.</li><li>Ao criar o jogo podes escolher um <b>draft temático</b> (só portugueses, só lendas, geração atual…) e o <b>tempo</b> de cada escolha.</li>
       </ol>
   </div></div>
   <div class="sheet" id="shHist" hidden><div class="sheetIn">
@@ -9849,6 +9855,16 @@ function withRng(r,fn){const o=Math.random;Math.random=r;try{return fn()}finally
 const newSeed=()=>Math.random().toString(36).slice(2,10);
 
 let G=null;
+/* drafts temáticos: só entram jogadores do tema (os júniores da formação entram sempre) */
+const THEMES={"":{n:"Normal",f:()=>true},pt:{n:"Só portugueses",f:p=>p.c==="Portugal"},lendas:{n:"Só lendas (nascidos antes de 1980)",f:p=>p.by>0&&p.by<1980},
+  novos:{n:"Geração atual (nascidos em 1995 ou depois)",f:p=>p.by>=1995},ligapt:{n:"Só quem jogou em Portugal",f:p=>p.cl.some(c=>CC[c]==="PT")},
+  sam:{n:"Só sul-americanos",f:p=>SAM.has(p.c)},craques:{n:"Só craques (80 ou mais)",f:p=>p.r>=80}};
+let THEME=(()=>{const v=store("duelo_theme");return THEMES[v]?v:""})();
+const inTheme=p=>!G||!G.theme||!THEMES[G.theme]||p.youth||THEMES[G.theme].f(p);
+function drawThChips(){document.querySelectorAll(".thChips .chip").forEach(b=>b.setAttribute("aria-pressed",b.dataset.th===THEME))}
+document.querySelectorAll(".thChips .chip").forEach(b=>b.onclick=()=>{THEME=b.dataset.th;store("duelo_theme",THEME);drawThChips();
+  if(G&&G.mode==="online"&&G.me===0&&!G.online.go){G.theme=THEME||null;pushPresence();lobby()}});
+drawThChips();
 const TMOPT=[0,30,45,60,90];
 let TMSET=(()=>{const v=store("duelo_tm");return TMOPT.includes(v)?v:45})();
 function drawTmChips(){document.querySelectorAll(".tmChips .chip").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.s===TMSET))}
@@ -9857,7 +9873,7 @@ document.querySelectorAll(".tmChips .chip").forEach(b=>b.onclick=()=>{TMSET=+b.d
 drawTmChips();
 function newGame(mode,names,seed){
   G={mode,names,n:names.length,seed,cfg:names.map(()=>({coach:null,form:null})),caps:names.map(()=>null),picks:[],mine:[],m:0,me:null,dec:{},res:{},playing:null,cardI:-1,
-     tm:TMSET,showR:$("showR").checked,listMode:$("listMode").checked,teams:null,cur:null,sel:null,tries:3,peekT:null,shownM:0,lastI:-1,coachFor:-1,tour:null};
+     tm:TMSET,avoid:mode==="online"&&!seed?null:(store("duelo_recent_rules")||[]).slice(-70),theme:mode==="online"&&!seed?null:(THEME||null),showR:$("showR").checked,listMode:$("listMode").checked,teams:null,cur:null,sel:null,tries:3,peekT:null,shownM:0,lastI:-1,coachFor:-1,tour:null};
 }
 (function(){const s=store("duelo_names");if(s){$("n0").value=s[0]||"";$("n1").value=s[1]||""}
   const o=store("duelo_online");if(o&&o.code){const b=$("resumeBtn");$("resumeTxt").textContent=`Retomar jogo ${o.code}`;b.hidden=false}})();
@@ -9940,14 +9956,21 @@ const WIDE=new Set(["ME","MD"]);
 const fitsPos=(p,pos,label)=>pos==="SUP"||p.p===pos||(!!p.w&&pos==="MED"&&WIDE.has(label));
 const fitsSlot=(p,s)=>fitsPos(p,s.pos,s.label);
 function eligible(t,rule,pos,label){const n=needs(t),wide=G.teams[t].slots.some(s=>!s.pl&&s.pos==="MED"&&WIDE.has(s.label));
-  return DB.filter(p=>!G.taken.has(p.n)&&(pos?fitsPos(p,pos,label):(n[p.p]>0||n.SUP>0||(p.w&&wide)))&&rule.t(p))}
+  return DB.filter(p=>!G.taken.has(p.n)&&inTheme(p)&&(pos?fitsPos(p,pos,label):(n[p.p]>0||n.SUP>0||(p.w&&wide)))&&rule.t(p))}
+/* regras: categorias sorteadas com peso pela quantidade de regras (as categorias pequenas já não se repetem tanto)
+   e as regras dos últimos jogos ficam para o fim da fila */
 function chooseRule(){
-  const cats=shuffle(RCATS.filter(c=>c!==G.lastCat)),pool=RULES.filter(r=>!G.used.has(r.l));
-  const cands=cats.flatMap(c=>shuffle(pool.filter(r=>r.cat===c)));
+  const pool=RULES.filter(r=>!G.used.has(r.l)&&(!G.theme||!THEMES[G.theme].skip||!THEMES[G.theme].skip(r)));
+  const av=new Set(G.avoid||[]),w={};pool.forEach(r=>{if(r.cat!==G.lastCat)w[r.cat]=(w[r.cat]||0)+1});
+  const cats=[],left=Object.keys(w);while(left.length){let tot=left.reduce((a,c)=>a+Math.sqrt(w[c]),0),x=Math.random()*tot,i=0;
+    for(;i<left.length-1;i++){x-=Math.sqrt(w[left[i]]);if(x<=0)break}cats.push(left.splice(i,1)[0])}
+  const fresh=cats.flatMap(c=>shuffle(pool.filter(r=>r.cat===c&&!av.has(r.l)))),old=cats.flatMap(c=>shuffle(pool.filter(r=>r.cat===c&&av.has(r.l))));
+  const cands=[...fresh,...old];
   for(const [min,q] of [[3,80],[2,76],[2,0],[1,0]]){
     const r=cands.find(r=>G.teams.every((_,t)=>eligible(t,r).filter(p=>p.r>=q).length>=min));if(r)return r}
   return FREE;
 }
+let RULEIXM=null;const RULEIX={get:l=>(RULEIXM=RULEIXM||new Map(RULES.map((r,i)=>[r.l,i]))).get(l)};
 const orderOf=round=>{const n=G.n,f=round%n;return[...Array(n).keys()].map(k=>(f+k)%n)};
 function youthFor(t,pos){const T=G.teams[t],c=T.picks.concat(T.bench||[]).filter(x=>x.youth).length;return{n:"Júnior da formação"+(c?" "+(c+1):""),p:pos==="SUP"?"MED":pos,c:"Portugal",r:64,cl:[],youth:true}}
 function replay(){
@@ -10071,7 +10094,7 @@ function drawDraft(){
   $("dRound").textContent=`Ronda ${G.cur.round+1}/${RD}`+(G.n>2?` · escolha ${G.cur.k+1}/${G.n}`:"");
   const w=$("dWho");w.innerHTML="";w.style.setProperty("--c",COL[pk]);
   w.append(el("span","dot"),el("span",null,act&&G.mode==="online"?"É a tua vez":"Vez de "+G.names[pk]));
-  $("dRule").textContent=G.cur.rule.l;
+  $("dRule").textContent=G.cur.rule.l;$("dRuleLbl").textContent=G.theme&&THEMES[G.theme]?`Regra desta ronda · ${THEMES[G.theme].n.replace(/ \(.*\)$/,"")}`:"Regra desta ronda";
   const ts=$("dToast");
   if(G.lastEv){const e=G.lastEv,ce=!e.p.youth&&G.teams[e.t]?chemInfo(G.teams[e.t]).per.get(e.p):null;
     const ctx=ce&&ce.club.length?` · ⚡ química com ${dn(ce.club[0].q.n)} (${ce.club[0].c})${ce.club.length>1?` e mais ${ce.club.length-1}`:""}`:ce&&ce.nat.length?` · ⚡ química com ${dn(ce.nat[0].n)} (mesmo país)`:"";
@@ -10116,7 +10139,7 @@ function suggest(q,pos,label){
   const words=k.split(" ");
   a=a.concat(KEYS.filter(x=>fitsPos(x.p,pos,label)&&words.every(w=>x.k.split(" ").some(t=>t.startsWith(w)))).map(x=>x.p));
   if(a.length<3&&k.length>=4){const tol=k.length>=7?2:1;a=a.concat(KEYS.filter(x=>fitsPos(x.p,pos,label)&&(lev(x.k,k)<=tol||x.k.split(" ").some(w=>w.length>=4&&lev(w,k)<=tol))).map(x=>x.p))}
-  a=[...new Set(a)].filter(p=>fitsPos(p,pos,label));
+  a=[...new Set(a)].filter(p=>fitsPos(p,pos,label)&&inTheme(p));
   return a.sort((x,y)=>(key(x.n).startsWith(k)?0:1)-(key(y.n).startsWith(k)?0:1)||y.r-x.r).slice(0,12);
 }
 function drawSug(){
@@ -10140,6 +10163,7 @@ function tryPlayer(p){
   if(!canAct()||G.sel==null)return;
   const s=G.teams[picker()].slots[G.sel];
   if(G.taken.has(p.n)){say(`${p.n} já foi escolhido. Tenta outro.`,"bad");return}
+  if(!inTheme(p)){say(`Neste draft só valem jogadores do tema: ${THEMES[G.theme].n}. Tenta outro.`,"bad");return}
   if(!fitsSlot(p,s)){say(`${p.n} é ${POSL[p.p]}. Esta posição é para um ${POSL[s.pos]}${s.pos==="MED"&&WIDE.has(s.label)?" ou extremo":""}.`,"bad");return}
   if(!G.cur.rule.t(p)){
     G.tries--;
@@ -10252,6 +10276,7 @@ function render(){
   else{if(!G.cfg[G.me].form)return coachScreen(G.me);const wc=G.cfg.findIndex(c=>!c.form);if(wc>=0)return lobby(`${G.names[G.me]}, já escolheste. À espera que ${G.names[wc]} escolha o treinador…`)}
   replay();maybeCard();
   if(!G.cur.done)return draftScreen();
+  if(!G.rulesSaved){G.rulesSaved=1;const L=(store("duelo_recent_rules")||[]).filter(l=>!G.rules.some(r=>r&&r.l===l));store("duelo_recent_rules",[...L,...G.rules.filter(Boolean).map(r=>r.l)].slice(-70))}
   G.teams.forEach((T,t)=>{T.cap=G.caps[t]!=null&&T.slots[G.caps[t]]?T.slots[G.caps[t]].pl:null});
   if(G.mode!=="online"){for(let t=0;t<G.n;t++)if(G.caps[t]==null){if(isBot(t)){botCap(t);G.teams[t].cap=G.teams[t].slots[G.caps[t]].pl;continue}return capScreen(t)}}
   else{if(G.caps[G.me]==null)return capScreen(G.me);const wk=G.caps.findIndex(c=>c==null);if(wk>=0)return lobby(`À espera que ${G.names[wk]} escolha o capitão…`)}
@@ -10287,14 +10312,14 @@ function lobby(msg){
       if(r&&r.b){row.append(el("span","blv","bot · "+LVN[r.b]));if(host&&!G.online.go){const x=el("button","bx","✕");x.type="button";x.setAttribute("aria-label","Tirar "+r.n);x.onclick=()=>removeOnlineBot(i);row.append(x)}}
       L.append(row)}}
     $("lbBots").hidden=!(host&&n>2&&!G.online.go&&!full);
-    $("lbTm").hidden=!(host&&!G.online.go);drawTmChips();
-    $("lbTmInfo").hidden=host||G.me==null;$("lbTmInfo").textContent=`Tempo para cada escolha: ${G.tm?G.tm+" s":"sem tempo"} (escolhe quem cria o jogo).`;
+    $("lbOpts").hidden=!(host&&!G.online.go);drawTmChips();drawThChips();
+    $("lbTmInfo").hidden=host||G.me==null;$("lbTmInfo").textContent=`Draft: ${THEMES[G.theme||""].n} · Tempo: ${G.tm?G.tm+" s":"sem tempo"} (escolhe quem cria o jogo).`;
     $("lbBotLv").querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.lv===onlineBotLv));
-    $("lbStart").hidden=!(host&&n>2&&!G.online.go);$("lbStart").disabled=!full;
-    $("lbStart").textContent=full?"Começar o torneio":`À espera de ${n-ro.length} jogador${n-ro.length>1?"es":""}…`;
+    $("lbStart").hidden=!(host&&(n>2||G.online.gen)&&!G.online.go);$("lbStart").disabled=!full;
+    $("lbStart").textContent=full?(n>2?"Começar o torneio":"Começar o jogo"):`À espera de ${n-ro.length} jogador${n-ro.length>1?"es":""}…`;
     let st=msg||G.online.err;
-    if(!st){if(host)st=full?(n>2?"Estão todos. Carrega em Começar o torneio.":"A começar…"):(n>2?"Dá o código ou o link aos teus amigos. O torneio é para 4.":"Dá este código ao teu adversário. À espera que ele entre…");
-      else st=G.me==null?`À procura do jogo ${G.online.code}…`:(n>2&&!G.online.go?"Estás dentro! À espera que o anfitrião comece o torneio.":"A começar…")}
+    if(!st){if(host)st=full?(n>2||G.online.gen?`Estão todos. Escolhe o tipo de draft e o tempo e carrega em ${n>2?"Começar o torneio":"Começar o jogo"}.`:"A começar…"):(n>2?"Dá o código ou o link aos teus amigos. O torneio é para 4.":"Dá este código ao teu adversário. À espera que ele entre…");
+      else st=G.me==null?`À procura do jogo ${G.online.code}…`:(!G.online.go&&(n>2||G.online.gen)?`Estás dentro! À espera que ${G.names[0]} comece ${n>2?"o torneio":"o jogo"}.`:"A começar…")}
     $("lbStatus").textContent=st;
   }
   show("sLobby");
@@ -10400,10 +10425,10 @@ $("lbCode").addEventListener("keydown",e=>{if(e.key==="Enter")$("lbJoin").click(
 function resumeOnline(auto){
   const o=store("duelo_online");if(!o)return;
   const n=o.n||2,names=Array.from({length:n},(_,i)=>o.ro&&o.ro[i]?o.ro[i].n:"…");
-  newGame("online",names,o.seed);G.me=o.me;G.online={code:o.code,auto:auto||0,n,uid:o.uid||myUid(),ro:o.ro||null,go:!!o.go};
+  newGame("online",names,o.seed);G.me=o.me;G.online={code:o.code,auto:auto||0,n,uid:o.uid||myUid(),ro:o.ro||null,go:!!o.go,gen:+o.gen||0};
   if(G.me!=null)G.cfg[G.me]={coach:COACHES.find(c=>c.n===o.coach)||null,form:o.coach?o.form:null};
   G.mine=o.mine||[];G.m=o.m||0;if(G.me!=null)G.caps[G.me]=o.cap??null;
-  if(o.dec&&typeof o.dec==="object")G.dec=o.dec;if(o.bst&&typeof o.bst==="object")G.botSt=o.bst;if(G.online.ro)syncBots();if(o.cans)G.claimAns=o.cans;if(o.res)G.res=o.res;mergePicks();connect();
+  if(o.dec&&typeof o.dec==="object")G.dec=o.dec;if(o.bst&&typeof o.bst==="object")G.botSt=o.bst;G.avoid=Array.isArray(o.av)?o.av:null;G.theme=o.th&&THEMES[o.th]?o.th:null;if(G.online.ro)syncBots();if(o.cans)G.claimAns=o.cans;if(o.res)G.res=o.res;mergePicks();connect();
 }
 $("resumeBtn").onclick=()=>resumeOnline(0);
 function autoResume(){
@@ -10551,17 +10576,33 @@ async function connect(){
   ROOM.onPeers(onPeers,e=>{if(G&&G.online)autoResume()});
   pushPresence();render();
 }
+/* novo jogo na mesma sala: o anfitrião sorteia tudo de novo e os outros seguem-no (sem voltar a enviar o link) */
+function stopMatchUI(){stopFeed();if(SC.raf)cancelAnimationFrame(SC.raf);SC.raf=0;SC.busy=false;SC.end=null;SC.S=null;tvZones(null);LIVE=null}
+function resetGame(seed,gen){
+  stopMatchUI();const n=G.n;
+  Object.assign(G,{seed,cfg:Array.from({length:n},()=>({coach:null,form:null})),caps:Array(n).fill(null),picks:[],mine:[],m:0,dec:{},res:{},playing:null,
+    botSt:null,tko:null,cardI:-1,teams:null,cur:null,sel:null,tries:3,peekT:null,shownM:0,lastI:-1,coachFor:-1,capFor:-1,rulesSaved:0,botAt:null,botPlay:{},
+    timeoutAt:null,waitStart:null,autoIn:null,confettiDone:0,claimReq:null,claimAns:null,claimWait:0,lastEv:null});
+  G.online.go=false;G.online.gen=gen;G.online.nx=0;
+}
+function newRound(){
+  if(!G||G.mode!=="online")return;
+  if(G.me===0){resetGame(newSeed(),(G.online.gen||0)+1);G.avoid=(store("duelo_recent_rules")||[]).slice(-70);G.theme=THEME||null;G.tm=TMSET;
+    if(G.online.ro)G.online.ro.forEach((r,i)=>{if(r.b){r.n="Bot "+G.online.ro.slice(0,i+1).filter(x=>x.b).length;G.names[i]=r.n}});syncBots();
+    pushPresence();lobby();return}
+  G.online.nx=(G.online.gen||0)+1;pushPresence();lobby(`À espera que ${G.names[0]} comece o novo jogo…`);
+}
 function myPresence(){
   const me=G.me,c=me!=null?G.cfg[me]:{coach:null,form:null},dk=LIVE&&LIVE.dk,side=LIVE&&LIVE.mySide,h=dk&&G.dec[dk];
-  return{g:"duelo",code:G.online.code,uid:G.online.uid,n:G.online.n,host:me===0,name:me!=null?G.names[me]:myName(),seed:me===0?G.seed:null,
+  return{g:"duelo",gen:G.online.gen||0,nx:G.online.nx||0,code:G.online.code,uid:G.online.uid,n:G.online.n,host:me===0,name:me!=null?G.names[me]:myName(),seed:me===0?G.seed:null,
     ro:me===0?G.online.ro:null,go:me===0?!!G.online.go:null,
     coach:c.coach?c.coach.n:null,form:c.coach?c.form:null,picks:G.mine.map(e=>({o:e.o,s:e.s,n:e.n,y:e.y?1:0,at:e.at||0})),m:G.m,cap:me!=null?G.caps[me]:null,
-    dec:h&&side!=null?{k:dk,d:h[side]}:null,lv:LIVE&&LIVE.dk&&!LIVE.done?{k:LIVE.dk,si:LIVE.si,w:LIVE.atStop?1:0,mn:LIVE.minute}:null,claim:G.claimReq||null,cans:G.claimAns||null,res:G.res||null,play:G.playing||null,bots:me===0&&G.botSt?G.botSt:null,tko:me===0&&G.tko?Object.values(G.tko):null,tm:me===0?G.tm:null};
+    dec:h&&side!=null?{k:dk,d:h[side]}:null,lv:LIVE&&LIVE.dk&&!LIVE.done?{k:LIVE.dk,si:LIVE.si,w:LIVE.atStop?1:0,mn:LIVE.minute}:null,claim:G.claimReq||null,cans:G.claimAns||null,res:G.res||null,play:G.playing||null,bots:me===0&&G.botSt?G.botSt:null,av:me===0&&G.avoid?G.avoid.map(l=>RULEIX.get(l)).filter(x=>x!=null):null,th:me===0?G.theme||"":null,tko:me===0&&G.tko?Object.values(G.tko):null,tm:me===0?G.tm:null};
 }
 function pushPresence(){
   const me=G.me,c=me!=null?G.cfg[me]:{coach:null,form:null};
   store("duelo_online",{code:G.online.code,me,n:G.online.n,uid:G.online.uid,ro:G.online.ro,go:!!G.online.go,name:me!=null?G.names[me]:myName(),seed:G.seed,
-    coach:c.coach?c.coach.n:null,form:c.form,mine:G.mine,m:G.m,cap:me!=null?G.caps[me]:null,dec:G.dec,cans:G.claimAns||null,res:G.res||null,bst:me===0?G.botSt||null:null});
+    coach:c.coach?c.coach.n:null,form:c.form,mine:G.mine,m:G.m,cap:me!=null?G.caps[me]:null,dec:G.dec,cans:G.claimAns||null,res:G.res||null,bst:me===0?G.botSt||null:null,av:G.avoid||null,th:G.theme||null,gen:G.online.gen||0});
   if(ROOM)ROOM.presence(myPresence()).catch(()=>{});
 }
 function mergePicks(){
@@ -10577,12 +10618,18 @@ function sideIn(dk,seat){if(dk[0]==="m")return seat;const mt=tourMatchByKey(dk);
 /* jogo online sincronizado: se o outro telemóvel já chegou à próxima paragem (ou mais à frente), este salta até lá */
 function liveSync(){
   if(!G||G.mode!=="online"||!LIVE||!LIVE.dk||LIVE.done||$("sMatch").hidden||!timer)return;
-  const o=LIVE.ci[1-LIVE.mySide],p=PEERS[o];if(!p||!p.lv||p.lv.k!==LIVE.dk)return;
+  let p=null;
+  if(LIVE.mySide==null){[0,1].forEach(x=>{const q=PEERS[LIVE.ci[x]];if(q&&q.lv&&q.lv.k===LIVE.dk&&(!p||q.lv.si>p.lv.si||(q.lv.si===p.lv.si&&(+q.lv.mn||0)>(+p.lv.mn||0))))p=q})}
+  else p=PEERS[LIVE.ci[1-LIVE.mySide]];
+  if(!p||!p.lv||p.lv.k!==LIVE.dk)return;
   if(p.lv.si>LIVE.si||(p.lv.si===LIVE.si&&p.lv.w)){setTimeout(()=>{if(timer&&LIVE&&!LIVE.done)$("skip").click()},0);return}
   /* a meio do relato: se o outro vai mais de 2 minutos à frente, este acelera até o apanhar */
   if(p.lv.si===LIVE.si&&+p.lv.mn>LIVE.minute+2)LIVE.catchTo=+p.lv.mn;
 }
 setInterval(()=>{try{liveSync();
+  /* rede: se as duas decisões já cá estão mas nada as resolveu, resolve agora */
+  if(G&&G.mode==="online"&&LIVE&&LIVE.waiting!=null&&!LIVE.leadRunning&&!$("sMatch").hidden){const k=LIVE.waiting,stop=LIVE.plan[k],d=decGet();
+    const ok=stop.kind==="mom"?sidesFor(stop).every(x=>d[x][k])&&(!needsTaker(stop)||d[stop.t]["t"+k]!=null):[0,1].every(x=>d[x][k]);if(ok)drawDecision()}
   if(G&&G.mode==="online"&&LIVE&&LIVE.dk&&!LIVE.done&&timer&&Math.abs(LIVE.minute-(LIVE.pushMn??-9))>=3){LIVE.pushMn=LIVE.minute;pushPresence()}}catch(e){}},1000);
 function onPeers(ch){
   if(!G||!G.online)return;LASTCH=ch;
@@ -10593,12 +10640,17 @@ function onPeers(ch){
     list.forEach(pr=>{const i=G.online.ro.findIndex(r=>r.u===pr.uid),nm=cleanName(pr.name)||"Treinador";
       if(i<0&&G.online.ro.length<G.online.n&&!G.online.go){G.online.ro.push({u:pr.uid,n:nm});changed=true}
       else if(i>0&&G.online.ro[i].n!==nm){G.online.ro[i].n=nm;changed=true}});
-    if(G.online.n<=2&&rosterFull()&&!G.online.go){G.online.go=true;changed=true}
+    if(G.online.n<=2&&rosterFull()&&!G.online.go&&!G.online.gen){G.online.go=true;changed=true}
+    /* alguém carregou em "Novo jogo": recomeça na mesma sala */
+    if(list.some(pr=>(+pr.nx||0)>(G.online.gen||0))&&G.online.go){newRound();return}
     if(changed)pushPresence();
   }else{
     const h=list.find(p=>p.host);
+    if(h&&(+h.gen||0)>(G.online.gen||0)&&typeof h.seed==="string"){resetGame(h.seed,+h.gen);G.avoid=null;G.theme=null}
     if(h){
       if(!G.seed&&typeof h.seed==="string")G.seed=h.seed;
+      if(Array.isArray(h.av))G.avoid=h.av.filter(i=>RULES[i]).map(i=>RULES[i].l);
+      if(typeof h.th==="string")G.theme=THEMES[h.th]?h.th:null;
       if(typeof h.n==="number"&&(h.n===2||h.n===4)&&h.n!==G.online.n){G.online.n=h.n;ensureN(h.n)}
       if(Array.isArray(h.ro)){G.online.ro=h.ro.filter(r=>r&&typeof r.u==="string").slice(0,G.online.n).map(r=>({u:r.u,n:cleanName(r.n)||"Treinador",...(r.b>=1&&r.b<=3?{b:r.b}:{})}));
         const i=G.online.ro.findIndex(r=>r.u===G.online.uid);if(i>0&&G.me!==i){G.me=i;G.names[i]=myName();pushPresence()}}
@@ -10607,7 +10659,7 @@ function onPeers(ch){
   }
   if(G.online.ro)G.online.ro.forEach((r,i)=>{if(i!==G.me&&i<G.n)G.names[i]=r.n});
   const prev=PEERS;PEERS={};
-  list.forEach(pr=>{const s=G.online.ro?G.online.ro.findIndex(r=>r.u===pr.uid):-1;if(s>=0&&s!==G.me&&s<G.n)PEERS[s]=pr});
+  list.forEach(pr=>{const s=G.online.ro?G.online.ro.findIndex(r=>r.u===pr.uid):-1;if(s>=0&&s!==G.me&&s<G.n)PEERS[s]=(+pr.gen||0)===(G.online.gen||0)?pr:{uid:pr.uid,name:pr.name,host:pr.host,gen:pr.gen,nx:pr.nx}});
   if(G.online.ro)syncBots();
   {const hp=list.find(p=>p.host),bsrc=G.me===0?G.botSt:hp&&hp.bots;
     if(bsrc&&typeof bsrc==="object")Object.entries(bsrc).forEach(([s,b])=>{s=+s;if(isBot(s)&&s!==G.me&&s<G.n&&b&&typeof b==="object")PEERS[s]={coach:b.coach,form:b.form,cap:b.cap,picks:Array.isArray(b.picks)?b.picks:[]}})}
@@ -10624,6 +10676,7 @@ function onPeers(ch){
   if(G.me==null){lobby();return}
   mergePicks();lockTakenCoach();
   liveSync();
+  if(LIVE&&LIVE.spect&&isTourOnline()){const mt=myTourMatch();if(mt){const o=mt.a===G.me?mt.b:mt.a;if(PEERS[o]&&PEERS[o].play===mt.key&&G.warnPlay!==mt.key){G.warnPlay=mt.key;addLine({m:LIVE.minute,info:true,tx:`⚽ ${G.names[o]} está à tua espera para o teu jogo! Carrega em "Sair e voltar ao quadro".`});feedTop(true)}}}
   if(LIVE&&LIVE.waiting!=null&&!$("sMatch").hidden){drawDecision();return}
   if(LIVE&&!LIVE.done&&!$("sMatch").hidden)return;
   if(!$("sDraft").hidden&&G.cfg.every(c=>c.form)){replay();if(!G.cur.done&&G.lastI===G.cur.i){maybeCard();drawDraft();return}}
@@ -10661,14 +10714,21 @@ function startTourOnlineMatch(mt){
     const fin=tourRounds().slice(-1)[0];if(fin.length===1&&!fin[0].third&&fin[0].key===mt.key&&fin[0].res)saveChamp(G.names[fin[0].res.w]);
   }});
 }
+function spectate(mt){
+  G.watching=mt.key;
+  startMatch({a:mt.a,b:mt.b,key:G.seed+":"+mt.key,dk:mt.key,mySide:null,spect:true,back:"Voltar ao quadro",onDone:()=>{G.watching=null}});
+  $("specExit").hidden=false;addLine({m:0,info:true,tx:`👁 Estás a ver ${G.names[mt.a]} x ${G.names[mt.b]} em direto.`});
+}
+$("specExit").onclick=()=>{stopMatchUI();G.watching=null;$("specExit").hidden=true;bracketOnline()};
 function bracketOnline(){
-  const R=tourRounds(),box=$("brBox");box.innerHTML="";
+  const R=tourRounds(),box=$("brBox");box.innerHTML="";$("brShare").hidden=G.me==null;
   R.forEach(r=>{
     const sec=el("div","brRound"+(r[0]&&r[0].third?" third":""));sec.append(el("span","lbl",roundName(r)));
     r.forEach(mt=>{const c=el("div","brMatch");
       const live=!mt.res&&Object.values(PEERS).some(p=>p.play===mt.key);
       [mt.a,mt.b].forEach((t,j)=>{const row=el("div","brTeam"+(mt.res&&mt.res.w===t?" win":mt.res?" lose":""));const d=el("span","dot");d.style.setProperty("--c",COL[t]);
         row.append(d,el("span","bn",G.names[t]+(t===G.me?" (tu)":"")),el("b",null,mt.res?String(mt.res.g[j])+(mt.res.p?` (${mt.res.p[j]})`:""):live?"a jogar…":""));c.append(row)});
+      if(live&&mt.a!==G.me&&mt.b!==G.me){const w=el("button","btn ghost watchBtn","👁 Ver em direto");w.type="button";w.onclick=()=>spectate(mt);c.append(w)}
       sec.append(c)});
     box.append(sec);
   });
@@ -10718,7 +10778,7 @@ $("tGo").onclick=()=>{
 };
 const RNAME=n=>n===2?"Final":n===4?"Meias-finais":"Quartos de final";
 function bracket(){
-  const T=G.tour,box=$("brBox");box.innerHTML="";
+  const T=G.tour,box=$("brBox");box.innerHTML="";$("brShare").hidden=true;
   T.rounds.forEach(r=>{
     const sec=el("div","brRound"+(r[0]&&r[0].third?" third":""));sec.append(el("span","lbl",roundName(r)));
     r.forEach(mt=>{const c=el("div","brMatch");
@@ -10750,7 +10810,7 @@ $("repSend").onclick=async()=>{const t=$("repTxt").value.trim();if(!t){$("repMsg
 $("repCopy").onclick=async()=>{const L=repLocal(),tx="Erros no Duelo de Onzes:\n"+L.map(r=>r.kind==="texto"?`- ${r.txt}`:`- ${dn(r.n)} ${r.kind==="cumpre"?"CUMPRE":"NÃO cumpre"} "${r.rule}"`).join("\n");
   try{await navigator.clipboard.writeText(tx);$("repCopyMsg").textContent="Copiado. Cola na conversa com o Diogo."}catch(e){$("repCopyMsg").textContent=tx}};
 setTimeout(()=>{try{drawRepLocal()}catch(e){}},0);
-$("brNew").onclick=()=>{if(G&&G.mode==="online"){leaveOnline();return}G=null;show("sStart")};
+$("brNew").onclick=()=>{if(G&&G.mode==="online"){newRound();return}G=null;show("sStart")};
 
 /* ---- força das equipas ---- */
 const OOP=7;
@@ -11881,9 +11941,12 @@ function makePlan(st,key){
   return withRng(seeded(key+":plan"),()=>{
     const pickMins=(a,b,n)=>{const out=[];let g=0;while(out.length<n&&g++<200){const m=a+rand(b-a+1);if(out.every(x=>Math.abs(x-m)>=6))out.push(m)}return out.sort((x,y)=>x-y)};
     const mins=[...pickMins(6,42,2+(Math.random()<.4?1:0)),...pickMins(50,88,3)];
-    let t=rand(2);const stops=[];
-    mins.forEach(m=>{
-      const o=1-t,T=st.T[t],O=st.T[o];
+    /* a equipa mais forte (qualidade, tática, química, capitão) tem mais lances de ataque; cada uma tem pelo menos um */
+    const d=st.S[0].ovr-st.S[1].ovr,pA=Math.min(.78,Math.max(.22,.5+d*.035)),nA=Math.min(mins.length-1,Math.max(1,Math.round(mins.length*pA+(Math.random()-.5)*.9)));
+    const who=shuffle(mins.map((_,i)=>i<nA?0:1));st.planShare=[nA,mins.length-nA];
+    const stops=[];
+    mins.forEach((m,mi)=>{
+      const t=who[mi],o=1-t,T=st.T[t],O=st.T[o];
       const type=wpick([["pen",.18],["uu",.26],["ca",.2],["fk",.16],["co",.2]]);
       const fieldT=field(T),sh=shooter(T),gk=gkOf(O)||{n:"Guarda-redes"};
       const fw=[...fieldT].filter(p=>p!==sh&&p.p==="AVA").sort((a,b)=>b.r-a.r)[0]||[...fieldT].filter(p=>p!==sh).sort((a,b)=>b.r-a.r)[0];
@@ -11891,7 +11954,6 @@ function makePlan(st,key){
       const hd=type==="co"?wpick(fieldT.map(p=>[p,(p.p==="DEF"?2.5:p.p==="AVA"?2:1)*(p.h>=185?2:1)])):sh;
       const df=[...field(O)].filter(p=>p.p==="DEF").sort((a,b)=>b.r-a.r)[0]||field(O)[0];
       stops.push({m,kind:"mom",type,t,sh:type==="co"?hd:sh,gk,fw,tk,df});
-      t=o;
     });
     stops.push({m:45,kind:"ht"},{m:45,kind:"sub",ht:true},{m:60,kind:"sub"},{m:90,kind:"end"});
     return stops.sort((a,b)=>a.m-b.m||((a.kind==="sub")-(b.kind==="sub"))||(a.kind==="mom"?-1:1));
@@ -11900,26 +11962,31 @@ function makePlan(st,key){
 function decGet(){return G.mode==="online"&&LIVE.dk?(G.dec[LIVE.dk]=G.dec[LIVE.dk]||[{},{}]):LIVE.dec}
 function decStr(k){const d=decGet();return[...Array(k).keys()].map(j=>(d[0][j]||"-")+(d[1][j]||"-")).join(",")}
 function startMatch(o){
-  stopFeed();
+  stopFeed();$("specExit").hidden=true;
   if(SC.raf)cancelAnimationFrame(SC.raf);SC.raf=0;SC.busy=false;SC.end=null;SC.S=null;SC.lastS=null;SC.idleS=null;$("tv").hidden=true;
   LIVE={...o,ci:[o.a,o.b],minute:0,i:0,si:0,pos:1,score:[0,0],pen:[0,0],dec:[{},{}],waiting:null,done:false,recorded:false,usedPat:new Set(),ch:[0,0],lastSc:-20,momS:null,leadRunning:false};
   LIVE.st=simStart(o.a,o.b);LIVE.st.kit=kitFor(LIVE.st);LIVE.plan=makePlan(LIVE.st,o.key);
+  /* voltar a meio do jogo: os lances já decididos pelos dois passam a correr, até ao ponto onde se estava */
+  if(G.mode==="online"&&o.dk){const d=decGet();let mx=0;Object.keys(d[0]).concat(Object.keys(d[1])).forEach(k=>{if(/^\d+$/.test(k)&&d[0][k]&&d[1][k])mx=Math.max(mx,+k+1)});LIVE.ffTo=mx}
   const st=LIVE.st;
   $("bH").textContent=st.N[0];$("bA").textContent=st.N[1];["bH","bA"].forEach(i=>{$(i).classList.remove("rc","rc2");$(i).dataset.rc=0});$("bH").style.color=COL[st.ci[0]];$("bA").style.color=COL[st.ci[1]];
   $("bS").textContent="0–0";$("clock").textContent="0'";$("feed").innerHTML="";$("skip").hidden=false;$("toResult").hidden=true;$("momBox").hidden=true;
   show("sMatch");whistle(1);SC.skip=false;requestAnimationFrame(tvIdle);
   addLine({m:0,info:true,tx:`Começa o jogo! ${st.T[0].coach.n} contra ${st.T[1].coach.n}.`});
+  {const sh=st.planShare;if(sh&&sh[0]!==sh[1]){const f=sh[0]>sh[1]?0:1;addLine({m:0,info:true,tx:`${st.N[f]} tem a equipa mais forte: vai ter mais lances de ataque (${sh[f]} contra ${sh[1-f]}).`})}}
   proceed();
 }
 function startDuelMatch(){G.shownM=G.m;startMatch({a:0,b:1,key:G.seed+":m"+G.m,dk:G.mode==="online"?"m"+G.m:null,mySide:G.mode==="online"?G.me:null,onDone:recordDuel})}
+const ffOn=()=>!!(LIVE&&LIVE.si<(LIVE.ffTo||0));
+const ffMs=ms=>LIVE&&LIVE.si<=(LIVE.ffTo||0)&&LIVE.ffTo?40:ms;
 function proceed(){
   LIVE.atStop=false;
   const k=LIVE.si,stop=LIVE.plan[k],to=stop.kind==="mom"?stop.m-1:stop.m;
   if(to>=LIVE.pos)withRng(seeded(LIVE.key+":s"+k+":"+decStr(k)),()=>simHalf(LIVE.st,LIVE.pos,to));
   LIVE.pos=stop.kind==="mom"?stop.m:stop.m+1;
   if(stop.kind==="end")withRng(seeded(LIVE.key+":end:"+decStr(k)),()=>simEnd(LIVE.st));
-  SC.skip=!!LIVE.auto;$("skip").hidden=false;runFeed(to,stop.kind==="end");
-  if(LIVE.auto)setTimeout(()=>{if(LIVE&&!LIVE.done&&timer)$("skip").click()},30);
+  SC.skip=!!LIVE.auto||ffOn();$("skip").hidden=false;runFeed(to,stop.kind==="end");
+  if(LIVE.auto||ffOn())setTimeout(()=>{if(LIVE&&!LIVE.done&&timer)$("skip").click()},30);
 }
 function runFeed(until,final){
   stopFeed();
@@ -11982,7 +12049,7 @@ function reachStop(){
   else if(stop.kind==="sub"&&stop.ht){$("clock").textContent="Intervalo"}
   else{$("clock").textContent=stop.so?`Penáltis ${LIVE.pk.g.join("–")}`:stop.m+"'";whistle(1)}
   LIVE.waiting=LIVE.si;LIVE.localStep=0;
-  if(stop.kind==="mom"){const S=momentPlay(stop,LIVE.si);LIVE.momS=S;LIVE.leadRunning=true;S.onFreeze=()=>{LIVE.leadRunning=false;drawDecision()};runS(S,null);if(S.frozen&&LIVE.leadRunning){LIVE.leadRunning=false;drawDecision()}return}
+  if(stop.kind==="mom"){const S=momentPlay(stop,LIVE.si);LIVE.momS=S;LIVE.leadRunning=true;S.onFreeze=()=>{if(!LIVE)return;LIVE.leadRunning=false;drawDecision()};runS(S,null);if(S.frozen&&LIVE.leadRunning){LIVE.leadRunning=false;drawDecision()}return}
   drawDecision();
 }
 function sidesFor(stop){return stop.kind==="ht"||stop.kind==="sub"?[0,1]:[stop.t,1-stop.t]}
@@ -12109,7 +12176,7 @@ function resolveStop(k){
       T.nsub=n;st.T[j]=T;st.S[j]=strength(T)});
     const none=[0,1].every(j=>!subPairs(d[j][k]).length);
     rr.hidden=none;LIVE.si++;if(!stop.ht)flushTo(stop.m,false);
-    setTimeout(()=>{if(LIVE&&!LIVE.done&&LIVE.si===k+1&&LIVE.waiting==null){$("momBox").hidden=true;if(stop.ht)whistle(1);proceed()}},none?60:2200);return;
+    setTimeout(()=>{if(LIVE&&!LIVE.done&&LIVE.si===k+1&&LIVE.waiting==null){$("momBox").hidden=true;if(stop.ht)whistle(1);proceed()}},none?60:ffMs(2200));return;
   }
   if(stop.kind==="ht"){
     st.mods=[HTC[d[0][k]]||{},HTC[d[1][k]]||{}];
@@ -12118,7 +12185,7 @@ function resolveStop(k){
     [0,1].forEach(t=>{const c=d[t][k];if(c&&c!=="keep")st.ev.push({m:46,t,tx:c==="att"?`${st.T[t].coach.n} manda ${st.N[t]} para a frente ao intervalo.`:`${st.T[t].coach.n} fecha ${st.N[t]} lá atrás.`})});
     $("momRows").innerHTML="";const rr=$("momResult");rr.innerHTML="";
     [0,1].forEach(t=>rr.append(el("div","rt3",`${st.N[t]}: ${HTC[d[t][k]]?HTC[d[t][k]].l:"Manter"}${d[t]["f"+k]?" · "+st.T[t].form:""}`)));rr.hidden=false;
-    LIVE.si++;setTimeout(()=>{if(LIVE&&!LIVE.done&&LIVE.si===k+1&&LIVE.waiting==null){$("momBox").hidden=true;proceed()}},2400);return;
+    LIVE.si++;setTimeout(()=>{if(LIVE&&!LIVE.done&&LIVE.si===k+1&&LIVE.waiting==null){$("momBox").hidden=true;proceed()}},ffMs(2400));return;
   }
   if(needsTaker(stop)){const tk=takerOf(stop,d,k);if(tk){LIVE.plan[k]=stop.type==="fk"?{...stop,tk,sh:tk}:{...stop,sh:tk}}}
   return resolveStop2(k);
@@ -12166,7 +12233,7 @@ function resolveStop2(k){
       $("momRows").innerHTML="";$("momTitle").textContent=`Penáltis · ${P.g[0]}–${P.g[1]}`;$("momSub").textContent="";
       const r=$("momResult");r.innerHTML="";r.append(el("div","rv",`${st.N[t]}: ${lbl(t,a)} · ${st.N[o]}: ${lbl(o,df)}`),el("div","rt3"+(res.goal?" g":""),res.tx));r.hidden=false;$("momBox").hidden=false;
       LIVE.si++;const end=pkDone(P);
-      setTimeout(()=>{if(!LIVE||LIVE.waiting!=null||LIVE.done||LIVE.si!==k+1)return;$("momBox").hidden=true;if(end)endShootout();else{pushPk();reachStop()}},1900);
+      setTimeout(()=>{if(!LIVE||LIVE.waiting!=null||LIVE.done||LIVE.si!==k+1)return;$("momBox").hidden=true;if(end)endShootout();else{pushPk();reachStop()}},ffMs(1900));
       return}
     st.shots[t]++;if(res.kind!=="wide"&&res.kind!=="post")st.on[t]++;
     if(res.sc)st.stats.sh[res.sc.n]=(st.stats.sh[res.sc.n]||0)+1;if(res.kind==="save"&&stop.gk)st.stats.sv[stop.gk.n]=(st.stats.sv[stop.gk.n]||0)+1;
@@ -12177,7 +12244,7 @@ function resolveStop2(k){
     const r=$("momResult");r.innerHTML="";r.append(el("div","rv",`${st.N[t]}: ${lbl(t,a)} · ${st.N[o]}: ${lbl(o,df)}`),el("div","rt3"+(res.goal?" g":""),res.tx));r.hidden=false;$("momBox").hidden=false;
     flushTo(stop.m,false);
     LIVE.si++;
-    setTimeout(()=>{if(LIVE&&LIVE.waiting==null&&!LIVE.done&&LIVE.si===k+1){$("momBox").hidden=true;proceed()}},2400);
+    setTimeout(()=>{if(LIVE&&LIVE.waiting==null&&!LIVE.done&&LIVE.si===k+1){$("momBox").hidden=true;proceed()}},ffMs(2400));
   });
 }
 /* desempate: série de penáltis, cada um decidido às escondidas */
@@ -12253,7 +12320,7 @@ function drawNotes(){
   });
   box.append(list);
 }
-function result(){
+function result(){$("specExit").hidden=true;
   const st=LIVE.st,g=st.goals,ci=st.ci,w=st.w;
   [[0,"H"],[1,"A"]].forEach(([j,k])=>{const t=ci[j],T=st.T[j];$("r"+k).textContent=st.N[j];$("r"+k).style.color=COL[t];
     const c=$("rC"+k);c.style.setProperty("--c",COL[t]);c.textContent=(st.N[j].replace(/^Bot\s+/,"").trim()[0]||"?").toUpperCase();
@@ -12286,7 +12353,7 @@ function result(){
   show("sResult");confetti(COL[ci[w]]);
 }
 $("rematch").onclick=()=>{unlockAudio();G.m++;if(G.mode==="online")pushPresence();render()};
-$("newGame").onclick=()=>{if(G&&G.mode==="online")leaveOnline();else{G=null;show("sStart");drawHistory()}};
+$("newGame").onclick=()=>{if(G&&G.mode==="online")newRound();else{G=null;show("sStart");drawHistory()}};
 $("backBracket").onclick=()=>isTourOnline()?bracketOnline():bracket();
 
 /* ---- histórico ---- */
@@ -12337,6 +12404,65 @@ $("shareBtn").onclick=()=>{
   try{navigator.clipboard.writeText(t).then(()=>{if(settled)return;settled=true;clearTimeout(to);$("shareMsg").textContent="Resumo copiado. Cola-o no WhatsApp.";ta.hidden=true}).catch(()=>{if(!settled){settled=true;clearTimeout(to);fallback()}})}catch(e){settled=true;clearTimeout(to);fallback()}
 };
 
+/* ---- partilhar como imagem (onze ou resultado), para o WhatsApp ---- */
+const SHW=1080,SHH=1350,FD='"Big Shoulders Display","Arial Narrow",Impact,sans-serif',FC='"Barlow Condensed","Arial Narrow",sans-serif';
+const colHex=t=>COLHEX[t]||"#ffd166";
+function shCanvas(){const c=document.createElement("canvas");c.width=SHW;c.height=SHH;const x=c.getContext("2d");
+  const g=x.createLinearGradient(0,0,0,SHH);g.addColorStop(0,"#0f2a1d");g.addColorStop(1,"#081610");x.fillStyle=g;x.fillRect(0,0,SHW,SHH);
+  x.fillStyle="rgba(255,255,255,.035)";for(let i=0;i<SHH;i+=90)if((i/90)%2)x.fillRect(0,i,SHW,90);return[c,x]}
+function shText(x,t,X,Y,o={}){x.save();x.font=`${o.w||800} ${o.s||40}px ${o.f||FC}`;x.fillStyle=o.c||"#eef6ef";x.textAlign=o.a||"left";x.textBaseline=o.b||"alphabetic";
+  let s=String(t);if(o.max){while(x.measureText(s).width>o.max&&s.length>2)s=s.slice(0,-2)+"…"}x.fillText(s,X,Y);x.restore()}
+function shFoot(x){shText(x,"DUELO DE ONZES",SHW/2,SHH-42,{f:FD,s:44,w:900,c:"#ffd166",a:"center"})}
+function shPitch(x,T,t,X,Y,W,H){
+  x.save();x.fillStyle="#2f7a46";x.strokeStyle="rgba(255,255,255,.55)";x.lineWidth=4;
+  x.beginPath();x.roundRect(X,Y,W,H,26);x.fill();x.stroke();
+  x.beginPath();x.moveTo(X,Y+H/2);x.lineTo(X+W,Y+H/2);x.stroke();x.beginPath();x.arc(X+W/2,Y+H/2,H*.11,0,7);x.stroke();
+  x.strokeRect(X+W*.25,Y,W*.5,H*.13);x.strokeRect(X+W*.25,Y+H*.87,W*.5,H*.13);
+  const rows=ROWS[T.form]||[],xi=T.slots.filter(s=>s.pos!=="SUP");
+  rows.forEach((r,ri)=>{const sl=xi.filter(s=>s.row===ri),n=sl.length,yy=Y+H*(.09+.77*ri/Math.max(1,rows.length-1));
+    sl.forEach((s,j)=>{const xx=X+W*(j+1)/(n+1),p=s.pl;
+      x.fillStyle=colHex(t);x.beginPath();x.arc(xx,yy,34,0,7);x.fill();x.strokeStyle="#fff";x.lineWidth=4;x.stroke();
+      shText(x,s.label,xx,yy+1,{s:24,w:800,a:"center",b:"middle",c:"#0b1a12"});
+      if(p){const nm=p.youth?"Júnior":lastName(p.n);
+        x.fillStyle="rgba(5,13,9,.85)";const tw=Math.min(190,Math.max(80,nm.length*15+24));x.beginPath();x.roundRect(xx-tw/2,yy+40,tw,36,10);x.fill();
+        shText(x,nm,xx,yy+66,{s:26,w:800,a:"center",max:180});shText(x,p.youth?64:p.r,xx,yy+100,{s:26,w:900,a:"center",c:"#ffd166"});
+        if(T.cap===p){x.fillStyle="#ffd166";x.beginPath();x.arc(xx+30,yy-26,16,0,7);x.fill();shText(x,"C",xx+30,yy-25,{s:22,w:900,a:"center",b:"middle",c:"#1a1405"})}}})});
+  x.restore();
+}
+function onzeImage(t){
+  const [c,x]=shCanvas(),T=G.teams[t],S=strength(T);
+  shText(x,G.names[t],60,110,{f:FD,s:84,w:900,c:colHex(t),max:960});
+  shText(x,`${T.coach?T.coach.n:""} · ${T.form}`,60,165,{s:40,w:700,c:"#cfe0d4",max:960});
+  shText(x,`Força ${S.ovr.toFixed(1)}   ·   Química ${S.chemSum}/33`+(G.theme?`   ·   ${THEMES[G.theme].n.replace(/ \(.*\)$/,"")}`:""),60,215,{s:36,w:700,c:"#ffd166",max:960});
+  shPitch(x,T,t,60,250,SHW-120,880);
+  const bench=T.slots.filter(s=>s.pos==="SUP"&&s.pl).map(s=>s.pl.youth?"Júnior":dn(s.pl.n));
+  shText(x,"Banco: "+(bench.join(" · ")||"—"),60,1190,{s:34,w:700,c:"#cfe0d4",max:960});
+  shFoot(x);return c;
+}
+function resultImage(){
+  const st=LIVE.st,[c,x]=shCanvas(),pk=LIVE.pk&&LIVE.pk.g;
+  shText(x,"RESULTADO FINAL",SHW/2,110,{f:FD,s:52,w:900,c:"#cfe0d4",a:"center"});
+  shText(x,st.N[0],SHW/2-60,250,{f:FD,s:70,w:900,c:colHex(st.ci[0]),a:"right",max:430});
+  shText(x,st.N[1],SHW/2+60,250,{f:FD,s:70,w:900,c:colHex(st.ci[1]),a:"left",max:430});
+  shText(x,`${st.goals[0]}–${st.goals[1]}`,SHW/2,440,{f:FD,s:200,w:900,a:"center"});
+  if(pk)shText(x,`Penáltis ${pk[0]}–${pk[1]}`,SHW/2,510,{s:46,w:800,c:"#ffd166",a:"center"});
+  const gl=[[],[]];st.ev.filter(e=>e.goal&&e.s).forEach(e=>{if(e.m!=="PEN")gl[e.t].push(`${lastName(e.s)} ${e.m}'`)});
+  [0,1].forEach(j=>gl[j].slice(0,7).forEach((l,i)=>shText(x,"⚽ "+l,j?SHW/2+60:SHW/2-60,600+i*52,{s:38,w:700,a:j?"left":"right",max:440})));
+  const mv=$("mvp").textContent;if(mv)shText(x,`Homem do jogo: ${mv}`,SHW/2,1040,{s:44,w:800,c:"#ffd166",a:"center",max:960});
+  [0,1].forEach(j=>{const T=st.T[j];shText(x,`${T.coach.n} · ${T.form}`,j?SHW-60:60,1130,{s:32,w:700,c:"#cfe0d4",a:j?"right":"left",max:470})});
+  shText(x,new Date().toLocaleDateString("pt-PT"),SHW/2,1200,{s:32,w:600,c:"#8fb39c",a:"center"});
+  shFoot(x);return c;
+}
+async function shareCanvas(c,name,text,msgEl){
+  const blob=await new Promise(r=>c.toBlob(r,"image/png"));if(!blob){if(msgEl)msgEl.textContent="Não foi possível criar a imagem.";return}
+  const file=new File([blob],name,{type:"image/png"});
+  try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],text});if(msgEl)msgEl.textContent="";return}}catch(e){if(e&&e.name==="AbortError")return}
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.append(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);
+  if(msgEl)msgEl.textContent="Imagem guardada. Envia-a pelo WhatsApp a partir das tuas fotos/transferências.";
+}
+$("shareImg").onclick=()=>shareCanvas(resultImage(),"duelo-resultado.png",`${LIVE.st.N[0]} ${LIVE.st.goals[0]}–${LIVE.st.goals[1]} ${LIVE.st.N[1]}`,$("shareMsg"));
+$("preShare").onclick=()=>{const t=G.mode==="online"?G.me:preT;shareCanvas(onzeImage(t),"duelo-onze.png",`O onze de ${G.names[t]}`,$("preNote"))};
+$("brShare").onclick=()=>{const t=G.mode==="online"?G.me:(G.tourShareT||0);shareCanvas(onzeImage(t),"duelo-onze.png",`O onze de ${G.names[t]}`,null)};
 /* ---- som e festa ---- */
 let AC=null;
 const soundOn=()=>$("sndOn").checked;
