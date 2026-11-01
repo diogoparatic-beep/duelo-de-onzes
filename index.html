@@ -7,7 +7,6 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Duelo de Onzes">
-<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
 <meta name="robots" content="noindex,nofollow">
 <style>#gate{position:fixed;inset:0;z-index:99999;background:#0d2419;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;font-family:system-ui,sans-serif;color:#eef6ef;text-align:center}
@@ -525,6 +524,15 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
 .seg2{display:grid;grid-template-columns:1fr 1fr;background:var(--card);border:1px solid var(--lineC);border-radius:16px;padding:4px;gap:4px}
 .seg2 button{border:0;background:transparent;color:var(--muted);font:700 .95rem var(--body);padding:11px;border-radius:12px;cursor:pointer}.seg2 button[aria-pressed=true]{background:var(--gold);color:var(--onGold)}
 #sStart{gap:14px}
+
+/* ecrãs de dentro no estilo B: texto normal (sem maiúsculas), Inter, cartões arredondados */
+.teamhead .t,.pcN b,.pcV,.momres .rt3,.pickInfo b,.rteam b,.rwin,.mvp2 .n,.mvp .n,.lv b,.askRule,.seaChamp,.mode b{font-family:var(--body)!important;font-weight:800!important;text-transform:none!important;letter-spacing:-.01em!important}
+.teamhead .t{font-size:1.35rem}.rwin{font-size:1.3rem}.mvp2 .n{font-size:1.35rem}.pcN b,.pickInfo b{font-size:1.25rem}.momres .rt3{font-size:1.1rem;line-height:1.25}.askRule{font-size:1.1rem;line-height:1.2}
+.stat .k,.srow .k,.rscore .pens,.sctitle{font-family:var(--body)!important;text-transform:none!important;letter-spacing:0!important;font-weight:600!important}
+.rule{background:linear-gradient(150deg,#d6ff6a,#9fe41f)!important;color:var(--onGold)!important;border:0!important;border-radius:22px!important}
+.rule .lbl{color:rgba(10,13,18,.65)!important}.rule .r{font-family:var(--body)!important;font-weight:800!important;text-transform:none!important;letter-spacing:-.015em!important;font-size:1.55rem!important;line-height:1.12!important}
+.mombox,.momres,#momBox{border-radius:22px}
+.sbar{border-radius:16px}
 /* ===== Tema "Estádio": escuro, cartões arredondados, verde-lima ===== */
 :root{
   --turf:#0a0d12; --turf2:#10151d; --turf3:#1c2330; --card:#141922; --chalk:#f2f5f9; --muted:#8a96a8; --lineC:#262f3d;
@@ -560,7 +568,7 @@ input[type=text],input[type=search]{background:var(--card);border-color:var(--li
       <button class="big lgc" id="cardLiga" type="button"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18M5 20V9l7-5 7 5v11"/><path d="M9 20v-6h6v6"/></svg></span><span><b>Liga</b><small id="cardLigaTx">Épocas com draft e mercado</small></span></button>
     </div>
     <div class="mini2"><button type="button" id="goMe">Perfil e definições</button><span>·</span><button type="button" data-sheet="shHow">Como jogar</button></div>
-    <p class="ver" id="verTag">versão 01/11 · 20h</p>
+    <p class="ver" id="verTag">versão 01/11 · 20h30</p>
     <div hidden><button id="goStart"></button><button id="botBtn"></button><button id="onlineBtn"></button><button id="tourBtn"></button><button id="lgBtn"></button><button id="histBtn"></button><button id="hiAv"></button><span id="hiName"></span></div>
   </div>
   <div class="screen" id="sWelcome" hidden>
@@ -776,9 +784,6 @@ input[type=text],input[type=search]{background:var(--card);border-color:var(--li
 </div>
 <div id="pickCard" hidden role="status"></div>
 <div id="tmPill" hidden aria-live="off"></div>
-<nav class="tabbar" id="tabbar" hidden><button type="button" data-go="sStart"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7l4 3-1.5 5h-5L8 10z"/></svg><span>Jogar</span></button>
-  <button type="button" data-go="sSeason"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4v2a3 3 0 0 0 3 3M17 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8"/></svg><span>Liga</span></button>
-  <button type="button" data-go="sMe"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4.5-6 8-6s7 2 8 6"/></svg><span>Eu</span></button></nav>
 <div id="netPill" hidden role="status">A religar aos outros telemóveis…</div>
 <div class="sheet" id="shNames" hidden><div class="sheetIn">
     <div class="shHead"><h2>Quem joga?</h2><button class="xbtn" data-close aria-label="Fechar">✕</button></div>
@@ -9996,7 +10001,6 @@ const COL=["var(--home)","var(--away)","#ffd166","#7fe0a8","#c792ea","#ff9f43","
 function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
 const SCREENS=["sStart","sLobby","sTour","sCoach","sDraft","sCap","sPre","sBracket","sMatch","sResult","sSeason","sMe","sQuick","sWelcome"];
 function show(id){const was=SCREENS.find(s=>!$(s).hidden);SCREENS.forEach(s=>$(s).hidden=s!==id);
-  const tb=document.getElementById("tabbar");if(tb){const on=false;tb.hidden=!on;tb.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.go===id))}
   if(id==="sStart"&&typeof drawHome==="function")drawHome();if(was!==id)window.scrollTo(0,0);document.documentElement.classList.add("lockmatch");if(FITS[id])requestAnimationFrame(fitStart)}
 const FITS={sLobby:["fA","fB","fC"],sTour:["fA","fB","fC"]};
 function fitStart(){for(const id in FITS){const s=document.getElementById(id);if(!s||s.hidden)continue;const F=FITS[id];s.classList.remove(...F);
@@ -10619,65 +10623,6 @@ $("lbShare").onclick=async()=>{const code=G.online.code,url=gameLink(code),b=$("
   setTimeout(()=>{G=null;PEERS={};lobby();$("lbCode").value=m[1].toUpperCase();
     $("lbErr").className="msg ok";$("lbErr").textContent=`Foste convidado para o jogo ${m[1].toUpperCase()}. Escreve o teu nome e carrega em Entrar.`;
     $("lbCreate").hidden=true;$("lbCreate4").hidden=true;if(!store("duelo_names")){$("lbName").value="";$("n0").value=""}$("lbName").focus()},0)})();
-/* ligação direta entre telemóveis (versão fora do Claude): o anfitrião liga-se a todos e reenvia o estado de cada um.
-   Aguenta quedas: batimento a cada 2,5 s, volta a ligar sozinho (incluindo quando o telemóvel volta do bloqueio)
-   e, se o código do anfitrião ainda estiver preso no servidor, insiste até ficar livre. */
-const ICE={iceServers:[{urls:["stun:stun.l.google.com:19302","stun:stun1.l.google.com:19302"]},{urls:"stun:global.stun.twilio.com:3478"},
-  {urls:"turn:openrelay.metered.ca:80",username:"openrelayproject",credential:"openrelayproject"},
-  {urls:"turn:openrelay.metered.ca:443",username:"openrelayproject",credential:"openrelayproject"},
-  {urls:"turn:openrelay.metered.ca:443?transport=tcp",username:"openrelayproject",credential:"openrelayproject"}]};
-function peerRoomApi(){return{join:name=>new Promise((res,rej)=>{
-  const host=G.me===0,hid=("duelo-onzes-"+name).replace(/[^a-z0-9-]/gi,"");
-  let peer=null,up=null,upSeen=0,lastAll='',lastP={},nb=0,conns=new Map(),mine={},others={},fns=[],errFns=[],done=false,left=false,retry=null,restartT=null,tries=0;
-  const emit=()=>{const peers=[{peer:"me",isMe:true,presence:Object.freeze({...mine})}];Object.entries(others).forEach(([k,v])=>peers.push({peer:k,isMe:false,presence:v}));fns.forEach(f=>f({peers,joined:[],left:[],updated:[]}))};
-  const bundle=()=>{const all={host:mine};Object.entries(others).forEach(([k,v])=>all[k]=v);return{t:"all",p:all}};
-  const send=(c,d)=>{try{if(c&&c.open)c.send(d)}catch(e){}};
-  const broadcast=()=>{const b=bundle();conns.forEach((_,c)=>send(c,b))};
-  const wireHost=c=>{conns.set(c,Date.now());
-    c.on("data",d=>{conns.set(c,Date.now());if(d&&d.t==="p"&&d.p&&typeof d.p==="object"){const js=JSON.stringify(d.p);if(lastP[c.peer]===js)return;lastP[c.peer]=js;
-      Object.keys(others).forEach(k=>{if(k!==c.peer&&others[k]&&others[k].uid&&others[k].uid===d.p.uid){delete others[k];delete lastP[k]}});
-      others[c.peer]=Object.freeze(d.p);emit();broadcast()}});
-    c.on("open",()=>{conns.set(c,Date.now());delete lastP[c.peer];send(c,bundle())});
-    c.on("close",()=>{if(!conns.has(c))return;conns.delete(c);/* guarda o estado de quem caiu: quando voltar, continua igual */emit()});c.on("error",()=>{})};
-  const wireUp=c=>{up=c;upSeen=Date.now();
-    c.on("data",d=>{if(up!==c)return;upSeen=Date.now();if(d&&d.t==="all"&&d.p&&typeof d.p==="object"){const js=JSON.stringify(d.p);if(js===lastAll)return;lastAll=js;others={};Object.entries(d.p).forEach(([k,v])=>{if(v&&typeof v==="object"&&v.uid!==mine.uid)others[k]=Object.freeze(v)});emit()}});
-    c.on("open",()=>{if(up!==c)return;upSeen=Date.now();lastAll='';send(c,{t:"p",p:mine})});
-    c.on("close",()=>{if(up===c){up=null;clearTimeout(retry);retry=setTimeout(tryConnect,800)}});c.on("error",()=>{})};
-  const tryConnect=()=>{clearTimeout(retry);if(left||!peer||peer.destroyed)return;if(peer.disconnected){try{peer.reconnect()}catch(e){}}
-    const old=up;up=null;try{old&&old.close&&old.close()}catch(e){}
-    wireUp(peer.connect(hid,{reliable:true}));retry=setTimeout(()=>{if(!up||!up.open)tryConnect()},4000)};
-  const restart=(ms)=>{clearTimeout(restartT);if(left)return;restartT=setTimeout(()=>{if(left)return;try{peer&&peer.destroy()}catch(e){}peer=null;up=null;start()},ms||2000)};
-  const start=()=>{
-    tries++;
-    try{peer=host?new Peer(hid,{config:ICE}):new Peer({config:ICE})}catch(e){restart(3000);return}
-    const me=peer;
-    me.on("open",()=>{if(me!==peer)return;tries=0;if(!host)tryConnect();else broadcast();if(!done){done=true;res(api)}});
-    if(host)me.on("connection",c=>{if(me===peer)wireHost(c)});
-    me.on("error",e=>{if(me!==peer)return;const t=e&&e.type;
-      if(t==="peer-unavailable")return;   /* o anfitrião ainda não voltou: o cliente continua a tentar */
-      if(t==="unavailable-id"){             /* o código ainda está preso no servidor (o telemóvel do anfitrião caiu há pouco) */
-        if(!done&&tries>45){done=true;rej({code:"o código ainda está ocupado; espera um minuto e tenta outra vez"});return}
-        restart(3000);return}
-      if(t==="browser-incompatible"){if(!done){done=true;rej({code:t})}return}
-      restart(t==="network"||t==="server-error"||t==="socket-error"||t==="socket-closed"?2500:4000)});
-    me.on("disconnected",()=>{if(me!==peer||left)return;try{me.reconnect()}catch(e){}setTimeout(()=>{if(me===peer&&me.disconnected&&!left)restart(500)},6000)});
-    me.on("close",()=>{if(me===peer&&!left)restart(1500)});
-  };
-  /* batimento: o anfitrião manda tudo de 2,5 em 2,5 s; o cliente reenvia o seu estado; quem fica calado demasiado tempo volta a ligar */
-  const beat=setInterval(()=>{if(left||!peer)return;
-    nb++;if(host){if(nb%4===0)broadcast();else conns.forEach((_,c)=>send(c,{t:"hb"}));const now=Date.now();conns.forEach((t,c)=>{if(now-t>20000){conns.delete(c);try{c.close&&c.close()}catch(e){}}})}
-    else{if(up&&up.open){if(nb%2===0)send(up,{t:"p",p:mine});if(Date.now()-upSeen>9000)tryConnect()}else if(!retry)tryConnect()}},2500);
-  const wake=()=>{if(document.visibilityState!=="visible"||left||!peer)return;
-    if(peer.destroyed){restart(100);return}if(peer.disconnected){try{peer.reconnect()}catch(e){}}
-    if(!host&&(!up||!up.open||Date.now()-upSeen>4000))tryConnect();if(host)broadcast()};
-  document.addEventListener("visibilitychange",wake);window.addEventListener("online",wake);window.addEventListener("pageshow",wake);
-  const api={presence:async patch=>{for(const k in patch){if(patch[k]===null)delete mine[k];else mine[k]=patch[k]}emit();if(host)broadcast();else send(up,{t:"p",p:mine})},
-    onPeers:(f,onErr)=>{fns.push(f);if(onErr)errFns.push(onErr);setTimeout(emit,0);return()=>{}},
-    leave:async()=>{left=true;clearTimeout(retry);clearTimeout(restartT);clearInterval(beat);document.removeEventListener("visibilitychange",wake);window.removeEventListener("online",wake);window.removeEventListener("pageshow",wake);try{peer&&peer.destroy()}catch(e){}},
-    ok:()=>!left,
-    connected:()=>{if(!peer||peer.destroyed)return false;if(host)return [...conns.keys()].some(c=>c.open)||G.online.n<2;return !!(up&&up.open&&Date.now()-upSeen<9000)}};
-  start();
-})}}
 /* servidor Firebase (Realtime Database): cada telemóvel escreve a sua vaga em rooms/<sala>/p/<id>, todos ouvem a sala.
    Não há anfitrião a reencaminhar: se alguém cair, os outros continuam e quem volta encontra tudo como estava. */
 const FBCFG={apiKey:"AIzaSyDr-c2mQUPcN2mhwtA8RUtHAbZMx7IOP7Q",authDomain:"duelo-de-onzes.firebaseapp.com",
@@ -10728,7 +10673,6 @@ async function connect(){
   lobby();
   try{ROOMAPI=ROOMAPI||(window.claude&&window.claude.use?await window.claude.use("room"):null)}catch(e){ROOMAPI=null}
   if(!ROOMAPI)ROOMAPI=fbRoomApi();
-  if(!ROOMAPI&&window.Peer)ROOMAPI=peerRoomApi();
   if(!ROOMAPI){G.online.err="Aqui no Claude, o modo online precisa de conta do Claude e de convite. Para jogar sem conta, usa a versão independente do jogo.";lobby();return}
   try{ROOM=await ROOMAPI.join("duelo-"+G.online.code.toLowerCase())}
   catch(e){
