@@ -164,6 +164,11 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .brTeam.win b{color:var(--gold)}
 .brTeam .bn{min-width:0;overflow-wrap:anywhere}
 .brTeam b{font-family:var(--display);font-size:1.2rem;font-variant-numeric:tabular-nums}
+.seaFx{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;background:var(--turf3);font-weight:700}
+.seaFx.mine{border:1px solid var(--gold)}.seaFx .t{min-width:0;overflow:hidden;text-overflow:ellipsis}.seaBtns{display:flex;gap:6px;flex:none}.seaBtns .btn{padding:8px 10px;font-size:.95rem;width:auto}
+.seaRd{margin-top:8px}.seaInv{display:flex;justify-content:space-between;align-items:center;gap:8px;background:rgba(255,209,102,.12);border:1px solid var(--gold);border-radius:12px;padding:8px 10px}.seaInv .btn{width:auto;padding:8px 14px}
+.seaPl{display:grid;grid-template-columns:44px 1fr auto;gap:8px;padding:5px 2px;border-top:1px solid rgba(255,255,255,.06)}.seaPl .pos{font:800 .85rem var(--cond);color:var(--muted)}.seaPl .r{color:var(--gold);font-weight:800}
+.seaMk{display:flex;flex-direction:column;gap:8px}.seaChamp{font:900 1.6rem var(--display);color:var(--gold);text-transform:uppercase}
 .lgTable{width:100%;border-collapse:collapse;font-family:var(--cond);font-size:1rem}.lgTable th{font-size:.8rem;color:var(--muted);text-align:right;padding:4px;font-weight:700}
 .lgTable td{text-align:right;padding:7px 4px;border-top:1px solid rgba(255,255,255,.07);font-weight:700}.lgTable td.n,.lgTable th:nth-child(2){text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:9em}
 .lgTable tr:nth-child(2) td{color:var(--gold)}.lgPick b{color:var(--gold)}
@@ -482,7 +487,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
       <button class="mode" id="tourBtn"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 14v4M8 21h8"/></svg></span><span><b>Torneio</b><small>4 ou 8 amigos num só telemóvel</small></span><span class="ar">›</span></button>
     </div>
     <div class="minirow"><button class="minibtn" data-sheet="shHow">Como jogar</button><button class="minibtn" id="lgBtn" data-sheet="shLeague">🏆 Liga</button><button class="minibtn" data-sheet="shOpts">Definições</button><button class="minibtn" id="histBtn" data-sheet="shHist" hidden>Histórico</button></div>
-    <p class="ver" id="verTag">versão 01/11 · 15h</p>
+    <p class="ver" id="verTag">versão 01/11 · 17h</p>
   </div>
 
   <!-- ONLINE -->
@@ -519,6 +524,15 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
     <div class="grow"></div>
     <button class="btn" id="tGo">Começar o torneio</button>
     <button class="btn ghost" id="tBack">Voltar</button>
+  </div>
+  <div class="screen" id="sSeason" hidden>
+    <header style="display:flex;flex-direction:column;gap:6px"><span class="lbl">Época da liga</span><h2 id="seaTitle">Liga</h2><p class="muted" id="seaStatus"></p></header>
+    <div id="seaTop" style="display:flex;flex-direction:column;gap:8px"></div>
+    <div class="chips" id="seaTabs" hidden></div>
+    <span class="msg" id="seaMsg"></span>
+    <div id="seaBody" style="display:flex;flex-direction:column;gap:6px"></div>
+    <div class="grow"></div>
+    <button class="btn ghost" id="seaBack">Voltar</button>
   </div>
   <div class="screen" id="sBracket" hidden>
     <h2 id="brTitle">Quadro do torneio</h2><p class="brPod" id="brPod" hidden></p>
@@ -644,6 +658,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
         <button class="btn" id="rematch">Desforra</button>
       </div>
       <button class="btn" id="backBracket" hidden>Voltar ao quadro</button>
+      <button class="btn" id="toSeason" hidden>Voltar à época</button>
     </div>
   </div>
 </div>
@@ -705,7 +720,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
         <li>Em cada ronda começa a escolher um treinador diferente, à vez. Há um <b>tempo</b> para cada escolha (muda-se em Definições): se acabar, entra um júnior da formação.</li>
         <li>Tens 3 tentativas. Se falhares, entra um <b>júnior da formação</b> (fraquinho).</li>
         <li><b>Química:</b> cada jogador ganha +1 por colega com quem passou pelo mesmo clube e +½ por colega do mesmo país (até 3). A equipa vai até 33 e química alta dá até +4 em todos os setores.</li>
-        <li>No jogo, <b>os golos só acontecem nos lances em que vocês escolhem</b>: se quem defende não adivinhar, é golo; se adivinhar, não é.</li><li>A equipa mais forte (qualidade, tática, química e capitão) tem <b>mais lances de ataque</b>.</li><li>Ao criar o jogo podes escolher um <b>draft temático</b> (só portugueses, só lendas, geração atual…) e o <b>tempo</b> de cada escolha.</li>
+        <li>No jogo, <b>os golos só acontecem nos lances em que vocês escolhem</b>: se quem defende não adivinhar, é golo; se adivinhar, não é.</li><li>A equipa mais forte (qualidade, tática, química e capitão) tem <b>mais lances de ataque</b>.</li><li><b>Liga e época:</b> em 🏆 Liga criam uma liga e começam uma época. Há um draft único com todos, depois uma 1.ª volta (jogam quando quiserem), um mercado de transferências (até 3 trocas, cada uma com uma regra nova) e a 2.ª volta. Vitória 3, empate 1. Um vermelho deixa o jogador de fora no jogo seguinte.</li><li>Ao criar o jogo podes escolher um <b>draft temático</b> (só portugueses, só lendas, geração atual…) e o <b>tempo</b> de cada escolha.</li>
       </ol>
   </div></div>
   <div class="sheet" id="shLeague" hidden><div class="sheetIn">
@@ -722,6 +737,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
       <label class="toggle" for="lgOnChk"><span>Os jogos novos contam para esta liga</span><input type="checkbox" id="lgOnChk" checked></label>
       <div class="chips" id="lgTabs"><button class="chip" data-t="tab">Classificação</button><button class="chip" data-t="h2h">Confrontos</button><button class="chip" data-t="last">Últimos jogos</button></div>
       <div id="lgBody" style="display:flex;flex-direction:column;gap:6px"></div>
+      <button class="btn" id="lgSeason">📅 Época: calendário, jogos e mercado</button>
       <div class="row2"><button class="btn ghost" id="lgCopy">Convidar amigos</button><button class="btn ghost" id="lgLeave">Sair da liga</button></div>
     </div>
     <span class="msg" id="lgMsg"></span>
@@ -9858,7 +9874,7 @@ const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=rand(i+1);[a[i]
 const norm=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
 const COL=["var(--home)","var(--away)","#ffd166","#7fe0a8","#c792ea","#ff9f43","#5ad1e6","#f78fb3"];
 function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
-const SCREENS=["sStart","sLobby","sTour","sCoach","sDraft","sCap","sPre","sBracket","sMatch","sResult"];
+const SCREENS=["sStart","sLobby","sTour","sCoach","sDraft","sCap","sPre","sBracket","sMatch","sResult","sSeason"];
 function show(id){const was=SCREENS.find(s=>!$(s).hidden);SCREENS.forEach(s=>$(s).hidden=s!==id);if(was!==id)window.scrollTo(0,0);document.documentElement.classList.add("lockmatch");if(FITS[id])requestAnimationFrame(fitStart)}
 const FITS={sStart:["fit1","fit2","fit3","fit4"],sLobby:["fA","fB","fC"],sTour:["fA","fB","fC"]};
 function fitStart(){for(const id in FITS){const s=document.getElementById(id);if(!s||s.hidden)continue;const F=FITS[id];s.classList.remove(...F);
@@ -9995,6 +10011,7 @@ let RULEIXM=null;const RULEIX={get:l=>(RULEIXM=RULEIXM||new Map(RULES.map((r,i)=
 const orderOf=round=>{const n=G.n,f=round%n;return[...Array(n).keys()].map(k=>(f+k)%n)};
 function youthFor(t,pos){const T=G.teams[t],c=T.picks.concat(T.bench||[]).filter(x=>x.youth).length;return{n:"Júnior da formação"+(c?" "+(c+1):""),p:pos==="SUP"?"MED":pos,c:"Portugal",r:64,cl:[],youth:true}}
 function replay(){
+  if(G.fixed){G.teams=G.fixed.teams.map(T=>({...T,slots:T.slots.map(x=>({...x})),picks:[...T.picks],bench:[...T.bench]}));G.cur={i:0,done:true};G.rules=[];G.taken=new Set();G.used=new Set();G.lastEv=null;return}
   G.teams=G.cfg.map(c=>({coach:c.coach,form:c.form,slots:c.form?buildSlots(c.form):[],picks:[],bench:[]}));
   G.taken=new Set();G.used=new Set();G.rules=[];G.lastEv=null;G.lastCat=null;G.pickLog=[];
   for(let i=0;;i++){
@@ -10302,6 +10319,7 @@ function render(){
   if(G.mode!=="online"){for(let t=0;t<G.n;t++)if(G.caps[t]==null){if(isBot(t)){botCap(t);G.teams[t].cap=G.teams[t].slots[G.caps[t]].pl;continue}return capScreen(t)}}
   else{if(G.caps[G.me]==null)return capScreen(G.me);const wk=G.caps.findIndex(c=>c==null);if(wk>=0)return lobby(`À espera que ${G.names[wk]} escolha o capitão…`)}
   if(G.mode==="tour")return bracket();
+  if(G.mode==="online"&&G.online.sea)return seaDraftDone();
   if(isTourOnline())return bracketOnline();
   if(!G.m)return preMatch();
   if(G.shownM!==G.m||($("sMatch").hidden&&$("sResult").hidden))return startDuelMatch();
@@ -10313,7 +10331,7 @@ const OPPof=()=>PEERS[1-G.me]||null;
 function genCode(){const A="ABCDEFGHJKLMNPQRSTUVWXYZ";let s="";for(let i=0;i<4;i++)s+=A[rand(A.length)];return s}
 let UID=null;function myUid(){return UID||(UID=Math.random().toString(36).slice(2,12))}
 const cleanName=v=>(typeof v==="string"&&v.trim().slice(0,16))||"";
-const isTourOnline=()=>!!(G&&G.mode==="online"&&G.online&&G.online.n>2);
+const isTourOnline=()=>!!(G&&G.mode==="online"&&G.online&&G.online.n>2&&!G.online.sea);
 const rosterFull=()=>!!(G.online.ro&&G.online.ro.length>=G.online.n);
 function ensureN(n){
   if(G.n===n)return;
@@ -10332,15 +10350,16 @@ function lobby(msg){
       row.append(d,el("span",null,r?r.n+(i===G.me?" (tu)":""):"À espera…"));
       if(r&&r.b){row.append(el("span","blv","bot · "+LVN[r.b]));if(host&&!G.online.go){const x=el("button","bx","✕");x.type="button";x.setAttribute("aria-label","Tirar "+r.n);x.onclick=()=>removeOnlineBot(i);row.append(x)}}
       L.append(row)}}
-    $("lbBots").hidden=!(host&&n>2&&!G.online.go&&!full);
-    $("lbOpts").hidden=!(host&&!G.online.go);drawTmChips();drawThChips();
+    const sea=G.online.sea,fx=G.fixed;
+    $("lbBots").hidden=!(host&&n>2&&!G.online.go&&!full&&!sea);
+    $("lbOpts").hidden=!(host&&!G.online.go&&!fx);document.querySelectorAll("#lbOpts .lgPick").forEach(x=>{if(sea)x.hidden=true});drawTmChips();drawThChips();
     $("lbTmInfo").hidden=host||G.me==null;$("lbTmInfo").textContent=`Draft: ${THEMES[G.theme||""].n} · Tempo: ${G.tm?G.tm+" s":"sem tempo"}${G.lg?` · Conta para a liga ${G.lg.n}`:""} (escolhe quem cria o jogo).`;
     $("lbBotLv").querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.lv===onlineBotLv));
-    $("lbStart").hidden=!(host&&(n>2||G.online.gen)&&!G.online.go);$("lbStart").disabled=!full;
-    $("lbStart").textContent=full?(n>2?"Começar o torneio":"Começar o jogo"):`À espera de ${n-ro.length} jogador${n-ro.length>1?"es":""}…`;
+    $("lbStart").hidden=!(host&&(n>2||G.online.gen||sea)&&!G.online.go);$("lbStart").disabled=!full;
+    $("lbStart").textContent=full?(sea?"Começar o draft da época":n>2?"Começar o torneio":"Começar o jogo"):`À espera de ${n-ro.length} jogador${n-ro.length>1?"es":""}…`;
     let st=msg||G.online.err;
-    if(!st){if(host)st=full?(n>2||G.online.gen?`Estão todos. Escolhe o tipo de draft e o tempo e carrega em ${n>2?"Começar o torneio":"Começar o jogo"}.`:"A começar…"):(n>2?"Dá o código ou o link aos teus amigos. O torneio é para 4.":"Dá este código ao teu adversário. À espera que ele entre…");
-      else st=G.me==null?`À procura do jogo ${G.online.code}…`:(!G.online.go&&(n>2||G.online.gen)?`Estás dentro! À espera que ${G.names[0]} comece ${n>2?"o torneio":"o jogo"}.`:"A começar…")}
+    if(!st){if(host)st=full?(n>2||G.online.gen||sea?`Estão todos. Escolhe o tipo de draft e o tempo e carrega em ${sea?"Começar o draft da época":n>2?"Começar o torneio":"Começar o jogo"}.`:"A começar…"):(sea?`Draft da época de "${sea.n}": os amigos entram pela Liga (ou com este código). São ${n} treinadores.`:fx?`À espera que ${G.fixed.sn[1]} entre para o jogo da liga. Ele vê o convite na Liga.`:n>2?`Dá o código ou o link aos teus amigos. O torneio é para ${n}.`:"Dá este código ao teu adversário. À espera que ele entre…");
+      else st=G.me==null?`À procura do jogo ${G.online.code}…`:(!G.online.go&&(n>2||G.online.gen||sea)?`Estás dentro! À espera que ${G.names[0]} comece ${sea?"o draft da época":n>2?"o torneio":"o jogo"}.`:"A começar…")}
     $("lbStatus").textContent=st;
   }
   show("sLobby");
@@ -10437,7 +10456,8 @@ function hostBots(){
 }
 setInterval(()=>{try{hostBots()}catch(e){console.error(e)}},1500);
 $("lbCreate4").onclick=()=>hostGame(4);
-$("lbStart").onclick=()=>{if(!G||!G.online||G.me!==0||!rosterFull())return;G.online.go=true;pushPresence();render();setTimeout(()=>{try{hostBots()}catch(e){}},50)};
+$("lbStart").onclick=()=>{if(!G||!G.online||G.me!==0||!rosterFull())return;
+  if(G.online.sea&&new Set(G.online.ro.map(r=>seaK(r.n))).size<G.online.ro.length){lobby("Há dois treinadores com o mesmo nome. Na época cada um tem de ter um nome diferente (mudem em 'O teu nome').");return}G.online.go=true;pushPresence();render();setTimeout(()=>{try{hostBots()}catch(e){}},50)};
 $("lbJoin").onclick=()=>{
   const c=$("lbCode").value.trim().toUpperCase();if(!/^[A-Z]{4}$/.test(c)){$("lbErr").textContent="O código tem 4 letras.";return}
   $("lbErr").textContent="";$("lbErr").className="msg bad";newGame("online",["…",myName()],null);G.me=null;G.online={code:c,n:2,uid:myUid(),ro:null,go:false};connect();
@@ -10449,7 +10469,7 @@ function resumeOnline(auto){
   newGame("online",names,o.seed);G.me=o.me;G.online={code:o.code,auto:auto||0,n,uid:o.uid||myUid(),ro:o.ro||null,go:!!o.go,gen:+o.gen||0};
   if(G.me!=null)G.cfg[G.me]={coach:COACHES.find(c=>c.n===o.coach)||null,form:o.coach?o.form:null};
   G.mine=o.mine||[];G.m=o.m||0;if(G.me!=null)G.caps[G.me]=o.cap??null;
-  if(o.dec&&typeof o.dec==="object")G.dec=o.dec;if(o.bst&&typeof o.bst==="object")G.botSt=o.bst;G.avoid=Array.isArray(o.av)?o.av:null;G.lg=o.lg||null;G.theme=o.th&&THEMES[o.th]?o.th:null;if(G.online.ro)syncBots();if(o.cans)G.claimAns=o.cans;if(o.res)G.res=o.res;mergePicks();connect();
+  if(o.dec&&typeof o.dec==="object")G.dec=o.dec;if(o.bst&&typeof o.bst==="object")G.botSt=o.bst;G.avoid=Array.isArray(o.av)?o.av:null;G.lg=o.lg||null;if(o.sea)G.online.sea=o.sea;if(o.fx){try{setFixed(o.fx)}catch(e){}}G.theme=o.th&&THEMES[o.th]?o.th:null;if(G.online.ro)syncBots();if(o.cans)G.claimAns=o.cans;if(o.res)G.res=o.res;mergePicks();connect();
 }
 $("resumeBtn").onclick=()=>resumeOnline(0);
 function autoResume(){
@@ -10618,12 +10638,12 @@ function myPresence(){
   return{g:"duelo",gen:G.online.gen||0,nx:G.online.nx||0,code:G.online.code,uid:G.online.uid,n:G.online.n,host:me===0,name:me!=null?G.names[me]:myName(),seed:me===0?G.seed:null,
     ro:me===0?G.online.ro:null,go:me===0?!!G.online.go:null,
     coach:c.coach?c.coach.n:null,form:c.coach?c.form:null,picks:G.mine.map(e=>({o:e.o,s:e.s,n:e.n,y:e.y?1:0,at:e.at||0})),m:G.m,cap:me!=null?G.caps[me]:null,
-    dec:h&&side!=null?{k:dk,d:h[side]}:null,lv:LIVE&&LIVE.dk&&!LIVE.done?{k:LIVE.dk,si:LIVE.si,w:LIVE.atStop?1:0,mn:LIVE.minute}:null,claim:G.claimReq||null,cans:G.claimAns||null,res:G.res||null,play:G.playing||null,bots:me===0&&G.botSt?G.botSt:null,av:me===0&&G.avoid?G.avoid.map(l=>RULEIX.get(l)).filter(x=>x!=null):null,th:me===0?G.theme||"":null,lg:me===0?G.lg||0:null,tko:me===0&&G.tko?Object.values(G.tko):null,tm:me===0?G.tm:null};
+    dec:h&&side!=null?{k:dk,d:h[side]}:null,lv:LIVE&&LIVE.dk&&!LIVE.done?{k:LIVE.dk,si:LIVE.si,w:LIVE.atStop?1:0,mn:LIVE.minute}:null,claim:G.claimReq||null,cans:G.claimAns||null,res:G.res||null,play:G.playing||null,bots:me===0&&G.botSt?G.botSt:null,av:me===0&&G.avoid?G.avoid.map(l=>RULEIX.get(l)).filter(x=>x!=null):null,th:me===0?G.theme||"":null,sea:me===0&&G.online.sea?G.online.sea:null,fx:me===0&&G.fixed?G.fixed.fx:null,lg:me===0?G.lg||0:null,tko:me===0&&G.tko?Object.values(G.tko):null,tm:me===0?G.tm:null};
 }
 function pushPresence(){
   const me=G.me,c=me!=null?G.cfg[me]:{coach:null,form:null};
   store("duelo_online",{code:G.online.code,me,n:G.online.n,uid:G.online.uid,ro:G.online.ro,go:!!G.online.go,name:me!=null?G.names[me]:myName(),seed:G.seed,
-    coach:c.coach?c.coach.n:null,form:c.form,mine:G.mine,m:G.m,cap:me!=null?G.caps[me]:null,dec:G.dec,cans:G.claimAns||null,res:G.res||null,bst:me===0?G.botSt||null:null,av:G.avoid||null,th:G.theme||null,gen:G.online.gen||0,lg:G.lg||null});
+    coach:c.coach?c.coach.n:null,form:c.form,mine:G.mine,m:G.m,cap:me!=null?G.caps[me]:null,dec:G.dec,cans:G.claimAns||null,res:G.res||null,bst:me===0?G.botSt||null:null,av:G.avoid||null,th:G.theme||null,gen:G.online.gen||0,lg:G.lg||null,fx:G.fixed?G.fixed.fx:null,sea:G.online.sea||null});
   if(ROOM)ROOM.presence(myPresence()).catch(()=>{});
 }
 function mergePicks(){
@@ -10661,7 +10681,7 @@ function onPeers(ch){
     list.forEach(pr=>{const i=G.online.ro.findIndex(r=>r.u===pr.uid),nm=cleanName(pr.name)||"Treinador";
       if(i<0&&G.online.ro.length<G.online.n&&!G.online.go){G.online.ro.push({u:pr.uid,n:nm});changed=true}
       else if(i>0&&G.online.ro[i].n!==nm){G.online.ro[i].n=nm;changed=true}});
-    if(G.online.n<=2&&rosterFull()&&!G.online.go&&!G.online.gen){G.online.go=true;changed=true}
+    if(G.online.n<=2&&rosterFull()&&!G.online.go&&!G.online.gen&&!G.online.sea){G.online.go=true;changed=true}
     /* alguém carregou em "Novo jogo": recomeça na mesma sala */
     if(list.some(pr=>(+pr.nx||0)>(G.online.gen||0))&&G.online.go){newRound();return}
     if(changed)pushPresence();
@@ -10673,7 +10693,9 @@ function onPeers(ch){
       if(Array.isArray(h.av))G.avoid=h.av.filter(i=>RULES[i]).map(i=>RULES[i].l);
       if(typeof h.th==="string")G.theme=THEMES[h.th]?h.th:null;
       if(h.lg&&typeof h.lg.c==="string"&&/^[A-Z0-9]{5}$/.test(h.lg.c)){G.lg={c:h.lg.c,n:cleanName(h.lg.n)||"Liga"};if(!LEAGUE)setLeague(G.lg)}else if(h.lg===0)G.lg=null;
-      if(typeof h.n==="number"&&(h.n===2||h.n===4)&&h.n!==G.online.n){G.online.n=h.n;ensureN(h.n)}
+      if(typeof h.n==="number"&&h.n>=2&&h.n<=8&&h.n!==G.online.n){G.online.n=h.n;ensureN(h.n)}
+      if(h.sea&&typeof h.sea.sid==="string")G.online.sea={c:h.sea.c,sid:h.sea.sid,n:cleanName(h.sea.n)||"Liga"};
+      if(h.fx&&typeof h.fx.fid==="string"&&!G.fixed)setFixed(h.fx,1);
       if(Array.isArray(h.ro)){G.online.ro=h.ro.filter(r=>r&&typeof r.u==="string").slice(0,G.online.n).map(r=>({u:r.u,n:cleanName(r.n)||"Treinador",...(r.b>=1&&r.b<=3?{b:r.b}:{})}));
         const i=G.online.ro.findIndex(r=>r.u===G.online.uid);if(i>0&&G.me!==i){G.me=i;G.names[i]=myName();pushPresence()}}
       G.online.go=!!h.go;if(TMOPT.includes(h.tm))G.tm=h.tm;
@@ -11004,6 +11026,7 @@ function simEnd(st){
   const {N,goals,ev,T}=st;
   ev.push({m:90,info:true,tx:`Apito final: ${N[0]} ${goals[0]}–${goals[1]} ${N[1]}.`});
   st.pens=null;st.needPens=false;
+  if(goals[0]===goals[1]&&st.noPens){st.w=null;ev.push({m:"PEN",info:true,tx:"Empate! Cada equipa leva um ponto."});return}
   if(goals[0]===goals[1]){st.needPens=true;st.w=null;ev.push({m:"PEN",info:true,tx:"Empate. Vamos para os penáltis! Cada penálti é decidido por vocês."});return}
   st.w=goals[0]>goals[1]?0:1;
 }
@@ -11988,7 +12011,7 @@ function startMatch(o){
   stopFeed();$("specExit").hidden=true;
   if(SC.raf)cancelAnimationFrame(SC.raf);SC.raf=0;SC.busy=false;SC.end=null;SC.S=null;SC.lastS=null;SC.idleS=null;$("tv").hidden=true;
   LIVE={...o,ci:[o.a,o.b],minute:0,i:0,si:0,pos:1,score:[0,0],pen:[0,0],dec:[{},{}],waiting:null,done:false,recorded:false,usedPat:new Set(),ch:[0,0],lastSc:-20,momS:null,leadRunning:false};
-  LIVE.st=simStart(o.a,o.b);LIVE.st.kit=kitFor(LIVE.st);LIVE.plan=makePlan(LIVE.st,o.key);
+  LIVE.st=simStart(o.a,o.b);LIVE.st.noPens=!!o.noPens;LIVE.st.kit=kitFor(LIVE.st);LIVE.plan=makePlan(LIVE.st,o.key);
   /* voltar a meio do jogo: os lances já decididos pelos dois passam a correr, até ao ponto onde se estava */
   if(G.mode==="online"&&o.dk){const d=decGet();let mx=0;Object.keys(d[0]).concat(Object.keys(d[1])).forEach(k=>{if(/^\d+$/.test(k)&&d[0][k]&&d[1][k])mx=Math.max(mx,+k+1)});LIVE.ffTo=mx}
   const st=LIVE.st;
@@ -11999,7 +12022,7 @@ function startMatch(o){
   {const sh=st.planShare;if(sh&&sh[0]!==sh[1]){const f=sh[0]>sh[1]?0:1;addLine({m:0,info:true,tx:`${st.N[f]} tem a equipa mais forte: vai ter mais lances de ataque (${sh[f]} contra ${sh[1-f]}).`})}}
   proceed();
 }
-function startDuelMatch(){G.shownM=G.m;startMatch({a:0,b:1,key:G.seed+":m"+G.m,dk:G.mode==="online"?"m"+G.m:null,mySide:G.mode==="online"?G.me:null,onDone:recordDuel})}
+function startDuelMatch(){G.shownM=G.m;startMatch({a:0,b:1,key:G.seed+":m"+G.m,dk:G.mode==="online"?"m"+G.m:null,mySide:G.mode==="online"?G.me:null,noPens:!!G.fixed,onDone:recordDuel})}
 const ffOn=()=>!!(LIVE&&LIVE.si<(LIVE.ffTo||0));
 const ffMs=ms=>LIVE&&LIVE.si<=(LIVE.ffTo||0)&&LIVE.ffTo?40:ms;
 function proceed(){
@@ -12347,10 +12370,10 @@ function result(){$("specExit").hidden=true;
   const st=LIVE.st,g=st.goals,ci=st.ci,w=st.w;
   [[0,"H"],[1,"A"]].forEach(([j,k])=>{const t=ci[j],T=st.T[j];$("r"+k).textContent=st.N[j];$("r"+k).style.color=COL[t];
     const c=$("rC"+k);c.style.setProperty("--c",COL[t]);c.textContent=(st.N[j].replace(/^Bot\s+/,"").trim()[0]||"?").toUpperCase();
-    $("r"+k+"c").textContent=`${T.coach.n} · ${T.form}`;$("rT"+k).className="rteam "+(w===j?"win":"lose")});
+    $("r"+k+"c").textContent=`${T.coach.n} · ${T.form}`;$("rT"+k).className="rteam "+(w==null?"":w===j?"win":"lose")});
   $("rS").textContent=`${g[0]} – ${g[1]}`;
   $("rP").hidden=!st.pens;if(st.pens)$("rP").textContent=`${st.pens[0]}–${st.pens[1]} nos penáltis`;
-  $("rTitle").textContent=`🏆 ${st.N[w]} ganha${st.pens?" nos penáltis":""}!`;$("rTitle").style.color=COL[ci[w]];
+  if(w==null){$("rTitle").textContent="Empate";$("rTitle").style.color=""}else{$("rTitle").textContent=`🏆 ${st.N[w]} ganha${st.pens?" nos penáltis":""}!`;$("rTitle").style.color=COL[ci[w]]}
   LIVE.notes=playerNotes(st);notesT=w??0;drawNotes();
   const all=[0,1].flatMap(t=>LIVE.notes[t].map(x=>({p:x.p,t,s:x.v+(t===w?.05:0),v:x.v})));
   all.sort((a,b)=>b.s-a.s);const m=all[0];LIVE.mvp=m;
@@ -12370,7 +12393,7 @@ function result(){$("specExit").hidden=true;
     const T=st.T[j];p.append(el("span","muted",`Tática: ${TACT[T.coach.t].desc}`+(S[j].pref?" Bónus: formação preferida do treinador.":"")));
     const x=el("div");drawPitch(x,t,{small:true,withR:true});p.append(x);pt.append(p)});
   const tour=G.mode==="tour"||isTourOnline();
-  $("rematch").hidden=tour;$("newGame").hidden=tour;$("backBracket").hidden=!tour;
+  $("rematch").hidden=tour||!!G.fixed;$("newGame").hidden=tour||!!G.fixed;$("backBracket").hidden=!tour;$("toSeason").hidden=!G.fixed;
   const h=tour?"":h2hText(st.N[0],st.N[1]);$("h2h").textContent=h;$("h2h").hidden=!h;
   $("shareMsg").textContent="";$("shareTxt").hidden=true;
   show("sResult");confetti(COL[ci[w]]);
@@ -12383,6 +12406,7 @@ $("backBracket").onclick=()=>isTourOnline()?bracketOnline():bracket();
 function H(){return store("duelo_hist")||{pairs:{},games:[],champs:[]}}
 const pairKey=(a,b)=>[a,b].map(s=>s.trim().toLowerCase()).sort().join("|");
 function recordDuel(st){
+  if(G.fixed){try{seaRecord(st)}catch(e){console.error(e)}return}
   try{lgDuel(st)}catch(e){}
   if(G.bots&&G.mode==="local"){const lv=G.bots[1],r=store("duelo_bot")||{},k=G.seed+":"+G.m;if(!r._last||r._last!==k){r[lv]=r[lv]||{v:0,e:0,d:0};
     const w=st.goals[0]>st.goals[1]||st.pens&&st.pens[0]>st.pens[1],lo=st.goals[0]<st.goals[1]||st.pens&&st.pens[0]<st.pens[1];
@@ -12554,6 +12578,223 @@ $("lgCopy").onclick=async()=>{const t=`Junta-te à minha liga do Duelo de Onzes:
 document.querySelectorAll("#lgTabs .chip").forEach(b=>b.onclick=()=>{lgTab=b.dataset.t;drawLeague()});
 $("lgBtn").addEventListener("click",()=>drawLeague());
 drawLgPicks();
+
+/* ---- época da liga: draft único, calendário a duas voltas, mercado a meio, suspensões ---- */
+let SEA=null,SEAC=null,SEACUR=null,seaUnsub=[],seaTab="tab",seaMk=null,seaBusy=false,seaN=4;
+const seaK=n=>String(n||"").trim().toLowerCase().replace(/[.#$\[\]\/]/g,"_")||"x";
+const plK=n=>String(n||"").replace(/[.#$\[\]\/]/g,"_");
+const seaBase=(c,sid)=>`leagues/${c}/s/${sid}`;
+const pj=x=>{try{return x&&typeof x.d==="string"?JSON.parse(x.d):null}catch(e){return null}};
+async function seaPut(path,obj){const {D,db}=await lgDB();return D.set(D.ref(db,path),obj==null?null:{d:JSON.stringify(obj)})}
+function seaParse(raw){
+  raw=raw||{};const o={m:pj(raw.m),sq:{},r:{},mk:{},live:{},tk:{}};
+  ["sq","r","mk","live","tk"].forEach(k=>Object.entries(raw[k]||{}).forEach(([a,b])=>{const v=pj(b);if(v)o[k][a]=v}));
+  return o;
+}
+async function seaSubscribe(c){
+  if(SEAC===c&&seaUnsub.length)return;seaUnsub.forEach(u=>{try{u()}catch(e){}});seaUnsub=[];SEAC=c;SEA=null;SEACUR=null;
+  let D,db;try{({D,db}=await lgDB())}catch(e){SEAC=null;drawSeason("A época só funciona no site do jogo, com internet.");return}
+  let subSid=null,u2=null;
+  seaUnsub.push(D.onValue(D.ref(db,`leagues/${c}/cur`),snap=>{SEACUR=pj(snap.val());const sid=SEACUR&&SEACUR.sid;
+    if(sid!==subSid){subSid=sid;if(u2){try{u2()}catch(e){}}SEA=null;
+      if(sid){u2=D.onValue(D.ref(db,seaBase(c,sid)),s2=>{SEA=seaParse(s2.val());SEA.sid=sid;seaTick();drawSeason()});seaUnsub.push(()=>u2&&u2())}}
+    drawSeason()}));
+}
+/* calendário: todos contra todos (método do círculo), duas voltas com casa/fora trocados */
+function seaFixtures(mem){
+  const L=[...mem];if(L.length%2)L.push(null);const n=L.length,out=[];
+  for(let r=0;r<n-1;r++){for(let i=0;i<n/2;i++){let h=L[i],a=L[n-1-i];if(i===0&&r%2)[h,a]=[a,h];if(h&&a)out.push({fid:`1-${r+1}-${i}`,leg:1,rd:r+1,h,a})}L.splice(1,0,L.pop())}
+  const first=out.slice();first.forEach(f=>out.push({fid:`2-${f.rd}-${f.fid.split("-")[2]}`,leg:2,rd:f.rd+n-1,h:f.a,a:f.h}));
+  return out;
+}
+function seaTable(){
+  const m=SEA.m,P={};m.mem.forEach(n=>P[seaK(n)]={n,j:0,v:0,e:0,d:0,gm:0,gs:0,pts:0});
+  const H={};
+  Object.values(SEA.r).forEach(x=>{const h=P[seaK(x.h)],a=P[seaK(x.a)];if(!h||!a)return;h.j++;a.j++;h.gm+=x.g[0];h.gs+=x.g[1];a.gm+=x.g[1];a.gs+=x.g[0];
+    if(x.g[0]>x.g[1]){h.v++;a.d++;h.pts+=3}else if(x.g[0]<x.g[1]){a.v++;h.d++;a.pts+=3}else{h.e++;a.e++;h.pts++;a.pts++}
+    const k=[seaK(x.h),seaK(x.a)].sort().join("|");H[k]=H[k]||{};H[k][seaK(x.h)]=(H[k][seaK(x.h)]||0)+(x.g[0]>x.g[1]?3:x.g[0]===x.g[1]?1:0);H[k][seaK(x.a)]=(H[k][seaK(x.a)]||0)+(x.g[1]>x.g[0]?3:x.g[0]===x.g[1]?1:0)});
+  return Object.values(P).sort((a,b)=>b.pts-a.pts||(b.gm-b.gs)-(a.gm-a.gs)||b.gm-a.gm||((H[[seaK(a.n),seaK(b.n)].sort().join("|")]||{})[seaK(b.n)]||0)-((H[[seaK(a.n),seaK(b.n)].sort().join("|")]||{})[seaK(a.n)]||0)||a.n.localeCompare(b.n));
+}
+const seaMe=()=>SEA&&SEA.m&&SEA.m.mem.find(n=>seaK(n)===seaK(myName()));
+const seaThemeOk=p=>!SEA||!SEA.m||!SEA.m.th||!THEMES[SEA.m.th]||THEMES[SEA.m.th].f(p);
+function seaOwned(){const s=new Set();Object.values(SEA.sq).forEach(q=>(q.sl||[]).forEach(x=>{if(x&&x.p)s.add(x.p)}));return s}
+/* regras do mercado: 3 regras com jogadores livres suficientes, sorteadas uma vez e guardadas */
+function seaMarketRules(){
+  const own=seaOwned(),need=Math.max(6,SEA.m.mem.length*3);
+  return withRng(seeded(SEA.sid+":mercado"),()=>{const out=[],cats=new Set();
+    for(const r of shuffle(RULES.slice())){if(out.length>=3)break;if(cats.has(r.cat)&&out.length<2)continue;
+      const n=DB.filter(p=>!own.has(p.n)&&seaThemeOk(p)&&r.t(p)&&p.r>=70).length;if(n>=need){out.push(r.l);cats.add(r.cat)}}
+    return out});
+}
+/* passagens de estado: qualquer telemóvel que veja a condição cumprida faz a mudança */
+function seaTick(){
+  if(!SEA||!SEA.m||seaBusy)return;const m=SEA.m,F=seaFixtures(m.mem),done=f=>!!SEA.r[f.fid];
+  const w=nm=>{seaBusy=true;seaPut(seaBase(SEAC,SEA.sid)+"/m",nm).catch(()=>{}).finally(()=>{seaBusy=false})};
+  if(m.st==="leg1"&&F.filter(f=>f.leg===1).every(done)&&m.mem.every(n=>SEA.sq[seaK(n)]))w({...m,st:"market",mr:seaMarketRules()});
+  else if(m.st==="market"&&m.mem.every(n=>(SEA.mk[seaK(n)]||{}).done))w({...m,st:"leg2"});
+  else if(m.st==="leg2"&&F.every(done))w({...m,st:"done",ch:seaTable()[0].n});
+}
+/* ---- plantéis ---- */
+const seaYouth=pos=>({n:"Júnior da formação",p:pos==="SUP"?"MED":pos,c:"Portugal",r:64,cl:[],tg:[],by:0,youth:true});
+function seaSerialize(T,capIdx,name){return{n:name,co:T.coach.n,f:T.form,cap:capIdx,sl:T.slots.map(x=>x.pl?(x.pl.youth?{y:1}:{p:x.pl.n}):null)}}
+function seaTeam(sq,susp){
+  const coach=COACHES.find(c=>c.n===sq.co)||COACHES[0],T={coach,form:FORMS[sq.f]?sq.f:coach.f,picks:[],bench:[]};T.slots=buildSlots(T.form);
+  (sq.sl||[]).forEach((x,i)=>{const sl=T.slots[i];if(!sl)return;let p=x&&(x.y?seaYouth(sl.pos):DBN.get(x.p));if(!p)p=seaYouth(sl.pos);sl.pl=p});
+  let cap=T.slots[sq.cap]&&T.slots[sq.cap].pos!=="SUP"?T.slots[sq.cap].pl:null;
+  /* suspensos: trocam com um suplente e não podem entrar */
+  (susp||[]).forEach(nm=>{const i=T.slots.findIndex(x=>x.pos!=="SUP"&&x.pl&&x.pl.n===nm);if(i<0)return;
+    const j=T.slots.findIndex(x=>x.pos==="SUP"&&x.pl&&!x.out&&!(susp||[]).includes(x.pl.n));if(j<0)return;
+    const out=T.slots[i].pl;T.slots[i].pl=T.slots[j].pl;T.slots[j].pl=out;T.slots[j].out=true;if(cap===out)cap=null});
+  T.slots.forEach(x=>{if(x.pl)(x.pos==="SUP"?T.bench:T.picks).push(x.pl)});
+  if(!cap){let br=-1;T.slots.forEach(x=>{if(x.pos!=="SUP"&&x.pl&&!x.pl.youth&&x.pl.r>br){br=x.pl.r;cap=x.pl}})}
+  T.cap=cap;return T;
+}
+function seaSusp(name,exceptFid){
+  const L=Object.entries(SEA.r).filter(([f,x])=>f!==exceptFid&&(seaK(x.h)===seaK(name)||seaK(x.a)===seaK(name))).sort((a,b)=>(b[1].at||0)-(a[1].at||0));
+  if(!L.length)return[];const x=L[0][1];return((x.red||{})[seaK(name)])||[];
+}
+function setFixed(fx){
+  const teams=[seaTeam(fx.sq[0],fx.su[0]),seaTeam(fx.sq[1],fx.su[1])];
+  G.fixed={fx,sn:fx.sn,teams};G.cfg=teams.map(T=>({coach:T.coach,form:T.form}));G.caps=teams.map(T=>T.slots.findIndex(x=>x.pl&&x.pl===T.cap));
+  G.names=[...fx.sn];G.lg=null;
+}
+function seaFx(f,meFirst){
+  const me=seaMe(),opp=f.h===me?f.a:f.h,sn=meFirst?[me,opp]:[f.h,f.a];
+  return{c:SEAC,sid:SEA.sid,fid:f.fid,h:f.h,a:f.a,sn,sq:sn.map(n=>SEA.sq[seaK(n)]),su:sn.map(n=>seaSusp(n,f.fid))};
+}
+function seaPlayOnline(f){
+  const fx=seaFx(f,true),me=fx.sn[0];
+  newGame("online",[me,fx.sn[1]],newSeed());G.me=0;G.online={code:genCode(),n:2,uid:myUid(),ro:[{u:myUid(),n:me}],go:false};
+  setFixed(fx);seaPut(seaBase(SEAC,SEA.sid)+"/live/"+f.fid,{code:G.online.code,by:me,t:Date.now()}).catch(()=>{});connect();
+}
+function seaPlayHere(f){newGame("local",[f.h,f.a],newSeed());G.bots={};setFixed(seaFx(f,false));render()}
+function joinOnline(c){newGame("online",["…",myName()],null);G.me=null;G.online={code:c,n:2,uid:myUid(),ro:null,go:false};connect()}
+function seaRecord(st){
+  if(G.mode==="online"&&G.me!==0)return;if(G.seaRec)return;G.seaRec=1;
+  const fx=G.fixed.fx,sn=G.fixed.sn,ih=sn.indexOf(fx.h),ia=sn.indexOf(fx.a),red={};
+  [0,1].forEach(j=>{red[seaK(sn[j])]=Object.keys(st.stats.r||{}).filter(k=>k.startsWith(j+":")).map(k=>k.slice(2))});
+  const res={h:fx.h,a:fx.a,g:[st.goals[ih],st.goals[ia]],red,at:Date.now()};
+  seaPut(seaBase(fx.c,fx.sid)+"/r/"+fx.fid,res).catch(e=>console.warn("época: resultado não gravado",e));
+  seaPut(seaBase(fx.c,fx.sid)+"/live/"+fx.fid,null).catch(()=>{});
+}
+/* fim do draft da época: cada um grava o seu plantel; quem criou grava a época */
+function seaDraftDone(){
+  const sea=G.online.sea;
+  if(!G.seaSaved){G.seaSaved=1;const t=G.me,name=G.names[t];
+    const ps=[seaPut(seaBase(sea.c,sea.sid)+"/sq/"+seaK(name),seaSerialize(G.teams[t],G.caps[t],name))];
+    if(G.me===0){ps.push(seaPut(seaBase(sea.c,sea.sid)+"/m",{sid:sea.sid,st:"leg1",mem:[...G.names],ow:G.names[0],th:G.theme||"",at:Date.now()}));
+      ps.push(seaPut(`leagues/${sea.c}/cur`,{sid:sea.sid}))}
+    Promise.all(ps).catch(e=>console.warn("época: não gravou",e)).finally(()=>{setTimeout(()=>{if(G&&G.online&&G.online.sea){if(ROOM)ROOM.leave().catch(()=>{});ROOM=null;PEERS={};store("duelo_online",null);G=null;openSeason()}},1500)})}
+  lobby("Plantéis prontos! A preparar a época…");
+}
+function seaNewDraft(){
+  if(!LEAGUE)return;const sid=newSeed(),me=myName();
+  const names=[me];while(names.length<seaN)names.push("…");newGame("online",names,newSeed());G.me=0;G.lg=null;
+  G.online={code:genCode(),n:seaN,uid:myUid(),ro:[{u:myUid(),n:me}],go:false,sea:{c:LEAGUE.c,sid,n:LEAGUE.n}};
+  seaPut(`leagues/${LEAGUE.c}/cur`,{sid:SEACUR&&SEACUR.sid&&SEA&&SEA.m&&SEA.m.st!=="done"?SEACUR.sid:null,draft:{sid,code:G.online.code,by:me,t:Date.now()}}).catch(()=>{});
+  connect();
+}
+function openSeason(){if(!LEAGUE){openSheet("shLeague");return}document.querySelectorAll(".sheet").forEach(x=>x.hidden=true);show("sSeason");seaSubscribe(LEAGUE.c);drawSeason()}
+/* ---- ecrã da época ---- */
+function seaRow(cls,...kids){const r=el("div",cls);kids.forEach(k=>r.append(k));return r}
+function seaBtn(t,cls,f){const b=el("button","btn "+(cls||""),t);b.type="button";b.onclick=f;return b}
+function drawSeason(err){
+  if($("sSeason").hidden)return;
+  $("seaTitle").textContent=LEAGUE?LEAGUE.n:"Liga";const body=$("seaBody"),top=$("seaTop");body.innerHTML="";top.innerHTML="";
+  if(err){top.append(el("p","msg bad",err));$("seaTabs").hidden=true;return}
+  const m=SEA&&SEA.m,me=seaMe(),dr=SEACUR&&SEACUR.draft&&Date.now()-SEACUR.draft.t<6*36e5?SEACUR.draft:null;
+  const F=m?seaFixtures(m.mem):[],nDone=F.filter(f=>SEA.r[f.fid]).length;
+  const ST={leg1:"1.ª volta",market:"Mercado de transferências",leg2:"2.ª volta",done:"Época terminada"};
+  $("seaStatus").textContent=!SEACUR&&!m?"A carregar…":m?`${ST[m.st]||""} · ${nDone}/${F.length} jogos feitos`+(m.th?` · ${THEMES[m.th].n}`:""):"Ainda não há época a decorrer.";
+  if(dr&&!(m&&m.st!=="done"&&SEA.sid===dr.sid)){
+    top.append(el("p",null,`📋 Draft da época a decorrer, criado por ${dr.by}.`));
+    if(seaK(dr.by)!==seaK(myName()))top.append(seaBtn(`Entrar no draft (código ${dr.code})`,"",()=>joinOnline(dr.code)))}
+  let newP=null;
+  if(!m||m.st==="done"){
+    if(m&&m.ch)top.append(el("p","seaChamp",`🏆 Campeão: ${m.ch}`));
+    const p=el("div","panel");newP=p;p.style.cssText="display:flex;flex-direction:column;gap:8px";
+    p.append(el("span","lbl","Nova época · quantos treinadores?"));const ch=el("div","chips");
+    for(let n=2;n<=8;n++){const b=el("button","chip",String(n));b.type="button";b.setAttribute("aria-pressed",n===seaN);b.onclick=()=>{seaN=n;drawSeason()};ch.append(b)}
+    p.append(ch,el("p","muted",`Draft com todos ao mesmo tempo. Depois: ${seaN-1+(seaN%2)} jornadas na 1.ª volta, mercado (até 3 trocas), e mais ${seaN-1+(seaN%2)} na 2.ª volta. Vitória 3, empate 1.`),
+      seaBtn("Começar a época (draft)","",seaNewDraft));if(!m)top.append(p)}
+  /* convites para jogar */
+  if(m&&me)Object.entries(SEA.live).forEach(([fid,v])=>{const f=F.find(x=>x.fid===fid);if(!f||SEA.r[fid]||Date.now()-v.t>2*36e5)return;
+    if((f.h===me||f.a===me)&&seaK(v.by)!==seaK(me))top.append(seaRow("seaInv",el("span",null,`⚽ ${v.by} está à tua espera: ${f.h} x ${f.a}`),seaBtn("Entrar","",()=>joinOnline(v.code))))});
+  $("seaTabs").hidden=!m;if(!m)return;
+  const tabs=[["tab","Classificação"],["jor","Jornadas"],["sq","Plantel"]];if(m.st==="market")tabs.splice(0,0,["mk","Mercado"]);
+  if(m.st==="market"&&!["mk","sq","tab","jor"].includes(seaTab))seaTab="mk";
+  $("seaTabs").innerHTML="";tabs.forEach(([k,l])=>{const b=el("button","chip",l);b.type="button";b.setAttribute("aria-pressed",seaTab===k);b.onclick=()=>{seaTab=k;seaMk=null;drawSeason()};$("seaTabs").append(b)});
+  if(seaTab==="mk"&&m.st!=="market")seaTab="tab";
+  if(seaTab==="tab"){const tb=el("table","lgTable");const hd=el("tr");["","Treinador","J","V","E","D","Golos","Pts"].forEach(h=>hd.append(el("th",null,h)));tb.append(hd);
+    seaTable().forEach((p,i)=>{const r=el("tr");[String(i+1),p.n,p.j,p.v,p.e,p.d,`${p.gm}–${p.gs}`,p.pts].forEach((v,j)=>r.append(el("td",j===1?"n":null,String(v))));tb.append(r)});
+    body.append(tb,el("p","muted","Vitória 3 pontos · empate 1 · desempate: diferença de golos, golos marcados, confronto direto."))}
+  if(seaTab==="jor"){const open=m.st==="leg1"?1:m.st==="leg2"?2:0;let rd=0;
+    F.forEach(f=>{if(f.rd!==rd){rd=f.rd;body.append(el("span","lbl seaRd",`Jornada ${rd}${rd===1?" · 1.ª volta":f.leg===2&&F.find(x=>x.leg===2).rd===rd?" · 2.ª volta (depois do mercado)":""}`))}
+      const r=SEA.r[f.fid],mine=me&&(f.h===me||f.a===me),row=el("div","seaFx"+(mine?" mine":""));
+      row.append(el("span","t",`${f.h} ${r?r.g[0]+"–"+r.g[1]:"x"} ${f.a}`));
+      if(!r&&mine&&open===f.leg){const opp=f.h===me?f.a:f.h;
+        if(!SEA.sq[seaK(opp)]||!SEA.sq[seaK(me)])row.append(el("span","muted","plantel em falta"));
+        else{const bx=el("div","seaBtns");bx.append(seaBtn("Jogar online","",()=>seaPlayOnline(f)),seaBtn("Aqui","ghost",()=>seaPlayHere(f)));row.append(bx)}}
+      else if(!r&&f.leg===2&&m.st!=="leg2")row.append(el("span","muted","🔒 depois do mercado"));
+      body.append(row)})}
+  if(seaTab==="sq")seaDrawSquad(body,me,m.st==="market");
+  if(seaTab==="mk")seaDrawMarket(body,me);
+  if(newP){newP.style.marginTop="14px";body.append(newP)}
+}
+function seaDrawSquad(body,me,edit){
+  const names=SEA.m.mem;const pick=el("div","chips");let who=SEA.showSq&&names.includes(SEA.showSq)?SEA.showSq:me||names[0];
+  names.forEach(n=>{const b=el("button","chip",n);b.type="button";b.setAttribute("aria-pressed",n===who);b.onclick=()=>{SEA.showSq=n;drawSeason()};pick.append(b)});body.append(pick);
+  const sq=SEA.sq[seaK(who)];if(!sq){body.append(el("p","muted","Plantel ainda não gravado."));return}
+  const T=seaTeam(sq,[]),S=strength(T),su=seaSusp(who,"");
+  body.append(el("p","muted",`${T.coach.n} · ${T.form} · Força ${S.ovr.toFixed(1)} · Química ${S.chemSum}/33`+(su.length?` · 🟥 suspenso no próximo jogo: ${su.map(lastName).join(", ")}`:"")));
+  T.slots.forEach((x,i)=>{const p=x.pl;const row=el("div","seaPl");row.append(el("span","pos",x.label),el("span","n",(p?p.youth?"Júnior da formação":dn(p.n):"—")+(p&&p===T.cap?" (C)":"")),el("span","r",p?String(p.youth?64:p.r):""));body.append(row)});
+  if(edit&&who===me){const c=el("div","panel");c.style.cssText="display:flex;flex-direction:column;gap:8px;margin-top:8px";
+    c.append(el("span","lbl","Capitão"));const cc=el("div","chips");T.slots.forEach((x,i)=>{if(x.pos==="SUP"||!x.pl||x.pl.youth)return;const b=el("button","chip",lastName(x.pl.n));b.type="button";b.setAttribute("aria-pressed",x.pl===T.cap);
+      b.onclick=()=>seaSaveSq({...sq,cap:i});cc.append(b)});c.append(cc);
+    c.append(el("span","lbl","Formação"));const fc=el("div","chips");Object.keys(FORMS).forEach(f=>{const b=el("button","chip",f);b.type="button";b.setAttribute("aria-pressed",f===T.form);
+      b.onclick=()=>{const R=reform(T,f),capP=T.cap;seaSaveSq(seaSerialize(R,R.slots.findIndex(x=>x.pl===capP),sq.n))};fc.append(b)});c.append(fc);body.append(c)}
+}
+function seaSaveSq(sq){return seaPut(seaBase(SEAC,SEA.sid)+"/sq/"+seaK(sq.n),sq).catch(()=>{$("seaMsg").textContent="Não foi possível gravar."})}
+function seaDrawMarket(body,me){
+  const m=SEA.m,mk=SEA.mk[seaK(me)]||{sw:[null,null,null],done:false},sq=SEA.sq[seaK(me)];
+  if(!me||!sq){body.append(el("p","muted","Não tens equipa nesta época."));return}
+  body.append(el("p","muted","Até 3 trocas: sai um jogador do teu plantel e entra um jogador livre que cumpra a regra dessa troca, para a mesma posição (ou para o banco). Quem confirmar primeiro fica com o jogador. A 2.ª volta começa quando todos terminarem (ou quando "+m.ow+" fechar o mercado)."));
+  (m.mr||[]).forEach((rl,k)=>{const sw=(mk.sw||[])[k],card=el("div","panel seaMk");card.append(el("span","lbl",`Troca ${k+1} · regra`),el("b",null,rl));
+    if(sw)card.append(el("p",null,`⬇ ${dn(sw.o)}   ⬆ ${dn(sw.i)}`));
+    else if(mk.done)card.append(el("p","muted","Sem troca."));
+    else if(seaMk&&seaMk.k===k)seaMkForm(card,k,rl,sq,mk);
+    else card.append(seaBtn("Fazer esta troca","ghost",()=>{seaMk={k,out:null};drawSeason()}));
+    body.append(card)});
+  if(!mk.done)body.append(seaBtn("Terminei o mercado","",()=>seaPut(seaBase(SEAC,SEA.sid)+"/mk/"+seaK(me),{...mk,sw:mk.sw||[null,null,null],done:true})));
+  else body.append(el("p","msg ok","Terminaste o mercado. À espera dos outros…"));
+  const st=m.mem.map(n=>`${n}: ${(SEA.mk[seaK(n)]||{}).done?"✓":"a decidir…"}`).join(" · ");body.append(el("p","muted",st));
+  m.mem.forEach(n=>{const x=SEA.mk[seaK(n)];if(!x||n===me)return;(x.sw||[]).forEach(w=>{if(w)body.append(el("p","muted",`${n}: ⬇ ${dn(w.o)} ⬆ ${dn(w.i)}`))})});
+  if(seaK(m.ow)===seaK(me))body.append(seaBtn("Fechar o mercado para todos","ghost",()=>seaPut(seaBase(SEAC,SEA.sid)+"/m",{...m,st:"leg2"})));
+}
+function seaMkForm(card,k,rl,sq,mk){
+  const rule=RULES.find(r=>r.l===rl),T=seaTeam(sq,[]);
+  if(seaMk.out==null){card.append(el("span","lbl","Quem sai?"));const c=el("div","chips");
+    T.slots.forEach((x,i)=>{if(!x.pl)return;const b=el("button","chip",`${x.label} ${x.pl.youth?"Júnior":lastName(x.pl.n)}`);b.type="button";b.onclick=()=>{seaMk={k,out:i};drawSeason()};c.append(b)});
+    card.append(c,seaBtn("Cancelar","ghost",()=>{seaMk=null;drawSeason()}));return}
+  const sl=T.slots[seaMk.out],own=seaOwned();
+  card.append(el("p",null,`Sai: ${sl.pl.youth?"Júnior da formação":dn(sl.pl.n)} (${sl.label}). Quem entra?`));
+  const inp=document.createElement("input");inp.type="text";inp.placeholder="Escreve o nome";inp.autocomplete="off";const L=el("div","list");
+  const draw=()=>{L.innerHTML="";const q=inp.value.trim();if(key(q).length<2){L.append(el("div","empty","Continua a escrever…"));return}
+    const c=suggest(q,sl.pos,sl.label).filter(p=>!own.has(p.n)&&!SEA.tk[plK(p.n)]&&seaThemeOk(p));
+    if(!c.length){L.append(el("div","empty","Nenhum jogador livre com esse nome para esta posição."));return}
+    c.forEach(p=>{const ok=rule&&rule.t(p),b=el("button","pl"+(ok?"":" taken"));b.append(el("span","pos "+p.p,p.p),(()=>{const nm=el("span","nm",dn(p.n));nm.append(el("small",null,ok?`${p.c}`:"não cumpre a regra"));return nm})(),el("span","rt",""));
+      b.type="button";if(!ok)b.disabled=true;else b.onclick=()=>seaSign(k,p,sq,mk);L.append(b)})};
+  inp.oninput=draw;card.append(inp,L,seaBtn("Cancelar","ghost",()=>{seaMk=null;drawSeason()}));draw();setTimeout(()=>inp.focus(),50);
+}
+async function seaSign(k,p,sq,mk){
+  const me=sq.n,i=seaMk.out,out=sq.sl[i];$("seaMsg").textContent="A contratar…";
+  try{await seaPut(seaBase(SEAC,SEA.sid)+"/tk/"+plK(p.n),{by:me,t:Date.now()})}catch(e){$("seaMsg").textContent=`${dn(p.n)} acabou de ser contratado por outro treinador.`;return}
+  const nsq={...sq,sl:sq.sl.map((x,j)=>j===i?{p:p.n}:x)},sw=[...(mk.sw||[null,null,null])];sw[k]={o:out&&out.p?out.p:"Júnior da formação",i:p.n};
+  await seaSaveSq(nsq);await seaPut(seaBase(SEAC,SEA.sid)+"/mk/"+seaK(me),{sw,done:false});seaMk=null;$("seaMsg").textContent=`✅ ${dn(p.n)} contratado!`;
+}
+$("seaBack").onclick=()=>{show("sStart")};
+$("lgSeason").onclick=()=>openSeason();
+$("toSeason").onclick=()=>{if(G&&G.mode==="online"){if(ROOM)ROOM.leave().catch(()=>{});ROOM=null;PEERS={};store("duelo_online",null)}stopMatchUI();G=null;openSeason()};
 
 /* ---- som e festa ---- */
 let AC=null;
