@@ -10556,7 +10556,7 @@ function myPresence(){
   return{g:"duelo",code:G.online.code,uid:G.online.uid,n:G.online.n,host:me===0,name:me!=null?G.names[me]:myName(),seed:me===0?G.seed:null,
     ro:me===0?G.online.ro:null,go:me===0?!!G.online.go:null,
     coach:c.coach?c.coach.n:null,form:c.coach?c.form:null,picks:G.mine.map(e=>({o:e.o,s:e.s,n:e.n,y:e.y?1:0,at:e.at||0})),m:G.m,cap:me!=null?G.caps[me]:null,
-    dec:h&&side!=null?{k:dk,d:h[side]}:null,lv:LIVE&&LIVE.dk&&!LIVE.done?{k:LIVE.dk,si:LIVE.si,w:timer?0:1}:null,claim:G.claimReq||null,cans:G.claimAns||null,res:G.res||null,play:G.playing||null,bots:me===0&&G.botSt?G.botSt:null,tko:me===0&&G.tko?Object.values(G.tko):null,tm:me===0?G.tm:null};
+    dec:h&&side!=null?{k:dk,d:h[side]}:null,lv:LIVE&&LIVE.dk&&!LIVE.done?{k:LIVE.dk,si:LIVE.si,w:LIVE.atStop?1:0,mn:LIVE.minute}:null,claim:G.claimReq||null,cans:G.claimAns||null,res:G.res||null,play:G.playing||null,bots:me===0&&G.botSt?G.botSt:null,tko:me===0&&G.tko?Object.values(G.tko):null,tm:me===0?G.tm:null};
 }
 function pushPresence(){
   const me=G.me,c=me!=null?G.cfg[me]:{coach:null,form:null};
@@ -10578,9 +10578,12 @@ function sideIn(dk,seat){if(dk[0]==="m")return seat;const mt=tourMatchByKey(dk);
 function liveSync(){
   if(!G||G.mode!=="online"||!LIVE||!LIVE.dk||LIVE.done||$("sMatch").hidden||!timer)return;
   const o=LIVE.ci[1-LIVE.mySide],p=PEERS[o];if(!p||!p.lv||p.lv.k!==LIVE.dk)return;
-  if(p.lv.si>LIVE.si||(p.lv.si===LIVE.si&&p.lv.w))setTimeout(()=>{if(timer&&LIVE&&!LIVE.done)$("skip").click()},0);
+  if(p.lv.si>LIVE.si||(p.lv.si===LIVE.si&&p.lv.w)){setTimeout(()=>{if(timer&&LIVE&&!LIVE.done)$("skip").click()},0);return}
+  /* a meio do relato: se o outro vai mais de 2 minutos à frente, este acelera até o apanhar */
+  if(p.lv.si===LIVE.si&&+p.lv.mn>LIVE.minute+2)LIVE.catchTo=+p.lv.mn;
 }
-setInterval(()=>{try{liveSync()}catch(e){}},1000);
+setInterval(()=>{try{liveSync();
+  if(G&&G.mode==="online"&&LIVE&&LIVE.dk&&!LIVE.done&&timer&&Math.abs(LIVE.minute-(LIVE.pushMn??-9))>=3){LIVE.pushMn=LIVE.minute;pushPresence()}}catch(e){}},1000);
 function onPeers(ch){
   if(!G||!G.online)return;LASTCH=ch;
   const list=ch.peers.filter(x=>!x.isMe&&x.presence&&x.presence.g==="duelo"&&x.presence.code===G.online.code&&typeof x.presence.uid==="string").map(x=>x.presence);
@@ -11910,6 +11913,7 @@ function startMatch(o){
 }
 function startDuelMatch(){G.shownM=G.m;startMatch({a:0,b:1,key:G.seed+":m"+G.m,dk:G.mode==="online"?"m"+G.m:null,mySide:G.mode==="online"?G.me:null,onDone:recordDuel})}
 function proceed(){
+  LIVE.atStop=false;
   const k=LIVE.si,stop=LIVE.plan[k],to=stop.kind==="mom"?stop.m-1:stop.m;
   if(to>=LIVE.pos)withRng(seeded(LIVE.key+":s"+k+":"+decStr(k)),()=>simHalf(LIVE.st,LIVE.pos,to));
   LIVE.pos=stop.kind==="mom"?stop.m:stop.m+1;
@@ -11920,6 +11924,9 @@ function proceed(){
 function runFeed(until,final){
   stopFeed();
   timer=setInterval(()=>{
+    if(LIVE.catchTo){if(LIVE.catchTo>LIVE.minute&&LIVE.minute<until){if(SC.busy)scStop();SC.skip=true;
+        const to=Math.min(until,LIVE.catchTo,LIVE.minute+4);while(LIVE.minute<to){LIVE.minute++;flushTo(LIVE.minute,false)}$("clock").textContent=LIVE.minute+"'";return}
+      LIVE.catchTo=0;SC.skip=!!LIVE.auto}
     if(SC.busy)return;
     if(LIVE.minute<until){LIVE.minute++;$("clock").textContent=LIVE.minute+"'";flushTo(LIVE.minute,false);return}
     if(final){if(LIVE.i<LIVE.st.ev.length)flushTo(90,true);if(LIVE.i>=LIVE.st.ev.length)endOrPens();return}
@@ -11969,7 +11976,7 @@ function fixStop(k){
   if(n.type==="fk"&&!n.cardDone){n.cardDone=1;const h=hash(strHash(LIVE.key+":fkcard"+k));if(h<.55){const L=field(D);if(L.length){const pl=L[Math.floor(hash(strHash(LIVE.key+":fkpl"+k))*L.length)];giveCard(st,1-n.t,pl.n,n.m,"y","falta à entrada da área")}}}
 }
 function reachStop(){
-  fixStop(LIVE.si);if(G&&G.mode==="online"&&LIVE.dk)pushPresence();
+  LIVE.atStop=true;fixStop(LIVE.si);if(G&&G.mode==="online"&&LIVE.dk)pushPresence();
   const stop=LIVE.plan[LIVE.si];$("skip").hidden=true;
   if(stop.kind==="ht"){whistle(2);$("clock").textContent="Intervalo"}
   else if(stop.kind==="sub"&&stop.ht){$("clock").textContent="Intervalo"}
