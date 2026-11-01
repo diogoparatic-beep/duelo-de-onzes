@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded",show);
 })();</script>
 <title>Duelo de Onzes</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Barlow:wght@400;600;700&family=Barlow+Condensed:wght@600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Barlow:wght@400;600;700&family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
 /* Layout: night-match turf, one column for phones; draft screen = rule card on top, eligible list below, squads in tabs; scoreboard + live feed for the match */
 :root{
@@ -164,6 +164,14 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .brTeam.win b{color:var(--gold)}
 .brTeam .bn{min-width:0;overflow-wrap:anywhere}
 .brTeam b{font-family:var(--display);font-size:1.2rem;font-variant-numeric:tabular-nums}
+.seaProg .sm{display:flex;justify-content:space-between;color:var(--muted);font:600 .82rem var(--body)}.seaProg .bar{height:6px;background:var(--turf3);border-radius:99px;overflow:hidden;margin-top:8px}.seaProg .bar i{display:block;height:100%;background:var(--gold);border-radius:99px}
+.seaHero{border-radius:26px;padding:16px;background:linear-gradient(135deg,#1e3a2a 0%,#141922 55%,#1b2740 100%);border:1px solid var(--lineC);display:flex;flex-direction:column;gap:12px}
+.seaHero .sm,.sm{color:var(--muted);font:600 .82rem var(--body)}
+.seaVs{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;text-align:center}.seaVs .t{display:flex;flex-direction:column;align-items:center;gap:4px}.seaVs .t b{font:700 1rem var(--body)}
+.seaVs .x{font:900 1.4rem var(--display);color:var(--muted)}
+.seaTbl{padding:10px 8px 4px}.seaTbl td.p{color:var(--muted);text-align:left}.seaTbl td.n{display:flex;align-items:center;gap:6px}.seaTbl td.pts{font-weight:800}
+.form{display:inline-flex;gap:3px}.form i{width:8px;height:8px;border-radius:50%;display:inline-block;background:var(--muted)}.form i.fV{background:var(--gold)}.form i.fD{background:var(--home)}
+.seaBack{border:1px solid var(--lineC);border-radius:14px;justify-content:flex-start}
 .seaFx{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;background:var(--turf3);font-weight:700}
 .seaFx.mine{border:1px solid var(--gold)}.seaFx .t{min-width:0;overflow:hidden;text-overflow:ellipsis}.seaBtns{display:flex;gap:6px;flex:none}.seaBtns .btn{padding:8px 10px;font-size:.95rem;width:auto}
 .seaRd{margin-top:8px}.seaInv{display:flex;justify-content:space-between;align-items:center;gap:8px;background:rgba(255,209,102,.12);border:1px solid var(--gold);border-radius:12px;padding:8px 10px}.seaInv .btn{width:auto;padding:8px 14px}
@@ -171,7 +179,7 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .seaMk{display:flex;flex-direction:column;gap:8px}.seaChamp{font:900 1.6rem var(--display);color:var(--gold);text-transform:uppercase}
 .lgTable{width:100%;border-collapse:collapse;font-family:var(--cond);font-size:1rem}.lgTable th{font-size:.8rem;color:var(--muted);text-align:right;padding:4px;font-weight:700}
 .lgTable td{text-align:right;padding:7px 4px;border-top:1px solid rgba(255,255,255,.07);font-weight:700}.lgTable td.n,.lgTable th:nth-child(2){text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:9em}
-.lgTable tr:nth-child(2) td{color:var(--gold)}.lgPick b{color:var(--gold)}
+.lgTable tr.me td{color:var(--gold)}.lgPick b{color:var(--gold)}
 .hrow{display:flex;justify-content:space-between;gap:10px;align-items:baseline;font-weight:600}
 .feed li.red{background:rgba(255,93,79,.16)}
 .dstr{text-align:center;font-family:var(--cond);font-weight:700;color:var(--muted);letter-spacing:.04em;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
@@ -317,7 +325,7 @@ body.picking .askpage .list{padding-bottom:170px}
 .hero h1{font-size:clamp(3.4rem,17vw,4.6rem);line-height:.86;text-shadow:0 6px 30px rgba(0,0,0,.5)}
 .hero h1 em{display:block}
 /* página principal fixa: nunca faz scroll; se não couber, vai compactando por passos */
-#sStart{overflow:hidden;overscroll-behavior:none}
+#sStart{overflow-y:auto}
 #sStart .minibtn{white-space:nowrap}
 #sStart .hero h1{white-space:nowrap;font-size:min(4.6rem,14.5vw)}
 #sStart.fit1 .facts{display:none}#sStart.fit1 .hero{padding-top:8px;gap:8px}#sStart.fit1 .hero h1{font-size:min(3.6rem,12.5vw)}
@@ -466,33 +474,91 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
   .pitchbox .slot .nm2,#capPitch .slot .nm2{font-size:.72rem}
   .screen{gap:10px}
 }
+
+
+/* ---- estrutura nova: separadores em baixo, página principal, perfil ---- */
+.navscr{padding-bottom:96px}
+.tabbar{position:fixed;left:50%;bottom:max(14px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;display:flex;gap:4px;padding:6px;border-radius:999px;
+  background:rgba(28,35,48,.92);border:1px solid var(--lineC);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.tabbar button{display:flex;align-items:center;gap:7px;border:0;background:transparent;color:var(--muted);font:700 .92rem var(--body);padding:10px 16px;border-radius:999px;cursor:pointer}
+.tabbar button.on{background:var(--gold);color:var(--onGold)}
+.hiTop{display:flex;align-items:center;gap:12px;padding-top:4px}.hiTop h1{flex:1;font-size:1.75rem}
+.topBack{width:40px;height:40px;border-radius:50%;border:0;background:var(--card);color:var(--chalk);display:grid;place-items:center;cursor:pointer;flex:none}
+.avBtn{width:42px;height:42px;border-radius:50%;border:0;background:var(--home);color:#fff;font:800 1.05rem var(--body);cursor:pointer;flex:none}
+.avBig{width:58px;height:58px;border-radius:50%;background:var(--home);color:#fff;display:grid;place-items:center;font:800 1.5rem var(--body);flex:none}
+.contCard{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:1px solid var(--lineC);border-radius:22px;padding:12px 14px;color:var(--chalk);cursor:pointer;
+  background:linear-gradient(135deg,#1e3a2a 0%,#141922 55%,#1b2740 100%)}
+.contCard .ct{flex:1;min-width:0}.contCard b{display:block;font:700 .98rem var(--body)}.contCard small{color:var(--muted);font-size:.82rem}
+.contCard .go{background:var(--gold);color:var(--onGold);border-radius:12px;padding:9px 13px;font:800 .9rem var(--body)}
+.crest{display:inline-grid;flex:none}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{border-radius:24px;padding:16px;min-height:140px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;text-align:left;background:var(--card);border:1px solid var(--lineC);color:var(--chalk);cursor:pointer;font-family:var(--body)}
+.tile.hi{background:linear-gradient(150deg,#d6ff6a,#9fe41f);color:var(--onGold);border:0}
+.tile b{display:block;font:800 1.15rem var(--body);letter-spacing:-.01em}.tile small{display:block;font:600 .8rem var(--body);opacity:.75;margin-top:2px}
+.tile .ic{width:40px;height:40px;border-radius:14px;background:rgba(0,0,0,.12);display:grid;place-items:center}.tile:not(.hi) .ic{background:var(--turf3);color:var(--gold)}
+.tile:active{transform:scale(.98)}
+.list{background:var(--card);border:1px solid var(--lineC);border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+.li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:0;border-top:1px solid var(--lineC);background:transparent;color:var(--chalk);font:600 .95rem var(--body);text-align:left;cursor:pointer;width:100%}
+.li:first-child{border-top:0}.li .v{color:var(--muted);display:flex;gap:4px;align-items:center;font-weight:600;min-width:0;text-align:right}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#sStart .ver,#sMe .ver{margin-top:auto}
+/* ===== Tema "Estádio": escuro, cartões arredondados, verde-lima ===== */
+:root{
+  --turf:#0a0d12; --turf2:#10151d; --turf3:#1c2330; --card:#141922; --chalk:#f2f5f9; --muted:#8a96a8; --lineC:#262f3d;
+  --gold:#c6ff3d; --onGold:#0a0d12; --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif; --cond:"Inter",system-ui,sans-serif;
+}
+body{background:radial-gradient(120% 420px at 50% -80px,#173023 0%,var(--turf) 70%) fixed,var(--turf);font-family:var(--body);-webkit-font-smoothing:antialiased}
+h1{font-family:var(--body);font-weight:800;text-transform:none;letter-spacing:-.02em;line-height:1.05}
+h2{font-family:var(--body);font-weight:800;text-transform:none;letter-spacing:-.02em;font-size:1.5rem;line-height:1.15}
+.lbl{font-family:var(--body);font-weight:600;font-size:.8rem;letter-spacing:0;text-transform:none;color:var(--muted)}
+.panel{background:var(--card);border:1px solid var(--lineC);border-radius:22px}
+.btn{font-family:var(--body);font-weight:800;font-size:1.05rem;text-transform:none;letter-spacing:0;border-radius:16px;padding:15px;background:var(--gold);color:var(--onGold)}
+.btn.ghost{background:var(--turf3);border:1px solid transparent;color:var(--chalk);font-weight:700}
+.chip{background:var(--card);border:1px solid var(--lineC);font-family:var(--body);font-weight:600;font-size:.92rem;border-radius:999px}
+.chip[aria-pressed=true]{background:var(--chalk);border-color:var(--chalk);color:var(--turf)}
+input[type=text],input[type=search]{background:var(--card);border-color:var(--lineC);border-radius:14px}
+.sheetIn{background:#11161e;border-top:1px solid var(--lineC);border-radius:26px 26px 0 0}
+.toggle{background:var(--card);border-color:var(--lineC);border-radius:14px}
+.coach,.pl,.mode{background:var(--card);border-color:var(--lineC)}
+.who{font-family:var(--body);font-weight:800;text-transform:none;letter-spacing:-.01em}
+.msg.ok{color:var(--gold)}
 </style>
 
 <div class="app">
   <!-- 1. INÍCIO -->
-  <div class="screen" id="sStart">
-    <div class="hero">
-      <svg class="pitchbg" viewBox="0 0 400 260" aria-hidden="true" fill="none" stroke="rgba(238,246,239,.22)" stroke-width="2"><path d="M20 250 L60 30 H340 L380 250 Z"/><path d="M118 30 L112 70 H288 L282 30"/><path d="M160 30 L158 46 H242 L240 30"/><path d="M95 250 Q200 170 305 250"/><circle cx="200" cy="58" r="2.5" fill="rgba(238,246,239,.3)"/></svg>
-      <span class="kick">Futebol entre amigos</span>
-      <h1>Duelo de <em>Onzes</em></h1>
-      <p class="muted" style="max-width:30ch">Regras novas em cada ronda. Monta o teu onze e vê-o jogar.</p>
-      <div class="facts"><span><b>8000+</b>jogadores</span><span><b>11</b>rondas</span><span><b>1</b>jogo decide</span></div>
+  <div class="screen navscr" id="sStart">
+    <div class="hiTop"><h1 id="hiName">Olá!</h1><button class="avBtn" id="hiAv" type="button" aria-label="O meu perfil">?</button></div>
+    <button class="contCard" id="resumeBtn" type="button" hidden><span class="crest" id="contCrest"></span><span class="ct"><b id="resumeTxt">Continuar o jogo</b><small>Jogo online a meio</small></span><span class="go">Voltar</span></button>
+    <div class="tiles"><button class="tile hi" id="tileHere" type="button"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18h2"/></svg></span><span><b>Jogar aqui</b><small>No mesmo telemóvel</small></span></button>
+      <button class="tile" id="tileOnline" type="button"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1"/></svg></span><span><b>Jogar online</b><small>Cada um no seu</small></span></button></div>
+    <span class="lbl">Contra</span>
+    <div class="chips" id="vsChips"><button class="chip" data-v="amigo" type="button">Um amigo</button><button class="chip" data-v="bot" type="button">Bot</button><button class="chip" data-v="t4" type="button">Torneio 4</button><button class="chip" data-v="t8" type="button">Torneio 8</button></div>
+    <div class="list">
+      <button class="li" type="button" data-opt="th"><span>Tipo de draft</span><span class="v"><span id="optTh"></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
+      <button class="li" type="button" data-opt="tm"><span>Tempo por escolha</span><span class="v"><span id="optTm"></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
+      <button class="li" type="button" data-opt="lg" id="optLgRow"><span>Conta para a liga</span><span class="v"><span id="optLg"></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
     </div>
-    <div class="grow"></div>
-    <div class="modes">
-      <button class="mode" id="resumeBtn" hidden><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></span><span><b id="resumeTxt">Retomar</b><small>Voltar ao jogo online</small></span><span class="ar">›</span></button>
-      <button class="mode main" id="goStart"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></span><span><b>Mesmo telemóvel</b><small>Dois treinadores, um telemóvel</small></span><span class="ar">›</span></button>
-      <button class="mode" id="botBtn"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 13h.01M15 13h.01M9.5 17h5"/><circle cx="12" cy="3.5" r="1"/></svg></span><span><b>Contra o bot</b><small>Joga sozinho: fácil, médio ou lenda</small></span><span class="ar">›</span></button>
-      <button class="mode" id="onlineBtn"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4" width="8" height="15" rx="2"/><rect x="13.5" y="4" width="8" height="15" rx="2"/><path d="M8 11.5h8"/></svg></span><span><b>Online</b><small>Duelo ou torneio, cada um no seu telemóvel</small></span><span class="ar">›</span></button>
-      <button class="mode" id="tourBtn"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 14v4M8 21h8"/></svg></span><span><b>Torneio</b><small>4 ou 8 amigos num só telemóvel</small></span><span class="ar">›</span></button>
+    <span class="msg" id="homeMsg"></span>
+    <div class="row2"><button class="btn ghost" id="codeBtn" type="button">Tenho um código</button><button class="btn ghost" type="button" data-sheet="shHow">Como jogar</button></div>
+    <p class="ver" id="verTag">versão 01/11 · 18h30 · novo visual</p>
+    <div hidden><button id="goStart"></button><button id="botBtn"></button><button id="onlineBtn"></button><button id="tourBtn"></button><button id="lgBtn"></button><button id="histBtn"></button></div>
+  </div>
+  <div class="screen navscr" id="sMe" hidden>
+    <div class="hiTop"><h1>O meu perfil</h1></div>
+    <div class="panel" style="display:flex;align-items:center;gap:14px"><span class="avBig" id="meAv">?</span>
+      <label class="field" for="meName" style="flex:1"><span class="lbl">O teu nome (igual em todos os jogos e na liga)</span><input type="text" id="meName" maxlength="16" autocomplete="off"></label></div>
+    <div class="list">
+      <button class="li" type="button" id="meHist"><span>📜 Histórico de jogos</span><span class="v"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
+      <button class="li" type="button" data-sheet="shOpts"><span>⚙️ Definições</span><span class="v"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
+      <button class="li" type="button" data-sheet="shHow"><span>📖 Como jogar</span><span class="v"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
+      <button class="li" type="button" id="meInstall" hidden><span>📲 Instalar a app</span><span class="v"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
     </div>
-    <div class="minirow"><button class="minibtn" data-sheet="shHow">Como jogar</button><button class="minibtn" id="lgBtn" data-sheet="shLeague">🏆 Liga</button><button class="minibtn" data-sheet="shOpts">Definições</button><button class="minibtn" id="histBtn" data-sheet="shHist" hidden>Histórico</button></div>
-    <p class="ver" id="verTag">versão 01/11 · 17h</p>
+    <p class="ver" id="meVer"></p>
   </div>
 
   <!-- ONLINE -->
   <div class="screen" id="sLobby" hidden>
-    <header style="display:flex;flex-direction:column;gap:8px"><span class="lbl">Cada um no seu telemóvel</span><h2>Jogo online</h2></header>
+    <div class="hiTop"><button class="topBack" type="button" data-back="lbBack" aria-label="Voltar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Jogo online</h1></div>
     <div class="panel" id="lbChoose" style="display:flex;flex-direction:column;gap:12px">
       <label class="field" for="lbName"><span class="lbl">O teu nome</span><input type="text" id="lbName" maxlength="16" autocomplete="off"></label>
       <button class="btn" id="lbCreate">Criar duelo (2)</button>
@@ -515,7 +581,7 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
 
   <!-- TORNEIO -->
   <div class="screen" id="sTour" hidden>
-    <header style="display:flex;flex-direction:column;gap:8px"><span class="lbl">No mesmo telemóvel</span><h2>Torneio</h2>
+    <header style="display:flex;flex-direction:column;gap:8px"><div class="hiTop"><button class="topBack" type="button" data-back="tBack" aria-label="Voltar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Torneio</h1></div>
       <p class="muted">Cada treinador monta o seu onze à vez, com as mesmas regras em cada ronda. Depois há eliminatórias até à final. O sorteio do quadro é feito no início.</p></header>
     <div class="chips" id="tSize"><button class="chip" data-n="4">4 treinadores</button><button class="chip" data-n="8">8 treinadores</button></div>
     <div class="panel" id="tNames" style="display:flex;flex-direction:column;gap:12px"></div>
@@ -525,14 +591,12 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
     <button class="btn" id="tGo">Começar o torneio</button>
     <button class="btn ghost" id="tBack">Voltar</button>
   </div>
-  <div class="screen" id="sSeason" hidden>
-    <header style="display:flex;flex-direction:column;gap:6px"><span class="lbl">Época da liga</span><h2 id="seaTitle">Liga</h2><p class="muted" id="seaStatus"></p></header>
+  <div class="screen navscr" id="sSeason" hidden>
+    <div class="hiTop"><h1 id="seaTitle">Liga</h1></div><p class="muted" id="seaStatus" style="margin:0"></p>
     <div id="seaTop" style="display:flex;flex-direction:column;gap:8px"></div>
     <div class="chips" id="seaTabs" hidden></div>
     <span class="msg" id="seaMsg"></span>
     <div id="seaBody" style="display:flex;flex-direction:column;gap:6px"></div>
-    <div class="grow"></div>
-    <button class="btn ghost" id="seaBack">Voltar</button>
   </div>
   <div class="screen" id="sBracket" hidden>
     <h2 id="brTitle">Quadro do torneio</h2><p class="brPod" id="brPod" hidden></p>
@@ -664,6 +728,9 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
 </div>
 <div id="pickCard" hidden role="status"></div>
 <div id="tmPill" hidden aria-live="off"></div>
+<nav class="tabbar" id="tabbar" hidden><button type="button" data-go="sStart"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7l4 3-1.5 5h-5L8 10z"/></svg><span>Jogar</span></button>
+  <button type="button" data-go="sSeason"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4v2a3 3 0 0 0 3 3M17 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8"/></svg><span>Liga</span></button>
+  <button type="button" data-go="sMe"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4.5-6 8-6s7 2 8 6"/></svg><span>Eu</span></button></nav>
 <div id="netPill" hidden role="status">A religar aos outros telemóveis…</div>
 <div class="sheet" id="shNames" hidden><div class="sheetIn">
     <div class="shHead"><h2>Quem joga?</h2><button class="xbtn" data-close aria-label="Fechar">✕</button></div>
@@ -722,6 +789,11 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
         <li><b>Química:</b> cada jogador ganha +1 por colega com quem passou pelo mesmo clube e +½ por colega do mesmo país (até 3). A equipa vai até 33 e química alta dá até +4 em todos os setores.</li>
         <li>No jogo, <b>os golos só acontecem nos lances em que vocês escolhem</b>: se quem defende não adivinhar, é golo; se adivinhar, não é.</li><li>A equipa mais forte (qualidade, tática, química e capitão) tem <b>mais lances de ataque</b>.</li><li><b>Liga e época:</b> em 🏆 Liga criam uma liga e começam uma época. Há um draft único com todos, depois uma 1.ª volta (jogam quando quiserem), um mercado de transferências (até 3 trocas, cada uma com uma regra nova) e a 2.ª volta. Vitória 3, empate 1. Um vermelho deixa o jogador de fora no jogo seguinte.</li><li>Ao criar o jogo podes escolher um <b>draft temático</b> (só portugueses, só lendas, geração atual…) e o <b>tempo</b> de cada escolha.</li>
       </ol>
+  </div></div>
+  <div class="sheet" id="shGameOpts" hidden><div class="sheetIn">
+    <div class="shHead"><h2>Opções do jogo</h2><button class="xbtn" data-close aria-label="Fechar">✕</button></div>
+    <div class="thPick"><span class="lbl">Tipo de draft</span><div class="chips thChips"><button class="chip" data-th="">Normal</button><button class="chip" data-th="pt">Só portugueses</button><button class="chip" data-th="lendas">Só lendas</button><button class="chip" data-th="novos">Geração atual</button><button class="chip" data-th="ligapt">Jogaram em Portugal</button><button class="chip" data-th="sam">Sul-americanos</button><button class="chip" data-th="craques">Só craques</button></div></div><label class="toggle lgPick" hidden><span>Contar para a liga <b class="lgN"></b></span><input type="checkbox" checked></label><div class="tmPick"><span class="lbl">Tempo para cada escolha</span><div class="chips tmChips"><button class="chip" data-s="0">Sem tempo</button><button class="chip" data-s="30">30 s</button><button class="chip" data-s="45">45 s</button><button class="chip" data-s="60">60 s</button><button class="chip" data-s="90">90 s</button></div></div>
+    <button class="btn" data-close type="button">Feito</button>
   </div></div>
   <div class="sheet" id="shLeague" hidden><div class="sheetIn">
     <div class="shHead"><h2>Liga dos amigos</h2><button class="xbtn" data-close aria-label="Fechar">✕</button></div>
@@ -9874,13 +9946,15 @@ const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=rand(i+1);[a[i]
 const norm=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
 const COL=["var(--home)","var(--away)","#ffd166","#7fe0a8","#c792ea","#ff9f43","#5ad1e6","#f78fb3"];
 function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
-const SCREENS=["sStart","sLobby","sTour","sCoach","sDraft","sCap","sPre","sBracket","sMatch","sResult","sSeason"];
-function show(id){const was=SCREENS.find(s=>!$(s).hidden);SCREENS.forEach(s=>$(s).hidden=s!==id);if(was!==id)window.scrollTo(0,0);document.documentElement.classList.add("lockmatch");if(FITS[id])requestAnimationFrame(fitStart)}
-const FITS={sStart:["fit1","fit2","fit3","fit4"],sLobby:["fA","fB","fC"],sTour:["fA","fB","fC"]};
+const SCREENS=["sStart","sLobby","sTour","sCoach","sDraft","sCap","sPre","sBracket","sMatch","sResult","sSeason","sMe"];
+function show(id){const was=SCREENS.find(s=>!$(s).hidden);SCREENS.forEach(s=>$(s).hidden=s!==id);
+  const tb=document.getElementById("tabbar");if(tb){const on=["sStart","sSeason","sMe"].includes(id);tb.hidden=!on;tb.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.go===id))}
+  if(id==="sStart"&&typeof drawHome==="function")drawHome();if(was!==id)window.scrollTo(0,0);document.documentElement.classList.add("lockmatch");if(FITS[id])requestAnimationFrame(fitStart)}
+const FITS={sLobby:["fA","fB","fC"],sTour:["fA","fB","fC"]};
 function fitStart(){for(const id in FITS){const s=document.getElementById(id);if(!s||s.hidden)continue;const F=FITS[id];s.classList.remove(...F);
   for(const c of F){if(s.scrollHeight<=s.clientHeight+1)break;s.classList.add(c)}}}
 window.addEventListener("resize",()=>requestAnimationFrame(fitStart));
-["sStart","sLobby","sTour"].forEach(id=>new MutationObserver(()=>requestAnimationFrame(fitStart)).observe(document.getElementById(id),{subtree:true,childList:true,attributes:true,attributeFilter:["hidden"]}));
+["sLobby","sTour"].forEach(id=>new MutationObserver(()=>requestAnimationFrame(fitStart)).observe(document.getElementById(id),{subtree:true,childList:true,attributes:true,attributeFilter:["hidden"]}));
 document.documentElement.classList.add("lockmatch");requestAnimationFrame(fitStart);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>fitStart());
 function store(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k));if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
@@ -10791,7 +10865,7 @@ function bracketOnline(){
   show("sBracket");
 }
 
-if(window.Peer&&!window.claude)$("lbNote").textContent="Cada um abre este jogo no seu telemóvel, com internet. Quem cria recebe um código de 4 letras e pode partilhar o link do jogo; o outro abre o link ou escreve o código. Não é preciso conta.";
+if(!window.claude)$("lbNote").textContent="Cada um abre este jogo no seu telemóvel, com internet. Quem cria recebe um código de 4 letras e pode partilhar o link do jogo; o outro abre o link ou escreve o código. Não é preciso conta.";
 
 /* ---- torneio no mesmo telemóvel ---- */
 let tourSize=4,tourBots=[],tourLv=2;
@@ -12580,7 +12654,7 @@ $("lgBtn").addEventListener("click",()=>drawLeague());
 drawLgPicks();
 
 /* ---- época da liga: draft único, calendário a duas voltas, mercado a meio, suspensões ---- */
-let SEA=null,SEAC=null,SEACUR=null,seaUnsub=[],seaTab="tab",seaMk=null,seaBusy=false,seaN=4;
+let SEA=null,SEAC=null,SEACUR=null,seaUnsub=[],seaTab="home",seaMk=null,seaBusy=false,seaN=4;
 const seaK=n=>String(n||"").trim().toLowerCase().replace(/[.#$\[\]\/]/g,"_")||"x";
 const plK=n=>String(n||"").replace(/[.#$\[\]\/]/g,"_");
 const seaBase=(c,sid)=>`leagues/${c}/s/${sid}`;
@@ -12694,52 +12768,80 @@ function seaNewDraft(){
   seaPut(`leagues/${LEAGUE.c}/cur`,{sid:SEACUR&&SEACUR.sid&&SEA&&SEA.m&&SEA.m.st!=="done"?SEACUR.sid:null,draft:{sid,code:G.online.code,by:me,t:Date.now()}}).catch(()=>{});
   connect();
 }
-function openSeason(){if(!LEAGUE){openSheet("shLeague");return}document.querySelectorAll(".sheet").forEach(x=>x.hidden=true);show("sSeason");seaSubscribe(LEAGUE.c);drawSeason()}
+function openSeason(){document.querySelectorAll(".sheet").forEach(x=>x.hidden=true);G=null;show("sSeason");if(LEAGUE)seaSubscribe(LEAGUE.c);drawSeason()}
 /* ---- ecrã da época ---- */
 function seaRow(cls,...kids){const r=el("div",cls);kids.forEach(k=>r.append(k));return r}
 function seaBtn(t,cls,f){const b=el("button","btn "+(cls||""),t);b.type="button";b.onclick=f;return b}
+function seaForm(name){return Object.values(SEA.r).filter(x=>seaK(x.h)===seaK(name)||seaK(x.a)===seaK(name)).sort((a,b)=>(a.at||0)-(b.at||0)).slice(-4).map(x=>{const h=seaK(x.h)===seaK(name),gf=h?x.g[0]:x.g[1],ga=h?x.g[1]:x.g[0];return gf>ga?"V":gf<ga?"D":"E"})}
 function drawSeason(err){
   if($("sSeason").hidden)return;
-  $("seaTitle").textContent=LEAGUE?LEAGUE.n:"Liga";const body=$("seaBody"),top=$("seaTop");body.innerHTML="";top.innerHTML="";
-  if(err){top.append(el("p","msg bad",err));$("seaTabs").hidden=true;return}
+  $("seaTitle").textContent=LEAGUE?LEAGUE.n:"Liga";const body=$("seaBody"),top=$("seaTop");body.innerHTML="";top.innerHTML="";$("seaTabs").hidden=true;
+  if(!LEAGUE){$("seaStatus").textContent="";
+    const p=el("div","panel");p.style.cssText="display:flex;flex-direction:column;gap:10px";
+    p.append(el("p","muted","Uma liga junta os teus amigos: classificação, títulos, confrontos e épocas com draft, calendário e mercado de transferências."));
+    const nm=document.createElement("input");nm.type="text";nm.maxLength=30;nm.placeholder="Nome da liga (ex.: Liga do Balneário)";
+    const cd=document.createElement("input");cd.type="text";cd.maxLength=5;cd.placeholder="CÓDIGO";cd.style.cssText="text-transform:uppercase;letter-spacing:.3em;font-weight:700";
+    const row=el("div","askrow");row.append(cd,seaBtn("Entrar","go",()=>{$("lgJoinCode").value=cd.value;$("lgJoin").click();openSeason()}));
+    p.append(nm,seaBtn("Criar liga","",()=>{$("lgNewName").value=nm.value;$("lgCreate").click();openSeason()}),el("span","lbl","ou entra na liga de um amigo"),row,el("span","msg",""));top.append(p);return}
+  if(err){top.append(el("p","msg bad",err));return}
   const m=SEA&&SEA.m,me=seaMe(),dr=SEACUR&&SEACUR.draft&&Date.now()-SEACUR.draft.t<6*36e5?SEACUR.draft:null;
   const F=m?seaFixtures(m.mem):[],nDone=F.filter(f=>SEA.r[f.fid]).length;
   const ST={leg1:"1.ª volta",market:"Mercado de transferências",leg2:"2.ª volta",done:"Época terminada"};
-  $("seaStatus").textContent=!SEACUR&&!m?"A carregar…":m?`${ST[m.st]||""} · ${nDone}/${F.length} jogos feitos`+(m.th?` · ${THEMES[m.th].n}`:""):"Ainda não há época a decorrer.";
+  $("seaStatus").textContent=!SEACUR&&!m?"A carregar…":m?"":"Ainda não há época a decorrer.";
+  if(m){const pr=el("div","seaProg");pr.append(seaRow("sm",el("span",null,ST[m.st]+(m.th?` · ${THEMES[m.th].n.replace(/ \(.*\)$/,"")}`:"")),el("span",null,`${nDone} de ${F.length} jogos`)));
+    const bar=el("div","bar"),fill=el("i");fill.style.width=(F.length?Math.round(100*nDone/F.length):0)+"%";bar.append(fill);pr.append(bar);top.append(pr)}
   if(dr&&!(m&&m.st!=="done"&&SEA.sid===dr.sid)){
-    top.append(el("p",null,`📋 Draft da época a decorrer, criado por ${dr.by}.`));
-    if(seaK(dr.by)!==seaK(myName()))top.append(seaBtn(`Entrar no draft (código ${dr.code})`,"",()=>joinOnline(dr.code)))}
-  let newP=null;
-  if(!m||m.st==="done"){
-    if(m&&m.ch)top.append(el("p","seaChamp",`🏆 Campeão: ${m.ch}`));
-    const p=el("div","panel");newP=p;p.style.cssText="display:flex;flex-direction:column;gap:8px";
-    p.append(el("span","lbl","Nova época · quantos treinadores?"));const ch=el("div","chips");
-    for(let n=2;n<=8;n++){const b=el("button","chip",String(n));b.type="button";b.setAttribute("aria-pressed",n===seaN);b.onclick=()=>{seaN=n;drawSeason()};ch.append(b)}
-    p.append(ch,el("p","muted",`Draft com todos ao mesmo tempo. Depois: ${seaN-1+(seaN%2)} jornadas na 1.ª volta, mercado (até 3 trocas), e mais ${seaN-1+(seaN%2)} na 2.ª volta. Vitória 3, empate 1.`),
-      seaBtn("Começar a época (draft)","",seaNewDraft));if(!m)top.append(p)}
-  /* convites para jogar */
+    const c=el("div","seaInv");c.append(el("span",null,`📋 Draft da época a decorrer (${dr.by})`));if(seaK(dr.by)!==seaK(myName()))c.append(seaBtn("Entrar","",()=>joinOnline(dr.code)));top.append(c)}
   if(m&&me)Object.entries(SEA.live).forEach(([fid,v])=>{const f=F.find(x=>x.fid===fid);if(!f||SEA.r[fid]||Date.now()-v.t>2*36e5)return;
     if((f.h===me||f.a===me)&&seaK(v.by)!==seaK(me))top.append(seaRow("seaInv",el("span",null,`⚽ ${v.by} está à tua espera: ${f.h} x ${f.a}`),seaBtn("Entrar","",()=>joinOnline(v.code))))});
-  $("seaTabs").hidden=!m;if(!m)return;
-  const tabs=[["tab","Classificação"],["jor","Jornadas"],["sq","Plantel"]];if(m.st==="market")tabs.splice(0,0,["mk","Mercado"]);
-  if(m.st==="market"&&!["mk","sq","tab","jor"].includes(seaTab))seaTab="mk";
-  $("seaTabs").innerHTML="";tabs.forEach(([k,l])=>{const b=el("button","chip",l);b.type="button";b.setAttribute("aria-pressed",seaTab===k);b.onclick=()=>{seaTab=k;seaMk=null;drawSeason()};$("seaTabs").append(b)});
-  if(seaTab==="mk"&&m.st!=="market")seaTab="tab";
+  const newSeason=()=>{const p=el("div","panel");p.style.cssText="display:flex;flex-direction:column;gap:10px";
+    p.append(el("b",null,m?"Nova época":"Começar a primeira época"),el("span","lbl","Quantos treinadores?"));const ch=el("div","chips");
+    for(let n=2;n<=8;n++){const b=el("button","chip",String(n));b.type="button";b.setAttribute("aria-pressed",n===seaN);b.onclick=()=>{seaN=n;drawSeason()};ch.append(b)}
+    const j=seaN-1+(seaN%2);p.append(ch,el("p","muted",`Draft com todos ao mesmo tempo, ${j} jornadas na 1.ª volta, mercado (até 3 trocas) e mais ${j} na 2.ª volta. Vitória 3, empate 1.`),seaBtn("Começar a época (draft)","",seaNewDraft));return p};
+  const back=()=>{const b=el("button","li seaBack","‹ Voltar à liga");b.type="button";b.onclick=()=>{seaTab="home";seaMk=null;drawSeason()};body.append(b)};
+  if(!m){body.append(newSeason());seaHomeRows(body,null);return}
+  if(!["home","tab","jor","sq","mk"].includes(seaTab))seaTab="home";if(seaTab==="mk"&&m.st!=="market")seaTab="home";
+  const T=seaTable(),pos=n=>T.findIndex(x=>x.n===n);
+  if(seaTab==="home"){
+    if(m.st==="done"){const c=el("div","seaHero");c.append(el("span","sm","Campeão da época"),el("div","seaChamp",`🏆 ${m.ch}`));body.append(c)}
+    else if(m.st==="market"){const c=el("div","seaHero");const mk=me&&SEA.mk[seaK(me)];c.append(el("span","sm","Mercado de transferências aberto"),el("b",null,mk&&mk.done?"Já terminaste o teu mercado. À espera dos outros…":"Faz até 3 trocas antes da 2.ª volta."),seaBtn(mk&&mk.done?"Ver mercado":"Ir ao mercado","",()=>{seaTab="mk";drawSeason()}));body.append(c)}
+    else if(me){const open=m.st==="leg1"?1:2,f=F.find(x=>x.leg===open&&!SEA.r[x.fid]&&(x.h===me||x.a===me));
+      if(f){const opp=f.h===me?f.a:f.h,c=el("div","seaHero");c.append(el("span","sm",`O teu próximo jogo · Jornada ${f.rd}`));
+        const vs=el("div","seaVs"),side=n=>{const d=el("div","t");d.innerHTML=shieldSVG(n[0],avCol(n),52);d.append(el("b",null,n),el("span","sm",`${pos(n)+1}.º · ${T[pos(n)].pts} pts`));return d};
+        vs.append(side(f.h),el("span","x","VS"),side(f.a));c.append(vs);
+        if(SEA.sq[seaK(opp)]&&SEA.sq[seaK(me)]){const r=el("div","row2");r.append(seaBtn("Jogar online","",()=>seaPlayOnline(f)),seaBtn("Aqui","ghost",()=>seaPlayHere(f)));c.append(r)}
+        else c.append(el("span","muted","À espera dos plantéis…"));body.append(c)}
+      else body.append(el("div","seaHero",`Já fizeste todos os teus jogos desta volta. 👏`))}
+    const tl=el("div","list seaTbl"),tb=el("table","lgTable");const hd=el("tr");["","Classificação","Forma","Pts"].forEach(h=>hd.append(el("th",null,h)));tb.append(hd);
+    T.forEach((p,i)=>{const r=el("tr",p.n===me?"me":null);const nm=el("td","n");nm.innerHTML=shieldSVG(p.n[0],avCol(p.n),18);nm.append(" "+p.n);
+      const fm=el("td");const fs=el("span","form");seaForm(p.n).forEach(x=>{const d=el("i","f"+x);fs.append(d)});fm.append(fs);
+      r.append(el("td","p",String(i+1)),nm,fm,el("td","pts",String(p.pts)));tb.append(r)});tl.append(tb);body.append(tl);
+    seaHomeRows(body,m);if(m.st==="done")body.append(newSeason());return}
+  back();
   if(seaTab==="tab"){const tb=el("table","lgTable");const hd=el("tr");["","Treinador","J","V","E","D","Golos","Pts"].forEach(h=>hd.append(el("th",null,h)));tb.append(hd);
-    seaTable().forEach((p,i)=>{const r=el("tr");[String(i+1),p.n,p.j,p.v,p.e,p.d,`${p.gm}–${p.gs}`,p.pts].forEach((v,j)=>r.append(el("td",j===1?"n":null,String(v))));tb.append(r)});
-    body.append(tb,el("p","muted","Vitória 3 pontos · empate 1 · desempate: diferença de golos, golos marcados, confronto direto."))}
+    T.forEach((p,i)=>{const r=el("tr",p.n===me?"me":null);[String(i+1),p.n,p.j,p.v,p.e,p.d,`${p.gm}–${p.gs}`,p.pts].forEach((v,j)=>r.append(el("td",j===1?"n":null,String(v))));tb.append(r)});
+    const l=el("div","list seaTbl");l.append(tb);body.append(l,el("p","muted","Vitória 3 pontos · empate 1 · desempate: diferença de golos, golos marcados, confronto direto."))}
   if(seaTab==="jor"){const open=m.st==="leg1"?1:m.st==="leg2"?2:0;let rd=0;
     F.forEach(f=>{if(f.rd!==rd){rd=f.rd;body.append(el("span","lbl seaRd",`Jornada ${rd}${rd===1?" · 1.ª volta":f.leg===2&&F.find(x=>x.leg===2).rd===rd?" · 2.ª volta (depois do mercado)":""}`))}
       const r=SEA.r[f.fid],mine=me&&(f.h===me||f.a===me),row=el("div","seaFx"+(mine?" mine":""));
       row.append(el("span","t",`${f.h} ${r?r.g[0]+"–"+r.g[1]:"x"} ${f.a}`));
       if(!r&&mine&&open===f.leg){const opp=f.h===me?f.a:f.h;
         if(!SEA.sq[seaK(opp)]||!SEA.sq[seaK(me)])row.append(el("span","muted","plantel em falta"));
-        else{const bx=el("div","seaBtns");bx.append(seaBtn("Jogar online","",()=>seaPlayOnline(f)),seaBtn("Aqui","ghost",()=>seaPlayHere(f)));row.append(bx)}}
-      else if(!r&&f.leg===2&&m.st!=="leg2")row.append(el("span","muted","🔒 depois do mercado"));
+        else{const bx=el("div","seaBtns");bx.append(seaBtn("Online","",()=>seaPlayOnline(f)),seaBtn("Aqui","ghost",()=>seaPlayHere(f)));row.append(bx)}}
+      else if(!r&&f.leg===2&&m.st!=="leg2")row.append(el("span","muted","🔒"));
       body.append(row)})}
   if(seaTab==="sq")seaDrawSquad(body,me,m.st==="market");
   if(seaTab==="mk")seaDrawMarket(body,me);
-  if(newP){newP.style.marginTop="14px";body.append(newP)}
+}
+function seaHomeRows(body,m){
+  const L=el("div","list"),row=(t,v,f)=>{const b=el("button","li");b.type="button";b.append(el("span",null,t),el("span","v",v||"›"));b.onclick=f;L.append(b)};
+  if(m){if(m.st==="market")row("🔁 Mercado de transferências","aberto",()=>{seaTab="mk";drawSeason()});
+    else if(m.st==="leg1")row("🔁 Mercado de transferências","depois da 1.ª volta",()=>{});
+    row("📅 Todas as jornadas","",()=>{seaTab="jor";drawSeason()});row("📊 Classificação completa","",()=>{seaTab="tab";drawSeason()});row("👕 Plantéis","",()=>{seaTab="sq";drawSeason()})}
+  row("🏟️ Jogos livres da liga","",()=>{lgTab="tab";drawLeague();openSheet("shLeague")});
+  row("✉️ Convidar amigos",LEAGUE.c,()=>$("lgCopy").click());
+  row("🚪 Sair da liga","",()=>{if(confirm("Sair desta liga neste telemóvel? Os resultados ficam guardados.")){setLeague(null);seaUnsub.forEach(u=>{try{u()}catch(e){}});seaUnsub=[];SEAC=null;SEA=null;drawSeason()}});
+  body.append(L);
 }
 function seaDrawSquad(body,me,edit){
   const names=SEA.m.mem;const pick=el("div","chips");let who=SEA.showSq&&names.includes(SEA.showSq)?SEA.showSq:me||names[0];
@@ -12792,9 +12894,38 @@ async function seaSign(k,p,sq,mk){
   const nsq={...sq,sl:sq.sl.map((x,j)=>j===i?{p:p.n}:x)},sw=[...(mk.sw||[null,null,null])];sw[k]={o:out&&out.p?out.p:"Júnior da formação",i:p.n};
   await seaSaveSq(nsq);await seaPut(seaBase(SEAC,SEA.sid)+"/mk/"+seaK(me),{sw,done:false});seaMk=null;$("seaMsg").textContent=`✅ ${dn(p.n)} contratado!`;
 }
-$("seaBack").onclick=()=>{show("sStart")};
+
 $("lgSeason").onclick=()=>openSeason();
 $("toSeason").onclick=()=>{if(G&&G.mode==="online"){if(ROOM)ROOM.leave().catch(()=>{});ROOM=null;PEERS={};store("duelo_online",null)}stopMatchUI();G=null;openSeason()};
+
+/* ---- página principal, perfil e separadores ---- */
+let VS=(()=>{const v=store("duelo_vs");return["amigo","bot","t4","t8"].includes(v)?v:"amigo"})();
+const avCol=n=>COLHEX[[...String(n||"?")].reduce((a,c)=>a+c.charCodeAt(0),0)%COLHEX.length];
+function drawHome(){
+  const nm=myName(),ini=(nm.trim()[0]||"?").toUpperCase();
+  $("hiName").textContent=nm&&nm!=="Treinador"?`Olá, ${nm} 👋`:"Olá! 👋";$("hiAv").textContent=ini;$("hiAv").style.background=avCol(nm);
+  document.querySelectorAll("#vsChips .chip").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===VS));
+  $("optTh").textContent=THEMES[THEME||""].n.replace(/ \(.*\)$/,"");$("optTm").textContent=TMSET?TMSET+" s":"Sem tempo";
+  $("optLgRow").hidden=!LEAGUE;$("optLg").textContent=LEAGUE?(LGON?LEAGUE.n:"Não"):"";
+  const o=store("duelo_online");if(o&&o.code){$("resumeBtn").hidden=false;$("resumeTxt").textContent=`Continuar o jogo ${o.code}`;$("contCrest").innerHTML=shieldSVG((o.name||nm||"?")[0],avCol(o.name||nm),30)}
+  $("homeMsg").textContent="";
+}
+function shieldSVG(l,c,s){return`<svg width="${s}" height="${Math.round(s*1.15)}" viewBox="0 0 40 46" aria-hidden="true"><path d="M20 2 L37 8 V22 C37 34 29 41 20 44 C11 41 3 34 3 22 V8 Z" fill="${c}" stroke="rgba(255,255,255,.85)" stroke-width="2"/><text x="20" y="30" text-anchor="middle" font-family="Inter,Arial" font-weight="800" font-size="19" fill="#0a0d12">${String(l||"?").toUpperCase()}</text></svg>`}
+document.querySelectorAll("#vsChips .chip").forEach(b=>b.onclick=()=>{VS=b.dataset.v;store("duelo_vs",VS);drawHome()});
+$("tileHere").onclick=()=>{unlockAudio();if(VS==="amigo")openSheet("shNames");else if(VS==="bot")$("botBtn").click();else{tourSize=VS==="t8"?8:4;$("tourBtn").click()}};
+$("tileOnline").onclick=()=>{unlockAudio();if(VS==="bot"){$("homeMsg").textContent="O jogo contra o bot é no mesmo telemóvel: escolhe 'Jogar aqui'.";return}
+  store("duelo_names",[$("n0").value.trim(),$("n1").value.trim()]);G=null;PEERS={};hostGame(VS==="t8"?8:VS==="t4"?4:2)};
+$("codeBtn").onclick=()=>$("onlineBtn").click();
+document.querySelectorAll("#sStart [data-opt]").forEach(b=>b.onclick=()=>{drawThChips();drawTmChips();drawLgPicks();openSheet("shGameOpts")});
+$("shGameOpts").addEventListener("click",()=>setTimeout(drawHome,0));
+$("hiAv").onclick=()=>goTab("sMe");
+function drawMe(){const nm=myName();$("meName").value=$("n0").value;$("meAv").textContent=(nm.trim()[0]||"?").toUpperCase();$("meAv").style.background=avCol(nm);$("meVer").textContent=$("verTag").textContent}
+$("meName").addEventListener("input",()=>{$("n0").value=$("meName").value;store("duelo_names",[$("n0").value.trim(),$("n1").value.trim()]);drawMe()});
+$("meHist").onclick=()=>{drawHistory();openSheet("shHist")};
+function goTab(id){if(id==="sSeason")return openSeason();if(id==="sMe"){drawMe();show("sMe");return}G=null;show("sStart")}
+document.querySelectorAll("#tabbar button").forEach(b=>b.onclick=()=>goTab(b.dataset.go));
+document.querySelectorAll("[data-back]").forEach(b=>b.onclick=()=>$(b.dataset.back).click());
+drawHome();if(!$("sStart").hidden)show("sStart");
 
 /* ---- som e festa ---- */
 let AC=null;
