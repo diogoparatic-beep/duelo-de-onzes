@@ -504,18 +504,18 @@ html.lockmatch,html.lockmatch body{overflow:hidden;overscroll-behavior:none;heig
 #sMe .ver{margin-top:auto}#sStart .ver{margin-top:0}
 
 /* ---- página inicial (opção 2) ---- */
-.hero2{position:relative;padding:26px 2px 4px;isolation:isolate}.hero2 .pitchbg{position:absolute;inset:-14px -40px auto;width:calc(100% + 80px);z-index:-1;opacity:.5}
+.hero2{position:relative;padding:22px 2px 6px;isolation:isolate;overflow:hidden;margin:0 -18px;padding-left:20px;padding-right:20px}.hero2 .pitchbg{position:absolute;left:0;right:0;bottom:-60px;width:100%;z-index:-1;opacity:.35}
 .kick2{display:inline-block;background:rgba(198,255,61,.12);color:var(--gold);border:1px solid rgba(198,255,61,.35);border-radius:999px;padding:5px 12px;font:700 .75rem var(--body);letter-spacing:.08em;text-transform:uppercase}
-.logo2{font:900 clamp(3.4rem,17vw,4.4rem)/.86 var(--display);text-transform:uppercase;margin-top:12px;letter-spacing:.01em}.logo2 em{color:var(--gold);font-style:normal;display:block}
-.grid4{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.big{border-radius:24px;padding:16px;min-height:150px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;text-align:left;background:var(--card);border:1px solid var(--lineC);color:var(--chalk);cursor:pointer;font-family:var(--body)}
+.logo2{font:900 clamp(2.9rem,14vw,3.7rem)/.88 var(--display);text-transform:uppercase;margin-top:12px;letter-spacing:.01em}.logo2 em{color:var(--gold);font-style:normal;display:block}
+.grid4{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:12px;flex:1 1 auto;min-height:300px;max-height:540px}
+.big{position:relative;z-index:1;border-radius:24px;padding:18px;min-height:140px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;text-align:left;background:var(--card);border:1px solid var(--lineC);color:var(--chalk);cursor:pointer;font-family:var(--body)}
 .big.hi{background:linear-gradient(150deg,#d6ff6a,#9fe41f);color:var(--onGold);border:0}.big.lgc{background:linear-gradient(135deg,#1e3a2a,#141922 60%,#1b2740)}
-.big .ic{width:42px;height:42px;border-radius:14px;background:var(--turf3);display:grid;place-items:center;font-size:1.3rem}.big.hi .ic{background:rgba(0,0,0,.12)}
-.big b{display:block;font:800 1.12rem var(--body)}.big small{display:block;font:500 .8rem var(--body);opacity:.72;margin-top:2px}.big:active{transform:scale(.98)}
-.mini2{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-top:auto}.mini2 button{border:0;background:none;color:var(--muted);font:600 .92rem var(--body);cursor:pointer;padding:8px 2px}
+.big .ic{width:46px;height:46px;border-radius:15px;background:var(--turf3);color:var(--gold);display:grid;place-items:center}.big.hi .ic{background:rgba(0,0,0,.12);color:var(--onGold)}
+.big b{display:block;font:800 1.25rem var(--body);letter-spacing:-.01em}.big small{display:block;font:500 .8rem var(--body);opacity:.72;margin-top:2px}.big:active{transform:scale(.98)}
+.mini2{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;color:var(--muted)}.mini2 button{border:0;background:none;color:var(--muted);font:600 .92rem var(--body);cursor:pointer;padding:8px 2px}
 .seg2{display:grid;grid-template-columns:1fr 1fr;background:var(--card);border:1px solid var(--lineC);border-radius:16px;padding:4px;gap:4px}
 .seg2 button{border:0;background:transparent;color:var(--muted);font:700 .95rem var(--body);padding:11px;border-radius:12px;cursor:pointer}.seg2 button[aria-pressed=true]{background:var(--gold);color:var(--onGold)}
-#sStart{gap:16px}
+#sStart{gap:14px}
 /* ===== Tema "Estádio": escuro, cartões arredondados, verde-lima ===== */
 :root{
   --turf:#0a0d12; --turf2:#10151d; --turf3:#1c2330; --card:#141922; --chalk:#f2f5f9; --muted:#8a96a8; --lineC:#262f3d;
@@ -545,13 +545,13 @@ input[type=text],input[type=search]{background:var(--card);border-color:var(--li
       <span class="kick2">Futebol entre amigos</span><div class="logo2">Duelo de<em>Onzes</em></div></div>
     <button class="contCard" id="resumeBtn" type="button" hidden><span class="crest" id="contCrest"></span><span class="ct"><b id="resumeTxt">Continuar o jogo</b><small>Jogo online a meio</small></span><span class="go">Voltar</span></button>
     <div class="grid4">
-      <button class="big hi" id="cardQuick" type="button"><span class="ic">⚡</span><span><b>Jogo rápido</b><small>Amigo ou bot, aqui</small></span></button>
-      <button class="big" id="cardOnline" type="button"><span class="ic">🌐</span><span><b>Online</b><small>Cada um no seu telemóvel</small></span></button>
-      <button class="big" id="cardTour" type="button"><span class="ic">🏆</span><span><b>Torneio</b><small>4 ou 8 treinadores</small></span></button>
-      <button class="big lgc" id="cardLiga" type="button"><span class="ic">🏟️</span><span><b>Liga</b><small id="cardLigaTx">Épocas com draft e mercado</small></span></button>
+      <button class="big hi" id="cardQuick" type="button"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></span><span><b>Jogo rápido</b><small>Amigo ou bot, aqui</small></span></button>
+      <button class="big" id="cardOnline" type="button"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4" width="8" height="15" rx="2"/><rect x="13.5" y="4" width="8" height="15" rx="2"/><path d="M8 11.5h8"/></svg></span><span><b>Online</b><small>Cada um no seu telemóvel</small></span></button>
+      <button class="big" id="cardTour" type="button"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4v2a3 3 0 0 0 3 3M17 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8"/></svg></span><span><b>Torneio</b><small>4 ou 8 treinadores</small></span></button>
+      <button class="big lgc" id="cardLiga" type="button"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18M5 20V9l7-5 7 5v11"/><path d="M9 20v-6h6v6"/></svg></span><span><b>Liga</b><small id="cardLigaTx">Épocas com draft e mercado</small></span></button>
     </div>
-    <div class="mini2"><button type="button" id="goMe">👤 Perfil</button><button type="button" data-sheet="shOpts">⚙️ Definições</button><button type="button" data-sheet="shHow">📖 Como jogar</button></div>
-    <p class="ver" id="verTag">versão 01/11 · 19h</p>
+    <div class="mini2"><button type="button" id="goMe">Perfil</button><span>·</span><button type="button" data-sheet="shOpts">Definições</button><span>·</span><button type="button" data-sheet="shHow">Como jogar</button></div>
+    <p class="ver" id="verTag">versão 01/11 · 19h45</p>
     <div hidden><button id="goStart"></button><button id="botBtn"></button><button id="onlineBtn"></button><button id="tourBtn"></button><button id="lgBtn"></button><button id="histBtn"></button><button id="hiAv"></button><span id="hiName"></span></div>
   </div>
   <div class="screen" id="sQuick" hidden>
