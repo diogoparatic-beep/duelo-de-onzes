@@ -574,6 +574,8 @@ input[type=text],input[type=search]{background:var(--card);border-color:var(--li
 #sDraft .toast{white-space:normal!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:.86rem!important;line-height:1.3;padding:7px 12px!important}
 #dWait{display:none!important}
 #sDraft #dRound{flex:0 1 auto}
+.simAsk{display:flex;flex-direction:column;gap:10px;background:rgba(198,255,61,.08);border:1px solid rgba(198,255,61,.45);border-radius:18px;padding:12px 14px;font-weight:600;flex:none}
+#simBtn{flex:none}
 </style>
 
 <div class="app">
@@ -589,7 +591,7 @@ input[type=text],input[type=search]{background:var(--card);border-color:var(--li
       <button class="big lgc" id="cardLiga" type="button"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18M5 20V9l7-5 7 5v11"/><path d="M9 20v-6h6v6"/></svg></span><span><b>Liga</b><small id="cardLigaTx">Épocas com draft e mercado</small></span></button>
     </div>
     <div class="mini2"><button type="button" id="goMe">Perfil e definições</button><span>·</span><button type="button" data-sheet="shHow">Como jogar</button></div>
-    <p class="ver" id="verTag">versão 05/11 · 15h10</p>
+    <p class="ver" id="verTag">versão 05/11 · 15h40</p>
     <div hidden><button id="goStart"></button><button id="botBtn"></button><button id="onlineBtn"></button><button id="tourBtn"></button><button id="lgBtn"></button><button id="histBtn"></button><button id="hiAv"></button><span id="hiName"></span></div>
   </div>
   <div class="screen" id="sWelcome" hidden>
@@ -766,6 +768,8 @@ input[type=text],input[type=search]{background:var(--card);border-color:var(--li
     <ul class="feed" id="feed"></ul>
     <button class="backtop" id="backTop" hidden type="button">⬆ Voltar ao jogo</button>
     <button class="btn ghost" id="skip">Saltar para o fim</button>
+    <div class="simAsk" id="simAsk" hidden><span id="simAskTx"></span><div class="row2"><button class="btn ghost" id="simNo" type="button">Recusar</button><button class="btn" id="simYes" type="button">Aceitar</button></div></div>
+    <button class="btn ghost" id="simBtn" type="button" hidden>⚡ Simular o resto do jogo</button>
     <button class="btn" id="toResult" hidden>Ver análise</button>
     <button class="btn ghost" id="specExit" hidden>Sair e voltar ao quadro</button>
   </div>
@@ -10751,7 +10755,7 @@ function myPresence(){
   return{g:"duelo",w:G.online.watch?1:0,gen:G.online.gen||0,nx:G.online.nx||0,code:G.online.code,uid:G.online.uid,n:G.online.n,host:me===0,name:me!=null?G.names[me]:myName(),seed:me===0?G.seed:null,
     ro:me===0?G.online.ro:null,go:me===0?!!G.online.go:null,
     coach:c.coach?c.coach.n:null,form:c.coach?c.form:null,picks:G.mine.map(e=>({o:e.o,s:e.s,n:e.n,y:e.y?1:0,at:e.at||0})),m:G.m,cap:me!=null?G.caps[me]:null,
-    dec:h&&side!=null?{k:dk,d:h[side]}:null,lv:LIVE&&LIVE.dk&&!LIVE.done?{k:LIVE.dk,si:LIVE.si,w:LIVE.atStop?1:0,mn:LIVE.minute}:null,claim:G.claimReq||null,cans:G.claimAns||null,res:G.res||null,play:G.playing||null,bots:me===0&&G.botSt?G.botSt:null,av:me===0&&G.avoid?G.avoid.map(l=>RULEIX.get(l)).filter(x=>x!=null):null,th:me===0?G.theme||"":null,sea:me===0&&G.online.sea?G.online.sea:null,fx:me===0&&G.fixed?G.fixed.fx:null,lg:me===0?G.lg||0:null,tko:me===0&&G.tko?Object.values(G.tko):null,tm:me===0?G.tm:null};
+    dec:h&&side!=null?{k:dk,d:h[side]}:null,sim:LIVE&&LIVE.dk&&LIVE.simReq?{k:LIVE.dk,n:LIVE.simN||1,on:LIVE.sim?1:0}:null,simNo:LIVE&&LIVE.dk&&LIVE.simNo?{k:LIVE.dk,n:LIVE.simNo}:null,lv:LIVE&&LIVE.dk&&!LIVE.done?{k:LIVE.dk,si:LIVE.si,w:LIVE.atStop?1:0,mn:LIVE.minute}:null,claim:G.claimReq||null,cans:G.claimAns||null,res:G.res||null,play:G.playing||null,bots:me===0&&G.botSt?G.botSt:null,av:me===0&&G.avoid?G.avoid.map(l=>RULEIX.get(l)).filter(x=>x!=null):null,th:me===0?G.theme||"":null,sea:me===0&&G.online.sea?G.online.sea:null,fx:me===0&&G.fixed?G.fixed.fx:null,lg:me===0?G.lg||0:null,tko:me===0&&G.tko?Object.values(G.tko):null,tm:me===0?G.tm:null};
 }
 function pushPresence(){
   const me=G.me,c=me!=null?G.cfg[me]:{coach:null,form:null};
@@ -10835,10 +10839,10 @@ function onPeers(ch){
         Object.entries(pr.dec.d).forEach(([k,v])=>{if(/^[tf]?\d{1,2}$/.test(k)&&typeof v==="string"&&v.length<=16&&/^[A-Za-z0-9:,\-]+$/.test(v)&&D[side][k]==null)D[side][k]=v})}}
     if(pr.res&&typeof pr.res==="object")Object.entries(pr.res).forEach(([k,v])=>{if(/^t\d\.\d$/.test(k)&&!G.res[k]&&v&&Array.isArray(v.g)&&Number.isInteger(v.w))G.res[k]={g:v.g.map(Number),p:Array.isArray(v.p)?v.p.map(Number):null,w:v.w}});
   });
-  if(G.online.watch){watchTick();return}
+  if(G.online.watch){watchTick();simState();return}
   if(G.me==null){lobby();return}
   mergePicks();lockTakenCoach();
-  liveSync();
+  liveSync();simState();
   if(LIVE&&LIVE.spect&&isTourOnline()){const mt=myTourMatch();if(mt){const o=mt.a===G.me?mt.b:mt.a;if(PEERS[o]&&PEERS[o].play===mt.key&&G.warnPlay!==mt.key){G.warnPlay=mt.key;addLine({m:LIVE.minute,info:true,tx:`⚽ ${G.names[o]} está à tua espera para o teu jogo! Carrega em "Sair e voltar ao quadro".`});feedTop(true)}}}
   if(LIVE&&LIVE.waiting!=null&&!$("sMatch").hidden){drawDecision();return}
   if(LIVE&&!LIVE.done&&!$("sMatch").hidden)return;
@@ -12150,7 +12154,7 @@ function startMatch(o){
 }
 function startDuelMatch(){G.shownM=G.m;startMatch({a:0,b:1,key:G.seed+":m"+G.m,dk:G.mode==="online"?"m"+G.m:null,mySide:G.mode==="online"?G.me:null,noPens:!!G.fixed,onDone:recordDuel})}
 const ffOn=()=>!!(LIVE&&LIVE.si<(LIVE.ffTo||0));
-const ffMs=ms=>LIVE&&LIVE.si<=(LIVE.ffTo||0)&&LIVE.ffTo?40:ms;
+const ffMs=ms=>LIVE&&(LIVE.sim||(LIVE.si<=(LIVE.ffTo||0)&&LIVE.ffTo))?40:ms;
 function proceed(){
   LIVE.atStop=false;
   const k=LIVE.si,stop=LIVE.plan[k],to=stop.kind==="mom"?stop.m-1:stop.m;
@@ -12245,8 +12249,8 @@ function drawSubs(k){
   [0,1].forEach(x=>{if(!d[x][k]&&!canSub(x))d[x][k]="-"});
   if([0,1].every(x=>d[x][k]==="-")&&!(LIVE.subShown===k)){LIVE.subShown=k;resolveStop(k);return}
   let visible;
-  if(G.mode==="online"){[0,1].forEach(x=>{if(isBot(LIVE.ci[x])&&!d[x][k])d[x][k]=botSubs(x)});visible=LIVE.mySide!=null?[LIVE.mySide]:[]}
-  else{[0,1].forEach(x=>{if(isBot(LIVE.ci[x])&&!d[x][k])d[x][k]=botSubs(x)});const s=[0,1].find(x=>!d[x][k]);visible=s==null?[]:[s];
+  if(G.mode==="online"){[0,1].forEach(x=>{if(autoSide(x)&&!d[x][k])d[x][k]=botSubs(x)});visible=LIVE.mySide!=null&&!LIVE.simReq?[LIVE.mySide]:[]}
+  else{[0,1].forEach(x=>{if(autoSide(x)&&!d[x][k])d[x][k]=botSubs(x)});const s=[0,1].find(x=>!d[x][k]);visible=s==null?[]:[s];
     const solo=[0,1].filter(x=>!isBot(LIVE.ci[x])).length<=1;
     if(s!=null&&!LIVE.passOk&&!solo){const row=el("div","htRow");row.append(el("p",null,`Passa o telemóvel a ${st.N[s]}.`));
       const b=el("button","btn");b.textContent=`Sou ${st.N[s]}, mostrar`;b.onclick=()=>{LIVE.passOk=true;drawSubs(k)};row.append(b);box.append(row);$("momBox").hidden=false;return}}
@@ -12297,8 +12301,8 @@ function drawDecision(){
   }
   const sides=sidesFor(stop);
   let visible;
-  if(G.mode==="online"){sides.forEach(x=>{if(isBot(LIVE.ci[x])&&!d[x][k])d[x][k]=botDecide(stop,x,k);if(isBot(LIVE.ci[x])&&x===stop.t&&needsTaker(stop)&&d[x]["t"+k]==null)d[x]["t"+k]="0"});visible=LIVE.mySide!=null?[LIVE.mySide]:[]}
-  else{sides.forEach(x=>{if(isBot(LIVE.ci[x])&&!d[x][k])d[x][k]=botDecide(stop,x,k);if(isBot(LIVE.ci[x])&&x===stop.t&&needsTaker(stop)&&d[x]["t"+k]==null)d[x]["t"+k]="0"});
+  if(G.mode==="online"){sides.forEach(x=>{if(autoSide(x)&&!d[x][k])d[x][k]=botDecide(stop,x,k);if(autoSide(x)&&x===stop.t&&needsTaker(stop)&&d[x]["t"+k]==null)d[x]["t"+k]="0"});visible=LIVE.mySide!=null&&!LIVE.simReq?[LIVE.mySide]:[]}
+  else{sides.forEach(x=>{if(autoSide(x)&&!d[x][k])d[x][k]=botDecide(stop,x,k);if(autoSide(x)&&x===stop.t&&needsTaker(stop)&&d[x]["t"+k]==null)d[x]["t"+k]="0"});
     const s=sides.find(x=>!d[x][k]);visible=s==null?[]:[s];
     const solo=sides.filter(x=>!isBot(LIVE.ci[x])).length<=1;
     if(s!=null&&!LIVE.passOk&&!solo){const row=el("div","htRow");row.append(el("p",null,`Passa o telemóvel a ${st.N[s]}. ${st.N[1-s]} não pode ver.`));
@@ -12421,6 +12425,45 @@ function resolveStop2(k){
     setTimeout(()=>{if(LIVE&&LIVE.waiting==null&&!LIVE.done&&LIVE.si===k+1){$("momBox").hidden=true;proceed()}},ffMs(2400));
   });
 }
+/* ---- simular o resto do jogo: decide como um treinador (igual ao bot) por quem aceitou. Online, só arranca quando os dois aceitam ---- */
+const autoSide=x=>isBot(LIVE.ci[x])||!!LIVE.sim;
+function simOppSide(){return LIVE&&LIVE.mySide!=null?1-LIVE.mySide:null}
+function simPeer(side){return PEERS[LIVE.ci[side]]}
+function simReqOf(side){if(isBot(LIVE.ci[side]))return{n:0};const p=simPeer(side);return p&&p.sim&&p.sim.k===LIVE.dk?p.sim:null}
+function simGo(){
+  if(!LIVE||LIVE.sim||LIVE.done)return;LIVE.sim=true;LIVE.auto=true;LIVE.simReq=true;SC.skip=true;
+  addLine({m:LIVE.minute,info:true,tx:"⚡ O resto do jogo é simulado: as decisões são tomadas como um treinador as tomaria."});
+  if(G.mode==="online"&&LIVE.mySide!=null)pushPresence();
+  if(SC.busy&&!LIVE.leadRunning)scStop();
+  if(LIVE.waiting!=null){if(!LIVE.leadRunning)drawDecision()}else if(timer)$("skip").click();
+  drawSim();
+}
+function simState(){
+  if(!LIVE||LIVE.done||!LIVE.dk||G.mode!=="online"){drawSim();return}
+  if(LIVE.mySide==null){const a=simReqOf(0),b=simReqOf(1);if(!LIVE.sim&&a&&b)simGo();drawSim();return}
+  const o=simOppSide(),r=simReqOf(o),p=simPeer(o);
+  if(!LIVE.sim&&r&&r.on)LIVE.simReq=true;
+  if(LIVE.simReq&&!LIVE.sim&&p&&p.simNo&&p.simNo.k===LIVE.dk&&p.simNo.n===(LIVE.simN||1)){LIVE.simReq=false;LIVE.simRefused=true;pushPresence();if(LIVE.waiting!=null)drawDecision()}
+  if(!LIVE.sim&&LIVE.simReq&&r)simGo();
+  drawSim();
+}
+function drawSim(){
+  const b=$("simBtn"),ask=$("simAsk");
+  const on=!!(LIVE&&!LIVE.done&&!LIVE.sim&&!$("sMatch").hidden&&!LIVE.spect&&!(G&&G.online&&G.online.watch)&&(G.mode!=="online"||LIVE.mySide!=null)&&!(LIVE.auto));
+  if(!on){b.hidden=true;ask.hidden=true;return}
+  if(G.mode!=="online"){b.hidden=false;ask.hidden=true;b.disabled=false;b.textContent="⚡ Simular o resto do jogo";return}
+  const o=simOppSide(),r=simReqOf(o),nm=LIVE.st.N[o];
+  if(LIVE.simReq){ask.hidden=true;b.hidden=false;b.disabled=true;b.textContent=`À espera que ${nm} aceite simular…`;return}
+  if(r&&!(LIVE.simNoSeen===r.n)){b.hidden=true;ask.hidden=false;$("simAskTx").textContent=`⚡ ${nm} quer simular o resto do jogo. Aceitas?`;return}
+  ask.hidden=true;b.hidden=false;b.disabled=false;b.textContent=LIVE.simRefused?"⚡ Simular o resto do jogo (recusado, podes pedir outra vez)":"⚡ Simular o resto do jogo";
+}
+$("simBtn").onclick=()=>{if(!LIVE||LIVE.done||LIVE.sim)return;
+  if(G.mode!=="online"){const hum=[0,1].filter(x=>!isBot(LIVE.ci[x])).length;if(hum>1&&!confirm(`Os dois treinadores (${LIVE.st.N[0]} e ${LIVE.st.N[1]}) aceitam simular o resto do jogo?`))return;simGo();return}
+  LIVE.simReq=true;LIVE.simRefused=false;LIVE.simN=(LIVE.simN||0)+1;pushPresence();if(LIVE.waiting!=null)drawDecision();simState()};
+$("simYes").onclick=()=>{if(!LIVE||LIVE.done)return;LIVE.simReq=true;LIVE.simN=(LIVE.simN||0)+1;pushPresence();simState()};
+$("simNo").onclick=()=>{if(!LIVE)return;const r=simReqOf(simOppSide());if(r){LIVE.simNo=r.n;LIVE.simNoSeen=r.n;pushPresence()}drawSim()};
+setInterval(()=>{try{if(LIVE&&!$("sMatch").hidden)drawSim()}catch(e){}},1000);
+
 /* desempate: série de penáltis, cada um decidido às escondidas */
 function endOrPens(){if(LIVE.st.needPens&&!LIVE.st.pens&&!LIVE.pk)startShootout();else if(!LIVE.pk||LIVE.st.pens)finish()}
 function pkDone(P){const a=Math.ceil(P.n/2),b=Math.floor(P.n/2);
