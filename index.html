@@ -589,7 +589,7 @@ input[type=text],input[type=search]{background:var(--card);border-color:var(--li
       <button class="big lgc" id="cardLiga" type="button"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18M5 20V9l7-5 7 5v11"/><path d="M9 20v-6h6v6"/></svg></span><span><b>Liga</b><small id="cardLigaTx">Épocas com draft e mercado</small></span></button>
     </div>
     <div class="mini2"><button type="button" id="goMe">Perfil e definições</button><span>·</span><button type="button" data-sheet="shHow">Como jogar</button></div>
-    <p class="ver" id="verTag">versão 05/11 · 14h40</p>
+    <p class="ver" id="verTag">versão 05/11 · 15h10</p>
     <div hidden><button id="goStart"></button><button id="botBtn"></button><button id="onlineBtn"></button><button id="tourBtn"></button><button id="lgBtn"></button><button id="histBtn"></button><button id="hiAv"></button><span id="hiName"></span></div>
   </div>
   <div class="screen" id="sWelcome" hidden>
@@ -9972,7 +9972,7 @@ const TACT={
 const FORMS={"4-3-3":{GR:1,DEF:4,MED:3,AVA:3},"4-4-2":{GR:1,DEF:4,MED:4,AVA:2},"4-2-3-1":{GR:1,DEF:4,MED:5,AVA:1},"3-5-2":{GR:1,DEF:3,MED:5,AVA:2},"3-4-3":{GR:1,DEF:3,MED:4,AVA:3},"5-3-2":{GR:1,DEF:5,MED:3,AVA:2}};
 const POS=["GR","DEF","MED","AVA"], POSN={GR:"Guarda-redes",DEF:"Defesas",MED:"Médios",AVA:"Avançados"};
 const NAT={POR:"Portugal",BRA:"Brasil",ARG:"Argentina",ESP:"Espanha",FRA:"França",ENG:"Inglaterra",GER:"Alemanha",NED:"Países Baixos",ITA:"Itália",URU:"Uruguai",BEL:"Bélgica",SVN:"Eslovénia",CZE:"Chéquia",DEN:"Dinamarca",URS:"União Soviética",GRE:"Grécia",UKR:"Ucrânia",POL:"Polónia",SWE:"Suécia",CIV:"Costa do Marfim",SRB:"Sérvia",MAR:"Marrocos",AUT:"Áustria",CRO:"Croácia",MEX:"México",JPN:"Japão",TUR:"Turquia",BUL:"Bulgária",GHA:"Gana",NOR:"Noruega",ROU:"Roménia",COL:"Colômbia",NGA:"Nigéria",ALG:"Argélia",RSA:"África do Sul",MLI:"Mali",IRN:"Irão",PAR:"Paraguai",HUN:"Hungria",EGY:"Egito",CMR:"Camarões",WAL:"País de Gales",NIR:"Irlanda do Norte",GEO:"Geórgia",LBR:"Libéria",KOR:"Coreia do Sul",SEN:"Senegal"};
-const AFR=new Set(["Costa do Marfim","Marrocos","Gana","Nigéria","Argélia","África do Sul","Mali","Egito","Camarões","Libéria","Senegal","RD Congo","Tunísia","Guiné","Cabo Verde","Angola","Moçambique","Guiné-Bissau","Burkina Faso","Gabão","Congo","Zâmbia","Zimbabué","Quénia","Togo","Benim","Gâmbia","Serra Leoa","Guiné Equatorial","São Tomé e Príncipe"]),
+const AFR=new Set(["Costa do Marfim","Marrocos","Gana","Nigéria","Argélia","África do Sul","Mali","Egito","Camarões","Libéria","Senegal","RD Congo","Tunísia","Guiné","Cabo Verde","Angola","Moçambique","Guiné-Bissau","Burkina Faso","Gabão","Congo","Zâmbia","Zimbabué","Quénia","Togo","Benim","Gâmbia","Serra Leoa","Guiné Equatorial","São Tomé e Príncipe","The Gambia","Uganda","Tanzânia","Madagáscar","Comores","Mauritânia","Líbia","Burundi","Chade","Zaire","República Centro-Africana","Eritrea","Djibouti","Mauritius","Seychelles"]),
       SAM=new Set(["Brasil","Argentina","Uruguai","Colômbia","Paraguai","Chile","Peru","Equador","Venezuela","Bolívia"]);
 const CC={};CLUBS.forEach((c,i)=>CC[c]=CLUBCC[i]);
 const inL=(p,l)=>p.cl.some(c=>CC[c]===l);
@@ -10041,7 +10041,26 @@ let G=null;
 /* drafts temáticos: só entram jogadores do tema (os júniores da formação entram sempre) */
 const THEMES={"":{n:"Normal",f:()=>true},pt:{n:"Só portugueses",f:p=>p.c==="Portugal"},lendas:{n:"Só lendas (nascidos antes de 1980)",f:p=>p.by>0&&p.by<1980},
   novos:{n:"Geração atual (nascidos em 1995 ou depois)",f:p=>p.by>=1995},ligapt:{n:"Só quem jogou em Portugal",f:p=>p.cl.some(c=>CC[c]==="PT")},
-  sam:{n:"Só sul-americanos",f:p=>SAM.has(p.c)},craques:{n:"Só craques (80 ou mais)",f:p=>p.r>=80}};
+  sam:{n:"Só sul-americanos",f:p=>SAM.has(p.c)},craques:{n:"Só craques (80 ou mais)",f:p=>p.r>=80},
+  prem:{n:"Só quem jogou em Inglaterra",s:"Liga inglesa",f:p=>p.cl.some(c=>CC[c]==="ENG")},
+  laliga:{n:"Só quem jogou em Espanha",s:"Liga espanhola",f:p=>p.cl.some(c=>CC[c]==="ESP")},
+  seriea:{n:"Só quem jogou em Itália",s:"Liga italiana",f:p=>p.cl.some(c=>CC[c]==="ITA")},
+  buli:{n:"Só quem jogou na Alemanha",s:"Liga alemã",f:p=>p.cl.some(c=>CC[c]==="GER")},
+  grandes:{n:"Passaram por Benfica, Porto ou Sporting",s:"Três grandes",f:p=>p.cl.some(c=>c==="Benfica"||c==="FC Porto"||c==="Sporting")},
+  campeoes:{n:"Só campeões (Champions, Liga Europa, Mundial ou Europeu)",s:"Campeões",f:p=>p.tg.some(x=>x==="ucl"||x==="uel"||x==="wc"||x==="euro")},
+  inter:{n:"Só internacionais (50 ou mais jogos pela seleção)",s:"Internacionais",f:p=>p.caps>=50},
+  afr:{n:"Só africanos",s:"Africanos",f:p=>AFR.has(p.c)},
+  esq:{n:"Só esquerdinos",s:"Esquerdinos",f:p=>p.ft==="E"},
+  gig:{n:"Só gigantes (1,85 m ou mais)",s:"Gigantes",f:p=>p.h>=185},
+  mil:{n:"Geração 80–94 (nascidos entre 1980 e 1994)",s:"Geração 80–94",f:p=>p.by>=1980&&p.by<=1994}};
+/* tipos de draft: os botões são feitos a partir da lista, em todos os ecrãs onde se escolhe o draft */
+document.querySelectorAll(".thChips").forEach(box=>{box.innerHTML="";Object.entries(THEMES).forEach(([k,v])=>{const b=document.createElement("button");b.className="chip";b.dataset.th=k;
+  b.textContent=v.s||({"":"Normal",pt:"Só portugueses",lendas:"Só lendas",novos:"Geração atual",ligapt:"Jogaram em Portugal",sam:"Sul-americanos",craques:"Só craques"})[k]||v.n;b.title=v.n;box.append(b)})});
+/* regras que (quase) todos os jogadores do tema cumprem não têm graça nesse draft: ficam de fora */
+const THTRIV=new Map();
+function themeTrivial(r){const th=G&&G.theme;if(!th||!THEMES[th])return false;let S=THTRIV.get(th);
+  if(!S){S=new Set();const pool=DB.filter(THEMES[th].f);if(pool.length)RULES.forEach(x=>{let k=0;for(const p of pool)if(x.t(p))k++;if(k>=pool.length*.85)S.add(x.l)});THTRIV.set(th,S)}
+  return S.has(r.l)}
 let THEME=(()=>{const v=store("duelo_theme");return THEMES[v]?v:""})();
 const inTheme=p=>!G||!G.theme||!THEMES[G.theme]||p.youth||THEMES[G.theme].f(p);
 function drawThChips(){document.querySelectorAll(".thChips .chip").forEach(b=>b.setAttribute("aria-pressed",b.dataset.th===THEME))}
@@ -10143,7 +10162,7 @@ function eligible(t,rule,pos,label){const n=needs(t),wide=G.teams[t].slots.some(
 /* regras: categorias sorteadas com peso pela quantidade de regras (as categorias pequenas já não se repetem tanto)
    e as regras dos últimos jogos ficam para o fim da fila */
 function chooseRule(){
-  const pool=RULES.filter(r=>!G.used.has(r.l)&&(!G.theme||!THEMES[G.theme].skip||!THEMES[G.theme].skip(r)));
+  const pool=RULES.filter(r=>!G.used.has(r.l)&&!themeTrivial(r)&&(!G.theme||!THEMES[G.theme].skip||!THEMES[G.theme].skip(r)));
   const av=new Set(G.avoid||[]),w={};pool.forEach(r=>{if(r.cat!==G.lastCat)w[r.cat]=(w[r.cat]||0)+1});
   const cats=[],left=Object.keys(w);while(left.length){let tot=left.reduce((a,c)=>a+Math.sqrt(w[c]),0),x=Math.random()*tot,i=0;
     for(;i<left.length-1;i++){x-=Math.sqrt(w[left[i]]);if(x<=0)break}cats.push(left.splice(i,1)[0])}
