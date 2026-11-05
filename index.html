@@ -589,7 +589,7 @@ input[type=text],input[type=search]{background:var(--card);border-color:var(--li
       <button class="big lgc" id="cardLiga" type="button"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18M5 20V9l7-5 7 5v11"/><path d="M9 20v-6h6v6"/></svg></span><span><b>Liga</b><small id="cardLigaTx">Épocas com draft e mercado</small></span></button>
     </div>
     <div class="mini2"><button type="button" id="goMe">Perfil e definições</button><span>·</span><button type="button" data-sheet="shHow">Como jogar</button></div>
-    <p class="ver" id="verTag">versão 05/11 · 13h30</p>
+    <p class="ver" id="verTag">versão 05/11 · 14h40</p>
     <div hidden><button id="goStart"></button><button id="botBtn"></button><button id="onlineBtn"></button><button id="tourBtn"></button><button id="lgBtn"></button><button id="histBtn"></button><button id="hiAv"></button><span id="hiName"></span></div>
   </div>
   <div class="screen" id="sWelcome" hidden>
@@ -860,7 +860,7 @@ input[type=text],input[type=search]{background:var(--card);border-color:var(--li
         <li>Em cada ronda começa a escolher um treinador diferente, à vez. Há um <b>tempo</b> para cada escolha (muda-se em Definições): se acabar, entra um júnior da formação.</li>
         <li>Tens 3 tentativas. Se falhares, entra um <b>júnior da formação</b> (fraquinho).</li>
         <li><b>Química:</b> cada jogador ganha +1 por colega com quem passou pelo mesmo clube e +½ por colega do mesmo país (até 3). A equipa vai até 33 e química alta dá até +4 em todos os setores.</li>
-        <li>No jogo, <b>os golos só acontecem nos lances em que vocês escolhem</b>: se quem defende não adivinhar, é golo; se adivinhar, não é.</li><li>A equipa mais forte (qualidade, tática, química e capitão) tem <b>mais lances de ataque</b>.</li><li><b>Liga e época:</b> em 🏆 Liga criam uma liga e começam uma época. Há um draft único com todos, depois uma 1.ª volta (jogam quando quiserem), um mercado de transferências (até 3 trocas, cada uma com uma regra nova) e a 2.ª volta. Vitória 3, empate 1. Um vermelho deixa o jogador de fora no jogo seguinte.</li><li>Ao criar o jogo podes escolher um <b>draft temático</b> (só portugueses, só lendas, geração atual…) e o <b>tempo</b> de cada escolha.</li>
+        <li>No jogo, <b>os golos só acontecem nos lances em que vocês escolhem</b>: se quem defende não adivinhar, é golo; se adivinhar, não é.</li><li>Cada jogo tem <b>7 lances decisivos</b>. A equipa mais forte (rating, química, capitão e tática) fica com <b>4 ou 5</b> deles; se as forças forem iguais, desempata a química.</li><li><b>Liga e época:</b> em 🏆 Liga criam uma liga e começam uma época. Há um draft único com todos, depois uma 1.ª volta (jogam quando quiserem), um mercado de transferências (até 3 trocas, cada uma com uma regra nova) e a 2.ª volta. Vitória 3, empate 1. Um vermelho deixa o jogador de fora no jogo seguinte.</li><li>Ao criar o jogo podes escolher um <b>draft temático</b> (só portugueses, só lendas, geração atual…) e o <b>tempo</b> de cada escolha.</li>
       </ol>
   </div></div>
   <div class="sheet" id="shGameOpts" hidden><div class="sheetIn">
@@ -12086,9 +12086,12 @@ const MOM={
 function makePlan(st,key){
   return withRng(seeded(key+":plan"),()=>{
     const pickMins=(a,b,n)=>{const out=[];let g=0;while(out.length<n&&g++<200){const m=a+rand(b-a+1);if(out.every(x=>Math.abs(x-m)>=6))out.push(m)}return out.sort((x,y)=>x-y)};
-    const mins=[...pickMins(6,42,2+(Math.random()<.4?1:0)),...pickMins(50,88,3)];
-    /* a equipa mais forte (qualidade, tática, química, capitão) tem mais lances de ataque; cada uma tem pelo menos um */
-    const d=st.S[0].ovr-st.S[1].ovr,pA=Math.min(.78,Math.max(.22,.5+d*.035)),nA=Math.min(mins.length-2,Math.max(2,Math.round(mins.length*pA+(Math.random()-.5)*.9)));
+    const mins=[...pickMins(6,42,3),...pickMins(50,88,4)];
+    /* 7 lances decisivos. Força = rating médio (por posição, capitão, fora de posição) + química (0 a +4) + extras.
+       A mais forte fica com 50% + 4% por ponto de diferença (entre 4 e 5 dos 7). Forças iguais: desempata a química, depois o rating médio. Sem sorte. */
+    const d=st.S[0].ovr-st.S[1].ovr,avgR=T=>T.picks.reduce((s,p)=>s+(p.youth?64:p.r),0)/Math.max(1,T.picks.length);
+    const strong=Math.abs(d)>1e-9?(d>0?0:1):st.S[0].chemSum!==st.S[1].chemSum?(st.S[0].chemSum>st.S[1].chemSum?0:1):avgR(st.T[0])>=avgR(st.T[1])?0:1;
+    const nS=Math.min(5,Math.max(4,Math.round(7*Math.min(.8,.5+.04*Math.abs(d))))),nA=Math.min(mins.length-1,strong===0?nS:7-nS);
     const who=shuffle(mins.map((_,i)=>i<nA?0:1));st.planShare=[nA,mins.length-nA];
     /* justiça: os tipos de lance são sorteados aos pares, para as duas equipas terem a mesma mistura
        (um penálti para uma equipa = um penálti para a outra); só os lances a mais da equipa mais forte são livres */
@@ -12123,7 +12126,7 @@ function startMatch(o){
   $("bS").textContent="0–0";$("clock").textContent="0'";$("feed").innerHTML="";$("skip").hidden=false;$("toResult").hidden=true;$("momBox").hidden=true;
   show("sMatch");whistle(1);SC.skip=false;requestAnimationFrame(tvIdle);
   addLine({m:0,info:true,tx:`Começa o jogo! ${st.T[0].coach.n} contra ${st.T[1].coach.n}.`});
-  {const sh=st.planShare;if(sh&&sh[0]!==sh[1]){const f=sh[0]>sh[1]?0:1;addLine({m:0,info:true,tx:`${st.N[f]} tem a equipa mais forte: vai ter mais lances de ataque (${sh[f]} contra ${sh[1-f]}).`})}}
+  {const sh=st.planShare;if(sh&&sh[0]!==sh[1]){const f=sh[0]>sh[1]?0:1;const df=Math.abs(st.S[0].ovr-st.S[1].ovr);addLine({m:0,info:true,tx:df<.05?`Forças iguais (${st.S[f].ovr.toFixed(1)}): ${st.N[f]} tem mais química e fica com mais lances de ataque (${sh[f]} contra ${sh[1-f]}).`:`${st.N[f]} tem a equipa mais forte (${st.S[f].ovr.toFixed(1)} contra ${st.S[1-f].ovr.toFixed(1)}): vai ter mais lances de ataque (${sh[f]} contra ${sh[1-f]}).`})}}
   proceed();
 }
 function startDuelMatch(){G.shownM=G.m;startMatch({a:0,b:1,key:G.seed+":m"+G.m,dk:G.mode==="online"?"m"+G.m:null,mySide:G.mode==="online"?G.me:null,noPens:!!G.fixed,onDone:recordDuel})}
