@@ -1778,8 +1778,8 @@ function patternFor(e,S){
 }
 function eventPlay(e,idx){
   const st=LIVE.st,S=newS(LIVE.key+":ev"+idx+":"+e.m);
-  if(e.k==="pen"){const c=sceneCtx(e.t,e.s,null),Z=["E","M","D"],h=hash(strHash(LIVE.key+":pz"+idx)),a=Z[Math.floor(h*3)];
-    let d=Z[Math.floor(hash(strHash(LIVE.key+":pd"+idx))*3)];if(e.goal&&d===a)d=a==="M"?"E":"M";if(!e.goal)d=a;
+  if(e.k==="pen"){const c=sceneCtx(e.t,e.s,null),Z=["TE","TD","M","BE","BD"],h=hash(strHash(LIVE.key+":pz"+idx)),a=Z[Math.floor(h*5)];
+    let d=Z[Math.floor(hash(strHash(LIVE.key+":pd"+idx))*5)];if(e.goal&&d===a)d=a==="M"?"BE":"M";if(!e.goal)d=a;
     Object.assign(S,{front:true,fp:{fin:c.fin,gk:c.gk,kA:c.kA,gkK:c.gkK,num:kitNum(e.t,c.fin),fk:null}});S.ball.hide=true;S.R.fin={name:c.fin};S.R.gk={name:c.gk};
     S.beats=[BT.cap(`Penálti! ${ln(c.fin)} pega na bola…`),BT.wait(.9),...frontKick(S,a,d,e.goal?"goal":"save",c.fin,kitNum(e.t,c.fin))];S.title=`${e.m}' · ${st.N[e.t]}`;return S}
   const c=sceneCtx(e.t,e.s,e.a);let pat=patternFor(e,S);LIVE.usedPat.add(pat);
@@ -1791,7 +1791,7 @@ function eventPlay(e,idx){
   S.beats=beats;S.title=`${e.m}' · ${st.N[e.t]}`;S.flip=(e.t===1)!==(+e.m>45);return S;
 }
 /* ---- penáltis vistos de frente: câmara atrás de quem bate, a olhar para a baliza ---- */
-const PZXY={TE:[-2.85,1.92],TD:[2.85,1.92],M:[0,1.05],BE:[-2.7,.28],BD:[2.7,.28],E:[-2.55,.85],D:[2.55,.85]};
+const PZXY={TE:[-2.85,1.92],TD:[2.85,1.92],M:[0,1.05],BE:[-2.7,.28],BD:[2.7,.28],E:[-2.7,.6],D:[2.7,.6]};
 const FG={zGoal:22,zSpot:11,camH:1.6};
 function fprj(X,Y,Z,W,H){const f=W*.74*FG.zGoal/7.32,hz=H*.36,z=Math.max(.6,Z);return{x:W/2+X*f/z,y:hz+(FG.camH-Y)*f/z,s:f/z}}
 function frontPenScene(seed,o){
@@ -1831,7 +1831,7 @@ function drawFront(S,x,W,H){
   const post=(X)=>{const a=G(X,0,FG.zGoal),b=G(X,2.44,FG.zGoal);x.strokeStyle="#fbfdfb";x.lineWidth=Math.max(2,a.s*.12);x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke()};
   post(-3.66);post(3.66);{const a=G(-3.66,2.44,FG.zGoal),b=G(3.66,2.44,FG.zGoal);x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke()}
   /* alvos (só enquanto se escolhe) */
-  if(S.frozen&&S.showZones){Object.entries(PZXY).forEach(([k,[X,Y]])=>{if(k.length>1)return;const p=G(X,Y,FG.zGoal),r=p.s*.48;x.fillStyle="rgba(255,255,255,.14)";x.strokeStyle="rgba(255,255,255,.75)";x.lineWidth=2;x.beginPath();x.arc(p.x,p.y,r,0,7);x.fill();x.stroke()})}
+  if(S.frozen&&S.showZones){Object.entries(PZXY).forEach(([k,[X,Y]])=>{if(k.length<2&&k!=="M")return;const p=G(X,Y,FG.zGoal),r=p.s*.48;x.fillStyle="rgba(255,255,255,.14)";x.strokeStyle="rgba(255,255,255,.75)";x.lineWidth=2;x.beginPath();x.arc(p.x,p.y,r,0,7);x.fill();x.stroke()})}
   /* tempos */
   const fk=P.fk,tk=fk?t-fk.t0:-1,KICK=.6,FLY=.42;
   /* guarda-redes */
@@ -1910,7 +1910,7 @@ function drawTakerBack(x,p,P,kick,running){
 function tvZones(onPick){
   const box=$("tvZones");box.innerHTML="";if(!onPick){box.hidden=true;if(SC.S&&SC.S.front){SC.S.showZones=false;drawNow(SC.S)}return}
   const c=$("scCv"),W=c.clientWidth||360,H=c.clientHeight||225;
-  [["E","Esquerda"],["M","Meio"],["D","Direita"]].forEach(([k,l])=>{const [X,Y]=PZXY[k],p=fprj(X,Y,FG.zGoal,W,H),r=p.s*.5;
+  [["TE","Alto"],["TD","Alto"],["M","Meio"],["BE","Baixo"],["BD","Baixo"]].forEach(([k,l])=>{const [X,Y]=PZXY[k],p=fprj(X,Y,FG.zGoal,W,H),r=p.s*.5;
     const b=el("button","tvz",l);b.style.left=(p.x-r)+"px";b.style.top=(p.y-r)+"px";b.style.width=b.style.height=(2*r)+"px";b.onclick=e=>{e.stopPropagation();onPick(k)};box.append(b)});
   box.hidden=false;if(SC.S&&SC.S.front){SC.S.showZones=true;drawNow(SC.S)}
 }
@@ -2139,7 +2139,7 @@ function wantScene(e){
 let LIVE=null,timer=null;
 function stopFeed(){if(timer){clearInterval(timer);timer=null}}
 const MOM={
-  pen:{a:[["E","À esquerda"],["M","Ao meio"],["D","À direita"]],d:[["E","Atira-se para a esquerda"],["M","Fica ao meio"],["D","Atira-se para a direita"]],qa:"Onde metes a bola?",qd:"Que zona defendes?"},
+  pen:{a:[["TE","Ângulo esquerdo"],["TD","Ângulo direito"],["M","Ao meio"],["BE","Rasteiro à esquerda"],["BD","Rasteiro à direita"]],d:[["TE","Ângulo esquerdo"],["TD","Ângulo direito"],["M","Fica ao meio"],["BE","Em baixo à esquerda"],["BD","Em baixo à direita"]],qa:"Onde metes a bola?",qd:"Que zona defendes?"},
   uu:{a:[["C","Picar a bola"],["R","Rematar rasteiro"],["F","Fintar o guarda-redes"]],d:[["C","Ficar em pé"],["R","Atirar-se ao chão"],["F","Sair aos pés"]],qa:"Como finalizas?",qd:"Como defende o teu guarda-redes?"},
   ca:{a:[["P","Passar"],["R","Rematar já"]],d:[["P","Cortar a linha de passe"],["R","Fechar o remate"]],qa:"O que fazes?",qd:"Como defendes?"},
   fk:{a:[["B","Por cima da barreira"],["P","Ao poste do guarda-redes"]],d:[["B","A barreira salta"],["P","O guarda-redes cobre o poste"]],qa:"Como bates o livre?",qd:"Como defendes o livre?"},
@@ -2365,9 +2365,9 @@ function drawDecision(){
     if(mine&&!d[side][k]&&stop.type==="pen"){ch.classList.add("goalpick");const att=side===stop.t;
       tvZones(v=>{d[side][k]=v;LIVE.passOk=false;tvZones(null);if(G.mode==="online")pushPresence();drawDecision()});
       const g=el("div","gpGoal");optsFor(stop,side).forEach(([v,l])=>{const b=el("button","chip gp gp"+v);b.setAttribute("aria-label",l);b.title=l;
-        b.append(el("span","gpl",{E:"Esq.",M:"Meio",D:"Dir."}[v]));
+        b.append(el("span","gpl",{TE:"Alto",TD:"Alto",M:"Meio",BE:"Baixo",BD:"Baixo"}[v]));
         b.onclick=()=>{d[side][k]=v;LIVE.passOk=false;if(G.mode==="online")pushPresence();drawDecision()};g.append(b)});
-      ch.append(g,el("p","muted gphint",att?"Esquerda, meio ou direita. Se o guarda-redes escolher o mesmo, defende.":"Escolhe para onde te atiras. Se acertares no lado do remate, defendes."));
+      ch.append(g,el("p","muted gphint",att?"Em cima (ângulos): quase impossível de defender, mas podes falhar. Em baixo: mais seguro. Meio: só resulta se o guarda-redes se atirar.":"Escolhe a zona que vais cobrir. Se fores para o lado certo, ainda podes chegar à bola."));
     }
     else if(mine&&!d[side][k])optsFor(stop,side).forEach(([v,l])=>{const b=el("button","chip");b.append(l);b.setAttribute("aria-pressed",d[side][k]===v);
       b.onclick=()=>{if(stop.kind==="ht"){const f=LIVE.formSel&&LIVE.formSel[side];if(f&&f!==st.T[side].form)d[side]["f"+k]=f}d[side][k]=v;LIVE.passOk=false;if(G.mode==="online")pushPresence();drawDecision()};ch.append(b)});

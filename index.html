@@ -36,7 +36,7 @@ function show(){if(standalone)return;var row=document.querySelector("#sStart .mi
     else tip('No menu do browser (⋮), escolhe <b>Instalar app</b> ou <b>Adicionar ao ecrã principal</b>.')}}
 document.addEventListener("DOMContentLoaded",show);
 })();</script>
-<link rel="preload" as="script" href="db-e24032e16e.js"><link rel="preload" as="script" href="app-9a4445ef66.js">
+<link rel="preload" as="script" href="db-e24032e16e.js"><link rel="preload" as="script" href="app-15e15feaeb.js">
 <title>Duelo de Onzes</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Barlow:wght@400;600;700&family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap">
@@ -283,7 +283,7 @@ body.picking .askpage .list{padding-bottom:170px}
 .gpGoal .gp{position:absolute;height:40%;aspect-ratio:1;width:auto;border-radius:50%;padding:0;border:3px solid #f4f6f5;background:radial-gradient(circle at 50% 45%,#9fd88a,#4c8f3d);color:#0b1a12;
   display:grid;place-items:center;font:800 .7rem var(--cond);letter-spacing:.02em;text-transform:uppercase;cursor:pointer;transition:transform .12s;overflow:hidden}
 .gpGoal .gp:hover,.gpGoal .gp:focus-visible{transform:scale(1.07);outline:3px solid var(--gold)}
-.gpGoal .gpTE{left:4%;top:6%}.gpGoal .gpTD{right:4%;top:6%}.gpGoal .gpM{left:50%;top:50%;translate:-50% -50%}.gpGoal .gpBE{left:17%;bottom:5%}.gpGoal .gpBD{right:17%;bottom:5%}.gpGoal .gpE{left:6%;top:50%;translate:0 -50%}.gpGoal .gpD{right:6%;top:50%;translate:0 -50%}
+.gpGoal .gpTE{left:4%;top:6%}.gpGoal .gpTD{right:4%;top:6%}.gpGoal .gpM{left:50%;top:30%;translate:-50% 0}.gpGoal .gpBE{left:17%;bottom:5%}.gpGoal .gpBD{right:17%;bottom:5%}
 .gphint{font-size:.85rem;margin:0}
 #notes{display:flex;flex-direction:column;gap:10px;margin-top:8px}
 .nlist{display:flex;flex-direction:column}
@@ -592,7 +592,7 @@ input[type=text],input[type=search]{background:var(--card);border-color:var(--li
       <button class="big lgc" id="cardLiga" type="button"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18M5 20V9l7-5 7 5v11"/><path d="M9 20v-6h6v6"/></svg></span><span><b>Liga</b><small id="cardLigaTx">Épocas com draft e mercado</small></span></button>
     </div>
     <div class="mini2"><button type="button" id="goMe">Perfil e definições</button><span>·</span><button type="button" data-sheet="shHow">Como jogar</button></div>
-    <p class="ver" id="verTag">versão 05/11 · 23h30</p>
+    <p class="ver" id="verTag">versão 05/11 · 23h40</p>
     <div hidden><button id="goStart"></button><button id="botBtn"></button><button id="onlineBtn"></button><button id="tourBtn"></button><button id="lgBtn"></button><button id="histBtn"></button><button id="hiAv"></button><span id="hiName"></span></div>
   </div>
   <div class="screen" id="sWelcome" hidden>
@@ -902,6 +902,6 @@ input[type=text],input[type=search]{background:var(--card);border-color:var(--li
 <canvas id="fx" hidden style="position:fixed;inset:0;pointer-events:none;z-index:50;width:100%;height:100%"></canvas>
 
 <script src="db-e24032e16e.js"></script>
-<script src="app-9a4445ef66.js"></script>
+<script src="app-15e15feaeb.js"></script>
 
 </html>
