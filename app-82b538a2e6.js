@@ -46,7 +46,6 @@ const RULES=[];
   add("titulo","Campeão em dois países diferentes",p=>p.tg.filter(t=>/^c[A-Z]{3}$|^cPT$/.test(t)).length>=2);
   const tc={};DB.forEach(p=>p.tg.forEach(t=>{if(t.startsWith("t:"))tc[t]=(tc[t]||0)+1}));
   Object.entries(tc).filter(([t,n])=>n>=30).forEach(([t])=>add("treinador",`Treinado por ${t.slice(2)}`,has(t)));
-  add("perfil","Canhoto",p=>p.ft==="E");
   add("perfil","Mede 1,90 m ou mais",p=>p.h>=190);
   add("perfil","Mede 1,72 m ou menos",p=>p.h>0&&p.h<=172);
   add("perfil","Nasceu nos anos 80",p=>p.by>=1980&&p.by<1990);
@@ -93,7 +92,6 @@ const THEMES={"":{n:"Normal",f:()=>true},pt:{n:"Só portugueses",f:p=>p.c==="Por
   campeoes:{n:"Só campeões (Champions, Liga Europa, Mundial ou Europeu)",s:"Campeões",f:p=>p.tg.some(x=>x==="ucl"||x==="uel"||x==="wc"||x==="euro")},
   inter:{n:"Só internacionais (50 ou mais jogos pela seleção)",s:"Internacionais",f:p=>p.caps>=50},
   afr:{n:"Só africanos",s:"Africanos",f:p=>AFR.has(p.c)},
-  esq:{n:"Só esquerdinos",s:"Esquerdinos",f:p=>p.ft==="E"},
   gig:{n:"Só gigantes (1,85 m ou mais)",s:"Gigantes",f:p=>p.h>=185},
   mil:{n:"Geração 80–94 (nascidos entre 1980 e 1994)",s:"Geração 80–94",f:p=>p.by>=1980&&p.by<=1994}};
 /* tipos de draft: os botões são feitos a partir da lista, em todos os ecrãs onde se escolhe o draft */
@@ -205,7 +203,7 @@ function eligible(t,rule,pos,label){const n=needs(t),wide=G.teams[t].slots.some(
 /* regras: categorias sorteadas com peso pela quantidade de regras (as categorias pequenas já não se repetem tanto)
    e as regras dos últimos jogos ficam para o fim da fila */
 function chooseRule(){
-  const pool=RULES.filter(r=>!G.used.has(r.l)&&!themeTrivial(r)&&(!G.theme||!THEMES[G.theme].skip||!THEMES[G.theme].skip(r)));
+  const pool=RULES.filter(r=>!G.used.has(r.l)&&!themeTrivial(r)&&(!G.theme||!THEMES[G.theme]||!THEMES[G.theme].skip||!THEMES[G.theme].skip(r)));
   const av=new Set(G.avoid||[]),w={};pool.forEach(r=>{if(r.cat!==G.lastCat)w[r.cat]=(w[r.cat]||0)+1});
   const cats=[],left=Object.keys(w);while(left.length){let tot=left.reduce((a,c)=>a+Math.sqrt(w[c]),0),x=Math.random()*tot,i=0;
     for(;i<left.length-1;i++){x-=Math.sqrt(w[left[i]]);if(x<=0)break}cats.push(left.splice(i,1)[0])}
@@ -563,7 +561,7 @@ function lobby(msg){
     const sea=G.online.sea,fx=G.fixed;
     $("lbBots").hidden=!(host&&n>2&&!G.online.go&&!full&&!sea);
     $("lbOpts").hidden=!(host&&!G.online.go&&!fx);document.querySelectorAll("#lbOpts .lgPick").forEach(x=>{if(sea)x.hidden=true});drawTmChips();drawThChips();
-    $("lbTmInfo").hidden=host||G.me==null;$("lbTmInfo").textContent=`Draft: ${THEMES[G.theme||""].n} · Tempo: ${G.tm?G.tm+" s":"sem tempo"}${G.lg?` · Conta para a liga ${G.lg.n}`:""} (escolhe quem cria o jogo).`;
+    $("lbTmInfo").hidden=host||G.me==null;$("lbTmInfo").textContent=`Draft: ${(THEMES[G.theme||""]||THEMES[""]).n} · Tempo: ${G.tm?G.tm+" s":"sem tempo"}${G.lg?` · Conta para a liga ${G.lg.n}`:""} (escolhe quem cria o jogo).`;
     $("lbBotLv").querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.lv===onlineBotLv));
     $("lbStart").hidden=!(host&&(n>2||G.online.gen||sea)&&!G.online.go);$("lbStart").disabled=!full;
     $("lbStart").textContent=full?(sea?"Começar o draft da época":n>2?"Começar o torneio":"Começar o jogo"):`À espera de ${n-ro.length} jogador${n-ro.length>1?"es":""}…`;
@@ -2691,7 +2689,7 @@ function onzeImage(t){
   const [c,x]=shCanvas(),T=G.teams[t],S=strength(T);
   shText(x,G.names[t],60,110,{f:FD,s:84,w:900,c:colHex(t),max:960});
   shText(x,`${T.coach?T.coach.n:""} · ${T.form}`,60,165,{s:40,w:700,c:"#cfe0d4",max:960});
-  shText(x,`Força ${S.ovr.toFixed(1)}   ·   Química ${S.chemSum}/33`+(G.theme?`   ·   ${THEMES[G.theme].n.replace(/ \(.*\)$/,"")}`:""),60,215,{s:36,w:700,c:"#ffd166",max:960});
+  shText(x,`Força ${S.ovr.toFixed(1)}   ·   Química ${S.chemSum}/33`+(G.theme&&THEMES[G.theme]?`   ·   ${THEMES[G.theme].n.replace(/ \(.*\)$/,"")}`:""),60,215,{s:36,w:700,c:"#ffd166",max:960});
   shPitch(x,T,t,60,250,SHW-120,880);
   const bench=T.slots.filter(s=>s.pos==="SUP"&&s.pl).map(s=>s.pl.youth?"Júnior":dn(s.pl.n));
   shText(x,"Banco: "+(bench.join(" · ")||"—"),60,1190,{s:34,w:700,c:"#cfe0d4",max:960});
@@ -2942,7 +2940,7 @@ function drawSeason(err){
   const F=m?seaFixtures(m.mem):[],nDone=F.filter(f=>SEA.r[f.fid]).length;
   const ST={leg1:"1.ª volta",market:"Mercado de transferências",leg2:"2.ª volta",done:"Época terminada"};
   $("seaStatus").textContent=!SEACUR&&!m?"A carregar…":m?"":"Ainda não há época a decorrer.";
-  if(m){const pr=el("div","seaProg");pr.append(seaRow("sm",el("span",null,ST[m.st]+(m.th?` · ${THEMES[m.th].n.replace(/ \(.*\)$/,"")}`:"")),el("span",null,`${nDone} de ${F.length} jogos`)));
+  if(m){const pr=el("div","seaProg");pr.append(seaRow("sm",el("span",null,ST[m.st]+(m.th&&THEMES[m.th]?` · ${THEMES[m.th].n.replace(/ \(.*\)$/,"")}`:"")),el("span",null,`${nDone} de ${F.length} jogos`)));
     const bar=el("div","bar"),fill=el("i");fill.style.width=(F.length?Math.round(100*nDone/F.length):0)+"%";bar.append(fill);pr.append(bar);top.append(pr)}
   if(dr&&!(m&&m.st!=="done"&&SEA.sid===dr.sid)){
     const c=el("div","seaInv");c.append(el("span",null,`📋 Draft da época a decorrer (${dr.by})`));if(seaK(dr.by)!==seaK(myName()))c.append(seaBtn("Entrar","",()=>joinOnline(dr.code)));top.append(c)}
