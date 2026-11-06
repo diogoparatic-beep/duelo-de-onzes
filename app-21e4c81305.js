@@ -756,13 +756,17 @@ const FBCFG={apiKey:"AIzaSyDr-c2mQUPcN2mhwtA8RUtHAbZMx7IOP7Q",authDomain:"duelo-
   databaseURL:"https://duelo-de-onzes-default-rtdb.europe-west1.firebasedatabase.app",projectId:"duelo-de-onzes",
   storageBucket:"duelo-de-onzes.firebasestorage.app",messagingSenderId:"353061850428",appId:"1:353061850428:web:21de8abe41bddca8fda239"};
 const FBV="13.1.0",FB_TTL=2*864e5;
+/* App Check (reCAPTCHA v3): só a app verdadeira consegue falar com a base de dados. Vazio = desligado */
+const APPCHECK_KEY="";
 let FB=null;
 async function fbLoad(){
   if(FB)return FB;
   const u=m=>`https://www.gstatic.com/firebasejs/${FBV}/firebase-${m}.js`;
   const to=new Promise((_,r)=>setTimeout(()=>r(new Error("timeout")),12000));
   const [A,AU,D]=await Promise.race([Promise.all([import(u("app")),import(u("auth")),import(u("database"))]),to]);
-  const app=A.initializeApp(FBCFG),auth=AU.getAuth(app),db=D.getDatabase(app);
+  const app=A.initializeApp(FBCFG);
+  if(APPCHECK_KEY&&/^https:/.test(location.protocol)){try{const AC=await Promise.race([import(u("app-check")),to]);AC.initializeAppCheck(app,{provider:new AC.ReCaptchaV3Provider(APPCHECK_KEY),isTokenAutoRefreshEnabled:true})}catch(e){console.warn("app check",e)}}
+  const auth=AU.getAuth(app),db=D.getDatabase(app);
   if(!auth.currentUser)await Promise.race([AU.signInAnonymously(auth),to]);
   FB={A,AU,D,app,auth,db};return FB;
 }
