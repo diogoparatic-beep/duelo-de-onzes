@@ -757,7 +757,7 @@ const FBCFG={apiKey:"AIzaSyDr-c2mQUPcN2mhwtA8RUtHAbZMx7IOP7Q",authDomain:"duelo-
   storageBucket:"duelo-de-onzes.firebasestorage.app",messagingSenderId:"353061850428",appId:"1:353061850428:web:21de8abe41bddca8fda239"};
 const FBV="13.1.0",FB_TTL=2*864e5;
 /* App Check (reCAPTCHA Enterprise): só a app verdadeira consegue falar com a base de dados. Vazio = desligado */
-const APPCHECK_KEY="6LfQDRQuAAAAAEtSZFz4C0aGObl54c9CedPDQ7-P";
+const APPCHECK_KEY="6Ldl5xMuAAAAAEPrlKy2St3ovDWFfj-rbRJyj6Xb";
 let FB=null;
 async function fbLoad(){
   if(FB)return FB;
