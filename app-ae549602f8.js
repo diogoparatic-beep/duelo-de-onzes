@@ -1,4 +1,18 @@
 
+/* mudança de endereço: o site antigo (diogoparatic-beep.github.io) leva os dados guardados no telemóvel para o novo */
+(function(){
+  const NEW="https://duelodeonzes.github.io/";
+  try{const m=location.hash.match(/^#mig=([A-Za-z0-9_\-]+)/);
+    if(m){const js=decodeURIComponent(escape(atob(m[1].replace(/-/g,"+").replace(/_/g,"/"))));const o=JSON.parse(js);
+      Object.keys(o).forEach(k=>{if(/^duelo/.test(k)&&localStorage.getItem(k)==null)localStorage.setItem(k,o[k])});
+      const rest=location.hash.replace(/^#mig=[A-Za-z0-9_\-]+&?/,"");history.replaceState(null,"",location.pathname+location.search+(rest?"#"+rest:""))}}catch(e){}
+  if(location.hostname!=="diogoparatic-beep.github.io")return;
+  fetch(NEW+"move.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(j=>{if(!j||!j.ok)return;
+    const o={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(/^duelo/.test(k)&&k!=="duelo_reports")o[k]=localStorage.getItem(k)}
+    let js=JSON.stringify(o);if(js.length>150000){delete o.duelo_hist;js=JSON.stringify(o)}
+    const b=btoa(unescape(encodeURIComponent(js))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+    const sala=(location.hash.match(/sala=[A-Za-z]{4}/)||[])[0];location.replace(NEW+(location.search||"")+"#mig="+b+(sala?"&"+sala:""))}).catch(()=>{});
+})();
 /*I18N_START*/
 /* ---- língua: PT/EN. Só se traduz o que aparece no ecrã; a lógica do jogo fica igual nos dois telemóveis ---- */
 const LANG=(()=>{try{const v=JSON.parse(localStorage.getItem("duelo_lang"));if(v==="pt"||v==="en")return v}catch(e){}return /^pt/i.test(navigator.language||"")?"pt":"en"})();
