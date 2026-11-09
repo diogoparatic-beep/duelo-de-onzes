@@ -1,2 +1,3 @@
 User-agent: *
-Disallow: /
+Allow: /
+Sitemap: https://diogoparatic-beep.github.io/duelo-de-onzes/sitemap.xml

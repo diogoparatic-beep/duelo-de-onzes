@@ -7,18 +7,12 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Duelo de Onzes">
-<meta name="robots" content="noindex,nofollow">
-<style>#gate{position:fixed;inset:0;z-index:99999;background:#0d2419;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;font-family:system-ui,sans-serif;color:#eef6ef;text-align:center}
-#gate h1{font-size:28px;margin:0;letter-spacing:.04em}#gate p{margin:0;opacity:.75}
-#gate input{font-size:20px;padding:12px 14px;border-radius:12px;border:1px solid #3b6b52;background:#173a2a;color:#fff;text-align:center;text-transform:uppercase;width:min(280px,90vw)}
-#gate button{font-size:18px;font-weight:700;padding:12px 28px;border-radius:12px;border:0;background:#ffd166;color:#14110a}#gate .err{color:#ff7b6b;min-height:1.2em}</style>
-<script>(function(){var H="b22f5c9693bab62536d1073af0b47f94bb94ab6ed4332394b1d45d64a4b83026",K="duelo-gate";var ok=false;try{ok=localStorage.getItem(K)===H}catch(e){}
-if(ok)return;document.addEventListener("DOMContentLoaded",function(){var g=document.createElement("div");g.id="gate";
-g.innerHTML='<h1>DUELO DE ONZES</h1><p>Escreve o código de entrada</p><input id="gIn" autocomplete="off" autocapitalize="characters"><button id="gGo">Entrar</button><div class="err" id="gErr"></div>';
-document.body.appendChild(g);var i=document.getElementById("gIn");i.focus();
-function go(){var v=i.value.trim().toUpperCase();crypto.subtle.digest("SHA-256",new TextEncoder().encode(v)).then(function(b){var x=Array.from(new Uint8Array(b)).map(function(n){return n.toString(16).padStart(2,"0")}).join("");
-if(x===H){try{localStorage.setItem(K,H)}catch(e){}g.remove()}else{document.getElementById("gErr").textContent="Código errado"}})}
-document.getElementById("gGo").onclick=go;i.onkeydown=function(e){if(e.key==="Enter")go()}})})();</script>
+<meta name="description" content="Jogo de futebol para jogar com amigos: faz o teu onze num draft com regras e decide os lances às escondidas. No mesmo telemóvel, online, em torneios ou em ligas. Grátis.">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Duelo de Onzes">
+<meta property="og:title" content="Duelo de Onzes · XI Duel"><meta property="og:description" content="Faz o teu onze, desafia os amigos e decide os lances às escondidas. Grátis, no telemóvel, em português e inglês.">
+<meta property="og:url" content="https://diogoparatic-beep.github.io/duelo-de-onzes/"><meta property="og:image" content="https://diogoparatic-beep.github.io/duelo-de-onzes/icon-512.png">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://diogoparatic-beep.github.io/duelo-de-onzes/">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="icon-192.png">
